@@ -6,16 +6,28 @@
 // Inicjalizacja motywu na samym starcie
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
+    let currentTheme;
     
     if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
+        currentTheme = savedTheme;
     } else {
-        // Jeśli użytkownik nie ma zapisanego motywu, sprawdź preferencje jego systemu
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const defaultTheme = prefersDark ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', defaultTheme);
-        localStorage.setItem('theme', defaultTheme);
+        currentTheme = prefersDark ? 'dark' : 'light';
     }
+    
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    localStorage.setItem('theme', currentTheme);
+    
+    // Obserwuj wstrzykiwanie DOM, aby zaktualizować logo natychmiast po załadowaniu nagłówka
+    const observer = new MutationObserver(() => {
+        const logo = document.getElementById('header-logo-img');
+        if (logo) {
+            updateLogo(currentTheme);
+            observer.disconnect(); // Zakończ obserwację, gdy logo zostało znalezione
+        }
+    });
+    
+    observer.observe(document.documentElement, { childList: true, subtree: true });
 }
 
 // Funkcja przełączająca motyw (wywoływana przy kliknięciu przycisku)
@@ -26,8 +38,21 @@ function toggleTheme() {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     
-    // Zaktualizuj ikonkę wektorową w przycisku
+    // Zaktualizuj ikonkę wektorową w przycisku oraz plik logo
     updateThemeIcon(newTheme);
+    updateLogo(newTheme);
+}
+
+// Podmiana pliku logo w zależności od motywu (Oryginał vs Białe wektory)
+function updateLogo(theme) {
+    const logoImg = document.getElementById('header-logo-img');
+    if (!logoImg) return;
+    
+    if (theme === 'dark') {
+        logoImg.src = 'assets/BRAINLYHQ LOGO white.png';
+    } else {
+        logoImg.src = 'assets/BRAINLYHQ LOGO.png';
+    }
 }
 
 // Podmiana ikonki SVG w przycisku w zależności od wybranego motywu
@@ -36,7 +61,6 @@ function updateThemeIcon(theme) {
     if (!themeBtn) return;
     
     if (theme === 'dark') {
-        // Nowoczesna ikona słońca SVG dla trybu ciemnego
         themeBtn.innerHTML = `
             <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -51,7 +75,6 @@ function updateThemeIcon(theme) {
             </svg>
         `;
     } else {
-        // Nowoczesna ikona księżyca SVG dla trybu jasnego
         themeBtn.innerHTML = `
             <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
