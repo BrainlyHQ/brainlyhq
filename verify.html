@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainlyHQ - Verify Moderator</title>
+    <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        .verify-box {
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.05);
+        }
+        .verify-results {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            display: none; /* Domyślnie schowane */
+        }
+        .verified-status {
+            background-color: rgba(153, 238, 96, 0.15);
+            color: #2e7d32;
+            border: 1px solid var(--color-brainly-green);
+        }
+        [data-theme="dark"] .verified-status {
+            color: var(--color-brainly-green);
+        }
+        .unverified-status {
+            background-color: rgba(255, 74, 74, 0.1);
+            color: #d32f2f;
+            border: 1px solid #ff4a4a;
+        }
+    </style>
+
+    <script src="js/theme.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <div id="google_translate_element"></div>
+    <header id="header-placeholder"></header>
+
+    <main class="content-section">
+        <div class="verify-box">
+            <h1 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px; color: var(--color-brainly-dark-blue);">
+                Verify Moderator Tożsamość
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 30px;">
+                Wpisz nick z Discorda, aby sprawdzić, czy użytkownik jest oficjalnym moderatorem sieci BrainlyHQ.
+            </p>
+
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="mod-username-input">Discord Nick / ID</label>
+                    <input type="text" id="mod-username-input" class="form-input" placeholder="Wpisz np. Oskar, Uttam, iVAZ...">
+                </div>
+                <button id="verify-submit-btn" class="login-btn">Sprawdź status</button>
+            </div>
+
+            <div id="verify-output" class="verify-results"></div>
+        </div>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script>
+        // LOKALNA BAZA DANYCH MODERATORÓW (Ręczna konfiguracja)
+        const OFFICIAL_MODERATORS = [
+            "Oskar",
+            "Uttam",
+            "iVAZ",
+            "nickzadane2001",
+            "Admin"
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputField = document.getElementById('mod-username-input');
+            const submitBtn = document.getElementById('verify-submit-btn');
+            const outputBox = document.getElementById('verify-output');
+
+            submitBtn.addEventListener('click', performVerification);
+            inputField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') performVerification();
+            });
+
+            function performVerification() {
+                const query = inputField.value.trim().toLowerCase();
+                
+                if (!query) {
+                    outputBox.style.display = 'none';
+                    return;
+                }
+
+                // Sprawdzamy czy dany nick istnieje w bazie (bez względu na wielkość liter)
+                const isFound = OFFICIAL_MODERATORS.some(mod => mod.toLowerCase() === query);
+
+                outputBox.style.display = 'block';
+
+                if (isFound) {
+                    const originalName = OFFICIAL_MODERATORS.find(mod => mod.toLowerCase() === query);
+                    outputBox.className = "verify-results verified-status";
+                    outputBox.innerHTML = `✅ ${originalName} jest oficjalnym moderatorem BrainlyHQ.`;
+                } else {
+                    outputBox.className = "verify-results unverified-status";
+                    outputBox.innerHTML = `❌ Użytkownik "${inputField.value}" nie figuruje w oficjalnej bazie moderatorów. Zachowaj ostrożność!`;
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
