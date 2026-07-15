@@ -8,13 +8,19 @@
     <link rel="stylesheet" href="css/style.css">
     
     <style>
+        /* Idealne wyrównanie i symetria góra/dół */
+        .verify-page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 24px; /* Dokładnie 60px od góry i 60px od stopki */
+        }
+
         .verification-container {
             display: table;
             width: 100%;
             border-collapse: separate;
             border-spacing: 24px 0;
-            margin: 40px auto;
-            max-width: 950px;
+            margin-top: 40px; /* Stały odstęp między opisem a kwadratami */
         }
 
         .verification-column {
@@ -98,7 +104,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Spójna, jednolita typografia w wizytówce */
         .card-data-line {
             font-size: 0.88rem;
             font-weight: 600;
@@ -135,6 +140,7 @@
         @media (max-width: 768px) {
             .verification-container { display: block; }
             .verification-column { display: block; width: 100%; margin-bottom: 24px; }
+            .verify-page-wrapper { padding: 40px 24px; }
         }
     </style>
 
@@ -146,9 +152,9 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <main class="content-section" style="max-width: 1100px; margin-top: 40px;">
+    <main class="verify-page-wrapper">
         <h1 class="content-title" style="text-align: center; margin-bottom: 8px;">Staff Authentication</h1>
-        <p class="content-lead" style="text-align: center; margin-bottom: 30px;">Verify the identity of active BrainlyHQ administrators and moderators to avoid phishing or impersonation scams.</p>
+        <p class="content-lead" style="text-align: center; margin-bottom: 0;">Verify the identity of active BrainlyHQ administrators and moderators to avoid phishing or impersonation scams.</p>
 
         <div class="verification-container">
             
@@ -283,7 +289,7 @@
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Querying...";
 
-                let timeRemaining = 3; // Skrócone do 3 sekund
+                let timeRemaining = 3;
                 timerSpan.innerText = timeRemaining;
 
                 const stepMessages = [
