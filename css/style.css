@@ -205,7 +205,7 @@ nav a.active {
     pointer-events: none;
 }
 
-/* Naprawa i sztywne ograniczenie rozmiaru awatara */
+/* Ograniczenie rozmiaru awatara astronauty */
 .user-avatar-btn {
     overflow: hidden;
     padding: 0 !important;
@@ -277,7 +277,7 @@ nav a.active {
     flex-shrink: 0;
 }
 
-/* Sekcja linków akcji (Admin Panel) */
+/* Sekcja linków akcji (PANELS) */
 .dropdown-links {
     display: flex;
     flex-direction: column;
@@ -307,19 +307,17 @@ nav a.active {
     background-color: rgba(240, 243, 246, 0.08);
 }
 
-/* ==========================================
-   NOWE PRZYCISKI W RAMKACH (W DROPDOWNIE)
-   ========================================== */
+/* PIONOWE PRZYCISKI W RAMKACH (PANEL CONTROL) */
 .panels-framed-container {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 4px 12px 8px 12px;
+    padding: 6px 12px 10px 12px;
 }
 
 .panel-framed-btn {
     width: 100%;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-secondary);
@@ -328,16 +326,18 @@ nav a.active {
     font-family: var(--font-primary);
     font-weight: 600;
     font-size: 0.85rem;
-    text-align: center;
-    display: block;
+    text-align: left;
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .panel-framed-btn:hover {
     background-color: var(--border-color);
     border-color: var(--color-brainly-green);
     color: var(--color-brainly-dark-blue);
+    padding-left: 16px; /* Nowoczesne przesunięcie */
 }
 
 [data-theme="dark"] .panel-framed-btn:hover {
