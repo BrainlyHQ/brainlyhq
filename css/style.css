@@ -26,18 +26,18 @@
 }
 
 /* ==========================================
-   ZMIENNE CSS - ZAKTUALIZOWANY MOTYW CIEMNY
+   ZMIENNE CSS - NOWY, JAŚNIEJSZY MOTYW CIEMNY
    ========================================== */
 [data-theme="dark"] {
-    --bg-primary: #181C26;
-    --bg-secondary: #222734;
-    --text-primary: #F0F3F6;
-    --text-secondary: #9EA8B6;
-    --border-color: rgba(240, 243, 246, 0.12);
-    --header-bg: rgba(24, 28, 38, 0.8);
-    --footer-bg: #12151D;
-    --color-brainly-blue: #1A365D;
-    --dropdown-bg: #222734;
+    --bg-primary: #1E2530;         /* Wyraźnie jaśniejsze, grafitowe tło */
+    --bg-secondary: #293241;       /* Jeszcze jaśniejsze tło dla kart/dropdownów */
+    --text-primary: #F5F7FA;       /* Bardzo jasny, czytelny tekst */
+    --text-secondary: #ADC1D6;     /* Wyraźniejszy tekst drugorzędny */
+    --border-color: rgba(255, 255, 255, 0.15); /* Jaśniejsze ramki */
+    --header-bg: rgba(30, 37, 48, 0.85); /* Jaśniejszy nagłówek z blur */
+    --footer-bg: #141920;
+    --color-brainly-blue: #2A4870;
+    --dropdown-bg: #293241;
 }
 
 /* ==========================================
