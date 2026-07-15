@@ -1,22 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Inicjalizacja systemów
-    initLanguage();
-    
-    // Ustawienie poprawnej ikonki motywu na starcie
+    // 1. Ustawienie poprawnej ikonki motywu (słońce/księżyc) na starcie
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    updateThemeIcon(currentTheme);
-
-    // 2. Obsługa przełącznika motywu (Dark/Light)
-    const themeBtn = document.getElementById('theme-toggle-btn');
-    if (themeBtn) {
-        themeBtn.addEventListener('click', toggleTheme);
+    if (typeof updateThemeIcon === 'function') {
+        updateThemeIcon(currentTheme);
     }
 
-    // 3. Obsługa zmiany języka
-    const langSelect = document.getElementById('lang-select');
-    if (langSelect) {
-        langSelect.addEventListener('change', (e) => {
-            changeLanguage(e.target.value);
-        });
+    // 2. Obsługa kliknięcia przełącznika motywu (Dark/Light)
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn && typeof toggleTheme === 'function') {
+        themeBtn.addEventListener('click', toggleTheme);
     }
 });
