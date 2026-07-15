@@ -35,7 +35,7 @@
             padding: 10px 16px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
         }
         [data-theme="dark"] .editor-header {
@@ -48,12 +48,9 @@
             color: var(--text-primary);
             padding: 6px 10px;
             font-family: var(--font-primary);
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.8rem;
+            font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
             transition: all 0.2s ease;
         }
         .toolbar-btn:hover {
@@ -118,6 +115,7 @@
         .discord-message {
             display: flex;
             gap: 16px;
+            align-items: flex-start;
         }
         .discord-avatar-wrapper {
             width: 40px;
@@ -143,6 +141,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            line-height: 1.2;
         }
         .discord-author-name {
             color: #f2f3f5;
@@ -163,6 +162,7 @@
             white-space: pre-wrap;
             word-break: break-word;
             color: #dbdee1;
+            margin-top: 2px;
         }
         .discord-text-rendered h1 {
             font-size: 1.5rem;
@@ -268,10 +268,15 @@
         <div class="editor-workspace">
             <div class="editor-panel">
                 <div class="editor-header">
+                    <button class="toolbar-btn" onclick="insertFormatting('**', '**')">Bold</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('*', '*')">Italic</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('__', '__')">Underline</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('~~', '~~')">Strike</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('`', '`')">Code</button>
+                    <div style="width: 1px; height: 18px; background: var(--border-color); margin: 0 4px;"></div>
                     <button class="toolbar-btn" onclick="insertFormatting('# ', '')">H1</button>
                     <button class="toolbar-btn" onclick="insertFormatting('## ', '')">H2</button>
                     <button class="toolbar-btn" onclick="insertFormatting('### ', '')">H3</button>
-                    <div style="width: 1px; height: 18px; background: var(--border-color); margin: 0 4px;"></div>
                     <button class="toolbar-btn" onclick="insertFormatting('> ', '')">Quote</button>
                     <button class="toolbar-btn" onclick="insertFormatting('- ', '')">List</button>
                     <button class="toolbar-btn" onclick="insertFormatting('||', '||')">Spoiler</button>
@@ -283,6 +288,8 @@
                         class="editor-textarea" 
                         placeholder="Type some cool markdown here... Highlight text to trigger the quick formatting menu!"
                         oninput="updatePreview()"
+                        onkeyup="updatePreview()"
+                        onpaste="setTimeout(updatePreview, 1)"
                         onselect="handleTextSelection()"
                     ></textarea>
                     <div id="floating-bubble" class="floating-tooltip">
@@ -297,11 +304,11 @@
             <div class="preview-panel">
                 <div class="discord-message">
                     <div class="discord-avatar-wrapper">
-                        <img id="preview-avatar" class="discord-avatar" src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                        <img id="preview-avatar" class="discord-avatar" src="assets/astronaut_2.png" alt="Avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
                     </div>
                     <div class="discord-message-content">
                         <div class="discord-author-info">
-                            <span class="discord-author-name">Astronaut</span>
+                            <span class="discord-author-name">Guest</span>
                             <span class="discord-timestamp" id="discord-time">Today at 15:29</span>
                         </div>
                         <div class="discord-text-rendered" id="discord-preview-output">
