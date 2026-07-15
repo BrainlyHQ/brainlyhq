@@ -22,6 +22,7 @@
     --border-color: rgba(0, 32, 74, 0.08);
     --header-bg: rgba(255, 255, 255, 0.8);
     --footer-bg: #F5F8FA;
+    --dropdown-bg: #FFFFFF;
 }
 
 /* ==========================================
@@ -36,6 +37,7 @@
     --header-bg: rgba(11, 14, 20, 0.8);
     --footer-bg: #161B22;
     --color-brainly-blue: #1A365D;
+    --dropdown-bg: #161B22;
 }
 
 /* ==========================================
@@ -56,17 +58,38 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    opacity: 0; /* Potrzebne do animacji wejścia */
+    animation: fadeInPage 0.4s ease-out forwards;
 }
 
 main {
     flex: 1;
 }
 
+/* Animacja przejścia strony */
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Klasa wyjścia (używana przez JS przy kliknięciu linku) */
+body.fade-out {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
 /* ==========================================
    PRZYSZŁY BANER (Domyślnie Ukryty)
    ========================================== */
 .announcement-banner {
-    display: none; /* Zmień na 'block' lub 'flex', gdy będziesz chciał go włączyć */
+    display: none;
     background-color: var(--color-brainly-green);
     color: #000000;
     text-align: center;
@@ -79,7 +102,7 @@ main {
 }
 
 /* ==========================================
-   NAGŁÓWEK (HEADER) - Półprzezroczysty z rozmyciem tła
+   NAGŁÓWEK (HEADER)
    ========================================== */
 header {
     background-color: var(--header-bg);
@@ -146,7 +169,6 @@ nav a {
     display: inline-block;
 }
 
-/* Hover na linkach */
 nav a:hover {
     color: var(--text-primary);
     background-color: rgba(0, 32, 74, 0.05);
@@ -156,26 +178,21 @@ nav a:hover {
     background-color: rgba(240, 243, 246, 0.08);
 }
 
-/* Aktywny link */
 nav a.active {
     color: #000000;
     background-color: var(--color-brainly-green);
     box-shadow: 0 2px 8px rgba(153, 238, 96, 0.3);
 }
 
-[data-theme="dark"] nav a.active {
-    color: #000000;
-    background-color: var(--color-brainly-green);
-}
-
-/* Przyciski akcji (Prawa strona) */
+/* Prawa strona nagłówka */
 .header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative; /* Ważne dla pozycjonowania menu profilu */
 }
 
-/* Przełączniki i profil */
+/* Przyciski akcji */
 .action-btn {
     background-color: rgba(0, 32, 74, 0.03);
     border: 1px solid rgba(0, 32, 74, 0.05);
@@ -210,63 +227,150 @@ nav a.active {
     width: 20px;
     height: 20px;
     color: var(--text-primary);
+    pointer-events: none; /* Aby kliknięcie zawsze trafiało w button */
 }
 
 /* ==========================================
-   WIDGET GOOGLE TRANSLATE (Stylizowany)
+   MENU PROFILU (DROPDOWN)
    ========================================== */
-#google_translate_element {
-    display: inline-block;
+.profile-dropdown {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    width: 260px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: none; /* Domyślnie ukryte */
+    flex-direction: column;
+    padding: 12px;
+    z-index: 1100;
+    transform: translateY(10px);
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.goog-te-gadget-simple {
-    background-color: rgba(0, 32, 74, 0.03) !important;
-    border: 1px solid rgba(0, 32, 74, 0.05) !important;
-    padding: 8px 14px !important;
-    border-radius: 20px !important;
-    font-family: var(--font-primary) !important;
-    font-size: 0.85rem !important;
-    font-weight: 600 !important;
-    cursor: pointer;
-    display: flex !important;
-    align-items: center;
-    transition: all 0.2s ease;
+.profile-dropdown.show {
+    display: flex;
+    animation: slideDown 0.2s ease forwards;
 }
 
-[data-theme="dark"] .goog-te-gadget-simple {
-    background-color: rgba(240, 243, 246, 0.03) !important;
-    border: 1px solid rgba(240, 243, 246, 0.05) !important;
+@keyframes slideDown {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-.goog-te-gadget-simple:hover {
-    background-color: rgba(0, 32, 74, 0.08) !important;
-    transform: translateY(-1px);
+.dropdown-header {
+    padding: 8px 12px 12px 12px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 8px;
 }
 
-.goog-te-gadget-simple img {
-    display: none !important; /* Ukrywa logo Google */
+.dropdown-header h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
-.goog-te-gadget-simple span {
-    color: var(--text-primary) !important;
-}
-
-.goog-te-menu-value {
-    margin: 0 !important;
-    display: flex !important;
-    align-items: center;
-    gap: 4px;
-}
-
-.goog-te-menu-value span:nth-child(3) {
-    display: none !important; /* Ukrywa domyślną strzałkę */
-}
-
-.goog-te-menu-value::after {
-    content: "▼";
-    font-size: 0.6rem;
-    margin-left: 4px;
+.dropdown-header p {
+    font-size: 0.75rem;
     color: var(--text-secondary);
+}
+
+/* Customowy selektor językowy w menu profilu */
+.lang-dropdown-container {
+    padding: 8px 12px;
+}
+
+.lang-dropdown-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lang-dropdown-label img {
+    width: 14px;
+    height: 14px;
+}
+
+.custom-lang-select {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Ukrycie brzydkiego, domyślnego widgetu Google */
+#google_translate_element {
+    display: none !important;
+}
+
+/* ==========================================
+   PRZYKŁADOWY SZABLON PODSTRON (LOREM IPSUM)
+   ========================================== */
+.content-section {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 24px;
+}
+
+.content-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 16px;
+    color: var(--color-brainly-dark-blue);
+}
+
+[data-theme="dark"] .content-title {
+    color: var(--color-brainly-green);
+}
+
+.content-lead {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
 }
 
 /* ==========================================
