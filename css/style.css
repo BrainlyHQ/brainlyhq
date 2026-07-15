@@ -1,30 +1,284 @@
-/* Stylizacja widgetu Google Translate, aby pasował do nagłówka */
+/* ==========================================
+   IMPORT CZCIONKI MONTSERRAT (Google Fonts)
+   ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ==========================================
+   ZMIENNE CSS - MOTYW JASNY (Domyślny)
+   ========================================== */
+:root {
+    --font-primary: 'Montserrat', sans-serif;
+    
+    /* Kolory Brainly */
+    --color-brainly-green: #99ee60;
+    --color-brainly-blue: #D9F0FF;
+    --color-brainly-dark-blue: #00204a;
+    
+    /* Tła i teksty dla trybu jasnego */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F8FA;
+    --text-primary: #1A1A1A;
+    --text-secondary: #5A6B7C;
+    --border-color: rgba(0, 32, 74, 0.08);
+    --header-bg: rgba(255, 255, 255, 0.8);
+    --footer-bg: #F5F8FA;
+}
+
+/* ==========================================
+   ZMIENNE CSS - MOTYW CIEMNY
+   ========================================== */
+[data-theme="dark"] {
+    --bg-primary: #0B0E14;
+    --bg-secondary: #161B22;
+    --text-primary: #F0F3F6;
+    --text-secondary: #8B949E;
+    --border-color: rgba(240, 243, 246, 0.1);
+    --header-bg: rgba(11, 14, 20, 0.8);
+    --footer-bg: #161B22;
+    --color-brainly-blue: #1A365D;
+}
+
+/* ==========================================
+   RESET & BAZOWE STYLE
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+/* ==========================================
+   PRZYSZŁY BANER (Domyślnie Ukryty)
+   ========================================== */
+.announcement-banner {
+    display: none; /* Zmień na 'block' lub 'flex', gdy będziesz chciał go włączyć */
+    background-color: var(--color-brainly-green);
+    color: #000000;
+    text-align: center;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   NAGŁÓWEK (HEADER) - Półprzezroczysty z rozmyciem tła
+   ========================================== */
+header {
+    background-color: var(--header-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.logo-container a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 38px;
+    width: auto;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.03);
+}
+
+/* Nawigacja - Kapsułki (Pill Navigation) */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    background-color: rgba(0, 32, 74, 0.03);
+    padding: 6px;
+    border-radius: 30px;
+    border: 1px solid rgba(0, 32, 74, 0.05);
+}
+
+[data-theme="dark"] nav ul {
+    background-color: rgba(240, 243, 246, 0.03);
+    border: 1px solid rgba(240, 243, 246, 0.05);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 8px 18px;
+    border-radius: 20px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+}
+
+/* Hover na linkach */
+nav a:hover {
+    color: var(--text-primary);
+    background-color: rgba(0, 32, 74, 0.05);
+}
+
+[data-theme="dark"] nav a:hover {
+    background-color: rgba(240, 243, 246, 0.08);
+}
+
+/* Aktywny link */
+nav a.active {
+    color: #000000;
+    background-color: var(--color-brainly-green);
+    box-shadow: 0 2px 8px rgba(153, 238, 96, 0.3);
+}
+
+[data-theme="dark"] nav a.active {
+    color: #000000;
+    background-color: var(--color-brainly-green);
+}
+
+/* Przyciski akcji (Prawa strona) */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Przełączniki i profil */
+.action-btn {
+    background-color: rgba(0, 32, 74, 0.03);
+    border: 1px solid rgba(0, 32, 74, 0.05);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .action-btn {
+    background-color: rgba(240, 243, 246, 0.03);
+    border: 1px solid rgba(240, 243, 246, 0.05);
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    background-color: rgba(0, 32, 74, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .action-btn:hover {
+    background-color: rgba(240, 243, 246, 0.08);
+}
+
+.user-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-primary);
+}
+
+/* ==========================================
+   WIDGET GOOGLE TRANSLATE (Stylizowany)
+   ========================================== */
 #google_translate_element {
     display: inline-block;
 }
 
 .goog-te-gadget-simple {
-    background-color: transparent !important;
-    border: 1px solid var(--border-color) !important;
-    padding: 5px 8px !important;
-    border-radius: 5px !important;
+    background-color: rgba(0, 32, 74, 0.03) !important;
+    border: 1px solid rgba(0, 32, 74, 0.05) !important;
+    padding: 8px 14px !important;
+    border-radius: 20px !important;
     font-family: var(--font-primary) !important;
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
     cursor: pointer;
     display: flex !important;
     align-items: center;
+    transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .goog-te-gadget-simple {
+    background-color: rgba(240, 243, 246, 0.03) !important;
+    border: 1px solid rgba(240, 243, 246, 0.05) !important;
+}
+
+.goog-te-gadget-simple:hover {
+    background-color: rgba(0, 32, 74, 0.08) !important;
+    transform: translateY(-1px);
 }
 
 .goog-te-gadget-simple img {
-    display: none !important; /* Ukrywa małe logo Google wewnątrz przycisku */
+    display: none !important; /* Ukrywa logo Google */
 }
 
 .goog-te-gadget-simple span {
     color: var(--text-primary) !important;
-    font-weight: 600;
 }
 
-/* Ukrycie dodatkowych ramek Google, jeśli się pojawią */
-.goog-te-menu-value span {
-    border-left: none !important;
+.goog-te-menu-value {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+}
+
+.goog-te-menu-value span:nth-child(3) {
+    display: none !important; /* Ukrywa domyślną strzałkę */
+}
+
+.goog-te-menu-value::after {
+    content: "▼";
+    font-size: 0.6rem;
+    margin-left: 4px;
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   STOPKA (FOOTER)
+   ========================================== */
+footer {
+    background-color: var(--footer-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 24px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
