@@ -1,0 +1,64 @@
+<div class="header-container">
+    <div class="logo-container">
+        <a href="index.html">
+            <img src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" class="logo-img">
+        </a>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" id="nav-home" data-translate="nav-home">Home</a></li>
+            <li><a href="products.html" id="nav-products" data-translate="nav-products">Products</a></li>
+            <li><a href="mission.html" id="nav-mission" data-translate="nav-mission">Mission</a></li>
+            <li><a href="support.html" id="nav-support" data-translate="nav-support">Support</a></li>
+            <li><a href="tools.html" id="nav-tools" data-translate="nav-tools">Tools</a></li>
+            <li><a href="contact.html" id="nav-contact" data-translate="nav-contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="header-actions">
+        <button id="theme-toggle-btn" class="action-btn" aria-label="Toggle theme">
+            🌙
+        </button>
+
+        <button id="user-profile-btn" class="action-btn" aria-label="User Profile">
+            <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+        </button>
+
+        <div id="profile-dropdown" class="profile-dropdown">
+            <div class="dropdown-header">
+                <h4>BrainlyHQ Guest</h4>
+                <p data-translate="welcome-guest">Welcome to our platform!</p>
+            </div>
+            
+            <div class="dropdown-links">
+                <a href="tools.html" class="dropdown-link">
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                    </svg>
+                    <span data-translate="admin-panel">Admin Panel</span>
+                </a>
+            </div>
+            
+            <div class="lang-dropdown-container">
+                <div class="lang-dropdown-label">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/translate_24dp.png" alt="Translate">
+                    <span>Language / Język</span>
+                </div>
+                <select id="custom-lang-select" class="custom-lang-select">
+                    <option value="en">English (US)</option>
+                    <option value="pl">Polski (PL)</option>
+                    <option value="id">Indonesian (ID)</option>
+                    <option value="fr">Français (FR)</option>
+                    <option value="ru">Русский (RU)</option>
+                    <option value="es">Español (ES)</option>
+                    <option value="pt">Português (PT)</option>
+                    <option value="ro">Română (RO)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
