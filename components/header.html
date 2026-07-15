@@ -1,10 +1,12 @@
 <div class="header-container">
+    <!-- Logo -->
     <div class="logo-container">
         <a href="index.html">
-            <img src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" class="logo-img">
+            <img id="header-logo-img" src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" class="logo-img">
         </a>
     </div>
 
+    <!-- Navigation -->
     <nav>
         <ul>
             <li><a href="index.html" id="nav-home" data-translate="nav-home">Home</a></li>
@@ -16,17 +18,21 @@
         </ul>
     </nav>
 
+    <!-- Actions -->
     <div class="header-actions">
+        <!-- Theme Toggle -->
         <button id="theme-toggle-btn" class="action-btn" aria-label="Toggle theme">
             <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
         </button>
 
+        <!-- User Profile -->
         <button id="user-profile-btn" class="action-btn user-avatar-btn" aria-label="User Profile">
             <img id="active-avatar-img" class="active-avatar-preview" src="assets/astronaut_2.png" alt="Avatar">
         </button>
 
+        <!-- Profile Dropdown -->
         <div id="profile-dropdown" class="profile-dropdown">
             <div class="dropdown-header" style="display: flex; align-items: center; gap: 12px; padding-bottom: 12px;">
                 <img src="assets/astronaut_2.png" alt="Astronaut" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
@@ -36,6 +42,7 @@
                 </div>
             </div>
             
+            <!-- SECTION: PANELS -->
             <div class="dropdown-links">
                 <div class="section-label-uppercase" style="padding-left: 16px;">
                     <svg class="header-green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -54,6 +61,7 @@
                 </div>
             </div>
             
+            <!-- SECTION: LANGUAGE -->
             <div class="lang-dropdown-container">
                 <div class="section-label-uppercase">
                     <svg class="header-green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -75,6 +83,7 @@
                 </select>
             </div>
 
+            <!-- SECTION: QUICK LINKS -->
             <div class="promo-links-container">
                 <div class="section-label-uppercase">
                     <svg class="header-green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
