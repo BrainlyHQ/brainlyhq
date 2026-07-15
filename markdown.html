@@ -251,28 +251,20 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
-        .cheatsheet-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-        }
-        .cheatsheet-card h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-        .cheatsheet-card code {
+        .card code {
             display: block;
             background-color: var(--bg-primary);
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 10px 14px;
+            border-radius: 8px;
             font-family: monospace;
             font-size: 0.85rem;
-            margin-top: 8px;
+            margin-top: 10px;
             border: 1px solid var(--border-color);
-            color: var(--text-primary);
+            color: #5cb85c;
+            font-weight: 600;
+        }
+        [data-theme="dark"] .card code {
+            color: var(--color-brainly-green);
         }
 
         @media (max-width: 900px) {
@@ -347,23 +339,23 @@
         <div class="cheatsheet-section">
             <h2 class="cheatsheet-title">Markdown Quick Reference</h2>
             <div class="cheatsheet-grid">
-                <div class="cheatsheet-card">
-                    <h4>Headers & Subtext</h4>
+                <div class="card">
+                    <h3 style="color: var(--text-primary); font-size: 1.15rem; margin-bottom: 8px;">Headers & Subtext</h3>
                     <p>Add header hash symbols or the subtext command at the start of a line.</p>
                     <code># Large Header<br>-# This is small subtext</code>
                 </div>
-                <div class="cheatsheet-card">
-                    <h4>Basic Formatting</h4>
+                <div class="card">
+                    <h3 style="color: var(--text-primary); font-size: 1.15rem; margin-bottom: 8px;">Basic Formatting</h3>
                     <p>Quickly apply basic typographic styling using native asterisks and underscores.</p>
                     <code>**Bold Text**<br>*Italic Text*<br>__Underlined Text__<br>~~Strikethrough Text~~</code>
                 </div>
-                <div class="cheatsheet-card">
-                    <h4>Spoilers & Spacers</h4>
+                <div class="card">
+                    <h3 style="color: var(--text-primary); font-size: 1.15rem; margin-bottom: 8px;">Spoilers & Spacers</h3>
                     <p>Hide secret texts or insert an empty spacer line to make gaps between blocks.</p>
                     <code>||Secret||<br>_ _</code>
                 </div>
-                <div class="cheatsheet-card">
-                    <h4>Lists & Quotes</h4>
+                <div class="card">
+                    <h3 style="color: var(--text-primary); font-size: 1.15rem; margin-bottom: 8px;">Lists & Quotes</h3>
                     <p>Organize data with bullet points or high-priority inline blockquotes.</p>
                     <code>- Bullet list item 1<br>&gt; This is an important quote block</code>
                 </div>
