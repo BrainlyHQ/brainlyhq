@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function themeBtnClick(e) {
-        e.stopPropagation(); // Zapobiega zamykaniu dropdownu przy zmianie motywu
+        e.stopPropagation(); 
         toggleTheme();
     }
 
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dropdown.classList.toggle('show');
         });
 
-        // Zamknij menu jeśli kliknięto gdziekolwiek indziej na ekranie
         document.addEventListener('click', (e) => {
             if (!dropdown.contains(e.target) && e.target !== userBtn) {
                 dropdown.classList.remove('show');
@@ -38,49 +37,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. OBSŁUGA POŁĄCZENIA TRANSLATORA Z SELECTEM
+    // 3. NIEZAWODNA OBSŁUGA TRANSLATORA GOOGLE
     // ==========================================
     const customLangSelect = document.getElementById('custom-lang-select');
+    
     if (customLangSelect) {
         customLangSelect.addEventListener('change', (e) => {
-            const targetLang = e.target.value;
-            triggerGoogleTranslate(targetLang);
+            triggerGoogleTranslate(e.target.value);
         });
     }
 
     function triggerGoogleTranslate(langCode) {
-        // Znajduje ukryty oryginalny select wygenerowany przez Google Translate
         const googleSelect = document.querySelector('.goog-te-combo');
         if (googleSelect) {
             googleSelect.value = langCode;
-            // Wywołanie sztucznego zdarzenia 'change' w przeglądarce, aby skrypt Google zareagował
             googleSelect.dispatchEvent(new Event('change'));
         }
     }
 
-    // Synchronizuj nasz select po załadowaniu Google Translate
-    const checkTranslateInterval = setInterval(() => {
+    // Pętla sprawdzająca i synchronizująca stan translatora z naszym customowym selectem
+    const syncTranslate = () => {
         const googleSelect = document.querySelector('.goog-te-combo');
         if (googleSelect && customLangSelect) {
-            customLangSelect.value = googleSelect.value || 'en';
-            clearInterval(checkTranslateInterval);
+            // Jeśli google ustawił już jakiś język, zsynchronizuj go z naszym selectem
+            if (googleSelect.value) {
+                customLangSelect.value = googleSelect.value;
+            }
+        }
+    };
+
+    // Sprawdzaj co pół sekundy, dopóki Google Translate nie osadzi się w drzewie DOM
+    const translateInterval = setInterval(() => {
+        const googleSelect = document.querySelector('.goog-te-combo');
+        if (googleSelect) {
+            syncTranslate();
+            // Nasłuchuj również bezpośrednich zmian w oryginalnym elemencie Google
+            googleSelect.addEventListener('change', syncTranslate);
+            clearInterval(translateInterval);
         }
     }, 500);
 
+    // Awaryjne wyłączenie interwału po 10 sekundach (zapobiega pętlom w tle)
+    setTimeout(() => clearInterval(translateInterval), 10000);
+
     // ==========================================
-    // 4. PŁYNNE PRZEJŚCIA MIĘDZY STRONAMI (FADE OUT)
+    // 4. PŁYNNE PRZEJŚCIA MIĘDZY STRONAMI
     // ==========================================
-    const localLinks = document.querySelectorAll('nav a, .logo-container a, .card a, a.cta-btn');
+    const localLinks = document.querySelectorAll('nav a, .logo-container a, .dropdown-links a');
     localLinks.forEach(link => {
-        // Sprawdzamy tylko lokalne linki do podstron .html
         if (link.hostname === window.location.hostname && link.pathname.endsWith('.html')) {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetUrl = link.href;
-                
                 document.body.classList.add('fade-out');
-                
-                // Czekamy na koniec animacji (300ms) i przenosimy użytkownika
                 setTimeout(() => {
                     window.location.href = targetUrl;
                 }, 300);
