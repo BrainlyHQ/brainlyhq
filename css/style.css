@@ -585,6 +585,7 @@ footer {
     font-size: 0.75rem;
     font-weight: 700;
 }
+
 /* Płynne skalowanie ikon wektorowych w przyciskach */
 .action-btn svg {
     width: 20px;
