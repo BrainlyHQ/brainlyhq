@@ -12,12 +12,16 @@
             margin: 0 auto;
             padding: 60px 24px;
         }
+        .sandbox-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
         .editor-workspace {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            margin-top: 40px;
             align-items: stretch;
+            margin-bottom: 40px;
         }
         .editor-panel, .preview-panel {
             background-color: var(--bg-secondary);
@@ -246,6 +250,46 @@
             list-style-type: disc;
             margin-bottom: 4px;
         }
+        
+        .cheatsheet-section {
+            margin-top: 60px;
+        }
+        .cheatsheet-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            text-align: left;
+        }
+        .cheatsheet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .cheatsheet-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .cheatsheet-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        .cheatsheet-card code {
+            display: block;
+            background-color: var(--bg-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
         @media (max-width: 900px) {
             .editor-workspace {
                 grid-template-columns: 1fr;
@@ -264,26 +308,29 @@
     <header id="header-placeholder"></header>
 
     <main class="markdown-page-wrapper">
-        <h1 class="content-title">Discord Markdown Sandbox</h1>
-        <p class="content-lead" style="margin-bottom: 0;">
-            Write your messages, format them like a pro, and instantly see exactly how they will appear in Discord chat channels.
-        </p>
+        <div class="sandbox-header">
+            <h1 class="content-title">Discord Markdown Sandbox</h1>
+            <p class="content-lead" style="margin-bottom: 0;">
+                Write your messages, format them like a pro, and instantly see exactly how they will appear in Discord chat channels.
+            </p>
+        </div>
+        
         <div class="editor-workspace">
             <div class="editor-panel">
                 <div class="editor-header">
-                    <button class="toolbar-btn" onclick="insertFormatting('**', '**')">Bold</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('*', '*')">Italic</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('__', '__')">Underline</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('~~', '~~')">Strike</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('`', '`')">Code</button>
+                    <button class="toolbar-btn" data-prefix="**" data-suffix="**">Bold</button>
+                    <button class="toolbar-btn" data-prefix="*" data-suffix="*">Italic</button>
+                    <button class="toolbar-btn" data-prefix="__" data-suffix="__">Underline</button>
+                    <button class="toolbar-btn" data-prefix="~~" data-suffix="~~">Strike</button>
+                    <button class="toolbar-btn" data-prefix="`" data-suffix="`">Code</button>
                     <div style="width: 1px; height: 18px; background: var(--border-color); margin: 0 4px;"></div>
-                    <button class="toolbar-btn" onclick="insertFormatting('# ', '')">H1</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('## ', '')">H2</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('### ', '')">H3</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('> ', '')">Quote</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('- ', '')">List</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('||', '||')">Spoiler</button>
-                    <button class="toolbar-btn" onclick="insertFormatting('```\n', '\n```')">Code Block</button>
+                    <button class="toolbar-btn" data-prefix="# " data-suffix="">H1</button>
+                    <button class="toolbar-btn" data-prefix="## " data-suffix="">H2</button>
+                    <button class="toolbar-btn" data-prefix="### " data-suffix="">H3</button>
+                    <button class="toolbar-btn" data-prefix="> " data-suffix="">Quote</button>
+                    <button class="toolbar-btn" data-prefix="- " data-suffix="">List</button>
+                    <button class="toolbar-btn" data-prefix="||" data-suffix="||">Spoiler</button>
+                    <button class="toolbar-btn" data-prefix="```\n" data-suffix="\n```">Code Block</button>
                 </div>
                 <div class="editor-textarea-wrapper">
                     <textarea 
@@ -291,15 +338,17 @@
                         class="editor-textarea" 
                         placeholder="Type some cool markdown here..."
                     ></textarea>
+                    
                     <div id="floating-bubble" class="floating-tooltip">
-                        <button class="tooltip-btn" onmousedown="applyQuickFormat('**', '**')">B</button>
-                        <button class="tooltip-btn" onmousedown="applyQuickFormat('*', '*')">I</button>
-                        <button class="tooltip-btn" onmousedown="applyQuickFormat('__', '__')">U</button>
-                        <button class="tooltip-btn" onmousedown="applyQuickFormat('~~', '~~')">S</button>
-                        <button class="tooltip-btn" onmousedown="applyQuickFormat('`', '`')">&lt;&gt;</button>
+                        <button class="tooltip-btn" data-prefix="**" data-suffix="**">B</button>
+                        <button class="tooltip-btn" data-prefix="*" data-suffix="*">I</button>
+                        <button class="tooltip-btn" data-prefix="__" data-suffix="__">U</button>
+                        <button class="tooltip-btn" data-prefix="~~" data-suffix="~~">S</button>
+                        <button class="tooltip-btn" data-prefix="`" data-suffix="`">&lt;&gt;</button>
                     </div>
                 </div>
             </div>
+            
             <div class="preview-panel">
                 <div class="discord-message">
                     <div class="discord-avatar-wrapper">
@@ -315,27 +364,60 @@
                 </div>
             </div>
         </div>
+
+        <div class="cheatsheet-section">
+            <h2 class="cheatsheet-title">Markdown Quick Reference</h2>
+            <div class="cheatsheet-grid">
+                <div class="cheatsheet-card">
+                    <h4>Headers</h4>
+                    <p>Create headings by adding hashtags followed by space at the start of a line.</p>
+                    <code># Large Header<br>## Medium Header<br>### Small Header</code>
+                </div>
+                <div class="cheatsheet-card">
+                    <h4>Basic Formatting</h4>
+                    <p>Quickly apply basic typographic styling using native asterisks and underscores.</p>
+                    <code>**Bold Text**<br>*Italic Text*<br>__Underlined Text__<br>~~Strikethrough Text~~</code>
+                </div>
+                <div class="cheatsheet-card">
+                    <h4>Spoilers</h4>
+                    <p>Hide sensitive texts or jokes. Users can click the black bar on Discord to reveal it.</p>
+                    <code>||Click to reveal this secret!||</code>
+                </div>
+                <div class="cheatsheet-card">
+                    <h4>Lists & Quotes</h4>
+                    <p>Organize data with bullet points or high-priority inline blockquotes.</p>
+                    <code>- Bullet list item 1<br>- Bullet list item 2<br>&gt; This is an important quote block</code>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
     <script>
-        const inputArea = document.getElementById('discord-input');
-        const outputArea = document.getElementById('discord-preview-output');
-        const floatingBubble = document.getElementById('floating-bubble');
-        const timeElement = document.getElementById('discord-time');
+        // Czekamy na pełne załadowanie drzewa DOM strony przed przypisaniem zdarzeń
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputArea = document.getElementById('discord-input');
+            const outputArea = document.getElementById('discord-preview-output');
+            const floatingBubble = document.getElementById('floating-bubble');
+            const timeElement = document.getElementById('discord-time');
 
-        function setCurrentTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            timeElement.textContent = `Today at ${hours}:${minutes}`;
-        }
-        setCurrentTime();
+            function setCurrentTime() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                timeElement.textContent = `Today at ${hours}:${minutes}`;
+            }
+            setCurrentTime();
 
-        function parseDiscordMarkdown(text) {
-            if (!text) return "";
-            let html = text;
-            html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            html = html.replace(/
+            // Bezpieczny parser przetwarzający czysty tekst na HTML zgodny z Discordem
+            function parseDiscordMarkdown(text) {
+                if (!text) return "";
+                let html = text;
+                
+                // Ucieczka przed tagami HTML w celu zabezpieczenia przed XSS
+                html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                
+                // 1. Bloki kodu
+                html = html.replace(/
 http://googleusercontent.com/immersive_entry_chip/0
