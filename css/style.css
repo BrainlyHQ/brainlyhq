@@ -26,15 +26,15 @@
 }
 
 /* ==========================================
-   ZMIENNE CSS - NOWY, JAŚNIEJSZY MOTYW CIEMNY
+   ZMIENNE CSS - ROZJAŚNIONY MOTYW CIEMNY
    ========================================== */
 [data-theme="dark"] {
-    --bg-primary: #1E2530;         /* Wyraźnie jaśniejsze, grafitowe tło */
-    --bg-secondary: #293241;       /* Jeszcze jaśniejsze tło dla kart/dropdownów */
-    --text-primary: #F5F7FA;       /* Bardzo jasny, czytelny tekst */
-    --text-secondary: #ADC1D6;     /* Wyraźniejszy tekst drugorzędny */
-    --border-color: rgba(255, 255, 255, 0.15); /* Jaśniejsze ramki */
-    --header-bg: rgba(30, 37, 48, 0.85); /* Jaśniejszy nagłówek z blur */
+    --bg-primary: #1E2530;         /* Elegancki, jaśniejszy grafit */
+    --bg-secondary: #293241;       /* Jaśniejsze tło kart i dropdownów */
+    --text-primary: #F5F7FA;
+    --text-secondary: #ADC1D6;     /* Bardzo wyraźny i czytelny tekst */
+    --border-color: rgba(255, 255, 255, 0.15);
+    --header-bg: rgba(30, 37, 48, 0.85);
     --footer-bg: #141920;
     --color-brainly-blue: #2A4870;
     --dropdown-bg: #293241;
@@ -66,38 +66,16 @@ main {
     flex: 1;
 }
 
-/* Animacja przejścia strony */
+/* Animacje przejść */
 @keyframes fadeInPage {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 body.fade-out {
     opacity: 0;
     transform: translateY(-8px);
     transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* ==========================================
-   PRZYSZŁY BANER (Domyślnie Ukryty)
-   ========================================== */
-.announcement-banner {
-    display: none;
-    background-color: var(--color-brainly-green);
-    color: #000000;
-    text-align: center;
-    padding: 10px 20px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* ==========================================
@@ -142,10 +120,11 @@ header {
 }
 
 [data-theme="dark"] .logo-img {
-    filter: brightness(1.15) contrast(1.05);
+    /* Logo na ciemnym tle jest teraz delikatnie rozświetlone */
+    filter: brightness(1.2) contrast(1.05);
 }
 
-/* Nawigacja - Kapsułki (Pill Navigation) */
+/* Nawigacja */
 nav ul {
     display: flex;
     list-style: none;
@@ -182,12 +161,11 @@ nav a:hover {
 }
 
 nav a.active {
-    color: #000000;
+    color: #000000 !important;
     background-color: var(--color-brainly-green);
     box-shadow: 0 2px 8px rgba(153, 238, 96, 0.3);
 }
 
-/* Prawa strona nagłówka */
 .header-actions {
     display: flex;
     align-items: center;
@@ -195,7 +173,6 @@ nav a.active {
     position: relative;
 }
 
-/* Przyciski akcji */
 .action-btn {
     background-color: rgba(0, 32, 74, 0.03);
     border: 1px solid rgba(0, 32, 74, 0.05);
@@ -222,10 +199,6 @@ nav a.active {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-[data-theme="dark"] .action-btn:hover {
-    background-color: rgba(240, 243, 246, 0.08);
-}
-
 .user-icon {
     width: 20px;
     height: 20px;
@@ -234,7 +207,7 @@ nav a.active {
 }
 
 /* ==========================================
-   MENU PROFILU (DROPDOWN) i ADMIN PANEL
+   DROPDOWN & ADMIN PANEL
    ========================================== */
 .profile-dropdown {
     position: absolute;
@@ -244,7 +217,7 @@ nav a.active {
     border: 1px solid var(--border-color);
     border-radius: 16px;
     width: 260px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     display: none;
     flex-direction: column;
     padding: 12px;
@@ -259,10 +232,7 @@ nav a.active {
 }
 
 @keyframes slideDown {
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .dropdown-header {
@@ -349,12 +319,8 @@ nav a.active {
     outline: none;
 }
 
-#google_translate_element {
-    display: none !important;
-}
-
 /* ==========================================
-   PRZYKŁADOWY SZABLON PODSTRON (LOREM IPSUM)
+   STRUKTURA TREŚCI PODSTRON
    ========================================== */
 .content-section {
     max-width: 1000px;
