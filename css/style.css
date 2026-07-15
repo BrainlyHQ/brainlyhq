@@ -17,8 +17,8 @@
     /* Tła i teksty dla trybu jasnego */
     --bg-primary: #FFFFFF;
     --bg-secondary: #F5F8FA;
-    --text-primary: #1A1A1A;
-    --text-secondary: #5A6B7C;
+    --text-primary: #1A1A1A;       /* Ciemny tekst dla jasnego tła */
+    --text-secondary: #5A6B7C;     /* Szary tekst pomocniczy */
     --border-color: rgba(0, 32, 74, 0.08);
     --header-bg: rgba(255, 255, 255, 0.8);
     --footer-bg: #F5F8FA;
@@ -31,8 +31,8 @@
 [data-theme="dark"] {
     --bg-primary: #1E2530;
     --bg-secondary: #293241;
-    --text-primary: #F5F7FA;
-    --text-secondary: #ADC1D6;
+    --text-primary: #F5F7FA;       /* Jasny (biały) tekst dla ciemnego tła */
+    --text-secondary: #ADC1D6;     /* Jasnoszary tekst pomocniczy */
     --border-color: rgba(255, 255, 255, 0.15);
     --header-bg: rgba(30, 37, 48, 0.85);
     --footer-bg: #141920;
@@ -117,10 +117,6 @@ header {
 
 .logo-img:hover {
     transform: scale(1.03);
-}
-
-[data-theme="dark"] .logo-img {
-    filter: brightness(1.2) contrast(1.05);
 }
 
 /* Nawigacja */
@@ -263,6 +259,7 @@ nav a.active {
     font-size: 0.9rem;
     font-weight: 700;
     text-align: left;
+    color: var(--text-primary);
 }
 
 .dropdown-header p {
@@ -408,6 +405,7 @@ nav a.active {
 .promo-card span {
     font-size: 0.75rem;
     font-weight: 700;
+    color: var(--text-primary);
 }
 
 /* Płynne skalowanie ikon wektorowych w przyciskach akcji */
@@ -439,11 +437,7 @@ nav a.active {
     font-size: 1.8rem;
     font-weight: 900;
     margin-bottom: 8px;
-    color: var(--color-brainly-dark-blue);
-}
-
-[data-theme="dark"] .admin-login-container h2 {
-    color: var(--color-brainly-green);
+    color: var(--color-brainly-green); /* Zawsze zielony */
 }
 
 .admin-login-container p {
@@ -517,7 +511,7 @@ nav a.active {
 }
 
 /* ==========================================
-   STRUKTURA TREŚCI PODSTRON
+   STRUKTURA TREŚCI PODSTRON (INDEX, ETC.)
    ========================================== */
 .content-section {
     max-width: 1000px;
@@ -525,21 +519,20 @@ nav a.active {
     padding: 0 24px;
 }
 
+/* Zgodnie z wytycznymi nagłówek h1 jest ZAWSZE ZIELONY */
 .content-title {
     font-size: 2.5rem;
     font-weight: 900;
     margin-bottom: 16px;
-    color: var(--color-brainly-dark-blue);
-}
-
-[data-theme="dark"] .content-title {
-    color: var(--color-brainly-green);
+    color: var(--color-brainly-green) !important;
+    text-align: center;
 }
 
 .content-lead {
     font-size: 1.15rem;
     color: var(--text-secondary);
     margin-bottom: 40px;
+    text-align: center;
 }
 
 .grid-layout {
@@ -565,6 +558,7 @@ nav a.active {
 .card h3 {
     font-size: 1.25rem;
     margin-bottom: 12px;
+    color: var(--text-primary);
 }
 
 .card p {
