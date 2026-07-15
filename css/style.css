@@ -152,16 +152,24 @@ nav a:hover {
     background-color: rgba(0, 32, 74, 0.05);
 }
 
-/* POPRAWKA: Efekt najechania w trybie ciemnym (jasno-białe podświetlenie) */
+/* Efekt najechania w trybie ciemnym (jasno-białe podświetlenie) */
 [data-theme="dark"] nav a:hover {
     color: var(--text-primary);
     background-color: rgba(255, 255, 255, 0.12);
 }
 
+/* Aktywna podstrona (Zawsze zielone tło i czarny tekst) */
 nav a.active {
     color: #000000 !important;
-    background-color: var(--color-brainly-green);
+    background-color: var(--color-brainly-green) !important;
     box-shadow: 0 2px 8px rgba(153, 238, 96, 0.3);
+}
+
+/* POPRAWKA: Zapobiega ściemnieniu aktywnego zielonego przycisku przy najechaniu */
+nav a.active:hover {
+    color: #000000 !important;
+    background-color: var(--color-brainly-green) !important;
+    opacity: 0.95; /* Delikatny, estetyczny klikalny błysk */
 }
 
 .header-actions {
