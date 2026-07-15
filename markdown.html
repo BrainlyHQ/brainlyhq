@@ -290,10 +290,6 @@
                         id="discord-input" 
                         class="editor-textarea" 
                         placeholder="Type some cool markdown here..."
-                        oninput="updatePreview()"
-                        onkeyup="updatePreview()"
-                        onpaste="setTimeout(updatePreview, 1)"
-                        onselect="handleTextSelection()"
                     ></textarea>
                     <div id="floating-bubble" class="floating-tooltip">
                         <button class="tooltip-btn" onmousedown="applyQuickFormat('**', '**')">B</button>
@@ -314,7 +310,7 @@
                             <span class="discord-author-name">Guest</span>
                             <span class="discord-timestamp" id="discord-time">Today at 15:29</span>
                         </div>
-                        <div class="discord-text-rendered" id="discord-preview-output"></div>
+                        <div id="discord-preview-output" class="discord-text-rendered"></div>
                     </div>
                 </div>
             </div>
@@ -336,45 +332,6 @@
             timeElement.textContent = `Today at ${hours}:${minutes}`;
         }
         setCurrentTime();
-
-        function insertFormatting(prefix, suffix) {
-            const start = inputArea.selectionStart;
-            const end = inputArea.selectionEnd;
-            const text = inputArea.value;
-            const selectedText = text.substring(start, end);
-            const replacement = prefix + selectedText + suffix;
-            
-            inputArea.value = text.substring(0, start) + replacement + text.substring(end);
-            
-            inputArea.focus();
-            const cursorPosition = start + prefix.length + selectedText.length;
-            inputArea.setSelectionRange(cursorPosition, cursorPosition);
-            
-            updatePreview();
-        }
-
-        function handleTextSelection() {
-            const start = inputArea.selectionStart;
-            const end = inputArea.selectionEnd;
-            if (start !== end) {
-                floatingBubble.style.display = 'flex';
-                floatingBubble.style.top = '20px';
-                floatingBubble.style.left = '20px';
-            } else {
-                floatingBubble.style.display = 'none';
-            }
-        }
-
-        function applyQuickFormat(prefix, suffix) {
-            insertFormatting(prefix, suffix);
-            floatingBubble.style.display = 'none';
-        }
-
-        document.addEventListener('mousedown', function(e) {
-            if (!floatingBubble.contains(e.target) && e.target !== inputArea) {
-                floatingBubble.style.display = 'none';
-            }
-        });
 
         function parseDiscordMarkdown(text) {
             if (!text) return "";
