@@ -66,7 +66,7 @@ main {
     flex: 1;
 }
 
-/* Animacje przejść */
+/* Animacje przejść stron */
 @keyframes fadeInPage {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
@@ -205,7 +205,7 @@ nav a.active {
     pointer-events: none;
 }
 
-/* Naprawa rozmiaru awatara */
+/* Naprawa i sztywne ograniczenie rozmiaru awatara */
 .user-avatar-btn {
     overflow: hidden;
     padding: 0 !important;
@@ -226,7 +226,7 @@ nav a.active {
 }
 
 /* ==========================================
-   DROPDOWN (PROFIL)
+   DROPDOWN (MENU PROFILU)
    ========================================== */
 .profile-dropdown {
     position: absolute;
@@ -273,7 +273,7 @@ nav a.active {
 .header-green-icon {
     width: 16px;
     height: 16px;
-    color: var(--color-brainly-green) !important; /* Wszystkie ikony sekcji świecą na zielono */
+    color: var(--color-brainly-green) !important;
     flex-shrink: 0;
 }
 
@@ -305,6 +305,43 @@ nav a.active {
 
 [data-theme="dark"] .dropdown-link:hover {
     background-color: rgba(240, 243, 246, 0.08);
+}
+
+/* ==========================================
+   NOWE PRZYCISKI W RAMKACH (W DROPDOWNIE)
+   ========================================== */
+.panels-framed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 12px 8px 12px;
+}
+
+.panel-framed-btn {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.panel-framed-btn:hover {
+    background-color: var(--border-color);
+    border-color: var(--color-brainly-green);
+    color: var(--color-brainly-dark-blue);
+}
+
+[data-theme="dark"] .panel-framed-btn:hover {
+    color: #FFFFFF;
 }
 
 /* Sekcja wyboru języka */
@@ -381,7 +418,7 @@ nav a.active {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Szare, oryginalne ikony wewnątrz kafelków na dole */
+/* Szare ikony wektorowe wewnątrz kafelków */
 .promo-card .promo-tile-icon {
     width: 22px;
     height: 22px;
@@ -400,7 +437,7 @@ nav a.active {
     font-weight: 700;
 }
 
-/* Płynne skalowanie ikon wektorowych w przyciskach */
+/* Płynne skalowanie ikon wektorowych w przyciskach akcji */
 .action-btn svg {
     width: 20px;
     height: 20px;
@@ -409,6 +446,101 @@ nav a.active {
 
 .action-btn:hover svg {
     transform: rotate(15deg) scale(1.05);
+}
+
+/* ==========================================
+   FORMULARZ LOGOWANIA ADMIN / WYSZUKIWARKA
+   ========================================== */
+.admin-login-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 32px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.admin-login-container h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: var(--color-brainly-dark-blue);
+}
+
+[data-theme="dark"] .admin-login-container h2 {
+    color: var(--color-brainly-green);
+}
+
+.admin-login-container p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: var(--color-brainly-green);
+}
+
+.login-btn {
+    background-color: var(--color-brainly-green);
+    color: #000000;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 8px;
+}
+
+.login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(153, 238, 96, 0.4);
+}
+
+.login-error {
+    color: #ff4a4a;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 12px;
+    display: none;
 }
 
 /* ==========================================
