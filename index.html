@@ -5,41 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrainlyHQ - Home</title>
     
-    <!-- Dołączamy nasze style -->
+    <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
+    
     <link rel="stylesheet" href="css/style.css">
     
-    <!-- Skrypt motywu (wczytywany od razu, by uniknąć mignięcia tła) -->
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
-
-    <!-- Styl ukrywający oryginalną belkę Google Translate na górze strony (opcjonalnie dla estetyki) -->
-    <style>
-        .goog-te-banner-frame.skiptranslate {
-            display: none !important;
-        }
-        body {
-            top: 0px !important;
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Baner informacyjny (łatwy do wyłączenia w CSS) -->
-    <div class="announcement-banner">
-        🚀 Welcome to the new BrainlyHQ website! The fastest-growing Brainly medium.
-    </div>
+    <div id="google_translate_element"></div>
 
-    <!-- Główny Nagłówek -->
     <header>
         <div class="header-container">
-            <!-- Logo -->
             <div class="logo-container">
                 <a href="index.html">
                     <img src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" class="logo-img">
                 </a>
             </div>
 
-            <!-- Nawigacja (kod bezpośrednio po angielsku) -->
             <nav>
                 <ul>
                     <li><a href="index.html" class="active">Home</a></li>
@@ -51,55 +35,67 @@
                 </ul>
             </nav>
 
-            <!-- Akcje (Język, Motyw, Profil) -->
             <div class="header-actions">
-                
-                <!-- Kontener na Widget Tłumacza Google -->
-                <div id="google_translate_element"></div>
-
-                <!-- Przełącznik motywu -->
                 <button id="theme-toggle-btn" class="action-btn" aria-label="Toggle theme">
                     🌙
                 </button>
 
-                <!-- Ikonka Użytkownika -->
-                <button class="action-btn" aria-label="User Profile">
+                <button id="user-profile-btn" class="action-btn" aria-label="User Profile">
                     <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </button>
+
+                <div id="profile-dropdown" class="profile-dropdown">
+                    <div class="dropdown-header">
+                        <h4>BrainlyHQ Guest</h4>
+                        <p>Welcome to our platform!</p>
+                    </div>
+                    
+                    <div class="lang-dropdown-container">
+                        <div class="lang-dropdown-label">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Favicon_2025.svg" alt="Google Translate">
+                            <span>Language / Język</span>
+                        </div>
+                        <select id="custom-lang-select" class="custom-lang-select">
+                            <option value="en">English (US)</option>
+                            <option value="pl">Polski (PL)</option>
+                            <option value="id">Indonesian (ID)</option>
+                            <option value="fr">Français (FR)</option>
+                            <option value="ru">Русский (RU)</option>
+                            <option value="es">Español (ES)</option>
+                            <option value="pt">Português (PT)</option>
+                            <option value="ro">Română (RO)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Główna zawartość strony (Hero section) -->
     <main>
         <section style="max-width: 800px; margin: 80px auto; text-align: center; padding: 20px;">
-            <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px; color: var(--color-brainly-dark-blue);">
+            <h1 style="font-size: 3.2rem; font-weight: 900; margin-bottom: 20px; color: var(--color-brainly-dark-blue); line-height: 1.1;">
                 Official BrainlyHQ Hub
             </h1>
-            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 30px;">
+            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto;">
                 Where passion for learning meets technology and community. Discover our moderating tools and grow with us!
             </p>
-            <a href="contact.html" style="display: inline-block; background-color: var(--color-brainly-green); color: #000; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(153, 238, 96, 0.4); transition: transform 0.2s ease;">
+            <a href="contact.html" class="cta-btn" style="display: inline-block; background-color: var(--color-brainly-green); color: #000; padding: 14px 36px; border-radius: 30px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(153, 238, 96, 0.4); transition: transform 0.2s ease;">
                 Join Us
             </a>
         </section>
     </main>
 
-    <!-- Stopka -->
     <footer>
         <p>© BrainlyHQ - All rights reserved.</p>
     </footer>
 
-    <!-- SKRYPT INICJALIZACYJNY GOOGLE TRANSLATE -->
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
-                // Ograniczamy listę języków do tych wybranych przez Ciebie:
-                // id = Indonezyjski, fr = Francuski, ru = Rosyjski, en = Angielski, pl = Polski, es = Hiszpański, pt = Portugalski, ro = Rumuński
                 includedLanguages: 'en,pl,id,fr,ru,es,pt,ro',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false
