@@ -7,16 +7,16 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .markdown-container {
+        .markdown-page-wrapper {
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 24px;
+            margin: 0 auto;
+            padding: 60px 24px;
         }
         .editor-workspace {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            margin-top: 30px;
+            margin-top: 40px;
             align-items: stretch;
         }
         .editor-panel, .preview-panel {
@@ -250,6 +250,9 @@
             .editor-workspace {
                 grid-template-columns: 1fr;
             }
+            .markdown-page-wrapper {
+                padding: 40px 24px;
+            }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -260,9 +263,9 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <main class="markdown-container">
+    <main class="markdown-page-wrapper">
         <h1 class="content-title">Discord Markdown Sandbox</h1>
-        <p class="content-lead">
+        <p class="content-lead" style="margin-bottom: 0;">
             Write your messages, format them like a pro, and instantly see exactly how they will appear in Discord chat channels.
         </p>
         <div class="editor-workspace">
@@ -286,7 +289,7 @@
                     <textarea 
                         id="discord-input" 
                         class="editor-textarea" 
-                        placeholder="Type some cool markdown here... Highlight text to trigger the quick formatting menu!"
+                        placeholder="Type some cool markdown here..."
                         oninput="updatePreview()"
                         onkeyup="updatePreview()"
                         onpaste="setTimeout(updatePreview, 1)"
@@ -311,9 +314,7 @@
                             <span class="discord-author-name">Guest</span>
                             <span class="discord-timestamp" id="discord-time">Today at 15:29</span>
                         </div>
-                        <div class="discord-text-rendered" id="discord-preview-output">
-                            Type something on the left side to preview the beautiful output here!
-                        </div>
+                        <div class="discord-text-rendered" id="discord-preview-output"></div>
                     </div>
                 </div>
             </div>
@@ -342,9 +343,13 @@
             const text = inputArea.value;
             const selectedText = text.substring(start, end);
             const replacement = prefix + selectedText + suffix;
+            
             inputArea.value = text.substring(0, start) + replacement + text.substring(end);
+            
             inputArea.focus();
-            inputArea.setSelectionRange(start + prefix.length, start + prefix.length + selectedText.length);
+            const cursorPosition = start + prefix.length + selectedText.length;
+            inputArea.setSelectionRange(cursorPosition, cursorPosition);
+            
             updatePreview();
         }
 
@@ -372,7 +377,7 @@
         });
 
         function parseDiscordMarkdown(text) {
-            if (!text.trim()) return "Type something on the left side to preview the beautiful output here!";
+            if (!text) return "";
             let html = text;
             html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             html = html.replace(/
