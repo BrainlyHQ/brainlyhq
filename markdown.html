@@ -6,23 +6,252 @@
     <title>BrainlyHQ - Discord Markdown</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
-    
     <style>
-        .markdown-page-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 60px 24px;
+        .markdown-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
         }
-        
-        .markdown-guide-title {
-            color: var(--color-brainly-green) !important;
-            font-size: 2.5rem;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 8px;
+        .editor-workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 30px;
+            align-items: stretch;
+        }
+        .editor-panel, .preview-panel {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            min-height: 500px;
+        }
+        .editor-header {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        [data-theme="dark"] .editor-header {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        .toolbar-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--text-primary);
+            padding: 6px 10px;
+            font-family: var(--font-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+        .toolbar-btn:hover {
+            background-color: rgba(0, 32, 74, 0.05);
+            border-color: var(--color-brainly-green);
+        }
+        [data-theme="dark"] .toolbar-btn:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+        .editor-textarea-wrapper {
+            position: relative;
+            flex: 1;
+            display: flex;
+        }
+        .editor-textarea {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.95rem;
+            padding: 20px;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+        }
+        .floating-tooltip {
+            position: absolute;
+            background-color: #111214;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 4px;
+            display: none;
+            gap: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 100;
+        }
+        .tooltip-btn {
+            background: transparent;
+            border: none;
+            color: #dbdee1;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .tooltip-btn:hover {
+            background-color: #5865f2;
+            color: #ffffff;
+        }
+        .preview-panel {
+            background-color: #313338 !important;
+            color: #dbdee1;
+            padding: 24px;
+            font-family: 'gg sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        [data-theme="light"] .preview-panel {
+            background-color: #313338 !important;
+        }
+        .discord-message {
+            display: flex;
+            gap: 16px;
+        }
+        .discord-avatar-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: #2b2d31;
+        }
+        .discord-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .discord-message-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: left;
+            width: 100%;
+        }
+        .discord-author-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .discord-author-name {
+            color: #f2f3f5;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .discord-author-name:hover {
+            text-decoration: underline;
+        }
+        .discord-timestamp {
+            color: #949ba4;
+            font-size: 0.75rem;
+        }
+        .discord-text-rendered {
+            font-size: 1rem;
+            line-height: 1.375rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: #dbdee1;
+        }
+        .discord-text-rendered h1 {
+            font-size: 1.5rem;
+            line-height: 1.875rem;
+            margin: 16px 0 8px 0;
+            color: #f2f3f5;
+            font-weight: 700;
+        }
+        .discord-text-rendered h2 {
+            font-size: 1.25rem;
+            line-height: 1.625rem;
+            margin: 16px 0 8px 0;
+            color: #f2f3f5;
+            font-weight: 700;
+        }
+        .discord-text-rendered h3 {
+            font-size: 1rem;
+            line-height: 1.375rem;
+            margin: 16px 0 8px 0;
+            color: #f2f3f5;
+            font-weight: 700;
+        }
+        .discord-text-rendered p {
+            margin: 4px 0;
+        }
+        .discord-inline-code {
+            background: #1e1f22;
+            padding: .2em .4em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            color: #e3e5e8;
+        }
+        .discord-code-block {
+            background: #1e1f22;
+            border: 1px solid #2b2d31;
+            border-radius: 4px;
+            padding: 8px;
+            margin-top: 6px;
+            font-family: Consolas, monospace;
+            font-size: 0.875rem;
+            color: #deede6;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .discord-blockquote {
+            display: flex;
+            margin: 4px 0;
+        }
+        .discord-blockquote-line {
+            width: 4px;
+            border-radius: 4px;
+            background-color: #4e5058;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .discord-blockquote-content {
+            color: #949ba4;
+        }
+        .discord-spoiler {
+            background-color: #1e1f22;
+            border-radius: 3px;
+            color: transparent;
+            cursor: pointer;
+            padding: 0 2px;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .discord-spoiler.revealed {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #dbdee1;
+        }
+        .discord-spoiler:not(.revealed):hover {
+            background-color: #2e3035;
+        }
+        .discord-list {
+            margin: 8px 0 8px 20px;
+            padding-left: 0;
+        }
+        .discord-list-item {
+            list-style-type: disc;
+            margin-bottom: 4px;
+        }
+        @media (max-width: 900px) {
+            .editor-workspace {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 </head>
@@ -31,25 +260,113 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <main class="markdown-page-wrapper">
-        <h1 class="markdown-guide-title">Discord Markdown Guide</h1>
+    <main class="markdown-container">
+        <h1 class="content-title">Discord Markdown Sandbox</h1>
         <p class="content-lead">
-            Learn how to format your text, structure code blocks, and utilize advanced formatting techniques on Discord.
+            Write your messages, format them like a pro, and instantly see exactly how they will appear in Discord chat channels.
         </p>
-
-        <div class="grid-layout">
-            <div class="card">
-                <h3>Text Formatting</h3>
-                <p>Structure your standard chat messages with bold, italics, underlines, and strike-throughs easily using Markdown symbols.</p>
+        <div class="editor-workspace">
+            <div class="editor-panel">
+                <div class="editor-header">
+                    <button class="toolbar-btn" onclick="insertFormatting('# ', '')">H1</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('## ', '')">H2</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('### ', '')">H3</button>
+                    <div style="width: 1px; height: 18px; background: var(--border-color); margin: 0 4px;"></div>
+                    <button class="toolbar-btn" onclick="insertFormatting('> ', '')">Quote</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('- ', '')">List</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('||', '||')">Spoiler</button>
+                    <button class="toolbar-btn" onclick="insertFormatting('```\n', '\n```')">Code Block</button>
+                </div>
+                <div class="editor-textarea-wrapper">
+                    <textarea 
+                        id="discord-input" 
+                        class="editor-textarea" 
+                        placeholder="Type some cool markdown here... Highlight text to trigger the quick formatting menu!"
+                        oninput="updatePreview()"
+                        onselect="handleTextSelection()"
+                    ></textarea>
+                    <div id="floating-bubble" class="floating-tooltip">
+                        <button class="tooltip-btn" onmousedown="applyQuickFormat('**', '**')">B</button>
+                        <button class="tooltip-btn" onmousedown="applyQuickFormat('*', '*')">I</button>
+                        <button class="tooltip-btn" onmousedown="applyQuickFormat('__', '__')">U</button>
+                        <button class="tooltip-btn" onmousedown="applyQuickFormat('~~', '~~')">S</button>
+                        <button class="tooltip-btn" onmousedown="applyQuickFormat('`', '`')">&lt;&gt;</button>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <h3>Code Blocks</h3>
-                <p>Make your programming code readable or use advanced syntax highlighting for JSON, Python, CSS, and other scripting languages.</p>
+            <div class="preview-panel">
+                <div class="discord-message">
+                    <div class="discord-avatar-wrapper">
+                        <img id="preview-avatar" class="discord-avatar" src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    </div>
+                    <div class="discord-message-content">
+                        <div class="discord-author-info">
+                            <span class="discord-author-name">Astronaut</span>
+                            <span class="discord-timestamp" id="discord-time">Today at 15:29</span>
+                        </div>
+                        <div class="discord-text-rendered" id="discord-preview-output">
+                            Type something on the left side to preview the beautiful output here!
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
-</body>
-</html>
+    <script>
+        const inputArea = document.getElementById('discord-input');
+        const outputArea = document.getElementById('discord-preview-output');
+        const floatingBubble = document.getElementById('floating-bubble');
+        const timeElement = document.getElementById('discord-time');
+
+        function setCurrentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            timeElement.textContent = `Today at ${hours}:${minutes}`;
+        }
+        setCurrentTime();
+
+        function insertFormatting(prefix, suffix) {
+            const start = inputArea.selectionStart;
+            const end = inputArea.selectionEnd;
+            const text = inputArea.value;
+            const selectedText = text.substring(start, end);
+            const replacement = prefix + selectedText + suffix;
+            inputArea.value = text.substring(0, start) + replacement + text.substring(end);
+            inputArea.focus();
+            inputArea.setSelectionRange(start + prefix.length, start + prefix.length + selectedText.length);
+            updatePreview();
+        }
+
+        function handleTextSelection() {
+            const start = inputArea.selectionStart;
+            const end = inputArea.selectionEnd;
+            if (start !== end) {
+                floatingBubble.style.display = 'flex';
+                floatingBubble.style.top = '20px';
+                floatingBubble.style.left = '20px';
+            } else {
+                floatingBubble.style.display = 'none';
+            }
+        }
+
+        function applyQuickFormat(prefix, suffix) {
+            insertFormatting(prefix, suffix);
+            floatingBubble.style.display = 'none';
+        }
+
+        document.addEventListener('mousedown', function(e) {
+            if (!floatingBubble.contains(e.target) && e.target !== inputArea) {
+                floatingBubble.style.display = 'none';
+            }
+        });
+
+        function parseDiscordMarkdown(text) {
+            if (!text.trim()) return "Type something on the left side to preview the beautiful output here!";
+            let html = text;
+            html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            html = html.replace(/
+http://googleusercontent.com/immersive_entry_chip/0
