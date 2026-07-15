@@ -483,3 +483,105 @@ footer {
     margin-top: 12px;
     display: none; /* Domyślnie ukryte, włączane przez JS */
 }
+
+/* ==========================================
+   WIZUALNE USTAWIENIA AWATARÓW I PROMO
+   ========================================== */
+
+/* Podgląd aktywnego awatara na przycisku głównym */
+.user-avatar-btn {
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+.active-avatar-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Kontener wyboru awatarów */
+.avatar-settings-container {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.avatar-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.avatar-option {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.avatar-option:hover {
+    transform: scale(1.15);
+}
+
+.avatar-option.selected {
+    border-color: var(--color-brainly-green);
+    box-shadow: 0 0 8px rgba(153, 238, 96, 0.5);
+}
+
+/* Sekcja szybkich linków (Promo) */
+.promo-links-container {
+    padding: 12px 12px 6px 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.promo-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.promo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brainly-green);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.promo-img-link {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.promo-card span {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
