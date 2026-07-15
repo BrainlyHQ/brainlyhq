@@ -146,13 +146,16 @@ nav a {
     display: inline-block;
 }
 
+/* Efekt najechania w trybie jasnym (delikatna szarość) */
 nav a:hover {
     color: var(--text-primary);
     background-color: rgba(0, 32, 74, 0.05);
 }
 
+/* POPRAWKA: Efekt najechania w trybie ciemnym (jasno-białe podświetlenie) */
 [data-theme="dark"] nav a:hover {
-    background-color: rgba(240, 243, 246, 0.08);
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 nav a.active {
@@ -547,13 +550,11 @@ nav a.active {
     border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 24px;
-    /* Dodana płynna tranzycja dla obramowania */
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card:hover {
     transform: translateY(-4px);
-    /* Zmiana koloru obramowania na zielony przy najechaniu */
     border-color: var(--color-brainly-green);
     box-shadow: 0 8px 20px rgba(0,0,0,0.04);
 }
