@@ -35,7 +35,7 @@ const translations = {
     fr: {
         "nav-home": "Accueil", "nav-products": "Produits", "nav-mission": "Mission", "nav-support": "Support", "nav-tools": "Outils", "nav-contact": "Contact",
         "welcome-guest": "Bienvenue sur notre plateforme !", "admin-panel": "Panel Admin",
-        "hero-title": "Hub Officiel BrainlyHQ", "hero-subtitle": "Où la passion d'apprendre rencontre la technologie et la communauté.", "hero-cta": "Rejoignez-nous",
+        "hero-title": "Hub Officiel BrainlyHQ", "hero-subtitle": "Où la passion d'apprendre rencontre la technologie et la communauté.", "hero-cta": "Reignez-nous",
         "prod-title": "Nos Produits", "prod-lead": "Découvrez les plateformes innovantes créées par notre équipe.",
         "mission-title": "Notre Mission", "mission-lead": "Nous croyons en une éducation accessible et collaborative pour tous.",
         "support-title": "Centre de Support", "support-lead": "Besoin d'aide ? Notre équipe est toujours là pour vous.",
@@ -85,7 +85,7 @@ const translations = {
 };
 
 // ==========================================
-// INICJALIZACJA STRONY (ZASYSANIE PLIKÓW HTML)
+// INICJALIZACJA STRONY (WSTRZYKIWANIE HTML)
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     Promise.all([
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (headerPlaceholder) headerPlaceholder.innerHTML = headerHtml;
         if (footerPlaceholder) footerPlaceholder.innerHTML = footerHtml;
 
-        // Tutaj odpalamy wszystkie funkcjonalności po tym, jak nagłówek się załadował!
+        // Odpalenie funkcjonalności po wczytaniu nagłówka i stopki
         initNavigationHighlight();
         initThemeSystem();
         initProfileDropdown();
@@ -110,10 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// FUNKCJE POMOCNICZE (DEFINIOWANE OSOBNO)
+// SYSTEMY STRONY (FUNKCJE POMOCNICZE)
 // ==========================================
 
-// 1. Podświetlanie aktywnej podstrony
+// 1. Aktywne linki w nawigacji
 function initNavigationHighlight() {
     const path = window.location.pathname.split("/").pop() || "index.html";
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
@@ -136,45 +136,11 @@ function initThemeSystem() {
     }
 }
 
-// 3. Dropdown profilu (Awatary i Promo)
+// 3. Obsługa dropdownu profilu (Otwieranie / Zamykanie)
 function initProfileDropdown() {
     const userBtn = document.getElementById('user-profile-btn');
     const dropdown = document.getElementById('profile-dropdown');
-    const defaultIcon = document.getElementById('default-user-icon');
-    const activeAvatarImg = document.getElementById('active-avatar-img');
-    const avatarOptions = document.querySelectorAll('.avatar-option');
 
-    // Wczytanie awatara z localStorage
-    const savedAvatar = localStorage.getItem('user-avatar');
-    if (savedAvatar) {
-        applyAvatar(savedAvatar);
-    }
-
-    // Obsługa wyboru awatara
-    avatarOptions.forEach(opt => {
-        const avatarName = opt.getAttribute('data-avatar');
-        
-        if (savedAvatar === avatarName) {
-            opt.classList.add('selected');
-        }
-
-        opt.addEventListener('click', () => {
-            avatarOptions.forEach(o => o.classList.remove('selected'));
-            opt.classList.add('selected');
-            localStorage.setItem('user-avatar', avatarName);
-            applyAvatar(avatarName);
-        });
-    });
-
-    function applyAvatar(avatarName) {
-        if (defaultIcon && activeAvatarImg) {
-            defaultIcon.style.display = 'none';
-            activeAvatarImg.src = `assets/${avatarName}`;
-            activeAvatarImg.style.display = 'block';
-        }
-    }
-
-    // Otwieranie/Zamykanie dropdownu
     if (userBtn && dropdown) {
         userBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -189,7 +155,7 @@ function initProfileDropdown() {
     }
 }
 
-// 4. "Magic Translate" - Lokalny system językowy
+// 4. "Magic Translate" - System językowy
 function initLanguageSystem() {
     const langSelect = document.getElementById('custom-lang-select');
     let currentLang = localStorage.getItem('lang') || 'en';
@@ -216,7 +182,7 @@ function applyMagicTranslations(lang) {
     });
 }
 
-// 5. Animacje płynnych przejść między podstronami
+// 5. Płynne przejścia między podstronami (Fade-out)
 function initPageTransitions() {
     const localLinks = document.querySelectorAll('nav a, .logo-container a, .dropdown-links a');
     localLinks.forEach(link => {
