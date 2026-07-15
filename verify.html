@@ -12,7 +12,16 @@
         .verify-page-wrapper {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 60px 24px; /* Dokładnie 60px od góry i 60px od stopki */
+            padding: 60px 24px;
+        }
+
+        /* Główny nagłówek podstrony - dumnie zielony */
+        .verify-page-title {
+            color: var(--color-brainly-green) !important;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 8px;
         }
 
         .verification-container {
@@ -20,7 +29,7 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 24px 0;
-            margin-top: 40px; /* Stały odstęp między opisem a kwadratami */
+            margin-top: 40px;
         }
 
         .verification-column {
@@ -32,6 +41,14 @@
             border-radius: 24px;
             padding: 36px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.03);
+        }
+
+        /* Dynamiczny podtytuł lewej kolumny */
+        .column-sub-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-primary); /* Reaguje na Dark/Light Mode */
         }
 
         .verification-column.result-column {
@@ -153,15 +170,13 @@
     <header id="header-placeholder"></header>
 
     <main class="verify-page-wrapper">
-        <h1 class="content-title" style="text-align: center; margin-bottom: 8px;">Staff Authentication</h1>
-        <p class="content-lead" style="text-align: center; margin-bottom: 0;">Verify the identity of active BrainlyHQ administrators and moderators to avoid phishing or impersonation scams.</p>
+        <h1 class="verify-page-title">Staff Authentication</h1>
+        <p class="content-lead">Verify the identity of active BrainlyHQ administrators and moderators to avoid phishing or impersonation scams.</p>
 
         <div class="verification-container">
             
             <div class="verification-column">
-                <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; color: var(--color-brainly-dark-blue);">
-                    Verify Moderator Identity
-                </h2>
+                <h2 class="column-sub-title">Verify Moderator Identity</h2>
                 <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px; line-height: 1.5;">
                     Enter any known detail of the user (their Discord Nickname, User Tag, or Discord ID) below to perform a security query.
                 </p>
