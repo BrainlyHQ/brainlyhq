@@ -393,31 +393,5 @@
     </main>
 
     <footer id="footer-placeholder"></footer>
-
-    <script>
-        // Czekamy na pełne załadowanie drzewa DOM strony przed przypisaniem zdarzeń
-        document.addEventListener('DOMContentLoaded', () => {
-            const inputArea = document.getElementById('discord-input');
-            const outputArea = document.getElementById('discord-preview-output');
-            const floatingBubble = document.getElementById('floating-bubble');
-            const timeElement = document.getElementById('discord-time');
-
-            function setCurrentTime() {
-                const now = new Date();
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                timeElement.textContent = `Today at ${hours}:${minutes}`;
-            }
-            setCurrentTime();
-
-            // Bezpieczny parser przetwarzający czysty tekst na HTML zgodny z Discordem
-            function parseDiscordMarkdown(text) {
-                if (!text) return "";
-                let html = text;
-                
-                // Ucieczka przed tagami HTML w celu zabezpieczenia przed XSS
-                html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                
-                // 1. Bloki kodu
-                html = html.replace(/
-http://googleusercontent.com/immersive_entry_chip/0
+</body>
+</html>
