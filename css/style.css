@@ -239,7 +239,7 @@ nav a.active {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     display: none;
     flex-direction: column;
-    padding: 12px;
+    padding: 12px 0; /* Zredukowany padding pionowy */
     z-index: 1100;
     transform: translateY(10px);
     transition: transform 0.2s ease, opacity 0.2s ease;
@@ -255,69 +255,49 @@ nav a.active {
 }
 
 .dropdown-header {
-    padding: 8px 12px 10px 12px;
+    padding: 4px 16px 10px 16px; /* Zmniejszony górny padding */
     border-bottom: 1px solid var(--border-color);
 }
 
 .dropdown-header h4 {
     font-size: 0.9rem;
     font-weight: 700;
+    text-align: left; /* Wymuszenie wyrównania do lewej */
 }
 
 .dropdown-header p {
     font-size: 0.75rem;
     color: var(--text-secondary);
+    text-align: left;
 }
 
 /* ZIELONE IKONY NAGŁÓWKÓW W DROPDOWNIE */
 .header-green-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     color: var(--color-brainly-green) !important;
     flex-shrink: 0;
 }
 
-/* Sekcja linków akcji (PANELS) */
+/* Sekcja PANELS */
 .dropdown-links {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 8px 0;
+    padding: 10px 0 6px 0; /* Bardzo ciasny padding */
     border-bottom: 1px solid var(--border-color);
 }
 
-.dropdown-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 12px;
-    color: var(--text-primary);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-}
-
-.dropdown-link:hover {
-    background-color: rgba(0, 32, 74, 0.05);
-}
-
-[data-theme="dark"] .dropdown-link:hover {
-    background-color: rgba(240, 243, 246, 0.08);
-}
-
-/* PIONOWE PRZYCISKI W RAMKACH (PANEL CONTROL) */
+/* PIONOWE PRZYCISKI W RAMKACH (PŁASKIE I RÓWNE) */
 .panels-framed-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 6px 12px 10px 12px;
+    gap: 6px; /* Mały odstęp */
+    padding: 4px 16px; /* Marginesy boczne */
 }
 
 .panel-framed-btn {
     width: 100%;
-    padding: 10px 12px;
+    padding: 7px 12px; /* Zmniejszona wysokość kafelka */
     border-radius: 8px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-secondary);
@@ -325,10 +305,11 @@ nav a.active {
     text-decoration: none;
     font-family: var(--font-primary);
     font-weight: 600;
-    font-size: 0.85rem;
-    text-align: left;
+    font-size: 0.82rem;
+    text-align: left; /* Blokuje środkowanie, wyrównuje do lewej */
     display: flex;
     align-items: center;
+    justify-content: flex-start; /* Dosunięcie tekstu do lewej */
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -337,7 +318,7 @@ nav a.active {
     background-color: var(--border-color);
     border-color: var(--color-brainly-green);
     color: var(--color-brainly-dark-blue);
-    padding-left: 16px; /* Nowoczesne przesunięcie */
+    padding-left: 15px; /* Minimalne przesunięcie dla interakcji */
 }
 
 [data-theme="dark"] .panel-framed-btn:hover {
@@ -346,41 +327,42 @@ nav a.active {
 
 /* Sekcja wyboru języka */
 .lang-dropdown-container {
-    padding: 10px 12px;
+    padding: 10px 16px; /* Wyrównane do boków */
     border-bottom: 1px solid var(--border-color);
 }
 
 .lang-dropdown-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--text-secondary);
     margin-bottom: 6px;
     display: flex;
     align-items: center;
     gap: 6px;
+    text-align: left;
 }
 
 .custom-lang-select {
     width: 100%;
-    padding: 8px 12px;
+    padding: 7px 12px; /* Taka sama wysokość jak przyciski wyżej */
     border-radius: 8px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-secondary);
     color: var(--text-primary);
     font-family: var(--font-primary);
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     cursor: pointer;
     outline: none;
 }
 
 /* Sekcja QUICK LINKS */
 .promo-links-container {
-    padding: 10px 12px 4px 12px;
+    padding: 10px 16px 4px 16px;
 }
 
 .settings-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--text-secondary);
     margin-bottom: 6px;
@@ -389,6 +371,7 @@ nav a.active {
     display: flex;
     align-items: center;
     gap: 6px;
+    text-align: left;
 }
 
 .promo-links-grid {
