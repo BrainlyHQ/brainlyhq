@@ -28,7 +28,6 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.03);
         }
 
-        /* Right column specific styled dashed border box */
         .verification-column.result-column {
             border: 2px dashed var(--border-color);
             background-color: transparent;
@@ -43,7 +42,6 @@
             border-color: rgba(255, 255, 255, 0.15);
         }
 
-        /* Active verification border highlights */
         .result-column.checking {
             border-color: var(--color-brainly-green);
             background-color: rgba(153, 238, 96, 0.02);
@@ -59,15 +57,14 @@
             background-color: rgba(211, 47, 47, 0.03);
         }
 
-        /* Circular CSS Spinner */
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border-color);
-            border-top: 4px solid var(--color-brainly-green);
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--color-brainly-green);
             border-radius: 50%;
             margin: 20px auto;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
             display: none;
         }
 
@@ -76,12 +73,13 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Status & ID Badge Typography */
         .status-badge {
-            font-size: 1.1rem;
-            font-weight: 800;
+            font-size: 1rem;
+            font-weight: 700;
             margin-bottom: 15px;
             display: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .moderator-card {
@@ -92,12 +90,25 @@
             border-radius: 16px;
             padding: 20px;
             margin-top: 20px;
-            animation: fadeIn 0.4s ease forwards;
+            animation: fadeIn 0.3s ease forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Spójna, jednolita typografia w wizytówce */
+        .card-data-line {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .card-data-line strong {
+            font-weight: 600;
+            color: var(--text-secondary);
         }
 
         .id-badge {
@@ -108,28 +119,22 @@
             padding: 6px 12px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            font-size: 0.9rem;
-            font-weight: bold;
+            font-size: 0.88rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .placeholder-text {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.5;
+            font-weight: 500;
         }
 
-        /* Responsiveness for smaller screens using block fallback */
         @media (max-width: 768px) {
-            .verification-container {
-                display: block;
-            }
-            .verification-column {
-                display: block;
-                width: 100%;
-                margin-bottom: 24px;
-            }
+            .verification-container { display: block; }
+            .verification-column { display: block; width: 100%; margin-bottom: 24px; }
         }
     </style>
 
@@ -148,52 +153,53 @@
         <div class="verification-container">
             
             <div class="verification-column">
-                <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; color: var(--color-brainly-dark-blue);">
+                <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; color: var(--color-brainly-dark-blue);">
                     Verify Moderator Identity
                 </h2>
-                <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 24px; line-height: 1.5;">
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px; line-height: 1.5;">
                     Enter any known detail of the user (their Discord Nickname, User Tag, or Discord ID) below to perform a security query.
                 </p>
 
                 <div class="login-form">
                     <div class="form-group">
                         <label for="mod-search-input">User Nickname, Tag, or ID</label>
-                        <input type="text" id="mod-search-input" class="form-input" placeholder="e.g., Oskar, uniquelygaurab, 9170393... ">
+                        <input type="text" id="mod-search-input" class="form-input" placeholder="Enter credentials">
                     </div>
                     <button id="verify-submit-btn" class="login-btn" style="width: 100%;">Perform Query</button>
                 </div>
             </div>
 
             <div id="result-box" class="verification-column result-column">
+                
                 <div id="idle-state">
-                    <svg class="header-green-icon" style="width: 48px; height: 48px; margin-bottom: 15px; color: var(--text-secondary) !important;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <svg class="header-green-icon" style="width: 40px; height: 40px; margin-bottom: 12px; color: var(--text-secondary) !important;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zM9 7a3 3 0 0 1 6 0v3H9V7zm3 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
                     </svg>
                     <p class="placeholder-text" id="status-instruction">
                         Waiting for query input...<br>
-                        <span style="font-size: 0.8rem; opacity: 0.7;">Fill out the form on the left to verify credentials.</span>
+                        <span style="font-size: 0.78rem; opacity: 0.65;">Fill out the form on the left to verify credentials.</span>
                     </p>
                 </div>
 
                 <div id="loading-state" style="display: none;">
                     <div class="spinner" id="loading-spinner"></div>
-                    <p class="placeholder-text" style="font-weight: 700; margin-top: 10px;" id="verification-progress">
+                    <p class="placeholder-text" style="font-weight: 600; margin-top: 10px;" id="verification-progress">
                         Initializing secure database lookup...
                     </p>
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">Time remaining: <span id="countdown-timer">5</span>s</p>
+                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Time remaining: <span id="countdown-timer">3</span>s</p>
                 </div>
 
                 <div id="final-state" style="display: none;">
                     <div id="status-badge-element" class="status-badge"></div>
                     
                     <div id="mod-details-card" class="moderator-card">
-                        <div style="font-size: 0.72rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+                        <div style="font-size: 0.7rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
                             Verified Staff Identity Card
                         </div>
-                        <div style="font-size: 1rem; font-weight: 700; margin-bottom: 4px;" id="card-nickname">Nickname: -</div>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;" id="card-usertag">User Tag: -</div>
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px;">
-                            <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 2px;">DISCORD ID</span>
+                        <div class="card-data-line" id="card-nickname"><strong>Nickname:</strong> -</div>
+                        <div class="card-data-line" id="card-usertag"><strong>User Tag:</strong> -</div>
+                        <div style="margin-top: 10px; padding-top: 6px;">
+                            <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 2px;">DISCORD ID</span>
                             <div id="card-discordid" class="id-badge">000000000000</div>
                         </div>
                     </div>
@@ -211,7 +217,6 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // Official Database of BrainlyHQ Moderators
         const STAFF_DATABASE = [
             { nickname: "159Oskar378", usertag: "_1oskar2_", discordId: "969273113021923350" },
             { nickname: "ajr111", usertag: "a_j_r_uttam", discordId: "917039383067103242" },
@@ -238,18 +243,15 @@
             const inputField = document.getElementById('mod-search-input');
             const submitBtn = document.getElementById('verify-submit-btn');
             
-            // Containers & Boxes
             const resultBox = document.getElementById('result-box');
             const idleState = document.getElementById('idle-state');
             const loadingState = document.getElementById('loading-state');
             const finalState = document.getElementById('final-state');
             
-            // Loading elements
             const spinner = document.getElementById('loading-spinner');
             const progressText = document.getElementById('verification-progress');
             const timerSpan = document.getElementById('countdown-timer');
             
-            // Final elements
             const statusBadge = document.getElementById('status-badge-element');
             const modCard = document.getElementById('mod-details-card');
             const cardNickname = document.getElementById('card-nickname');
@@ -270,7 +272,6 @@
                 const query = inputField.value.trim().toLowerCase();
                 if (!query) return;
 
-                // 1. Prepare states
                 idleState.style.display = 'none';
                 finalState.style.display = 'none';
                 loadingState.style.display = 'block';
@@ -279,22 +280,18 @@
                 resultBox.className = "verification-column result-column checking";
                 progressText.innerText = "Connecting to Secure Staff API...";
                 
-                // Disable button during progress
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Querying...";
 
-                let timeRemaining = 5;
+                let timeRemaining = 3; // Skrócone do 3 sekund
                 timerSpan.innerText = timeRemaining;
 
-                // Subtle simulated step changes during 5 seconds
                 const stepMessages = [
-                    "Querying local dataset...",
-                    "Checking cryptography tokens...",
+                    "Querying dataset...",
                     "Parsing database schemas...",
-                    "Finalizing verification sequence..."
+                    "Finalizing sequence..."
                 ];
 
-                // 2. Clear previous interval if active
                 if (verificationTimer) clearInterval(verificationTimer);
 
                 verificationTimer = setInterval(() => {
@@ -302,7 +299,7 @@
                     timerSpan.innerText = timeRemaining;
                     
                     if (timeRemaining > 0) {
-                        progressText.innerText = stepMessages[5 - timeRemaining - 1] || "Resolving details...";
+                        progressText.innerText = stepMessages[3 - timeRemaining - 1] || "Resolving...";
                     } else {
                         clearInterval(verificationTimer);
                         submitBtn.disabled = false;
@@ -316,7 +313,6 @@
                 loadingState.style.display = 'none';
                 finalState.style.display = 'block';
 
-                // Look up in database (by Nickname, Tag, or Discord ID)
                 const matchedMod = STAFF_DATABASE.find(mod => 
                     mod.nickname.toLowerCase() === query ||
                     mod.usertag.toLowerCase() === query ||
@@ -327,9 +323,8 @@
                     resultBox.className = "verification-column result-column verified";
                     statusBadge.style.display = 'block';
                     statusBadge.style.color = "var(--color-brainly-green)";
-                    statusBadge.innerHTML = "✅ Identity Verified";
+                    statusBadge.innerText = "Identity Verified";
                     
-                    // Populate & reveal ID Card
                     modCard.style.display = 'block';
                     cardNickname.innerHTML = `<strong>Nickname:</strong> ${matchedMod.nickname}`;
                     cardUsertag.innerHTML = `<strong>User Tag:</strong> @${matchedMod.usertag}`;
@@ -338,18 +333,17 @@
                     resultBox.className = "verification-column result-column failed";
                     statusBadge.style.display = 'block';
                     statusBadge.style.color = "#ff4a4a";
-                    statusBadge.innerHTML = "❌ Imposter Warning";
+                    statusBadge.innerText = "Imposter Warning";
                     
                     modCard.style.display = 'none';
-                    // Show custom warning inside card container place
+                    
                     const warningText = document.createElement('div');
                     warningText.id = "temp-warning";
                     warningText.style.margin = "20px 0";
                     warningText.style.color = "var(--text-secondary)";
-                    warningText.style.fontSize = "0.9rem";
-                    warningText.innerHTML = `The user "<strong>${inputField.value}</strong>" could not be verified. They are <strong>NOT</strong> an official BrainlyHQ team member. please proceed with extreme caution.`;
+                    warningText.style.fontSize = "0.88rem";
+                    warningText.innerHTML = `The user "${inputField.value}" could not be verified. They are NOT an official BrainlyHQ team member.`;
                     
-                    // Remove previous temp warning if exist
                     const oldWarning = finalState.querySelector('#temp-warning');
                     if (oldWarning) oldWarning.remove();
                     
@@ -364,7 +358,6 @@
                 loadingState.style.display = 'none';
                 finalState.style.display = 'none';
                 
-                // Clear any leftover temp warnings
                 const oldWarning = finalState.querySelector('#temp-warning');
                 if (oldWarning) oldWarning.remove();
             }
