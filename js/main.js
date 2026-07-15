@@ -9,7 +9,7 @@ const translations = {
         "prod-title": "Our Products", "prod-lead": "Discover innovative platforms and utilities crafted by our team.",
         "mission-title": "Our Mission", "mission-lead": "We believe in making education accessible and collaborative for every student.",
         "support-title": "Support Center", "support-lead": "Need help or have questions? Our support staff is always here for you.",
-        "tools-title": "Moderator Tools", "tools-lead": "A suite of utilities designed to optimize moderation tasks and safety.",
+        "tools-title": "Community Utilities", "tools-lead": "A versatile suite of tools built for both our server members and staff. Designed to enhance your Discord experience, streamline formatting, and keep our community safe.",
         "contact-title": "Get in Touch", "contact-lead": "Have any business inquiries or suggestions? Reach out to us."
     },
     pl: {
@@ -19,8 +19,8 @@ const translations = {
         "prod-title": "Nasze Produkty", "prod-lead": "Odkryj innowacyjne platformy i narzędzia stworzone przez nasz zespół.",
         "mission-title": "Nasza Misja", "mission-lead": "Wierzymy, że edukacja powinna być dostępna i angażująca dla każdego ucznia.",
         "support-title": "Centrum Pomocy", "support-lead": "Potrzebujesz pomocy lub masz pytania? Nasz zespół służy pomocą.",
-        "tools-title": "Narzędzia Moderatorskie", "tools-lead": "Zestaw narzędzi zaprojektowany do optymalizacji pracy moderatorów i bezpieczeństwa.",
-        "contact-title": "Skontaktuj się", "contact-lead": "Masz pytania biznesowe lub sugestie? Napisz bezpośrednio do nas."
+        "tools-title": "Narzędzia Społecznościowe", "tools-lead": "Wszechstronny zestaw narzędzi stworzony zarówno dla członków serwera, jak i personelu. Zaprojektowany, aby ułatwić korzystanie z Discorda.",
+        "contact-title": "Skontaktuj się", "contact-lead": "Masz pytania biznesowe lub sugestie? Napisz bezpośrednio do nous."
     },
     id: {
         "nav-home": "Beranda", "nav-products": "Produk", "nav-mission": "Misi", "nav-support": "Bantuan", "nav-tools": "Alat", "nav-contact": "Kontak",
@@ -29,7 +29,7 @@ const translations = {
         "prod-title": "Produk Kami", "prod-lead": "Temukan platform inovatif yang dibuat oleh tim kami.",
         "mission-title": "Misi Kami", "mission-lead": "Kami percaya dalam membuat pendidikan dapat diakses oleh semua siswa.",
         "support-title": "Pusat Bantuan", "support-lead": "Butuh bantuan? Staf dukungan kami selalu ada untuk Anda.",
-        "tools-title": "Alat Moderator", "tools-lead": "Kumpulan alat yang dirancang untuk mengoptimalkan tugas moderasi.",
+        "tools-title": "Alat Komunitas", "tools-lead": "Kumpulan alat yang dirancang untuk mengoptimalkan tugas moderasi.",
         "contact-title": "Hubungi Kami", "contact-lead": "Punya pertanyaan bisnis atau saran? Hubungi kami."
     },
     fr: {
@@ -39,7 +39,7 @@ const translations = {
         "prod-title": "Nos Produits", "prod-lead": "Découvrez les plateformes innovantes créées par notre équipe.",
         "mission-title": "Notre Mission", "mission-lead": "Nous croyons en une éducation accessible et collaborative pour tous.",
         "support-title": "Centre de Support", "support-lead": "Besoin d'aide ? Notre équipe est toujours là pour vous.",
-        "tools-title": "Outils de Modération", "tools-lead": "Une suite d'outils conçus pour optimiser la modération.",
+        "tools-title": "Outils Communautaires", "tools-lead": "Une suite d'outils conçus pour optimiser la modération.",
         "contact-title": "Contactez-nous", "contact-lead": "Des questions ou des suggestions ? Contactez-nous."
     },
     ru: {
@@ -49,7 +49,7 @@ const translations = {
         "prod-title": "Наши продукты", "prod-lead": "Откройте для себя инновационные платформы нашей команды.",
         "mission-title": "Наша миссия", "mission-lead": "Мы верим, что образование должно быть доступным для каждого.",
         "support-title": "Центр поддержки", "support-lead": "Нужна помощь? Наша поддержка всегда готова помочь.",
-        "tools-title": "Инструменты модератора", "tools-lead": "Набор утилит для оптимизации модерации и безопасности.",
+        "tools-title": "Инструменты сообщества", "tools-lead": "Набор утилит для оптимизации модерации и безопасности.",
         "contact-title": "Связаться с нами", "contact-lead": "Есть предложения или вопросы? Напишите нам."
     },
     es: {
@@ -59,7 +59,7 @@ const translations = {
         "prod-title": "Nuestros Productos", "prod-lead": "Descubre las plataformas innovadoras diseñadas por nuestro equipo.",
         "mission-title": "Nuestra Misión", "mission-lead": "Creemos en hacer la educación accesible para todos los estudiantes.",
         "support-title": "Centro de Soporte", "support-lead": "¿Necesitas ayuda? Nuestro equipo está a tu disposición.",
-        "tools-title": "Herramientas de Moderador", "tools-lead": "Utilidades diseñadas para optimizar la moderación y seguridad.",
+        "tools-title": "Herramientas de la Comunidad", "tools-lead": "Utilidades diseñadas para optimizar la moderación y seguridad.",
         "contact-title": "Contacto", "contact-lead": "¿Tienes alguna propuesta o sugerencia? Contáctanos."
     },
     pt: {
@@ -69,7 +69,7 @@ const translations = {
         "prod-title": "Nossos Produtos", "prod-lead": "Descubra plataformas inovadoras desenvolvidas pela nossa equipe.",
         "mission-title": "Nossa Missão", "mission-lead": "Acreditamos em tornar a educação acessível para todos os alunos.",
         "support-title": "Centro de Suporte", "support-lead": "Precisa de ajuda? Nosso suporte está sempre disponível.",
-        "tools-title": "Ferramentas de Moderador", "tools-lead": "Utilitários desenvolvidos para otimizar as tarefas de moderação.",
+        "tools-title": "Ferramentas do Moderador", "tools-lead": "Utilitários desenvolvidos para otimizar as tarefas de moderação.",
         "contact-title": "Contato", "contact-lead": "Tem alguma proposta comercial ou sugestão? Entre em contato."
     },
     ro: {
@@ -79,7 +79,7 @@ const translations = {
         "prod-title": "Produsele Noastre", "prod-lead": "Descoperă platformele inovatoare create de echipa noastră.",
         "mission-title": "Misiunea Noastră", "mission-lead": "Credem în facilitarea accesului la educație pentru fiecare elev.",
         "support-title": "Centru de Asistență", "support-lead": "Ai nevoie de ajutor? Echipa noastră îți stă la dispoziție.",
-        "tools-title": "Instrumente Moderator", "tools-lead": "O suită de utilitare concepute pentru optimizarea moderării.",
+        "tools-title": "Instrumente Comunitate", "tools-lead": "O suită de utilitare concepute pentru optimizarea moderării.",
         "contact-title": "Contact", "contact-lead": "Ai întrebări de afaceri sau sugestii? Contactează-ne direct."
     }
 };
@@ -99,12 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (headerPlaceholder) headerPlaceholder.innerHTML = headerHtml;
         if (footerPlaceholder) footerPlaceholder.innerHTML = footerHtml;
 
-        // Odpalenie funkcjonalności po wczytaniu nagłówka i stopki
         initNavigationHighlight();
         initThemeSystem();
         initProfileDropdown();
         initLanguageSystem();
         initPageTransitions();
+        
+        // KLUCZOWE: Inicjalizujemy edytor Markdown zaraz po tym, jak nagłówek i stopka zostaną wstrzyknięte do DOM
+        initDiscordMarkdownSandbox();
         
     }).catch(err => console.error("Error loading components: ", err));
 });
@@ -113,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // SYSTEMY STRONY (FUNKCJE POMOCNICZE)
 // ==========================================
 
-// 1. Aktywne linki w nawigacji
 function initNavigationHighlight() {
     const path = window.location.pathname.split("/").pop() || "index.html";
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
@@ -122,7 +123,6 @@ function initNavigationHighlight() {
     }
 }
 
-// 2. Obsługa systemu motywów (Ciemny / Jasny)
 function initThemeSystem() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
@@ -136,7 +136,6 @@ function initThemeSystem() {
     }
 }
 
-// 3. Obsługa dropdownu profilu (Otwieranie / Zamykanie)
 function initProfileDropdown() {
     const userBtn = document.getElementById('user-profile-btn');
     const dropdown = document.getElementById('profile-dropdown');
@@ -155,7 +154,6 @@ function initProfileDropdown() {
     }
 }
 
-// 4. "Magic Translate" - System językowy
 function initLanguageSystem() {
     const langSelect = document.getElementById('custom-lang-select');
     let currentLang = localStorage.getItem('lang') || 'en';
@@ -182,7 +180,6 @@ function applyMagicTranslations(lang) {
     });
 }
 
-// 5. Płynne przejścia między podstronami (Fade-out)
 function initPageTransitions() {
     const localLinks = document.querySelectorAll('nav a, .logo-container a, .dropdown-links a');
     localLinks.forEach(link => {
@@ -197,4 +194,187 @@ function initPageTransitions() {
             });
         }
     });
+}
+
+// ==========================================
+// SILNIK EDYTORA DISCORD MARKDOWN (LIVE)
+// ==========================================
+function initDiscordMarkdownSandbox() {
+    const inputArea = document.getElementById('discord-input');
+    const outputArea = document.getElementById('discord-preview-output');
+    const floatingBubble = document.getElementById('floating-bubble');
+    const timeElement = document.getElementById('discord-time');
+
+    if (!inputArea || !outputArea) return;
+
+    function setCurrentTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        if (timeElement) {
+            timeElement.textContent = `Today at ${hours}:${minutes}`;
+        }
+    }
+    setCurrentTime();
+
+    function parseDiscordMarkdown(text) {
+        if (!text) return "";
+        let html = text;
+        
+        html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        
+        html = html.replace(/```([\s\S]*?)```/g, '<div class="discord-code-block">$1</div>');
+        html = html.replace(/^###\s+(.*)$/gim, '<h3>$1</h3>');
+        html = html.replace(/^##\s+(.*)$/gim, '<h2>$1</h2>');
+        html = html.replace(/^#\s+(.*)$/gim, '<h1>$1</h1>');
+        html = html.replace(/^&gt;\s+(.*)$/gim, '<div class="discord-blockquote"><span class="discord-blockquote-line"></span><span class="discord-blockquote-content">$1</span></div>');
+        html = html.replace(/^-\s+(.*)$/gim, '<ul class="discord-list"><li class="discord-list-item">$1</li></ul>');
+        html = html.replace(/`([^`\n]+)`/g, '<span class="discord-inline-code">$1</span>');
+        html = html.replace(/\|\|([\s\S]*?)\|\|/g, '<span class="discord-spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
+        
+        html = html.replace(/\*\*\*([\s\S]*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+        html = html.replace(/\*\*([\s\S]*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*([\s\S]*?)\*/g, '<em>$1</em>');
+        html = html.replace(/_([\s\S]*?)_/g, '<em>$1</em>');
+        html = html.replace(/__([\s\S]*?)__/g, '<u>$1</u>');
+        html = html.replace(/~~([\s\S]*?)~~/g, '<del>$1</del>');
+        
+        return html;
+    }
+
+    function updatePreview() {
+        outputArea.innerHTML = parseDiscordMarkdown(inputArea.value);
+    }
+
+    function insertFormatting(prefix, suffix) {
+        const start = inputArea.selectionStart;
+        const end = inputArea.selectionEnd;
+        const text = inputArea.value;
+        const selectedText = text.substring(start, end);
+        const replacement = prefix + selectedText + suffix;
+        
+        inputArea.value = text.substring(0, start) + replacement + text.substring(end);
+        
+        inputArea.focus();
+        const cursorStart = start + prefix.length;
+        const cursorEnd = cursorStart + selectedText.length;
+        inputArea.setSelectionRange(cursorStart, cursorEnd);
+        
+        updatePreview();
+    }
+
+    function getSelectionCoords(textarea) {
+        const start = textarea.selectionStart;
+        const text = textarea.value.substring(0, start);
+        
+        const mirror = document.createElement('div');
+        const style = window.getComputedStyle(textarea);
+        
+        for (const prop of style) {
+            mirror.style[prop] = style[prop];
+        }
+        
+        mirror.style.position = 'absolute';
+        mirror.style.visibility = 'hidden';
+        mirror.style.whiteSpace = 'pre-wrap';
+        mirror.style.wordBreak = 'break-word';
+        mirror.style.top = '0';
+        mirror.style.left = '0';
+        mirror.style.width = textarea.offsetWidth + 'px';
+        mirror.style.height = 'auto';
+        
+        mirror.textContent = text;
+        
+        const marker = document.createElement('span');
+        marker.textContent = '|';
+        mirror.appendChild(marker);
+        
+        document.body.appendChild(mirror);
+        
+        const rect = marker.getBoundingClientRect();
+        const textareaRect = textarea.getBoundingClientRect();
+        
+        const top = rect.top - textareaRect.top + textarea.scrollTop;
+        const left = rect.left - textareaRect.left;
+        
+        document.body.removeChild(mirror);
+        
+        return { top, left };
+    }
+
+    function handleTextSelection() {
+        const start = inputArea.selectionStart;
+        const end = inputArea.selectionEnd;
+        if (start !== end && floatingBubble) {
+            try {
+                const coords = getSelectionCoords(inputArea);
+                floatingBubble.style.display = 'flex';
+                
+                let targetTop = coords.top - 40;
+                let targetLeft = coords.left;
+                
+                if (targetTop < 10) targetTop = 10;
+                if (targetLeft + floatingBubble.offsetWidth > inputArea.offsetWidth) {
+                    targetLeft = inputArea.offsetWidth - floatingBubble.offsetWidth - 10;
+                }
+                
+                floatingBubble.style.top = targetTop + 'px';
+                floatingBubble.style.left = targetLeft + 'px';
+            } catch (e) {
+                floatingBubble.style.display = 'flex';
+                floatingBubble.style.top = '10px';
+                floatingBubble.style.left = '10px';
+            }
+        } else if (floatingBubble) {
+            floatingBubble.style.display = 'none';
+        }
+    }
+
+    const toolbarButtons = document.querySelectorAll('.toolbar-btn');
+    toolbarButtons.forEach(button => {
+        button.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            const prefix = button.getAttribute('data-prefix');
+            const suffix = button.getAttribute('data-suffix');
+            if (prefix !== null && suffix !== null) {
+                insertFormatting(prefix, suffix);
+            }
+        });
+    });
+
+    const tooltipButtons = document.querySelectorAll('.tooltip-btn');
+    tooltipButtons.forEach(button => {
+        button.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            const prefix = button.getAttribute('data-prefix');
+            const suffix = button.getAttribute('data-suffix');
+            if (prefix !== null && suffix !== null) {
+                insertFormatting(prefix, suffix);
+                if (floatingBubble) floatingBubble.style.display = 'none';
+            }
+        });
+    });
+
+    inputArea.addEventListener('input', updatePreview);
+    inputArea.addEventListener('keyup', updatePreview);
+    inputArea.addEventListener('change', updatePreview);
+    inputArea.addEventListener('select', handleTextSelection);
+
+    document.addEventListener('mousedown', (e) => {
+        if (floatingBubble && !floatingBubble.contains(e.target) && e.target !== inputArea) {
+            floatingBubble.style.display = 'none';
+        }
+    });
+
+    try {
+        const storedAvatar = localStorage.getItem('selectedAvatar');
+        const previewAvatar = document.getElementById('preview-avatar');
+        if (storedAvatar && previewAvatar) {
+            previewAvatar.src = storedAvatar;
+        }
+    } catch (e) {
+        console.warn("Storage access restricted:", e);
+    }
+
+    updatePreview();
 }
