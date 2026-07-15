@@ -1,10 +1,12 @@
 <div class="header-container">
+    <!-- Logo -->
     <div class="logo-container">
         <a href="index.html">
             <img src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" class="logo-img">
         </a>
     </div>
 
+    <!-- Nawigacja -->
     <nav>
         <ul>
             <li><a href="index.html" id="nav-home" data-translate="nav-home">Home</a></li>
@@ -16,24 +18,30 @@
         </ul>
     </nav>
 
+    <!-- Akcje (Motyw, Profil) -->
     <div class="header-actions">
+        <!-- Przełącznik motywu -->
         <button id="theme-toggle-btn" class="action-btn" aria-label="Toggle theme">
             🌙
         </button>
 
-        <button id="user-profile-btn" class="action-btn" aria-label="User Profile">
-            <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <!-- Przycisk profilu (teraz może zawierać obrazek awatara) -->
+        <button id="user-profile-btn" class="action-btn user-avatar-btn" aria-label="User Profile">
+            <svg id="default-user-icon" class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
+            <img id="active-avatar-img" class="active-avatar-preview" src="" alt="Avatar" style="display: none;">
         </button>
 
+        <!-- Menu Profilu (Dropdown) -->
         <div id="profile-dropdown" class="profile-dropdown">
             <div class="dropdown-header">
                 <h4>BrainlyHQ Guest</h4>
                 <p data-translate="welcome-guest">Welcome to our platform!</p>
             </div>
             
+            <!-- LINKI AKCJI (Panel Admina) -->
             <div class="dropdown-links">
                 <a href="admin.html" class="dropdown-link">
                     <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -42,7 +50,21 @@
                     <span data-translate="admin-panel">Admin Panel</span>
                 </a>
             </div>
+
+            <!-- SEKCJA 1: USTAWIENIA PROFILU (Wybór awatara) -->
+            <div class="avatar-settings-container">
+                <div class="settings-label">👤 Choose Avatar / Wybierz awatar</div>
+                <div class="avatar-picker-grid">
+                    <img class="avatar-option" src="assets/astronaut_2.png" alt="astronaut_2" data-avatar="astronaut_2.png">
+                    <img class="avatar-option" src="assets/genius_2.png" alt="genius_2" data-avatar="genius_2.png">
+                    <img class="avatar-option" src="assets/genius_7.png" alt="genius_7" data-avatar="genius_7.png">
+                    <img class="avatar-option" src="assets/human_7.png" alt="human_7" data-avatar="human_7.png">
+                    <img class="avatar-option" src="assets/human_15.png" alt="human_15" data-avatar="human_15.png">
+                    <img class="avatar-option" src="assets/Student 39.png" alt="Student 39" data-avatar="Student 39.png">
+                </div>
+            </div>
             
+            <!-- SEKCJA 2: JĘZYK -->
             <div class="lang-dropdown-container">
                 <div class="lang-dropdown-label">
                     <img src="assets/google-logo.png" alt="Google Translate">
@@ -58,6 +80,23 @@
                     <option value="pt">Português (PT)</option>
                     <option value="ro">Română (RO)</option>
                 </select>
+            </div>
+
+            <!-- SEKCJA 3: DOŁĄCZ / POBIERZ (PROMO) -->
+            <div class="promo-links-container">
+                <div class="settings-label">🔗 Quick Links / Szybkie linki</div>
+                <div class="promo-links-grid">
+                    <!-- Link Discord -->
+                    <a href="https://discord.com/invite/PDMDnYDaG5" target="_blank" class="promo-card" title="Join Discord">
+                        <img src="assets/discord_PNG3.png" alt="Discord" class="promo-img-link">
+                        <span>Discord</span>
+                    </a>
+                    <!-- Link Brainly Creatives -->
+                    <a href="https://chromewebstore.google.com/detail/brainly-creatives/pgfbplkcnljoadikklfopgpdmehjhbic?hl=pl&utm_source=ext_sidebar" target="_blank" class="promo-card" title="Download Extension">
+                        <img src="assets/BRAINLY CREATIVES.png" alt="Brainly Creatives" class="promo-img-link">
+                        <span>Creatives</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
