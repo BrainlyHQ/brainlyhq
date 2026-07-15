@@ -29,10 +29,10 @@
    ZMIENNE CSS - ROZJAŚNIONY MOTYW CIEMNY
    ========================================== */
 [data-theme="dark"] {
-    --bg-primary: #1E2530;         /* Elegancki, jaśniejszy grafit */
-    --bg-secondary: #293241;       /* Jaśniejsze tło kart i dropdownów */
+    --bg-primary: #1E2530;
+    --bg-secondary: #293241;
     --text-primary: #F5F7FA;
-    --text-secondary: #ADC1D6;     /* Bardzo wyraźny i czytelny tekst */
+    --text-secondary: #ADC1D6;
     --border-color: rgba(255, 255, 255, 0.15);
     --header-bg: rgba(30, 37, 48, 0.85);
     --footer-bg: #141920;
@@ -120,7 +120,6 @@ header {
 }
 
 [data-theme="dark"] .logo-img {
-    /* Logo na ciemnym tle jest teraz delikatnie rozświetlone */
     filter: brightness(1.2) contrast(1.05);
 }
 
@@ -207,7 +206,7 @@ nav a.active {
 }
 
 /* ==========================================
-   DROPDOWN & ADMIN PANEL
+   DROPDOWN & ADMIN PANEL (PROFIL)
    ========================================== */
 .profile-dropdown {
     position: absolute;
@@ -236,9 +235,8 @@ nav a.active {
 }
 
 .dropdown-header {
-    padding: 8px 12px 12px 12px;
+    padding: 8px 12px 10px 12px;
     border-bottom: 1px solid var(--border-color);
-    margin-bottom: 8px;
 }
 
 .dropdown-header h4 {
@@ -251,11 +249,20 @@ nav a.active {
     color: var(--text-secondary);
 }
 
+/* SPÓJNE ZIELONE IKONY */
+.admin-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-brainly-green); /* Ujednolicony zielony dla wszystkich ikon w dropdownie */
+    transition: transform 0.2s ease;
+}
+
+/* Sekcja linków akcji (Admin Panel) - skorygowany odstęp */
 .dropdown-links {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding: 8px 0;
+    padding: 6px 0; /* Zmniejszony, równy odstęp pionowy */
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -263,7 +270,7 @@ nav a.active {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 12px;
+    padding: 6px 12px; /* Skorygowany, czystszy padding */
     color: var(--text-primary);
     text-decoration: none;
     font-size: 0.85rem;
@@ -280,14 +287,14 @@ nav a.active {
     background-color: rgba(240, 243, 246, 0.08);
 }
 
-.admin-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-brainly-green);
+.dropdown-link:hover .admin-icon {
+    transform: scale(1.08); /* Lekka interakcja ikony przy najechaniu */
 }
 
+/* Sekcja wyboru języka */
 .lang-dropdown-container {
-    padding: 12px 12px 8px 12px;
+    padding: 10px 12px; /* Wyrównany padding */
+    border-bottom: 1px solid var(--border-color); /* Dodane odcięcie na dole dla równego odstępu */
 }
 
 .lang-dropdown-label {
@@ -298,11 +305,6 @@ nav a.active {
     display: flex;
     align-items: center;
     gap: 6px;
-}
-
-.lang-dropdown-label img {
-    width: 16px;
-    height: 16px;
 }
 
 .custom-lang-select {
@@ -317,6 +319,74 @@ nav a.active {
     font-size: 0.85rem;
     cursor: pointer;
     outline: none;
+}
+
+/* Sekcja QUICK LINKS */
+.promo-links-container {
+    padding: 10px 12px 4px 12px; /* Dodany precyzyjny odstęp na górze pod polem języka */
+}
+
+.settings-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.promo-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.promo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-brainly-green);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.promo-card .admin-icon {
+    width: 22px; /* Większe, spójne wektory w kafelkach */
+    height: 22px;
+    margin-bottom: 6px;
+}
+
+.promo-card span {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* Płynne skalowanie ikon wektorowych w przyciskach */
+.action-btn svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.25s ease;
+}
+
+.action-btn:hover svg {
+    transform: rotate(15deg) scale(1.05);
+}
+
+.promo-card:hover .admin-icon {
+    color: var(--color-brainly-green);
+    transform: scale(1.08);
 }
 
 /* ==========================================
@@ -387,223 +457,4 @@ footer {
     font-weight: 500;
     color: var(--text-secondary);
     transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* ==========================================
-   STYLE PANELU ADMINA (LOGOWANIE)
-   ========================================== */
-.admin-login-container {
-    max-width: 400px;
-    margin: 80px auto;
-    padding: 32px;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-    text-align: center;
-}
-
-.admin-login-container h2 {
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin-bottom: 8px;
-    color: var(--color-brainly-dark-blue);
-}
-
-[data-theme="dark"] .admin-login-container h2 {
-    color: var(--color-brainly-green);
-}
-
-.admin-login-container p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 24px;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.form-group {
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.2s ease;
-}
-
-.form-input:focus {
-    border-color: var(--color-brainly-green);
-}
-
-.login-btn {
-    background-color: var(--color-brainly-green);
-    color: #000000;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    font-family: var(--font-primary);
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin-top: 8px;
-}
-
-.login-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(153, 238, 96, 0.4);
-}
-
-.login-error {
-    color: #ff4a4a;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-top: 12px;
-    display: none; /* Domyślnie ukryte, włączane przez JS */
-}
-
-/* ==========================================
-   WIZUALNE USTAWIENIA AWATARÓW I PROMO
-   ========================================== */
-
-/* Podgląd aktywnego awatara na przycisku głównym */
-.user-avatar-btn {
-    overflow: hidden;
-    padding: 0 !important;
-}
-
-.active-avatar-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-/* Kontener wyboru awatarów */
-.avatar-settings-container {
-    padding: 12px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.settings-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.avatar-picker-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 8px;
-}
-
-.avatar-option {
-    width: 100%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s ease;
-}
-
-.avatar-option:hover {
-    transform: scale(1.15);
-}
-
-.avatar-option.selected {
-    border-color: var(--color-brainly-green);
-    box-shadow: 0 0 8px rgba(153, 238, 96, 0.5);
-}
-
-/* Sekcja szybkich linków (Promo) */
-.promo-links-container {
-    padding: 12px 12px 6px 12px;
-    border-top: 1px solid var(--border-color);
-}
-
-.promo-links-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.promo-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 10px;
-    text-decoration: none;
-    color: var(--text-primary);
-    transition: all 0.2s ease;
-}
-
-.promo-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-brainly-green);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.promo-img-link {
-    height: 32px;
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 6px;
-}
-
-.promo-card span {
-    font-size: 0.75rem;
-    font-weight: 700;
-}
-
-/* Płynne skalowanie ikon wektorowych w przyciskach */
-.action-btn svg {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.25s ease;
-}
-
-.action-btn:hover svg {
-    transform: rotate(15deg) scale(1.05);
-}
-
-/* Kolorystyka wektorów w Quick Links */
-.promo-card svg {
-    color: var(--text-secondary);
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.promo-card:hover svg {
-    color: var(--color-brainly-green);
-    transform: scale(1.08);
 }
