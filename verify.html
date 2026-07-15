@@ -23,7 +23,7 @@
             padding: 16px;
             border-radius: 12px;
             font-weight: 700;
-            display: none; /* Domyślnie schowane */
+            display: none; /* Hidden by default */
         }
         .verified-status {
             background-color: rgba(153, 238, 96, 0.15);
@@ -51,18 +51,18 @@
     <main class="content-section">
         <div class="verify-box">
             <h1 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px; color: var(--color-brainly-dark-blue);">
-                Verify Moderator Tożsamość
+                Verify Moderator Identity
             </h1>
             <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 30px;">
-                Wpisz nick z Discorda, aby sprawdzić, czy użytkownik jest oficjalnym moderatorem sieci BrainlyHQ.
+                Enter a Discord username to verify if they are an official member of the BrainlyHQ moderation team.
             </p>
 
             <div class="login-form">
                 <div class="form-group">
-                    <label for="mod-username-input">Discord Nick / ID</label>
-                    <input type="text" id="mod-username-input" class="form-input" placeholder="Wpisz np. Oskar, Uttam, iVAZ...">
+                    <label for="mod-username-input">Discord Username / ID</label>
+                    <input type="text" id="mod-username-input" class="form-input" placeholder="Enter username (e.g., Oskar, Uttam, iVAZ...)">
                 </div>
-                <button id="verify-submit-btn" class="login-btn">Sprawdź status</button>
+                <button id="verify-submit-btn" class="login-btn">Check Status</button>
             </div>
 
             <div id="verify-output" class="verify-results"></div>
@@ -72,7 +72,7 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // LOKALNA BAZA DANYCH MODERATORÓW (Ręczna konfiguracja)
+        // Official list of moderators
         const OFFICIAL_MODERATORS = [
             "Oskar",
             "Uttam",
@@ -99,7 +99,7 @@
                     return;
                 }
 
-                // Sprawdzamy czy dany nick istnieje w bazie (bez względu na wielkość liter)
+                // Check database (case-insensitive)
                 const isFound = OFFICIAL_MODERATORS.some(mod => mod.toLowerCase() === query);
 
                 outputBox.style.display = 'block';
@@ -107,10 +107,10 @@
                 if (isFound) {
                     const originalName = OFFICIAL_MODERATORS.find(mod => mod.toLowerCase() === query);
                     outputBox.className = "verify-results verified-status";
-                    outputBox.innerHTML = `✅ ${originalName} jest oficjalnym moderatorem BrainlyHQ.`;
+                    outputBox.innerHTML = `✅ ${originalName} is an official BrainlyHQ Moderator.`;
                 } else {
                     outputBox.className = "verify-results unverified-status";
-                    outputBox.innerHTML = `❌ Użytkownik "${inputField.value}" nie figuruje w oficjalnej bazie moderatorów. Zachowaj ostrożność!`;
+                    outputBox.innerHTML = `❌ User "${inputField.value}" was not found in our staff database. Please stay cautious!`;
                 }
             }
         });
