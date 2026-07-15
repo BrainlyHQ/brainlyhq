@@ -202,7 +202,6 @@ function initPageTransitions() {
 function initDiscordMarkdownSandbox() {
     const inputArea = document.getElementById('discord-input');
     const outputArea = document.getElementById('discord-preview-output');
-    const floatingBubble = document.getElementById('floating-bubble');
     const timeElement = document.getElementById('discord-time');
 
     if (!inputArea || !outputArea) return;
@@ -224,6 +223,14 @@ function initDiscordMarkdownSandbox() {
         html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         
         html = html.replace(/```([\s\S]*?)```/g, '<div class="discord-code-block">$1</div>');
+        
+        html = html.replace(/^_\s+_\s*$/gim, '<span class="discord-spacer-line"></span>');
+        
+        // Zgodnie z wytycznymi: Pierwsze "-# " robi mały tekst, a kolejne "-# " w tej samej linii zostają jako tekst
+        html = html.replace(/^-#\s+([\s\S]*?)$/gim, (match, content) => {
+            return `<span class="discord-subtext">${content}</span>`;
+        });
+        
         html = html.replace(/^###\s+(.*)$/gim, '<h3>$1</h3>');
         html = html.replace(/^##\s+(.*)$/gim, '<h2>$1</h2>');
         html = html.replace(/^#\s+(.*)$/gim, '<h1>$1</h1>');
@@ -246,88 +253,50 @@ function initDiscordMarkdownSandbox() {
         outputArea.innerHTML = parseDiscordMarkdown(inputArea.value);
     }
 
-    function insertFormatting(prefix, suffix) {
+    // Zaawansowane wstawianie i usuwanie formatowania (Toggle/Cofanie akcji)
+    function toggleFormatting(prefix, suffix) {
         const start = inputArea.selectionStart;
         const end = inputArea.selectionEnd;
         const text = inputArea.value;
         const selectedText = text.substring(start, end);
-        const replacement = prefix + selectedText + suffix;
-        
-        inputArea.value = text.substring(0, start) + replacement + text.substring(end);
-        
-        inputArea.focus();
-        const cursorStart = start + prefix.length;
-        const cursorEnd = cursorStart + selectedText.length;
-        inputArea.setSelectionRange(cursorStart, cursorEnd);
+
+        // Przypadek 1: Jeśli tekst przed i za zaznaczeniem ma już te znaki (np. kliknięcie wewnątrz sformatowanego słowa)
+        const hasSurrounding = prefix && suffix &&
+            text.substring(start - prefix.length, start) === prefix &&
+            text.substring(end, end + suffix.length) === suffix;
+
+        // Przypadek 2: Jeśli samo zaznaczenie ma już w sobie te znaki na krańcach (np. zaznaczenie całego "**tekst**")
+        const isEnclosed = prefix && suffix && selectedText.startsWith(prefix) && selectedText.endsWith(suffix);
+
+        if (hasSurrounding) {
+            // Cofnij formatowanie (usuń znaki wokół)
+            inputArea.value = text.substring(0, start - prefix.length) + selectedText + text.substring(end + suffix.length);
+            inputArea.focus();
+            inputArea.setSelectionRange(start - prefix.length, end - prefix.length);
+        } else if (isEnclosed) {
+            // Cofnij formatowanie (usuń znaki z krańców zaznaczenia)
+            const unwrapped = selectedText.substring(prefix.length, selectedText.length - suffix.length);
+            inputArea.value = text.substring(0, start) + unwrapped + text.substring(end);
+            inputArea.focus();
+            inputArea.setSelectionRange(start, start + unwrapped.length);
+        } else {
+            // Brak formatowania: Nałóż je klasycznie
+            const replacement = prefix + selectedText + suffix;
+            inputArea.value = text.substring(0, start) + replacement + text.substring(end);
+            inputArea.focus();
+            
+            let newStart = start + prefix.length;
+            let newEnd = newStart + selectedText.length;
+            
+            // Jeśli nic nie było zaznaczone, postaw kursor w środku znaczników
+            if (start === end) {
+                newStart = start + prefix.length;
+                newEnd = newStart;
+            }
+            inputArea.setSelectionRange(newStart, newEnd);
+        }
         
         updatePreview();
-    }
-
-    function getSelectionCoords(textarea) {
-        const start = textarea.selectionStart;
-        const text = textarea.value.substring(0, start);
-        
-        const mirror = document.createElement('div');
-        const style = window.getComputedStyle(textarea);
-        
-        for (const prop of style) {
-            mirror.style[prop] = style[prop];
-        }
-        
-        mirror.style.position = 'absolute';
-        mirror.style.visibility = 'hidden';
-        mirror.style.whiteSpace = 'pre-wrap';
-        mirror.style.wordBreak = 'break-word';
-        mirror.style.top = '0';
-        mirror.style.left = '0';
-        mirror.style.width = textarea.offsetWidth + 'px';
-        mirror.style.height = 'auto';
-        
-        mirror.textContent = text;
-        
-        const marker = document.createElement('span');
-        marker.textContent = '|';
-        mirror.appendChild(marker);
-        
-        document.body.appendChild(mirror);
-        
-        const rect = marker.getBoundingClientRect();
-        const textareaRect = textarea.getBoundingClientRect();
-        
-        const top = rect.top - textareaRect.top + textarea.scrollTop;
-        const left = rect.left - textareaRect.left;
-        
-        document.body.removeChild(mirror);
-        
-        return { top, left };
-    }
-
-    function handleTextSelection() {
-        const start = inputArea.selectionStart;
-        const end = inputArea.selectionEnd;
-        if (start !== end && floatingBubble) {
-            try {
-                const coords = getSelectionCoords(inputArea);
-                floatingBubble.style.display = 'flex';
-                
-                let targetTop = coords.top - 40;
-                let targetLeft = coords.left;
-                
-                if (targetTop < 10) targetTop = 10;
-                if (targetLeft + floatingBubble.offsetWidth > inputArea.offsetWidth) {
-                    targetLeft = inputArea.offsetWidth - floatingBubble.offsetWidth - 10;
-                }
-                
-                floatingBubble.style.top = targetTop + 'px';
-                floatingBubble.style.left = targetLeft + 'px';
-            } catch (e) {
-                floatingBubble.style.display = 'flex';
-                floatingBubble.style.top = '10px';
-                floatingBubble.style.left = '10px';
-            }
-        } else if (floatingBubble) {
-            floatingBubble.style.display = 'none';
-        }
     }
 
     const toolbarButtons = document.querySelectorAll('.toolbar-btn');
@@ -337,20 +306,7 @@ function initDiscordMarkdownSandbox() {
             const prefix = button.getAttribute('data-prefix');
             const suffix = button.getAttribute('data-suffix');
             if (prefix !== null && suffix !== null) {
-                insertFormatting(prefix, suffix);
-            }
-        });
-    });
-
-    const tooltipButtons = document.querySelectorAll('.tooltip-btn');
-    tooltipButtons.forEach(button => {
-        button.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            const prefix = button.getAttribute('data-prefix');
-            const suffix = button.getAttribute('data-suffix');
-            if (prefix !== null && suffix !== null) {
-                insertFormatting(prefix, suffix);
-                if (floatingBubble) floatingBubble.style.display = 'none';
+                toggleFormatting(prefix, suffix);
             }
         });
     });
@@ -358,13 +314,6 @@ function initDiscordMarkdownSandbox() {
     inputArea.addEventListener('input', updatePreview);
     inputArea.addEventListener('keyup', updatePreview);
     inputArea.addEventListener('change', updatePreview);
-    inputArea.addEventListener('select', handleTextSelection);
-
-    document.addEventListener('mousedown', (e) => {
-        if (floatingBubble && !floatingBubble.contains(e.target) && e.target !== inputArea) {
-            floatingBubble.style.display = 'none';
-        }
-    });
 
     try {
         const storedAvatar = localStorage.getItem('selectedAvatar');
