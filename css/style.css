@@ -585,3 +585,24 @@ footer {
     font-size: 0.75rem;
     font-weight: 700;
 }
+/* Płynne skalowanie ikon wektorowych w przyciskach */
+.action-btn svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.25s ease;
+}
+
+.action-btn:hover svg {
+    transform: rotate(15deg) scale(1.05);
+}
+
+/* Kolorystyka wektorów w Quick Links */
+.promo-card svg {
+    color: var(--text-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.promo-card:hover svg {
+    color: var(--color-brainly-green);
+    transform: scale(1.08);
+}
