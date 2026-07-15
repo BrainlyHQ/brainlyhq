@@ -11,109 +11,19 @@
 </head>
 <body>
 
-    <div id="google_translate_element"></div>
-
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <a href="index.html">
-                    <img src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" class="logo-img">
-                </a>
-            </div>
-
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="mission.html">Mission</a></li>
-                    <li><a href="support.html" class="active">Support</a></li>
-                    <li><a href="tools.html">Tools</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-
-            <div class="header-actions">
-                <button id="theme-toggle-btn" class="action-btn" aria-label="Toggle theme">
-                    🌙
-                </button>
-
-                <button id="user-profile-btn" class="action-btn" aria-label="User Profile">
-                    <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </button>
-
-                <div id="profile-dropdown" class="profile-dropdown">
-                    <div class="dropdown-header">
-                        <h4>BrainlyHQ Guest</h4>
-                        <p>Welcome to our platform!</p>
-                    </div>
-                    
-                    <div class="dropdown-links">
-                        <a href="tools.html" class="dropdown-link">
-                            <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                            </svg>
-                            <span>Admin Panel</span>
-                        </a>
-                    </div>
-                    
-                    <div class="lang-dropdown-container">
-                        <div class="lang-dropdown-label">
-                            <img src="https://www.gstatic.com/images/branding/product/1x/translate_24dp.png" alt="Google Translate">
-                            <span>Language / Język</span>
-                        </div>
-                        <select id="custom-lang-select" class="custom-lang-select">
-                            <option value="en">English (US)</option>
-                            <option value="pl">Polski (PL)</option>
-                            <option value="id">Indonesian (ID)</option>
-                            <option value="fr">Français (FR)</option>
-                            <option value="ru">Русский (RU)</option>
-                            <option value="es">Español (ES)</option>
-                            <option value="pt">Português (PT)</option>
-                            <option value="ro">Română (RO)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <header id="header-placeholder"></header>
 
     <main class="content-section">
-        <h1 class="content-title">Support Center</h1>
-        <p class="content-lead">Need help or have questions about our community features? Our support staff is always here for you.</p>
+        <h1 class="content-title" data-translate="support-title">Support Center</h1>
+        <p class="content-lead" data-translate="support-lead">Need help or have questions about our community features? Our support staff is always here for you.</p>
         <div class="grid-layout">
-            <div class="card">
-                <h3>FAQ</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut iaculis eros. In elementum sem vel ex mollis hendrerit.</p>
-            </div>
-            <div class="card">
-                <h3>Submit a Ticket</h3>
-                <p>Vestibulum tempor, leo at accumsan porttitor, nisl sapien rhoncus felis, non tempor felis est sed sem.</p>
-            </div>
-            <div class="card">
-                <h3>Guidelines</h3>
-                <p>Mauris luctus scelerisque lacus ac ultrices. Duis vel feugiat tellus, sed imperdiet augue. Pellentesque pretium rhoncus.</p>
-            </div>
+            <div class="card"><h3>FAQ</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut iaculis eros. In elementum sem vel ex mollis hendrerit.</p></div>
+            <div class="card"><h3>Submit a Ticket</h3><p>Vestibulum tempor, leo at accumsan porttitor, nisl sapien rhoncus felis, non tempor felis est sed sem.</p></div>
+            <div class="card"><h3>Guidelines</h3><p>Mauris luctus scelerisque lacus ac ultrices. Duis vel feugiat tellus, sed imperdiet augue. Pellentesque pretium rhoncus.</p></div>
         </div>
     </main>
 
-    <footer>
-        <p>© BrainlyHQ - All rights reserved.</p>
-    </footer>
-
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,pl,id,fr,ru,es,pt,ro',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <footer id="footer-placeholder"></footer>
 
 </body>
 </html>
