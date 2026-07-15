@@ -81,32 +81,6 @@
             outline: none;
             line-height: 1.5;
         }
-        .floating-tooltip {
-            position: absolute;
-            background-color: #111214;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 4px;
-            display: none;
-            gap: 4px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            z-index: 100;
-        }
-        .tooltip-btn {
-            background: transparent;
-            border: none;
-            color: #dbdee1;
-            padding: 6px 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background 0.15s ease, color 0.15s ease;
-        }
-        .tooltip-btn:hover {
-            background-color: #5865f2;
-            color: #ffffff;
-        }
         .preview-panel {
             background-color: #313338 !important;
             color: #dbdee1;
@@ -192,6 +166,17 @@
         .discord-text-rendered p {
             margin: 4px 0;
         }
+        .discord-subtext {
+            font-size: 0.83rem;
+            color: #949ba4;
+            margin: 4px 0;
+            display: block;
+        }
+        .discord-spacer-line {
+            display: block;
+            height: 1.375rem;
+            content: "";
+        }
         .discord-inline-code {
             background: #1e1f22;
             padding: .2em .4em;
@@ -210,7 +195,7 @@
             font-family: Consolas, monospace;
             font-size: 0.875rem;
             color: #deede6;
-            white-space: pre;
+            white-space: pre-wrap;
             overflow-x: auto;
         }
         .discord-blockquote {
@@ -327,10 +312,12 @@
                     <button class="toolbar-btn" data-prefix="# " data-suffix="">H1</button>
                     <button class="toolbar-btn" data-prefix="## " data-suffix="">H2</button>
                     <button class="toolbar-btn" data-prefix="### " data-suffix="">H3</button>
+                    <button class="toolbar-btn" data-prefix="-# " data-suffix="">Subtext</button>
                     <button class="toolbar-btn" data-prefix="> " data-suffix="">Quote</button>
                     <button class="toolbar-btn" data-prefix="- " data-suffix="">List</button>
+                    <button class="toolbar-btn" data-prefix="_ _" data-suffix="">Spacer</button>
                     <button class="toolbar-btn" data-prefix="||" data-suffix="||">Spoiler</button>
-                    <button class="toolbar-btn" data-prefix="```\n" data-suffix="\n```">Code Block</button>
+                    <button class="toolbar-btn" data-prefix="```" data-suffix="```">Code Block</button>
                 </div>
                 <div class="editor-textarea-wrapper">
                     <textarea 
@@ -338,14 +325,6 @@
                         class="editor-textarea" 
                         placeholder="Type some cool markdown here..."
                     ></textarea>
-                    
-                    <div id="floating-bubble" class="floating-tooltip">
-                        <button class="tooltip-btn" data-prefix="**" data-suffix="**">B</button>
-                        <button class="tooltip-btn" data-prefix="*" data-suffix="*">I</button>
-                        <button class="tooltip-btn" data-prefix="__" data-suffix="__">U</button>
-                        <button class="tooltip-btn" data-prefix="~~" data-suffix="~~">S</button>
-                        <button class="tooltip-btn" data-prefix="`" data-suffix="`">&lt;&gt;</button>
-                    </div>
                 </div>
             </div>
             
@@ -369,9 +348,9 @@
             <h2 class="cheatsheet-title">Markdown Quick Reference</h2>
             <div class="cheatsheet-grid">
                 <div class="cheatsheet-card">
-                    <h4>Headers</h4>
-                    <p>Create headings by adding hashtags followed by space at the start of a line.</p>
-                    <code># Large Header<br>## Medium Header<br>### Small Header</code>
+                    <h4>Headers & Subtext</h4>
+                    <p>Add header hash symbols or the subtext command at the start of a line.</p>
+                    <code># Large Header<br>-# This is small subtext</code>
                 </div>
                 <div class="cheatsheet-card">
                     <h4>Basic Formatting</h4>
@@ -379,14 +358,14 @@
                     <code>**Bold Text**<br>*Italic Text*<br>__Underlined Text__<br>~~Strikethrough Text~~</code>
                 </div>
                 <div class="cheatsheet-card">
-                    <h4>Spoilers</h4>
-                    <p>Hide sensitive texts or jokes. Users can click the black bar on Discord to reveal it.</p>
-                    <code>||Click to reveal this secret!||</code>
+                    <h4>Spoilers & Spacers</h4>
+                    <p>Hide secret texts or insert an empty spacer line to make gaps between blocks.</p>
+                    <code>||Secret||<br>_ _</code>
                 </div>
                 <div class="cheatsheet-card">
                     <h4>Lists & Quotes</h4>
                     <p>Organize data with bullet points or high-priority inline blockquotes.</p>
-                    <code>- Bullet list item 1<br>- Bullet list item 2<br>&gt; This is an important quote block</code>
+                    <code>- Bullet list item 1<br>&gt; This is an important quote block</code>
                 </div>
             </div>
         </div>
