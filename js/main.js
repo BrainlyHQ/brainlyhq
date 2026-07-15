@@ -84,8 +84,10 @@ const translations = {
     }
 };
 
+// ==========================================
+// INICJALIZACJA STRONY (ZASYSANIE PLIKÓW HTML)
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. ŁADOWANIE NAGŁÓWKA I STOPKI
     Promise.all([
         fetch('components/header.html').then(res => res.text()),
         fetch('components/footer.html').then(res => res.text())
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (headerPlaceholder) headerPlaceholder.innerHTML = headerHtml;
         if (footerPlaceholder) footerPlaceholder.innerHTML = footerHtml;
 
-        // Inicjalizuj wszystkie funkcjonalności po załadowaniu kodu HTML
+        // Tutaj odpalamy wszystkie funkcjonalności po tym, jak nagłówek się załadował!
         initNavigationHighlight();
         initThemeSystem();
         initProfileDropdown();
@@ -107,7 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(err => console.error("Error loading components: ", err));
 });
 
-// Highlight aktywnego linku w nawigacji na podstawie nazwy pliku
+// ==========================================
+// FUNKCJE POMOCNICZE (DEFINIOWANE OSOBNO)
+// ==========================================
+
+// 1. Podświetlanie aktywnej podstrony
 function initNavigationHighlight() {
     const path = window.location.pathname.split("/").pop() || "index.html";
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
@@ -116,7 +122,7 @@ function initNavigationHighlight() {
     }
 }
 
-// Obsługa systemu motywów (Ciemny / Jasny)
+// 2. Obsługa systemu motywów (Ciemny / Jasny)
 function initThemeSystem() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
@@ -130,11 +136,45 @@ function initThemeSystem() {
     }
 }
 
-// Obsługa menu profilu (Dropdown)
+// 3. Dropdown profilu (Awatary i Promo)
 function initProfileDropdown() {
     const userBtn = document.getElementById('user-profile-btn');
     const dropdown = document.getElementById('profile-dropdown');
+    const defaultIcon = document.getElementById('default-user-icon');
+    const activeAvatarImg = document.getElementById('active-avatar-img');
+    const avatarOptions = document.querySelectorAll('.avatar-option');
 
+    // Wczytanie awatara z localStorage
+    const savedAvatar = localStorage.getItem('user-avatar');
+    if (savedAvatar) {
+        applyAvatar(savedAvatar);
+    }
+
+    // Obsługa wyboru awatara
+    avatarOptions.forEach(opt => {
+        const avatarName = opt.getAttribute('data-avatar');
+        
+        if (savedAvatar === avatarName) {
+            opt.classList.add('selected');
+        }
+
+        opt.addEventListener('click', () => {
+            avatarOptions.forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            localStorage.setItem('user-avatar', avatarName);
+            applyAvatar(avatarName);
+        });
+    });
+
+    function applyAvatar(avatarName) {
+        if (defaultIcon && activeAvatarImg) {
+            defaultIcon.style.display = 'none';
+            activeAvatarImg.src = `assets/${avatarName}`;
+            activeAvatarImg.style.display = 'block';
+        }
+    }
+
+    // Otwieranie/Zamykanie dropdownu
     if (userBtn && dropdown) {
         userBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -149,7 +189,7 @@ function initProfileDropdown() {
     }
 }
 
-// "Magic Translate" - Lokalny system językowy bez Google Translate
+// 4. "Magic Translate" - Lokalny system językowy
 function initLanguageSystem() {
     const langSelect = document.getElementById('custom-lang-select');
     let currentLang = localStorage.getItem('lang') || 'en';
@@ -176,7 +216,7 @@ function applyMagicTranslations(lang) {
     });
 }
 
-// Płynne animacje przejść między stronami
+// 5. Animacje płynnych przejść między podstronami
 function initPageTransitions() {
     const localLinks = document.querySelectorAll('nav a, .logo-container a, .dropdown-links a');
     localLinks.forEach(link => {
