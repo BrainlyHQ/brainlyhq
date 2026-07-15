@@ -1,1 +1,30 @@
+/* Stylizacja widgetu Google Translate, aby pasował do nagłówka */
+#google_translate_element {
+    display: inline-block;
+}
 
+.goog-te-gadget-simple {
+    background-color: transparent !important;
+    border: 1px solid var(--border-color) !important;
+    padding: 5px 8px !important;
+    border-radius: 5px !important;
+    font-family: var(--font-primary) !important;
+    font-size: 0.9rem !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center;
+}
+
+.goog-te-gadget-simple img {
+    display: none !important; /* Ukrywa małe logo Google wewnątrz przycisku */
+}
+
+.goog-te-gadget-simple span {
+    color: var(--text-primary) !important;
+    font-weight: 600;
+}
+
+/* Ukrycie dodatkowych ramek Google, jeśli się pojawią */
+.goog-te-menu-value span {
+    border-left: none !important;
+}
