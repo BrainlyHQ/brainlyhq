@@ -9,24 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Pomocnicza funkcja wymuszająca odpowiedni filtr na logo w zależności od motywu
- */
-function syncLogoFilter() {
-    const logoImg = document.getElementById("header-logo-img");
-    if (!logoImg) return;
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-    
-    if (currentTheme === "light") {
-        // Wymuszenie czarnego logo w trybie jasnym
-        logoImg.style.setProperty("filter", "invert(1) brightness(0)", "important");
-    } else {
-        // Wymuszenie białego logo w trybie ciemnym (czyszczenie filtra)
-        logoImg.style.setProperty("filter", "none", "important");
-    }
-}
-
-/**
  * Ładuje dynamicznie nagłówek oraz stopkę z zewnętrznych plików HTML i inicjuje ich logikę
  */
 function initHeaderAndFooter() {
@@ -40,13 +22,10 @@ function initHeaderAndFooter() {
             .then(data => {
                 headerPlaceholder.innerHTML = data;
                 
-                // --- KLUCZOWA POPRAWKA SYNCHRONIZACJI LOGO ---
+                // --- KLUCZOWA SYNCHRONIZACJA MOTYWU ---
                 // Odczytujemy zapisany motyw i natychmiast go aplikujemy na tag HTML
                 const savedTheme = localStorage.getItem("theme") || "dark";
                 document.documentElement.setAttribute("data-theme", savedTheme);
-                
-                // Wymuszamy prawidłowy filtr logo natychmiast po załadowaniu obrazka
-                syncLogoFilter();
                 
                 // Po pomyślnym wstrzyknięciu HTML inicjujemy wszystkie komponenty
                 initThemeToggle();
@@ -226,10 +205,6 @@ function initThemeToggle() {
         
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
-
-        // --- KLUCZOWA POPRAWKA ---
-        // Synchronizujemy filtr logo od razu po kliknięciu przycisku
-        syncLogoFilter();
 
         // Generowanie powiadomienia o zmianie motywu
         const formattedThemeName = newTheme.charAt(0).toUpperCase() + newTheme.slice(1);
