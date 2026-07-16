@@ -6,7 +6,7 @@
     <title>Operational Tracks - BrainlyHQ</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
-    <style>
+<style>
         /* Elegancki baner wprowadzający */
         .protocol-broadcast {
             background-color: var(--bg-secondary);
@@ -42,17 +42,17 @@
             font-weight: 800;
         }
 
-        /* PERFEKCYJNE WYRÓWNANIE: Lewa kolumna dyktuje wysokość, prawa się dopasowuje */
+        /* Układ Flexbox */
         .tracks-flex-container {
             display: flex;
-            align-items: stretch; /* Rozciąga prawą kartę dokładnie do wysokości lewego menu */
+            align-items: flex-start; /* Zmiana ze stretch na start, by menu dyktowało warunki */
             gap: 30px;
             margin-bottom: 60px;
             width: 100%;
             box-sizing: border-box;
         }
 
-        /* Lewe Menu: Stała szerokość */
+        /* Lewe Menu: Dokładna wysokość 5 kafelków z przerwami to 384px */
         .tracks-menu {
             display: flex;
             flex-direction: column;
@@ -65,7 +65,8 @@
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 20px 22px; /* Subtelna korekta pionowa */
+            padding: 20px 22px;
+            height: 64px; /* Sztywna wysokość kafelka */
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -125,17 +126,23 @@
             color: var(--color-brainly-green);
         }
 
-        /* POPRAWKA: Prawa karta ma mniejsze paddingi i marginesy, aby była naturalnie niższa */
+        /* BETONOWA BLOKADA ROZMIARU: Prawy blok ma zamrożony wymiar 384px góra-dół */
         .track-showcase-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 30px; /* Zmniejszone z 40px, aby nie rozpychać karty w dół */
+            padding: 30px;
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            flex: 1; 
+            flex: 1;
             display: flex;
             flex-direction: column;
+            
+            /* ABSOLUTNY ZAKAZ ZMIANY WYSOKOŚCI */
+            height: 384px !important;
+            min-height: 384px !important;
+            max-height: 384px !important;
+            overflow: hidden; /* Gwarancja, że nic nie wyjdzie na zewnątrz */
         }
 
         .showcase-display {
@@ -144,6 +151,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            justify-content: space-between;
         }
 
         .showcase-display.fade-out {
@@ -161,24 +169,25 @@
         }
 
         .showcase-title {
-            font-size: 1.6rem; /* Delikatne zmniejszenie dla lepszego dopasowania */
+            font-size: 1.6rem;
             font-weight: 900;
             color: var(--text-primary);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             letter-spacing: -0.5px;
         }
 
         .showcase-desc {
             color: var(--text-secondary);
             font-size: 0.98rem;
-            line-height: 1.6;
-            margin-bottom: 20px; /* Bezpieczny, mniejszy odstęp */
+            line-height: 1.55;
+            margin: 0;
+            padding-bottom: 15px;
         }
 
         .showcase-footer {
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
-            margin-top: auto; /* Wpycha stopkę idealnie na sam dół dopasowanej karty */
+            margin-top: auto; /* Zawsze idealnie przyklejone do dolnego rantu o rozmiarze 384px */
         }
 
         .footer-label {
@@ -221,6 +230,11 @@
             }
             .tracks-menu {
                 width: 100%;
+            }
+            .track-showcase-card {
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
             }
         }
     </style>
