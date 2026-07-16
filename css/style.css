@@ -591,30 +591,11 @@ html .card code {
 /* ==========================================
    SPÓJNA PODMIANA KOLORU LOGO (INVERT SYSTEM)
    ========================================== */
-
-/* 1. Stan domyślny oraz jawny tryb ciemny -> Logo staje się BIAŁE */
-#header-logo-img,
-[data-theme="dark"] #header-logo-img {
-    filter: brightness(0) invert(1) !important;
-    transition: filter 0.3s ease;
-}
-
-/* 2. Jawny tryb jasny -> Logo wraca do ORYGINALNYCH (ciemnych) barw */
-[data-theme="light"] #header-logo-img {
-    filter: none !important;
-}
-
-/* ==========================================
-   SPÓJNA PODMIANA KOLORU LOGO (INVERT SYSTEM)
-   ========================================== */
-
-/* Domyślnie w trybie ciemnym logo ma być białe (odwrócone, jeśli oryginalnie jest ciemne, lub bez zmian) */
 #header-logo-img {
-    transition: filter 0.3s ease;
+    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Kiedy aktywny jest tryb jasny -> wymuszamy ciemny kolor logo poprzez odwrócenie */
+/* Wymuszenie czarnego koloru dla białego logo w trybie jasnym */
 [data-theme="light"] #header-logo-img {
-    filter: brightness(0.2) cubic-bezier(0.4, 0, 0.2, 1) !important; 
-    /* Alternatywnie, jeśli logo jest oryginalnie białe: filter: invert(1) !important; */
+    filter: invert(1) brightness(0) !important;
 }
