@@ -46,7 +46,7 @@ const translations = {
         "nav-home": "Inicio", "nav-products": "Productos", "nav-careers": "Carreras", "nav-documentation": "Documentación", "nav-tools": "Herramientas",
         "welcome-guest": "¡Bienvenido a nuestra plataforma!", "admin-panel": "Panel de Admin",
         "hero-title": "Centro Oficial BrainlyHQ", "hero-subtitle": "Donde la pasión por aprender se une con la tecnología y la comunidad.", "hero-cta": "Únete",
-        "prod-title": "Nuestros Productos", "prod-lead": "Descubre las plataformas innovadoras diseñadas por nuestro equipo.",
+        "prod-title": "Nuestros Productos", "prod-lead": "Descubre las plataformas innovadoras diseñadas por Employee.",
         "mission-title": "Nuestra Misión", "mission-lead": "Creemos en hacer la educación accesible para todos los estudiantes.",
         "tools-title": "Herramientas de la Comunidad", "tools-lead": "Utilidades diseñadas para optimizar la moderación y seguridad."
     },
@@ -107,14 +107,44 @@ function initNavigationHighlight() {
 }
 
 function initThemeSystem() {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    // Domyślnym motywem startowym jest 'dark'
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
 
     const themeBtn = document.getElementById('theme-toggle-btn');
     if (themeBtn) {
         themeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            toggleTheme();
+            
+            const oldTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = oldTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (typeof updateThemeIcon === 'function') updateThemeIcon(newTheme);
+            
+            // Zapis zdarzenia zmiany motywu do panelu powiadomień
+            try {
+                const now = new Date();
+                const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                const themeLabel = newTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
+                
+                let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
+                logs.unshift({
+                    time: timestamp,
+                    dateMs: now.getTime(),
+                    text: `Switched theme to ${themeLabel}`,
+                    details: `System UI theme set to ${newTheme}`
+                });
+                
+                if(logs.length > 15) logs.pop();
+                localStorage.setItem('brainly_notifications', JSON.stringify(logs));
+            } catch(err) {
+                console.warn("Storage restricted", err);
+            }
         });
     }
 }
@@ -130,9 +160,9 @@ function initProfileDropdown() {
         try {
             let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
             const nowMs = new Date().getTime();
-            const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+            const sevenDaysMs = 7 * 24 * 60 * 60 * 1000; // 7 dni w milisekundach
 
-            // RETENCJA: Filtrowanie powiadomień systemowych (max 7 dni)
+            // RETENCJA: Usuwamy powiadomienia starsze niż 7 dni
             const filteredLogs = logs.filter(log => {
                 if (!log.dateMs) return true;
                 return (nowMs - log.dateMs) < sevenDaysMs;
@@ -206,7 +236,6 @@ function initLanguageSystem() {
     applyMagicTranslations(currentLang);
 }
 
-// Globalne mapowanie kluczy tłumaczeń
 function applyMagicTranslations(lang) {
     const elements = document.querySelectorAll('[data-translate]');
     elements.forEach(el => {
