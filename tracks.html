@@ -7,29 +7,27 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Unikalny styl Interaktywnego Pulpitu Dowodzenia */
-        
+        /* Elegancki baner wprowadzający */
         .protocol-broadcast {
             background: linear-gradient(135deg, rgba(153, 238, 96, 0.05) 0%, rgba(42, 72, 112, 0.1) 100%);
             border: 1px solid var(--border-color);
             border-left: 4px solid var(--color-brainly-green);
             border-radius: 16px;
-            padding: 28px;
+            padding: 32px;
             margin-bottom: 40px;
-            position: relative;
-            overflow: hidden;
+            box-sizing: border-box;
+            width: 100%;
         }
 
         .protocol-tag {
             display: inline-block;
-            font-family: monospace;
             font-size: 0.75rem;
             background-color: rgba(153, 238, 96, 0.15);
             color: var(--color-brainly-green);
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 30px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -44,195 +42,176 @@
             font-weight: 800;
         }
 
-        /* Główny kontener konsoli */
-        .console-dashboard {
+        /* Spójny układ modułowy (Zsynchronizowany z szerokością baneru) */
+        .tracks-layout-grid {
             display: grid;
-            grid-template-columns: 1fr 1.4fr;
+            grid-template-columns: 1fr 1.3fr;
             gap: 30px;
             margin-bottom: 60px;
-            align-items: start;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Lewa strona: przyciski wyboru */
-        .console-navigation {
+        /* Lewa nawigacja: Eleganckie kafelki */
+        .tracks-menu {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
         }
 
-        .console-nav-item {
+        .track-menu-btn {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 20px;
+            padding: 22px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
             text-align: left;
             user-select: none;
         }
 
-        .console-nav-item:hover {
+        .track-menu-btn:hover {
             border-color: rgba(153, 238, 96, 0.4);
-            transform: translateX(4px);
+            transform: translateY(-2px);
         }
 
-        /* Kiedy dany przycisk jest aktywny */
-        .console-nav-item.active {
+        .track-menu-btn.active {
             border-color: var(--color-brainly-green) !important;
             background-color: rgba(153, 238, 96, 0.02);
             box-shadow: 0 4px 20px rgba(153, 238, 96, 0.05);
         }
 
-        .nav-item-meta {
+        .track-btn-content {
             display: flex;
             align-items: center;
             gap: 14px;
         }
 
-        .nav-item-icon {
-            width: 24px;
-            height: 24px;
+        .track-icon {
+            width: 22px;
+            height: 22px;
             color: var(--text-secondary);
             transition: color 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .console-nav-item.active .nav-item-icon {
+        .track-menu-btn.active .track-icon {
             color: var(--color-brainly-green);
         }
 
-        .nav-item-title {
+        .track-btn-title {
             font-size: 1.05rem;
             font-weight: 800;
             color: var(--text-primary);
         }
 
-        .nav-item-arrow {
+        .track-arrow {
             font-size: 1.1rem;
             color: var(--text-secondary);
             transition: transform 0.25s ease, color 0.25s ease;
         }
 
-        .console-nav-item.active .nav-item-arrow {
+        .track-menu-btn.active .track-arrow {
             transform: translateX(4px);
             color: var(--color-brainly-green);
         }
 
-        /* Prawa strona: Ekran monitora CRT / Konsoli */
-        .console-monitor {
-            background-color: #0b0f19;
+        /* Prawa strona: Karta Prezentacji Działu */
+        .track-showcase-card {
+            background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 36px;
-            min-height: 440px;
-            position: relative;
-            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            min-height: 420px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
-        /* Ozdobna siatka i kropki monitora */
-        .monitor-grid-overlay {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            display: flex;
-            gap: 6px;
-        }
-
-        .monitor-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .monitor-dot.live-pulse {
-            background-color: var(--color-brainly-green);
-            box-shadow: 0 0 8px var(--color-brainly-green);
-            animation: pulse-glow 1.8s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-
-        /* Dynamiczna sekcja tekstowa wewnątrz monitora */
-        .monitor-screen-content {
+        .showcase-display {
             opacity: 1;
             transition: opacity 0.2s ease-in-out;
         }
 
-        .monitor-screen-content.fade-out {
+        .showcase-display.fade-out {
             opacity: 0;
         }
 
-        .monitor-tag {
-            font-family: monospace;
+        .showcase-header-tag {
             font-size: 0.8rem;
             color: var(--color-brainly-green);
             text-transform: uppercase;
             font-weight: 700;
             margin-bottom: 8px;
             display: block;
+            letter-spacing: 0.5px;
         }
 
-        .monitor-title {
-            font-size: 1.6rem;
+        .showcase-title {
+            font-size: 1.7rem;
             font-weight: 900;
             color: #FFFFFF;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             letter-spacing: -0.5px;
         }
 
-        [data-theme="light"] .monitor-title {
-            color: #FFFFFF; /* Zostawiamy ciemną konsolę dla obu motywów jako unikalny element */
+        [data-theme="light"] .showcase-title {
+            color: var(--text-primary);
         }
 
-        .monitor-desc {
-            color: #a0aec0;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 24px;
+        .showcase-desc {
+            color: var(--text-secondary);
+            font-size: 1.02rem;
+            line-height: 1.65;
+            margin-bottom: 28px;
         }
 
-        .monitor-meta-box {
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 20px;
+        .showcase-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
         }
 
-        .meta-subtitle {
-            font-family: monospace;
-            font-size: 0.78rem;
+        .footer-label {
+            font-size: 0.8rem;
             color: var(--text-secondary);
             text-transform: uppercase;
+            font-weight: 700;
             letter-spacing: 0.5px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: block;
         }
 
-        .meta-project-tag {
+        .project-pill {
             display: inline-block;
-            background-color: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            font-family: monospace;
-            font-size: 0.82rem;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-weight: 600;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: border-color 0.2s ease;
+        }
+
+        .track-showcase-card:hover .project-pill {
+            border-color: rgba(153, 238, 96, 0.2);
         }
 
         @media (max-width: 900px) {
-            .console-dashboard {
+            .tracks-layout-grid {
                 grid-template-columns: 1fr;
             }
-            .console-monitor {
+            .track-showcase-card {
                 min-height: auto;
             }
         }
@@ -247,102 +226,111 @@
 
     <main class="content-section" style="margin-top: 50px;">
 
+        <!-- Wyśrodkowany Nagłówek -->
         <div style="text-align: center; margin-bottom: 40px;">
             <h1 class="content-title">Our Operational Tracks</h1>
             <p class="content-lead" style="max-width: 750px; margin: 12px auto 0 auto;">
-                Interact with our system terminal below to explore custom structures, deployment scopes, and active project environments.
+                Explore the collaborative teams, environments, and community projects that shape our collective future.
             </p>
         </div>
 
+        <!-- ELASTYCZNY PROTOKÓŁ WSPÓŁPRACY (Bez surowego markdownu i bez błędów) -->
         <div class="protocol-broadcast">
-            <span class="protocol-tag">System Protocol: Active Self-Regulation</span>
-            <h3 style="margin: 0 0 8px 0; font-size: 1.3rem;">Fluid Structures & Dynamic Initiative</h3>
-            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; margin: 0;">
-                We refuse to lock talent within rigid boundaries. Our framework is fully self-regulated - if you propose a new focus group, custom workflow, or specific project, you have the backing to construct and lead your own cell. Through this model, <span class="strike-name">BrainlyHQ</span> <span class="correct-name">BrainlyHQ teams</span> have developed stellar, community-first deployments such as the gamified smelt-and-drop system **Science Scavengers** and our official **Partnership Program**.
+            <span class="protocol-tag">Ecosystem Principles</span>
+            <h3 style="margin: 0 0 10px 0; font-size: 1.35rem; font-weight: 800;">Fluid Structures & Shared Initiative</h3>
+            <p style="color: var(--text-secondary); line-height: 1.65; font-size: 0.98rem; margin: 0;">
+                We refuse to lock talent within rigid boundaries. Our framework is fully self-regulated. If you propose a new focus group, a creative campaign, or a custom community experience, you have the complete backing to construct and lead your own squad. Through this collaborative model, <span class="strike-name">BrainlyHQ</span> <span class="correct-name">BrainlyHQ teams</span> have successfully developed stellar, community-first deployments such as the gamified learning experience <strong>Science Scavengers</strong> and our official <strong>Partnership Program</strong>.
             </p>
         </div>
 
-        <div class="console-dashboard">
+        <!-- SPROFILOWANY, WYRÓWNANY UKŁAD STRONY -->
+        <div class="tracks-layout-grid">
             
-            <div class="console-navigation">
+            <!-- Lewe Menu: Wybór obszaru -->
+            <div class="tracks-menu">
                 
-                <div class="console-nav-item active" onclick="switchConsoleTrack('moderation', this)">
-                    <div class="nav-item-meta">
-                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
-                        <span class="nav-item-title">Community & Moderation</span>
+                <div class="track-menu-btn active" onclick="switchTrackShowcase('moderation', this)">
+                    <div class="track-btn-content">
+                        <div class="track-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <span class="track-btn-title">Community & Moderation</span>
                     </div>
-                    <span class="nav-item-arrow">→</span>
+                    <span class="track-arrow">→</span>
                 </div>
 
-                <div class="console-nav-item" onclick="switchConsoleTrack('automation', this)">
-                    <div class="nav-item-meta">
-                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <polyline points="16 18 22 12 16 6"></polyline>
-                            <polyline points="8 6 2 12 8 18"></polyline>
-                        </svg>
-                        <span class="nav-item-title">Product & Automation</span>
+                <div class="track-menu-btn" onclick="switchTrackShowcase('automation', this)">
+                    <div class="track-btn-content">
+                        <div class="track-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                        </div>
+                        <span class="track-btn-title">Product & Automation</span>
                     </div>
-                    <span class="nav-item-arrow">→</span>
+                    <span class="track-arrow">→</span>
                 </div>
 
-                <div class="console-nav-item" onclick="switchConsoleTrack('logistics', this)">
-                    <div class="nav-item-meta">
-                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                        </svg>
-                        <span class="nav-item-title">Operations & Logistics</span>
+                <div class="track-menu-btn" onclick="switchTrackShowcase('logistics', this)">
+                    <div class="track-btn-content">
+                        <div class="track-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <span class="track-btn-title">Operations & Logistics</span>
                     </div>
-                    <span class="nav-item-arrow">→</span>
+                    <span class="track-arrow">→</span>
                 </div>
 
-                <div class="console-nav-item" onclick="switchConsoleTrack('creative', this)">
-                    <div class="nav-item-meta">
-                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
-                        </svg>
-                        <span class="nav-item-title">Creative & Design</span>
+                <div class="track-menu-btn" onclick="switchTrackShowcase('creative', this)">
+                    <div class="track-btn-content">
+                        <div class="track-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
+                            </svg>
+                        </div>
+                        <span class="track-btn-title">Creative & Design</span>
                     </div>
-                    <span class="nav-item-arrow">→</span>
+                    <span class="track-arrow">→</span>
                 </div>
 
-                <div class="console-nav-item" onclick="switchConsoleTrack('research', this)">
-                    <div class="nav-item-meta">
-                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-                        </svg>
-                        <span class="nav-item-title">Research & Development</span>
+                <div class="track-menu-btn" onclick="switchTrackShowcase('research', this)">
+                    <div class="track-btn-content">
+                        <div class="track-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                            </svg>
+                        </div>
+                        <span class="track-btn-title">Future Initiatives</span>
                     </div>
-                    <span class="nav-item-arrow">→</span>
+                    <span class="track-arrow">→</span>
                 </div>
 
             </div>
 
-            <div class="console-monitor">
+            <!-- Prawa karta: Prezentacja wybranego działu -->
+            <div class="track-showcase-card">
                 
-                <div class="monitor-grid-overlay">
-                    <div class="monitor-dot"></div>
-                    <div class="monitor-dot"></div>
-                    <div class="monitor-dot live-pulse"></div>
-                </div>
-
-                <div id="monitor-content" class="monitor-screen-content">
+                <div id="showcase-target" class="showcase-display">
                     <div>
-                        <span class="monitor-tag" id="screen-tag">Track // 01</span>
-                        <h2 class="monitor-title" id="screen-title">Community & Moderation</h2>
-                        <p class="monitor-desc" id="screen-desc">
-                            The core defense line of our network. This track focuses heavily on platform safety, processing member verifications, administering public spaces, and actively enforcing server regulations to foster collaborative student communities.
+                        <span class="showcase-header-tag" id="showcase-tag">Track Division 01</span>
+                        <h2 class="showcase-title" id="showcase-title">Community & Moderation</h2>
+                        <p class="showcase-desc" id="showcase-desc">
+                            The core protective layer of our server networks. This team centers completely on user safety, onboarding verification tracks, moderating general chat spaces, and guiding students to keep our common areas welcoming and inspiring.
                         </p>
                     </div>
 
-                    <div class="monitor-meta-box">
-                        <span class="meta-subtitle" id="screen-meta-title">Key Frameworks</span>
-                        <div id="screen-meta-tags">
-                            <span class="meta-project-tag">Verification API</span>
-                            <span class="meta-project-tag" style="margin-left: 8px;">Staff Rotas</span>
+                    <div class="showcase-footer">
+                        <span class="footer-label" id="showcase-footer-title">Active Platform Modules</span>
+                        <div id="showcase-pills-box">
+                            <span class="project-pill">Brainly Hub</span>
+                            <span class="project-pill">User Verifications</span>
                         </div>
                     </div>
                 </div>
@@ -354,78 +342,78 @@
 
     <footer id="footer-placeholder"></footer>
 
+    <!-- SKRYPT DYNAMICZNEJ PREZENTACJI (Przyjazny i elastyczny) -->
     <script>
-        // Baza danych dla dynamicznego pulpitu
-        const TRACK_DATA = {
+        // Baza danych o zespołach z uwzględnieniem Twoich platform i projektów
+        const TRACK_SHOWCASE_DATABASE = {
             moderation: {
-                tag: "Track // 01",
+                tag: "Track Division 01",
                 title: "Community & Moderation",
-                desc: "The core defense line of our network. This track focuses heavily on platform safety, processing member verifications, administering public spaces, and actively enforcing server regulations to foster collaborative student communities.",
-                metaTitle: "Ecosystem Focus",
-                tags: ["Verification API", "Staff Rotas", "User Safety"]
+                desc: "The core protective layer of our server networks. This team centers completely on user safety, onboarding verification tracks, moderating general chat spaces, and guiding students to keep our common areas welcoming and inspiring.",
+                footerLabel: "Active Platform Modules",
+                pills: ["Brainly Hub", "User Verifications", "Safety Standards"]
             },
             automation: {
-                tag: "Track // 02",
+                tag: "Track Division 02",
                 title: "Product & Automation",
-                desc: "Designed for the system builders and developers. This group designs, scripts, and scales our customized bot infrastructures, automated log filters, API integrations, and user layouts (such as our custom extensions).",
-                metaTitle: "Ecosystem Focus",
-                tags: ["Node.js Bot", "Regex Rules", "Webhooks"]
+                desc: "Designed for creators who love designing tools, writing scripts, and enhancing our platform workflows. This department coordinates the core development of our automated systems, building extensions and custom utilities.",
+                footerLabel: "Ecosystem Innovations",
+                pills: ["Brainly Core Bot", "Brainly Synapse", "Custom Extensions"]
             },
             logistics: {
-                tag: "Track // 03",
+                tag: "Track Division 03",
                 title: "Operations & Logistics",
-                desc: "The organizational backbone. Focused entirely on team coordination, structuring complex task pipelines, scheduling global staff assignments, and producing thorough internal performance audit logs.",
-                metaTitle: "Ecosystem Focus",
-                tags: ["Partnership Program", "Task Pipelines", "Audits"]
+                desc: "The planners and planners of the community. This team manages project roadmaps, structures task flows, organizes upcoming campaigns, coordinates internship timelines, and keeps all departments in perfect sync.",
+                footerLabel: "Ecosystem Programs",
+                pills: ["Partnership Program", "Internship Timelines", "Ecosystem Audits"]
             },
             creative: {
-                tag: "Track // 04",
+                tag: "Track Division 04",
                 title: "Creative & Design",
-                desc: "The visual architects. This group crafts modern branding directions, custom media kits, front-end interface layouts, and bot embed templates to ensure premium, unified aesthetic criteria.",
-                metaTitle: "Ecosystem Focus",
-                tags: ["UI Layouts", "Asset Guidelines", "SVG Tokens"]
+                desc: "The visual thinkers of our ecosystem. This team structures the aesthetic guidelines of our platforms, designs custom embed structures, creates promotional branding packages, and conceptualizes visual designs.",
+                footerLabel: "Design Scope",
+                pills: ["Visual Identity", "Interface Concepts", "Asset Packages"]
             },
             research: {
-                tag: "Track // 05",
-                title: "Research & Development",
-                desc: "Our experimental laboratory. Dedicated entirely to pitching, conceptualizing, prototyping, and launching completely unique, interactive mechanisms such as gamified community ecosystems and new automation paradigms.",
-                metaTitle: "Flagship Releases",
-                tags: ["Science Scavengers", "Gamification Model"]
+                tag: "Track Division 05",
+                title: "Future Initiatives",
+                desc: "Our creative launchpad for new projects. This space is dedicated to exploring innovative ideas, testing interactive game mechanics, and prototyping engaging virtual features designed to unite students worldwide.",
+                footerLabel: "Flagship Releases",
+                pills: ["Science Scavengers", "Gamification Research"]
             }
         };
 
-        function switchConsoleTrack(trackKey, element) {
-            // 1. Zdejmij klasę active ze wszystkich przycisków i dodaj do klikniętego
-            const navItems = document.querySelectorAll('.console-nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
+        function switchTrackShowcase(trackKey, element) {
+            // Zmiana klasy active
+            const buttons = document.querySelectorAll('.track-menu-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
 
-            // 2. Pobierz dane dla wybranego działu
-            const data = TRACK_DATA[trackKey];
+            const data = TRACK_SHOWCASE_DATABASE[trackKey];
             if (!data) return;
 
-            const monitorContent = document.getElementById('monitor-content');
-            const screenTag = document.getElementById('screen-tag');
-            const screenTitle = document.getElementById('screen-title');
-            const screenDesc = document.getElementById('screen-desc');
-            const metaTitle = document.getElementById('screen-meta-title');
-            const metaTagsContainer = document.getElementById('screen-meta-tags');
+            const targetContainer = document.getElementById('showcase-target');
+            const targetTag = document.getElementById('showcase-tag');
+            const targetTitle = document.getElementById('showcase-title');
+            const targetDesc = document.getElementById('showcase-desc');
+            const targetFooterLabel = document.getElementById('showcase-footer-title');
+            const targetPillsBox = document.getElementById('showcase-pills-box');
 
-            // 3. Płynna animacja podmiany tekstu (Fade-out -> Podmiana -> Fade-in)
-            monitorContent.classList.add('fade-out');
+            // Płynna animacja podmiany treści
+            targetContainer.classList.add('fade-out');
 
             setTimeout(() => {
-                screenTag.innerText = data.tag;
-                screenTitle.innerText = data.title;
-                screenDesc.innerText = data.desc;
-                metaTitle.innerText = data.metaTitle;
+                targetTag.innerText = data.tag;
+                targetTitle.innerText = data.title;
+                targetDesc.innerText = data.desc;
+                targetFooterLabel.innerText = data.footerLabel;
 
-                // Generowanie tagów technologicznych
-                metaTagsContainer.innerHTML = data.tags.map(tag => 
-                    `<span class="meta-project-tag" style="margin-right: 8px; margin-bottom: 8px;">${tag}</span>`
+                // Renderowanie okrągłych kafelków projektowych
+                targetPillsBox.innerHTML = data.pills.map(pill => 
+                    `<span class="project-pill">${pill}</span>`
                 ).join('');
 
-                monitorContent.classList.remove('fade-out');
+                targetContainer.classList.remove('fade-out');
             }, 200);
         }
     </script>
