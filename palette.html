@@ -122,8 +122,9 @@
 
     <main class="palette-container">
         <h1 class="content-title">Brainly Hex Palette</h1>
+        <!-- Bezpieczna linia tekstu bez sierotki na końcu -->
         <p class="content-lead" style="margin-bottom: 0;">
-            Interactive design assets. Explore the official core spectrum of the Brainly Design System and copy color codes with a single click.
+            Interactive design assets. Explore the official core spectrum of the Brainly Design System and copy color codes with a single&nbsp;click.
         </p>
 
         <div class="palette-section">
@@ -319,17 +320,20 @@
                 const toast = document.getElementById('toast');
                 const toastText = document.getElementById('toast-text');
                 
-                toastText.textContent = `Pomyślnie skopiowano: ${name} (${hex})`;
+                // Powiadomienie Toast po angielsku
+                toastText.textContent = `Successfully copied: ${name} (${hex})`;
                 toast.classList.add('show');
                 
                 try {
                     const now = new Date();
                     const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                    const timeMs = now.getTime(); // Zapisujemy milisekundy do retencji 7 dni
                     
                     let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
                     logs.unshift({
                         time: timestamp,
-                        text: `Skopiowano kolor assetu: ${name}`,
+                        dateMs: timeMs,
+                        text: `Copied asset color: ${name}`,
                         details: hex
                     });
                     
@@ -344,7 +348,7 @@
                     toast.classList.remove('show');
                 }, 2500);
             }).catch(err => {
-                console.error('Błąd schowka: ', err);
+                console.error('Clipboard error: ', err);
             });
         }
     </script>
