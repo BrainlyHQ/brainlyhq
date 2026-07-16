@@ -32,8 +32,8 @@
     --bg-primary: #FFFFFF;
     --bg-secondary: #F5F8FA;
     --text-primary: #1A1A1A;       /* Ciemny tekst dla jasnego tła */
-    --text-secondary: #5A6B7C;     /* Szary tekst pomocniczy */
-    --border-color: rgba(0, 32, 74, 0.08);
+    --text-secondary: #334155;     /* Bardziej nasycony, kontrastowy ciemnoszary */
+    --border-color: rgba(0, 32, 74, 0.15);
     --header-bg: rgba(255, 255, 255, 0.8);
     --footer-bg: #F5F8FA;
     --color-brainly-blue: #D9F0FF;
@@ -99,6 +99,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* Pozwala prawidłowo pozycjonować dropdown względem paska */
 }
 
 /* Logo */
@@ -236,7 +237,7 @@ nav a.active:hover {
 }
 
 /* ==========================================
-   DROPDOWN (MENU PROFILU)
+   DROPDOWN (MENU PROFILU) - ZSYNCHRONIZOWANE KLASY
    ========================================== */
 .profile-dropdown {
     position: absolute;
@@ -245,19 +246,23 @@ nav a.active:hover {
     background-color: var(--dropdown-bg);
     border: 1px solid var(--border-color);
     border-radius: 16px;
-    width: 260px;
+    width: 320px; /* Zwiększona szerokość dla zmieszczenia powiadomień i kafelków */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    display: none;
+    display: none; /* Domyślnie ukryty */
     flex-direction: column;
     padding: 12px 0;
     z-index: 1100;
+    opacity: 0;
     transform: translateY(10px);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.profile-dropdown.show {
-    display: flex;
-    animation: slideDown 0.2s ease forwards;
+/* POPRAWKA: Obsługa aktywnej klasy ze skryptu JS */
+.profile-dropdown.active {
+    display: flex !important;
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes slideDown {
@@ -265,7 +270,7 @@ nav a.active:hover {
 }
 
 .dropdown-header {
-    padding: 4px 16px 10px 16px;
+    padding: 4px 16px 12px 16px;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -291,9 +296,9 @@ nav a.active:hover {
 
 .section-label-uppercase {
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--text-secondary);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: flex;
@@ -305,7 +310,7 @@ nav a.active:hover {
 .dropdown-links {
     display: flex;
     flex-direction: column;
-    padding: 10px 0 6px 0;
+    padding: 12px 0 10px 0;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -318,7 +323,7 @@ nav a.active:hover {
 
 .panel-framed-btn {
     width: 100%;
-    padding: 7px 12px;
+    padding: 8px 12px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-secondary);
@@ -347,7 +352,7 @@ nav a.active:hover {
 }
 
 .lang-dropdown-container {
-    padding: 10px 16px;
+    padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -363,10 +368,15 @@ nav a.active:hover {
     font-size: 0.82rem;
     cursor: pointer;
     outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.custom-lang-select:focus {
+    border-color: var(--color-brainly-green);
 }
 
 .promo-links-container {
-    padding: 10px 16px 4px 16px;
+    padding: 12px 16px 4px 16px;
 }
 
 .promo-links-grid {
@@ -493,7 +503,7 @@ footer {
 }
 
 /* ==========================================
-   DROPDOWN SUBMENU (TOOLS)
+   DROPDOWN SUBMENU (TOOLS & PRODUCTS)
    ========================================== */
 .dropdown-nav-item {
     position: relative;
