@@ -721,7 +721,7 @@ footer {
     transition: color 0.2s ease, padding-left 0.2s ease !important;
 }
 
-/* Efekt najechania: Zmiana wyłącznie koloru tekstu na oficjalny zielony #99ee60 */
+/* Efekt najechania: Zmiana wyłącznie koloru tekstu na oficjalny zielony #99ee60 w każdym trybie */
 .nav-submenu li a:hover {
     color: #99ee60 !important;
     background-color: transparent !important;
