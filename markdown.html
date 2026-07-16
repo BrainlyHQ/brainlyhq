@@ -143,7 +143,7 @@
             margin-top: 2px;
         }
         
-        /* POPRAWKA 1 & 4: Naturalne marginesy dla nagłówków i spójna struktura */
+        /* Marginesy dla nagłówków i spójna struktura */
         .discord-text-rendered h1, 
         .discord-text-rendered h2, 
         .discord-text-rendered h3 {
@@ -165,7 +165,7 @@
             display: block;
         }
         
-        /* POPRAWKA 1: Precyzyjny, naturalny odstęp dla pustej linii _ _ */
+        /* Precyzyjny, naturalny odstęp dla pustej linii _ _ */
         .discord-spacer-line {
             display: block;
             height: 1.1rem;
@@ -216,7 +216,7 @@
             color: transparent;
             cursor: pointer;
             padding: 0 2px;
-            user-select: none; /* POPRAWKA 4: Zapobieganie zaznaczaniu tekstu przy kliku */
+            user-select: none; /* Zapobieganie zaznaczaniu tekstu przy kliku */
             transition: background 0.15s ease, color 0.15s ease;
         }
         .discord-spoiler.revealed {
@@ -228,7 +228,7 @@
             background-color: #2e3035;
         }
         
-        /* POPRAWKA 2 & 3: Zaawansowana stylistyka list punktowanych i zagnieżdżonych */
+        /* Zaawansowana stylistyka list punktowanych i zagnieżdżonych */
         .discord-list {
             margin: 2px 0 2px 18px;
             padding-left: 0;
@@ -392,7 +392,7 @@
                 return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             }
 
-            // 2. Dynamiczne formatowanie tekstu (Kompletny Discord Parser)
+            // 2. Dynamiczne formatowanie tekstu (Kompletny, kompaktowy Discord Parser)
             function parseMarkdown(text) {
                 if (!text || text.trim() === "") return "<em>No message typed...</em>";
 
@@ -418,11 +418,19 @@
                 let lines = escapedText.split('\n');
                 let resultLines = [];
                 let activeListStack = []; // Śledzenie głębokości list dla zagnieżdżeń
+                let isInsideParagraph = false; // Czy aktualnie grupujemy zwykły tekst
 
                 function closeAllLists() {
                     while (activeListStack.length > 0) {
                         resultLines.push('</ul>');
                         activeListStack.pop();
+                    }
+                }
+
+                function closeParagraph() {
+                    if (isInsideParagraph) {
+                        resultLines.push('</div>'); // Zamykamy kontener grupy tekstowej
+                        isInsideParagraph = false;
                     }
                 }
 
@@ -432,6 +440,7 @@
 
                     // 1. Spacery (_ _)
                     if (trimmed === '_ _') {
+                        closeParagraph();
                         closeAllLists();
                         resultLines.push('<span class="discord-spacer-line"></span>');
                         continue;
@@ -439,18 +448,22 @@
 
                     // 2. Nagłówki (H1, H2, H3, Subtext)
                     if (line.startsWith('# ')) {
+                        closeParagraph();
                         closeAllLists();
                         resultLines.push(`<h1>${line.substring(2)}</h1>`);
                         continue;
                     } else if (line.startsWith('## ')) {
+                        closeParagraph();
                         closeAllLists();
                         resultLines.push(`<h2>${line.substring(3)}</h2>`);
                         continue;
                     } else if (line.startsWith('### ')) {
+                        closeParagraph();
                         closeAllLists();
                         resultLines.push(`<h3>${line.substring(4)}</h3>`);
                         continue;
                     } else if (line.startsWith('-# ')) {
+                        closeParagraph();
                         closeAllLists();
                         resultLines.push(`<span class="discord-subtext">${line.substring(3)}</span>`);
                         continue;
@@ -458,6 +471,7 @@
 
                     // 3. Cytaty (> Quote)
                     if (line.startsWith('&gt; ')) {
+                        closeParagraph();
                         closeAllLists();
                         resultLines.push(`
                             <div class="discord-blockquote">
@@ -468,23 +482,20 @@
                         continue;
                     }
 
-                    // 4. POPRAWKA 2 & 3: Zaawansowane listy punktowane i zagnieżdżone (* oraz -)
+                    // 4. Listy punktowane i zagnieżdżone (* oraz -)
                     const listMatch = line.match(/^(\s*)([-*])\s+(.*)$/);
                     if (listMatch) {
-                        const indent = listMatch[1].length; // Obliczamy wcięcie (spacje przed znakiem)
+                        closeParagraph();
+                        const indent = listMatch[1].length;
                         const content = listMatch[3];
-                        
-                        // Poziom wcięcia: 0 spacji = poziom 0, >0 spacji = poziom 1 (zagnieżdżenie)
                         const targetDepth = indent > 0 ? 1 : 0; 
 
                         if (activeListStack.length <= targetDepth) {
-                            // Otwieramy nową listę (lub podlistę)
                             while (activeListStack.length <= targetDepth) {
                                 resultLines.push('<ul class="discord-list">');
                                 activeListStack.push(true);
                             }
                         } else {
-                            // Zamykamy podlisty, jeśli wracamy do wyższego poziomu
                             while (activeListStack.length > targetDepth + 1) {
                                 resultLines.push('</ul>');
                                 activeListStack.pop();
@@ -495,17 +506,26 @@
                         continue;
                     }
 
-                    // Zwykła linia tekstu (zamyka otwarte listy)
+                    // Zwykła linia tekstu (lub pusta linia)
                     if (trimmed !== "") {
                         closeAllLists();
-                        resultLines.push(`<p>${line}</p>`);
+                        if (!isInsideParagraph) {
+                            resultLines.push('<div style="margin: 2px 0;">'); // Otwieramy spójny blok tekstu
+                            isInsideParagraph = true;
+                            resultLines.push(line);
+                        } else {
+                            // Łączymy linie za pomocą <br> zamiast tworzyć nowe akapity (BRAK ODSTĘPU)
+                            resultLines.push('<br>' + line);
+                        }
                     } else {
-                        // POPRAWKA 4: Zachowanie pustych linii w naturalny sposób (nie psując layoutu)
+                        // Pusta linia wewnątrz tekstu zamyka obecny akapit, co da naturalny odstęp Discorda
+                        closeParagraph();
                         closeAllLists();
-                        resultLines.push('<p style="height: 4px; margin:0;"></p>');
+                        resultLines.push('<div style="height: 6px;"></div>'); // Delikatny odstęp między blokami tekstu
                     }
                 }
 
+                closeParagraph();
                 closeAllLists();
                 let html = resultLines.join('\n');
 
@@ -513,8 +533,7 @@
                 html = html.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>'); // Bold
                 html = html.replace(/\*([\s\S]+?)\*/g, '<em>$1</em>'); // Italic
                 html = html.replace(/__([\s\S]+?)__/g, '<u>$1</u>'); // Underline
-                html = html.replace(/~~([\s\S]+?)__/g, '<del>$1</del>'); // Strike
-                html = html.replace(/~~([\s\S]+?)~~/g, '<del>$1</del>'); // Strike (poprawka dla ucinania)
+                html = html.replace(/~~([\s\S]+?)~~/g, '<del>$1</del>'); // Strike
 
                 // Spoilery (System click-to-reveal)
                 html = html.replace(/\|\|([\s\S]+?)\|\|/g, '<span class="discord-spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
