@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,7 +67,7 @@
             color: #ffffff;
             border-radius: 8px;
             padding: 20px 24px;
-            font-weight: 900; /* Proxima Nova Black / Montserrat Black feel */
+            font-weight: 900; /* Odpowiednik Proxima Nova Black */
             font-size: 1.15rem;
             display: flex;
             align-items: center;
@@ -104,7 +104,7 @@
 
         .components-section-header {
             font-size: 1rem;
-            font-weight: 900; /* Bold & impactful black look */
+            font-weight: 900; /* Impactful Proxima Nova Black look */
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-secondary);
@@ -154,7 +154,7 @@
         /* Wykres Uptime (15-dniowe słupki) */
         .uptime-graph {
             display: flex;
-            gap: 5px; /* Delikatnie zwiększony odstęp dla lepszego klikania/najeżdżania */
+            gap: 5px; /* Przyjazny odstęp do najeżdżania myszką */
             height: 34px;
             width: 100%;
             margin-top: 4px;
@@ -172,8 +172,8 @@
 
         /* INTERAKCJA: Efekt najechania na słupek statusu */
         .uptime-bar:hover {
-            background-color: #2bd173; /* Nieco jaśniejsza zieleń pod kursor */
-            transform: scaleY(1.15); /* Płynne uniesienie słupka w pionie */
+            background-color: #2bd173; /* Podświetlenie */
+            transform: scaleY(1.15); /* Płynne uniesienie w pionie */
         }
 
         .uptime-bar.under-development {
@@ -428,12 +428,12 @@
             if (!container) return;
 
             let html = '';
-            // Generujemy dokładnie 15 czystych słupków z przypisanymi datami / tytułami pomocniczymi
+            // Generujemy dokładnie 15 czystych słupków z przypisanymi datami i tooltipami
             for (let i = 14; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
                 
-                // Format daty przyjazny dla dymka: "Dzień Miesiąc" (np. "16 Jul")
+                // Format przyjazny dla dymka podpowiedzi: np. "16 Jul"
                 const dateString = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
 
                 if (isDev) {
@@ -451,10 +451,28 @@
             generateUptimeGraph('graph-partnership', false);
             generateUptimeGraph('graph-scavengers', false);
             
-            // W przygotowaniu (planowane struktury)
+            // W przygotowaniu
             generateUptimeGraph('graph-hub', true);
             generateUptimeGraph('graph-synapse', true);
             generateUptimeGraph('graph-lab', true);
+        });
+    </script>
+
+    <script>
+        function syncTheme() {
+            // Odczytujemy aktywny motyw z localStorage (domyślnie ciemny 'dark')
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+
+        // Synchronizujemy motyw przy załadowaniu strony statusu
+        syncTheme();
+
+        // Nasłuchujemy zmian w czasie rzeczywistym
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                syncTheme();
+            }
         });
     </script>
 </body>
