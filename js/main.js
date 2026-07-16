@@ -3,7 +3,7 @@
 // ==========================================
 const translations = {
     en: {
-        "nav-home": "Home", "nav-products": "Products", "nav-mission": "Mission", "nav-documentation": "Documentation", "nav-tools": "Tools",
+        "nav-home": "Home", "nav-products": "Products", "nav-careers": "Careers", "nav-documentation": "Documentation", "nav-tools": "Tools",
         "welcome-guest": "Welcome to our platform!", "admin-panel": "Admin Panel",
         "hero-title": "Official BrainlyHQ Hub", "hero-subtitle": "Where passion for learning meets technology and community. Discover our moderating tools and grow with us!", "hero-cta": "Join Us",
         "prod-title": "Our Products", "prod-lead": "Discover innovative platforms and utilities crafted by our team.",
@@ -11,7 +11,7 @@ const translations = {
         "tools-title": "Community Utilities", "tools-lead": "A versatile suite of tools built for both our server members and staff. Designed to enhance your Discord experience, streamline formatting, and keep our community safe."
     },
     pl: {
-        "nav-home": "Główna", "nav-products": "Produkty", "nav-mission": "Misja", "nav-documentation": "Dokumentacja", "nav-tools": "Narzędzia",
+        "nav-home": "Główna", "nav-products": "Produkty", "nav-careers": "Kariera", "nav-documentation": "Dokumentacja", "nav-tools": "Narzędzia",
         "welcome-guest": "Witaj na naszej platformie!", "admin-panel": "Panel Admina",
         "hero-title": "Oficjalne Centrum BrainlyHQ", "hero-subtitle": "Gdzie pasja do nauki spotyka się z technologią i społecznością. Odkryj nasze narzędzia moderatorskie i rozwijaj się z nami!", "hero-cta": "Dołącz do nas",
         "prod-title": "Nasze Produkty", "prod-lead": "Odkryj innowacyjne platformy i narzędzia stworzone przez nasz zespół.",
