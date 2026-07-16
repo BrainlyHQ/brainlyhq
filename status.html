@@ -67,7 +67,7 @@
             color: #ffffff;
             border-radius: 8px;
             padding: 20px 24px;
-            font-weight: 700;
+            font-weight: 900; /* Proxima Nova Black / Montserrat Black feel */
             font-size: 1.15rem;
             display: flex;
             align-items: center;
@@ -104,7 +104,7 @@
 
         .components-section-header {
             font-size: 1rem;
-            font-weight: 800;
+            font-weight: 900; /* Bold & impactful black look */
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-secondary);
@@ -136,13 +136,13 @@
 
         .component-name {
             font-size: 0.95rem;
-            font-weight: 700;
+            font-weight: 800; /* Proxima Nova Bold/Black styling */
             color: var(--text-primary);
         }
 
         .component-status-text {
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 800; 
             color: #23a55a; 
         }
 
@@ -154,7 +154,7 @@
         /* Wykres Uptime (15-dniowe słupki) */
         .uptime-graph {
             display: flex;
-            gap: 4px;
+            gap: 5px; /* Delikatnie zwiększony odstęp dla lepszego klikania/najeżdżania */
             height: 34px;
             width: 100%;
             margin-top: 4px;
@@ -166,11 +166,26 @@
             background-color: #23a55a;
             border-radius: 4px;
             position: relative;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease;
+        }
+
+        /* INTERAKCJA: Efekt najechania na słupek statusu */
+        .uptime-bar:hover {
+            background-color: #2bd173; /* Nieco jaśniejsza zieleń pod kursor */
+            transform: scaleY(1.15); /* Płynne uniesienie słupka w pionie */
         }
 
         .uptime-bar.under-development {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px dashed var(--border-color);
+            cursor: not-allowed;
+            transition: none;
+        }
+
+        .uptime-bar.under-development:hover {
+            transform: none;
+            background-color: rgba(255, 255, 255, 0.08);
         }
 
         /* Metryka Uptime pod wykresem */
@@ -201,7 +216,7 @@
 
         .metric-title {
             font-size: 0.8rem;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--text-secondary);
@@ -233,7 +248,7 @@
 
         .incident-date {
             font-size: 0.9rem;
-            font-weight: 800;
+            font-weight: 900;
             color: var(--text-primary);
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 6px;
@@ -403,7 +418,7 @@
         </div>
 
         <div class="status-footer">
-            <p>© 2026 BrainlyHQ.</p>
+            <p>© BrainlyHQ - All rights reserved.</p>
         </div>
     </div>
 
@@ -413,24 +428,30 @@
             if (!container) return;
 
             let html = '';
-            // Generujemy dokładnie 15 czystych słupków
-            for (let i = 0; i < 15; i++) {
+            // Generujemy dokładnie 15 czystych słupków z przypisanymi datami / tytułami pomocniczymi
+            for (let i = 14; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                
+                // Format daty przyjazny dla dymka: "Dzień Miesiąc" (np. "16 Jul")
+                const dateString = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+
                 if (isDev) {
-                    html += `<div class="uptime-bar under-development" title="Planned Node Framework"></div>`;
+                    html += `<div class="uptime-bar under-development" title="${dateString} - Planned Node Frame"></div>`;
                 } else {
-                    html += `<div class="uptime-bar" title="Operational (100% operational)"></div>`;
+                    html += `<div class="uptime-bar" title="${dateString} - Operational (100% uptime)"></div>`;
                 }
             }
             container.innerHTML = html;
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Aktywne systemy (czysta zieleń)
+            // Aktywne systemy
             generateUptimeGraph('graph-core', false);
             generateUptimeGraph('graph-partnership', false);
             generateUptimeGraph('graph-scavengers', false);
             
-            // W przygotowaniu (puste ramki strukturalne)
+            // W przygotowaniu (planowane struktury)
             generateUptimeGraph('graph-hub', true);
             generateUptimeGraph('graph-synapse', true);
             generateUptimeGraph('graph-lab', true);
