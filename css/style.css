@@ -593,71 +593,7 @@ footer {
 }
 
 /* ==========================================
-   DROPDOWN SUBMENU DLA ZAKŁADKI TOOLS
-   ========================================== */
-.dropdown-nav-item {
-    position: relative;
-}
-
-/* Ukryte i spozycjonowane submenu */
-.nav-submenu {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background-color: var(--dropdown-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    list-style: none;
-    padding: 8px 0;
-    min-width: 180px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
-    z-index: 1200;
-}
-
-/* Pokazanie menu po najechaniu myszką */
-.dropdown-nav-item:hover .nav-submenu {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(5px);
-}
-
-/* Style pojedynczych linków wewnątrz podmenu */
-.nav-submenu li a {
-    display: block;
-    width: 100%;
-    padding: 10px 16px !important;
-    font-size: 0.82rem !important;
-    font-weight: 600 !important;
-    color: var(--text-primary) !important;
-    background-color: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    text-align: left;
-    transition: color 0.2s ease, padding-left 0.2s ease !important;
-}
-
-/* Efekt najechania na podopcję w menu */
-.nav-submenu li a:hover {
-    color: var(--color-brainly-green) !important;
-    padding-left: 20px !important;
-}
-
-/* W trybie jasnym dodajemy ciemniejszy kolor tekstu przy najechaniu dla kontrastu */
-[data-theme="light"] .nav-submenu li a:hover {
-    color: #449d44 !important;
-}
-
-/* ==========================================
-   POPRAWKA DROPDOWN SUBMENU (STABILNY HOVER & KONTRAST)
+   DROPDOWN SUBMENU DLA ZAKŁADKI TOOLS (STABILNY HOVER & BRAK PRZEZROCZYSTOŚCI)
    ========================================== */
 .dropdown-nav-item {
     position: relative;
@@ -668,8 +604,7 @@ footer {
     top: 100%;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
-    /* W pełni kryjące tło, bez przezroczystości */
-    background-color: var(--bg-secondary) !important;
+    background-color: var(--bg-secondary) !important; /* W pełni kryjące tło */
     border: 1px solid var(--border-color);
     border-radius: 12px;
     list-style: none;
@@ -686,7 +621,7 @@ footer {
     z-index: 1200;
 }
 
-/* Niewidzialny obszar łączący przycisk główny z podmenu */
+/* Niewidzialny most zapobiegający mruganiu i zamykaniu menu */
 .nav-submenu::before {
     content: "";
     position: absolute;
@@ -704,7 +639,7 @@ footer {
     transform: translateX(-50%) translateY(5px);
 }
 
-/* Styl linków wewnątrz podmenu */
+/* Linki wewnątrz podmenu */
 .nav-submenu li a {
     display: block;
     width: 100%;
@@ -712,7 +647,6 @@ footer {
     font-size: 0.82rem !important;
     font-weight: 600 !important;
     color: var(--text-primary) !important;
-    /* Reset tła, aby nie robiło się zielone na aktywnej podstronie */
     background-color: transparent !important;
     background: transparent !important;
     border-radius: 0 !important;
@@ -721,18 +655,16 @@ footer {
     transition: color 0.2s ease, padding-left 0.2s ease !important;
 }
 
-/* Efekt najechania: Zmiana wyłącznie koloru tekstu na oficjalny zielony #99ee60 w każdym trybie */
-.nav-submenu li a:hover {
+/* Wyczyszczenie i agresywne nadpisanie efektu najechania dla spójności koloru #99ee60 */
+html nav ul.main-nav-list li.dropdown-nav-item ul.nav-submenu li a:hover {
     color: #99ee60 !important;
     background-color: transparent !important;
     background: transparent !important;
     padding-left: 20px !important;
 }
 
-/* Ujednolicenie koloru kodu na dole strony w Markdown Reference na #99ee60 */
-.card code {
-    color: #99ee60 !important;
-}
-[data-theme="dark"] .card code {
+/* Agresywne wymuszenie koloru dla tagów code na dole strony w sekcji Markdown Reference */
+html [data-theme] .card code,
+html .card code {
     color: #99ee60 !important;
 }
