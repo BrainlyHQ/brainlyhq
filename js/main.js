@@ -22,6 +22,12 @@ function initHeaderAndFooter() {
             .then(data => {
                 headerPlaceholder.innerHTML = data;
                 
+                // --- KLUCZOWA POPRAWKA SYNCHRONIZACJI LOGO ---
+                // Odczytujemy zapisany motyw i natychmiast go aplikujemy na tag HTML,
+                // co zmusza przeglądarkę do natychmiastowego nałożenia odpowiedniego filtru na logo.
+                const savedTheme = localStorage.getItem("theme") || "dark";
+                document.documentElement.setAttribute("data-theme", savedTheme);
+                
                 // Po pomyślnym wstrzyknięciu HTML inicjujemy wszystkie komponenty
                 initThemeToggle();
                 initProfileDropdown();
