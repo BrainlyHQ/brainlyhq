@@ -58,7 +58,7 @@
         [data-theme="light"] .hero-lead,
         [data-theme="light"] .eco-desc,
         [data-theme="light"] .stat-label {
-            color: #1a202c !important; /* Ekstra kontrastowy ciemny tekst */
+            color: #1a202c !important; 
         }
 
         [data-theme="light"] .eco-card {
@@ -92,6 +92,26 @@
             color: #cbd5e1;
         }
 
+        /* POWRÓT NEONÓW: Pulsujące Neonowe Kule w Tle */
+        .glow-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(153, 238, 96, 0.08) 0%, rgba(153, 238, 96, 0) 70%);
+            border-radius: 50%;
+            z-index: 2;
+            pointer-events: none;
+            animation: pulse-glow 8s infinite alternate ease-in-out;
+        }
+
+        .orb-left { top: 15%; left: 10%; animation-delay: 0s; }
+        .orb-right { bottom: 20%; right: 10%; animation-delay: 4s; }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+            100% { transform: scale(1.3) translate(20px, -20px); opacity: 1; }
+        }
+
         /* Zawartość Hero */
         .hero-content {
             position: relative;
@@ -99,7 +119,7 @@
             max-width: 850px;
         }
 
-        /* INTERAKTYWNY STATUS LINK: ALL SERVICES OPERATIONAL */
+        /* STATUS LINK z symetrycznymi odstępami */
         .hero-status-link {
             display: inline-flex;
             align-items: center;
@@ -127,7 +147,6 @@
 
         .status-accent {
             color: var(--color-brainly-green);
-            margin-right: 4px;
         }
 
         .hero-title {
@@ -483,16 +502,14 @@
     <header id="header-placeholder"></header>
 
     <main>
-        <!-- 🌌 HERO SECTION -->
         <section class="hero-section">
             <div class="cyber-grid-bg"></div>
             <div class="glow-orb orb-left"></div>
             <div class="glow-orb orb-right"></div>
 
             <div class="hero-content">
-                <!-- POPRAWKA: Przycisk statusu systemowego odsyłający do status.html -->
                 <a href="status.html" class="hero-status-link">
-                    <span class="status-accent">[</span> ALL SERVICES OPERATIONAL <span class="status-accent">]</span>
+                    <span class="status-accent">[ </span>ALL SERVICES OPERATIONAL<span class="status-accent"> ]</span>
                 </a>
                 
                 <h1 class="hero-title">
@@ -517,7 +534,6 @@
                 </div>
             </div>
 
-            <!-- ↕️ ANIMOWANY WSKAŹNIK SCROLLA -->
             <div class="scroll-arrow-container" onclick="scrollToSection()">
                 <span>Scroll to Explore</span>
                 <svg class="arrow-down-animated" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -527,7 +543,6 @@
             </div>
         </section>
 
-        <!-- 📊 CYFRY / STATYSTYKI LIVE -->
         <section class="stats-banner" id="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
@@ -545,7 +560,6 @@
             </div>
         </section>
 
-        <!-- 🚀 PODSTAWOWY EKOSYSTEM -->
         <section class="ecosystem-section">
             <div style="text-align: center; margin-bottom: 50px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
@@ -553,7 +567,6 @@
             </div>
 
             <div class="eco-grid">
-                <!-- Karta 1: Brainly Core Bot -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -574,7 +587,6 @@
                     </a>
                 </div>
 
-                <!-- Karta 2: Partnership Program -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -597,7 +609,6 @@
                     </a>
                 </div>
 
-                <!-- Karta 3: Tools and Palettes -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -619,7 +630,6 @@
             </div>
         </section>
 
-        <!-- 💻 TECH CONSOLE: JOIN DISCORD -->
         <section style="padding: 0 20px;">
             <div class="discord-console-wrapper">
                 <div class="discord-console-header">
@@ -651,7 +661,6 @@
 
     <footer id="footer-placeholder"></footer>
 
-    <!-- INTERAKTYWNA STRZAŁKA SCROLLA -->
     <script>
         function scrollToSection() {
             const element = document.getElementById("stats-section");
