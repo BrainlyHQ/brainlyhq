@@ -53,7 +53,7 @@ const translations = {
     pt: {
         "nav-home": "Início", "nav-products": "Produtos", "nav-careers": "Carreiras", "nav-documentation": "Documentação", "nav-tools": "Ferramentas",
         "welcome-guest": "Bem-vindo à nossa platforma!", "admin-panel": "Painel do Admin",
-        "hero-title": "Hub Oficial BrainlyHQ", "hero-subtitle": "Onde a paixão pelo aprendizado encontra a tecnologia e a comunidade.", "hero-cta": "Juntar-se",
+        "hero-title": "Hub Oficial BrainlyHQ", "hero-subtitle": "Onde a paixão pelo aprendizado encontra a tecnologia i a comunidade.", "hero-cta": "Juntar-se",
         "prod-title": "Nossos Produtos", "prod-lead": "Descubra plataformas inovadoras desenvolvidas pela nossa equipe.",
         "mission-title": "Nossa Missão", "mission-lead": "Acreditamos em tornar a educação acessível para todos os alunos.",
         "tools-title": "Ferramentas do Moderador", "tools-lead": "Utilitários desenvolvidos para otimizar las tarefas de moderação."
@@ -83,8 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (headerPlaceholder) headerPlaceholder.innerHTML = headerHtml;
         if (footerPlaceholder) footerPlaceholder.innerHTML = footerHtml;
 
-        initNavigationHighlight();
+        // INICJALIZACJA SYSTEMÓW DOPIERO PO WSTRZYKNIĘCIU NAGŁÓWKA DO DOM!
         initThemeSystem();
+        initNavigationHighlight();
         initProfileDropdown();
         initLanguageSystem();
         initPageTransitions();
@@ -111,7 +112,8 @@ function initThemeSystem() {
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     
-    // Podmiana logo przy starcie
+    // KLUCZOWE: Ponieważ funkcja odpala się wewnątrz bloku .then() po załadowaniu HTML,
+    // ten selektor nareszcie bez problemu znajdzie element graficzny i podmieni źródło!
     updateLogoState(currentTheme);
     
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
@@ -127,12 +129,10 @@ function initThemeSystem() {
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
-            // Podmiana logo przy przełączaniu motywu
             updateLogoState(newTheme);
             
             if (typeof updateThemeIcon === 'function') updateThemeIcon(newTheme);
             
-            // Zapis zdarzenia zmiany motywu do panelu powiadomień
             try {
                 const now = new Date();
                 const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -155,7 +155,6 @@ function initThemeSystem() {
     }
 }
 
-// Funkcja pomocnicza do zamiany logotypu w zależności od motywu
 function updateLogoState(theme) {
     const logoImg = document.getElementById('header-logo-img');
     if (logoImg) {
@@ -178,9 +177,8 @@ function initProfileDropdown() {
         try {
             let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
             const nowMs = new Date().getTime();
-            const sevenDaysMs = 7 * 24 * 60 * 60 * 1000; // 7 dni w milisekundach
+            const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
 
-            // RETENCJA: Usuwamy powiadomienia starsze niż 7 dni
             const filteredLogs = logs.filter(log => {
                 if (!log.dateMs) return true;
                 return (nowMs - log.dateMs) < sevenDaysMs;
@@ -264,6 +262,7 @@ function applyMagicTranslations(lang) {
     });
 }
 
+// Obsługa płynnych przejść z efektem fade-out
 function initPageTransitions() {
     const localLinks = document.querySelectorAll('nav a, .logo-container a, .dropdown-links a');
     localLinks.forEach(link => {
