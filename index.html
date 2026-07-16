@@ -3,31 +3,634 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainlyHQ - Home</title>
+    <title>BrainlyHQ - Central Hub</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* --- STYLIZACJA STRONY TYTUŁOWEJ (INDEX) --- */
+
+        /* Hero Sekcja z technologią Cyber-Grid */
+        .hero-section {
+            position: relative;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+            background-color: var(--bg-primary);
+        }
+
+        /* Animowane Tło - Ruchoma Siatka */
+        .cyber-grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+            opacity: 0.15;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            animation: grid-scroll 25s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes grid-scroll {
+            0% { background-position: center 0px; }
+            100% { background-position: center 1000px; }
+        }
+
+        /* Pulsujące Neonowe Punkty w Tle */
+        .glow-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(153, 238, 96, 0.08) 0%, rgba(153, 238, 96, 0) 70%);
+            border-radius: 50%;
+            z-index: 2;
+            pointer-events: none;
+            animation: pulse-glow 8s infinite alternate ease-in-out;
+        }
+
+        .orb-left { top: 15%; left: 10%; animation-delay: 0s; }
+        .orb-right { bottom: 20%; right: 10%; animation-delay: 4s; }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+            100% { transform: scale(1.3) translate(20px, -20px); opacity: 1; }
+        }
+
+        /* Zawartość Hero */
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 850px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--color-brainly-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .hero-badge .ping-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-brainly-green);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .hero-badge .ping-dot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-brainly-green);
+            border-radius: 50%;
+            animation: ping 1.5s infinite ease-out;
+        }
+
+        @keyframes ping {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        .hero-title {
+            font-size: 3.4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .hero-title span {
+            color: var(--color-brainly-green);
+            text-shadow: 0 0 20px rgba(153, 238, 96, 0.15);
+        }
+
+        .hero-lead {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 650px;
+            margin: 0 auto 36px auto;
+        }
+
+        /* Przyciski Akcji z efektami najechania */
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brainly-green);
+            color: #0b0c0f !important; /* Gwarancja doskonałej czytelności na zieleni */
+            border: none;
+            border-radius: 14px;
+            padding: 16px 32px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(153, 238, 96, 0.35);
+            background-color: #aeff70;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 14px;
+            padding: 16px 32px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(153, 238, 96, 0.4);
+            background-color: rgba(153, 238, 96, 0.02);
+            transform: translateY(-2px);
+        }
+
+        /* Strzałka sugerująca scrollowanie */
+        .scroll-arrow-container {
+            position: absolute;
+            bottom: 30px;
+            z-index: 3;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+
+        .scroll-arrow-container:hover {
+            color: var(--color-brainly-green);
+        }
+
+        .arrow-down-animated {
+            width: 24px;
+            height: 24px;
+            animation: bounce-arrow 2s infinite;
+            stroke: currentColor;
+        }
+
+        @keyframes bounce-arrow {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        /* --- Sekcja Statystyk --- */
+        .stats-banner {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            padding: 40px 0;
+            width: 100%;
+        }
+
+        .stats-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-number {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--color-brainly-green);
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Sekcja Ekosystemu --- */
+        .ecosystem-section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .eco-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .eco-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+            transition: all 0.25s ease;
+        }
+
+        .eco-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(153, 238, 96, 0.4);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+
+        .eco-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-brainly-green);
+            margin-bottom: 20px;
+        }
+
+        .eco-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0 0 10px 0;
+        }
+
+        .eco-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .eco-link-btn {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--color-brainly-green);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s ease;
+        }
+
+        .eco-link-btn:hover {
+            gap: 10px;
+        }
+
+        /* --- WYPASIONY PANEL DISCORD (COMMAND CONSOLE) --- */
+        .discord-console-wrapper {
+            background-color: #0d0f12; /* Stały ciemny, technologiczny kolor dla obu motywów */
+            border: 1px solid #1f242c;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px auto 80px auto;
+            max-width: 900px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Ozdobna belka okna programisty na górze */
+        .discord-console-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 32px;
+            background-color: #08090b;
+            border-bottom: 1px solid #1f242c;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-sizing: border-box;
+            gap: 6px;
+        }
+
+        .console-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+
+        .console-title {
+            font-family: monospace;
+            font-size: 0.72rem;
+            color: #4a5568;
+            margin-left: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .discord-console-content {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .console-text-side {
+            text-align: left;
+            max-width: 500px;
+        }
+
+        .console-terminal-line {
+            font-family: monospace;
+            color: #4e5664;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .console-main-headline {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .console-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .discord-console-btn {
+            background-color: #5865F2; /* Oryginalny Discord Blurple */
+            color: #ffffff !important;
+            border: none;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-console-btn:hover {
+            transform: scale(1.05);
+            background-color: #4752c4;
+            box-shadow: 0 8px 30px rgba(88, 101, 242, 0.5);
+        }
+
+        /* --- Responsywność --- */
+        @media (max-width: 900px) {
+            .hero-title { font-size: 2.6rem; }
+            .stats-grid, .eco-grid { grid-template-columns: 1fr; }
+            .discord-console-content { flex-direction: column; text-align: center; gap: 24px; }
+            .console-text-side { text-align: center; }
+            .hero-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto 40px auto; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+        }
+    </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 </head>
 <body>
 
+    <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
     <main>
-        <section style="max-width: 800px; margin: 80px auto; text-align: center; padding: 20px;">
-            <h1 data-translate="hero-title" style="font-size: 3.2rem; font-weight: 900; margin-bottom: 20px; color: var(--color-brainly-dark-blue); line-height: 1.1;">
-                Official BrainlyHQ Hub
-            </h1>
-            <p data-translate="hero-subtitle" style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Where passion for learning meets technology and community. Discover our moderating tools and grow with us!
-            </p>
-            <a href="contact.html" data-translate="hero-cta" class="cta-btn" style="display: inline-block; background-color: var(--color-brainly-green); color: #000; padding: 14px 36px; border-radius: 30px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(153, 238, 96, 0.4); transition: transform 0.2s ease;">
-                Join Us
-            </a>
+        <section class="hero-section">
+            <div class="cyber-grid-bg"></div>
+            <div class="glow-orb orb-left"></div>
+            <div class="glow-orb orb-right"></div>
+
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="ping-dot"></span>
+                    <span>System Status: Fully Operational</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    The Pulse of Community <span>Automation</span>
+                </h1>
+                
+                <p class="hero-lead">
+                    We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure and gamify online school communities.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="products.html" class="btn-primary">
+                        <span>Explore Products</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                    <a href="https://discord.gg/brainlyhq" target="_blank" class="btn-secondary">
+                        <span>Join Discord Server</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="scroll-arrow-container" onclick="scrollToSection()">
+                <span>Scroll to Explore</span>
+                <svg class="arrow-down-animated" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+            </div>
+        </section>
+
+        <section class="stats-banner" id="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">30K+</div>
+                    <div class="stat-label">Processed Logs Daily</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">System Node Integrations</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Network Uptime API</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ecosystem-section">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">High-speed development workflows connecting students and technical teams across networks.</p>
+            </div>
+
+            <div class="eco-grid">
+                <div class="eco-card">
+                    <div>
+                        <div class="eco-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="9" y1="3" x2="9" y2="21"></line>
+                            </svg>
+                        </div>
+                        <h3 class="eco-title">Automation & Logs</h3>
+                        <p class="eco-desc">Advanced AutoMod filters, automated verification bridges, and live cross-server event monitors built with Node.js and custom engines.</p>
+                    </div>
+                    <a href="tracks.html" class="eco-link-btn">
+                        <span>Check Operational Tracks</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="eco-card">
+                    <div>
+                        <div class="eco-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <h3 class="eco-title">Brainly Creatives</h3>
+                        <p class="eco-desc">Independent fan-made utility chrome extension. Redefines user interface workflows, offering enhanced options and design customizations.</p>
+                    </div>
+                    <a href="https://chromewebstore.google.com/detail/brainly-creatives/pgfbplkcnljoadikklfopgpdmehjhbic?hl=pl&utm_source=ext_sidebar" target="_blank" class="eco-link-btn">
+                        <span>Download Extension</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="eco-card">
+                    <div>
+                        <div class="eco-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="eco-title">Webmaster Utilities</h3>
+                        <p class="eco-desc">Discover our range of production tools, from Discord Markdown formatting generators to the official Brainly color Hex palettes.</p>
+                    </div>
+                    <a href="tools.html" class="eco-link-btn">
+                        <span>Access Tools Dashboard</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 0 20px;">
+            <div class="discord-console-wrapper">
+                <div class="discord-console-header">
+                    <span class="console-dot dot-red"></span>
+                    <span class="console-dot dot-yellow"></span>
+                    <span class="console-dot dot-green"></span>
+                    <span class="console-title">brainlyhq_node_bridge.js</span>
+                </div>
+                
+                <div class="discord-console-content">
+                    <div class="console-text-side">
+                        <span class="console-terminal-line">$ npm run connect --production</span>
+                        <h3 class="console-main-headline">Synchronize with our technical network.</h3>
+                        <p class="console-desc">
+                            Connect with our community management board, join active technical roundtables, report platform bugs, or preview upcoming experimental prototypes live on Discord.
+                        </p>
+                    </div>
+                    
+                    <a href="https://discord.gg/brainlyhq" target="_blank" class="discord-console-btn">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 2px;">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.094 13.094 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.195.373.289a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z"/>
+                        </svg>
+                        <span>Join Discord HQ</span>
+                    </a>
+                </div>
+            </div>
         </section>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
+    <script>
+        function scrollToSection() {
+            const element = document.getElementById("stats-section");
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
 </body>
 </html>
