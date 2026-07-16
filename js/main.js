@@ -23,7 +23,7 @@ const translations = {
         "welcome-guest": "Selamat datang di platform kami!", "admin-panel": "Panel Admin",
         "hero-title": "Pusat Resmi BrainlyHQ", "hero-subtitle": "Tempat di mana semangat belajar bertemu dengan teknologi i komunitas.", "hero-cta": "Gabung Sekarang",
         "prod-title": "Produk Kami", "prod-lead": "Temukan platform inovatif yang dibuat oleh tim kami.",
-        "mission-title": "Misi Kami", "mission-lead": "Kami percaya dalam membuat pendidikan dapat diakses oleh semua siswa.",
+        "mission-title": "Misi Kami", "mission-lead": "Kami believe dalam membuat pendidikan dapat diakses oleh semua siswa.",
         "tools-title": "Alat Komunitas", "tools-lead": "Kumpulan alat yang dirancang untuk mengoptimalkan tugas moderasi."
     },
     fr: {
@@ -52,7 +52,7 @@ const translations = {
     },
     pt: {
         "nav-home": "Início", "nav-products": "Produtos", "nav-careers": "Carreiras", "nav-documentation": "Documentação", "nav-tools": "Ferramentas",
-        "welcome-guest": "Bem-vindo à nossa plataforma!", "admin-panel": "Painel do Admin",
+        "welcome-guest": "Bem-vindo à nossa platforma!", "admin-panel": "Painel do Admin",
         "hero-title": "Hub Oficial BrainlyHQ", "hero-subtitle": "Onde a paixão pelo aprendizado encontra a tecnologia e a comunidade.", "hero-cta": "Juntar-se",
         "prod-title": "Nossos Produtos", "prod-lead": "Descubra plataformas inovadoras desenvolvidas pela nossa equipe.",
         "mission-title": "Nossa Missão", "mission-lead": "Acreditamos em tornar a educação acessível para todos os alunos.",
@@ -123,11 +123,26 @@ function initProfileDropdown() {
     const userBtn = document.getElementById('user-profile-btn');
     const dropdown = document.getElementById('profile-dropdown');
     const notificationsList = document.getElementById('dropdown-notifications-list');
+    const clearBtn = document.getElementById('clear-notifications-btn');
 
     function renderDropdownNotifications() {
         if (!notificationsList) return;
         try {
-            const logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
+            let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
+            const nowMs = new Date().getTime();
+            const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+
+            // RETENCJA: Filtrowanie powiadomień systemowych (max 7 dni)
+            const filteredLogs = logs.filter(log => {
+                if (!log.dateMs) return true;
+                return (nowMs - log.dateMs) < sevenDaysMs;
+            });
+
+            if (filteredLogs.length !== logs.length) {
+                logs = filteredLogs;
+                localStorage.setItem('brainly_notifications', JSON.stringify(logs));
+            }
+
             if (logs.length === 0) {
                 notificationsList.innerHTML = `
                     <div style="font-size: 0.78rem; color: var(--text-secondary); text-align: left; font-style: italic; padding: 4px 0;">
@@ -135,6 +150,7 @@ function initProfileDropdown() {
                     </div>`;
                 return;
             }
+
             notificationsList.innerHTML = logs.map(log => `
                 <div style="display: flex; flex-direction: column; background: var(--bg-primary); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 8px; text-align: left;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
@@ -145,7 +161,7 @@ function initProfileDropdown() {
                 </div>
             `).join('');
         } catch (e) {
-            console.warn("Could not load notifications:", e);
+            console.warn("Could not load or filter notifications:", e);
         }
     }
 
@@ -163,6 +179,14 @@ function initProfileDropdown() {
                 dropdown.classList.remove('show');
             }
         });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                localStorage.removeItem('brainly_notifications');
+                renderDropdownNotifications();
+            });
+        }
     }
 }
 
@@ -182,6 +206,7 @@ function initLanguageSystem() {
     applyMagicTranslations(currentLang);
 }
 
+// Globalne mapowanie kluczy tłumaczeń
 function applyMagicTranslations(lang) {
     const elements = document.querySelectorAll('[data-translate]');
     elements.forEach(el => {
@@ -243,6 +268,7 @@ function initDiscordMarkdownSandbox() {
         html = html.replace(/^-\s+(.*)$/gim, '<ul class="discord-list"><li class="discord-list-item">$1</li></ul>');
         html = html.replace(/`([^`\n]+)`/g, '<span class="discord-inline-code">$1</span>');
         html = html.replace(/\|\|([\s\S]*?)\|\|/g, '<span class="discord-spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
+        
         html = html.replace(/\*\*\*([\s\S]*?)\*\*\*/g, '<strong><em>$1</em></strong>');
         html = html.replace(/\*\*([\s\S]*?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/\*([\s\S]*?)\*/g, '<em>$1</em>');
