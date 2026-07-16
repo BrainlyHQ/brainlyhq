@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Base page variables override / context */
         .careers-hero-canvas {
             position: relative;
             width: 100%;
@@ -20,7 +19,6 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        /* POPRAWKA: Większa widoczność konstelacji w tle */
         #constellation-canvas {
             position: absolute;
             top: 0;
@@ -52,7 +50,7 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
-            min-height: 180px;
+            min-height: 200px;
             border: 1px solid var(--border-color) !important;
             border-radius: 16px !important;
         }
@@ -96,6 +94,16 @@
             color: var(--color-brainly-green);
         }
 
+        .card-read-more {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--color-brainly-green);
+            margin-top: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
         .recruit-banner {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -131,7 +139,6 @@
             fill: currentColor;
         }
 
-        /* NOWA SEKCJA: Why You'll Love It (Pionowe kolumny) */
         .benefits-section {
             margin: 80px 0 60px 0;
         }
@@ -171,7 +178,6 @@
             color: var(--text-primary);
         }
 
-        /* Pływające elementy i terminal technologiczny (Prawa kolumna) */
         .tech-terminal-box {
             background-color: #0b0f19;
             border: 1px solid var(--border-color);
@@ -186,7 +192,6 @@
             min-height: 340px;
         }
 
-        /* Latające tagi technologiczne */
         .floating-tech-badge {
             position: absolute;
             background: rgba(255, 255, 255, 0.03);
@@ -226,6 +231,20 @@
             height: 8px;
             border-radius: 50%;
             background-color: rgba(255,255,255,0.15);
+        }
+
+        .section-header-link {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--color-brainly-green);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s ease;
+        }
+
+        .section-header-link:hover {
+            opacity: 0.8;
         }
 
         @media (max-width: 900px) {
@@ -280,9 +299,12 @@
         </div>
 
         <section class="benefits-section">
-            <div class="section-header" style="text-align: left; margin-bottom: 0;">
-                <h2 style="font-size: 1.8rem; font-weight: 900;">Why You'll Love Working Here</h2>
-                <p style="font-size: 0.95rem;">Building an independent, decentralized environment focused on scalability.</p>
+            <div class="section-header" style="text-align: left; margin-bottom: 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px;">
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 900;">Why You'll Love Working Here</h2>
+                    <p style="font-size: 0.95rem; margin-top: 4px;">Building an independent, decentralized environment focused on scalability.</p>
+                </div>
+                <a href="benefits.html" class="section-header-link">Read More <span>→</span></a>
             </div>
 
             <div class="benefits-split-grid">
@@ -322,65 +344,69 @@
             </div>
         </section>
 
-        <div class="section-header" style="text-align: center; margin-top: 60px; margin-bottom: 30px;">
+        <div class="section-header" style="text-align: center; margin-top: 80px; margin-bottom: 30px;">
             <h2 style="font-size: 1.8rem; font-weight: 900;">Our Operational Tracks</h2>
             <p style="font-size: 0.95rem;">Select an internal deployment line matching your technical profile.</p>
         </div>
 
         <div class="careers-grid" style="margin-bottom: 60px;">
-            <a href="https://discord.gg/your-recruitment-link" target="_blank" class="card careers-card">
-                <div class="careers-card-top">
-                    <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                    <span class="careers-arrow">→</span>
-                </div>
+            <a href="tracks.html" class="card careers-card">
                 <div>
+                    <div class="careers-card-top">
+                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        <span class="careers-arrow">→</span>
+                    </div>
                     <h3 style="margin-bottom: 6px;">Community & Moderation</h3>
                     <p>Govern platform regulations, preserve end-user safety, and cultivate healthy environments inside our public networks.</p>
                 </div>
+                <span class="card-read-more">Read More</span>
             </a>
 
-            <a href="https://discord.gg/your-recruitment-link" target="_blank" class="card careers-card">
-                <div class="careers-card-top">
-                    <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <polyline points="16 18 22 12 16 6"></polyline>
-                        <polyline points="8 6 2 12 8 18"></polyline>
-                    </svg>
-                    <span class="careers-arrow">→</span>
-                </div>
+            <a href="tracks.html" class="card careers-card">
                 <div>
+                    <div class="careers-card-top">
+                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        <span class="careers-arrow">→</span>
+                    </div>
                     <h3 style="margin-bottom: 6px;">Product & Automation</h3>
                     <p>Build, engineer, and scale modular bot frameworks, webhook parameters, and customized repository configurations.</p>
                 </div>
+                <span class="card-read-more">Read More</span>
             </a>
 
-            <a href="https://discord.gg/your-recruitment-link" target="_blank" class="card careers-card">
-                <div class="careers-card-top">
-                    <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <line x1="18" y1="20" x2="18" y2="10"></line>
-                        <line x1="12" y1="20" x2="12" y2="4"></line>
-                        <line x1="6" y1="20" x2="6" y2="14"></line>
-                    </svg>
-                    <span class="careers-arrow">→</span>
-                </div>
+            <a href="tracks.html" class="card careers-card">
                 <div>
+                    <div class="careers-card-top">
+                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span class="careers-arrow">→</span>
+                    </div>
                     <h3 style="margin-bottom: 6px;">Operations & Logistics</h3>
                     <p>Coordinate project goals, orchestrate task pipelines, manage team rotas, and verify structure reporting guidelines.</p>
                 </div>
+                <span class="card-read-more">Read More</span>
             </a>
 
-            <a href="https://discord.gg/your-recruitment-link" target="_blank" class="card careers-card">
-                <div class="careers-card-top">
-                    <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
-                    </svg>
-                    <span class="careers-arrow">→</span>
-                </div>
+            <a href="tracks.html" class="card careers-card">
                 <div>
+                    <div class="careers-card-top">
+                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
+                        </svg>
+                        <span class="careers-arrow">→</span>
+                    </div>
                     <h3 style="margin-bottom: 6px;">Creative & Design</h3>
                     <p>Design visual branding guidelines, asset deployment formats, and shape customized interface layouts.</p>
                 </div>
+                <span class="card-read-more">Read More</span>
             </a>
         </div>
     </main>
@@ -388,7 +414,6 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // Zaktualizowany, wyraźniejszy skrypt sieci połączeń (Większe kropki i silniejsze linie)
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('constellation-canvas');
             if (!canvas) return;
@@ -398,7 +423,6 @@
             let height = canvas.height = canvas.offsetHeight;
 
             const dots = [];
-            // Zwiększona gęstość punktów na ekranie
             const dotCount = Math.min(50, Math.floor((width * height) / 14000));
             const connectionDistance = 130;
 
@@ -408,7 +432,6 @@
                     this.y = Math.random() * height;
                     this.vx = (Math.random() - 0.5) * 0.35;
                     this.vy = (Math.random() - 0.5) * 0.35;
-                    // POPRAWKA: Większy rozmiar kropek dla lepszej widoczności
                     this.radius = Math.random() * 2.5 + 2; 
                 }
 
@@ -448,7 +471,6 @@
                             ctx.beginPath();
                             ctx.moveTo(dots[i].x, dots[i].y);
                             ctx.lineTo(dots[j].x, dots[j].y);
-                            // POPRAWKA: Silniejsza przezroczystość linii dla lepszego kontrastu
                             const alpha = (1 - (dist / connectionDistance)) * 0.18;
                             ctx.strokeStyle = `rgba(153, 238, 96, ${alpha})`;
                             ctx.lineWidth = 1.1;
