@@ -3,27 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainlyHQ - Products</title>
+    <title>Products - BrainlyHQ</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Kontener filtrów */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: rgba(153, 238, 96, 0.4);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background-color: rgba(153, 238, 96, 0.1);
+            border-color: var(--color-brainly-green);
+            color: var(--color-brainly-green);
+        }
+
+        /* Siatka produktów */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        /* Nowoczesna karta produktu */
+        .product-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 440px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 10px 30px rgba(153, 238, 96, 0.05);
+        }
+
+        /* Podział na sekcję górną (grafika + tekst) i dolną (akcja) */
+        .product-top-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Kontener na grafikę PNG */
+        .product-img-wrapper {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .product-png {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-png {
+            transform: scale(1.05);
+        }
+
+        /* Etykiety i teksty */
+        .product-status-tag {
+            align-self: flex-start;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .status-active {
+            background-color: rgba(153, 238, 96, 0.15);
+            color: var(--color-brainly-green);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .product-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Przycisk akcji na dole karty */
+        .product-action-btn {
+            margin-top: 24px;
+            width: 100%;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .product-card:hover .product-action-btn {
+            border-color: var(--color-brainly-green);
+            color: var(--color-brainly-green);
+            background-color: rgba(153, 238, 96, 0.02);
+        }
+
+        /* Kiedy produkt jest nieaktywny */
+        .product-card.development-mode {
+            opacity: 0.85;
+        }
+
+        .product-card.development-mode .product-action-btn {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .product-card.development-mode .product-action-btn:hover {
+            border-color: var(--border-color);
+            color: var(--text-secondary);
+            background-color: var(--bg-primary);
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 </head>
 <body>
 
+    <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <main class="content-section">
-        <h1 class="content-title" data-translate="prod-title">Our Products</h1>
-        <p class="content-lead" data-translate="prod-lead">Discover innovative platforms and utilities crafted by the BrainlyHQ team to empower educational moderation workflows.</p>
-        <div class="grid-layout">
-            <div class="card"><h3>Brainly Creatives</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut iaculis eros. In elementum sem vel ex mollis hendrerit.</p></div>
-            <div class="card"><h3>Staff Portal</h3><p>Vestibulum tempor, leo at accumsan porttitor, nisl sapien rhoncus felis, non tempor felis est sed sem.</p></div>
-            <div class="card"><h3>Analytics Dashboard</h3><p>Mauris luctus scelerisque lacus ac ultrices. Duis vel feugiat tellus, sed imperdiet augue. Pellentesque pretium rhoncus.</p></div>
+    <main class="content-section" style="margin-top: 50px;">
+        
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 class="content-title">Our Products</h1>
+            <p class="content-lead" style="max-width: 750px; margin: 12px auto 0 auto;">
+                Explore innovative solutions, integration extensions, and interactive experiences engineered by our teams.
+            </p>
+        </div>
+
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterProducts('all', this)">All Products</button>
+            <button class="filter-btn" onclick="filterProducts('active', this)">Active</button>
+            <button class="filter-btn" onclick="filterProducts('dev', this)">In Development</button>
+        </div>
+
+        <div class="products-grid" id="products-container">
+            
+            <div class="product-card" data-status="active">
+                <div class="product-top-flow">
+                    <div class="product-img-wrapper">
+                        <img src="assets/Brainly Core.png" alt="Brainly Core" class="product-png">
+                    </div>
+                    <span class="product-status-tag status-active">Active</span>
+                    <h3 class="product-title">Brainly Core</h3>
+                    <p class="product-desc">Our flagship administration utility. Engineered to secure operations, manage automated moderation logs, and maintain user safety parameters across public community networks.</p>
+                </div>
+                <a href="tools.html" class="product-action-btn">View Tool Details</a>
+            </div>
+
+            <div class="product-card" data-status="active">
+                <div class="product-top-flow">
+                    <div class="product-img-wrapper">
+                        <img src="assets/Partnership.png" alt="Partnership Program" class="product-png">
+                    </div>
+                    <span class="product-status-tag status-active">Active</span>
+                    <h3 class="product-title">Partnership Program</h3>
+                    <p class="product-desc">The official community-driven network portal. Connecting verified structures and managers under a shared ecosystem to execute joint campaigns and exchange resources.</p>
+                </div>
+                <a href="https://partnershiphq.vercel.app/" target="_blank" class="product-action-btn">Launch External Site</a>
+            </div>
+
+            <div class="product-card" data-status="active">
+                <div class="product-top-flow">
+                    <div class="product-img-wrapper">
+                        <img src="assets/Science Scavengers.png" alt="Science Scavengers" class="product-png">
+                    </div>
+                    <span class="product-status-tag status-active">Active</span>
+                    <h3 class="product-title">Science Scavengers</h3>
+                    <p class="product-desc">An interactive, gamified community economy. Hunt for rare scientific elements, trade collectibles, smelt items, and unlock specialized profile roles through custom algorithm drop-rates.</p>
+                </div>
+                <a href="tracks.html" class="product-action-btn">Learn More inside Tracks</a>
+            </div>
+
+            <div class="product-card development-mode" data-status="dev">
+                <div class="product-top-flow">
+                    <div class="product-img-wrapper">
+                        <img src="assets/Brainly Hub.png" alt="Brainly Hub" class="product-png">
+                    </div>
+                    <span class="product-status-tag status-pending">In Development</span>
+                    <h3 class="product-title">Brainly Hub</h3>
+                    <p class="product-desc">An advanced academic discovery framework. Allows users to query educational databases directly by keyword, filter results by difficulty curves, and locate verified answers instantly.</p>
+                </div>
+                <button class="product-action-btn" disabled>Development in Progress</button>
+            </div>
+
+            <div class="product-card development-mode" data-status="dev">
+                <div class="product-top-flow">
+                    <div class="product-img-wrapper">
+                        <img src="assets/Brainly Synapse.png" alt="Brainly Synapse" class="product-png">
+                    </div>
+                    <span class="product-status-tag status-pending">In Development</span>
+                    <h3 class="product-title">Brainly Synapse</h3>
+                    <p class="product-desc">Our upcoming data orchestration layer. Built to map structural events, synchronize cross-network log indexes, and connect modular bot integrations into a unified database matrix.</p>
+                </div>
+                <button class="product-action-btn" disabled>Development in Progress</button>
+            </div>
+
+            <div class="product-card development-mode" data-status="dev">
+                <div class="product-top-flow">
+                    <div class="product-img-wrapper">
+                        <img src="assets/Brainly Lab.png" alt="Brainly Lab" class="product-png">
+                    </div>
+                    <span class="product-status-tag status-pending">In Development</span>
+                    <h3 class="product-title">Brainly Lab</h3>
+                    <p class="product-desc">The official entertainment and experimental research sandbox. A dedicated platform featuring interactive community minigames, prototype features, and game-design showcases.</p>
+                </div>
+                <button class="product-action-btn" disabled>Development in Progress</button>
+            </div>
+
         </div>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
+    <script>
+        function filterProducts(category, element) {
+            // Zmiana aktywnego przycisku filtra
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            const cards = document.querySelectorAll('.product-card');
+            
+            cards.forEach(card => {
+                const status = card.getAttribute('data-status');
+                
+                // Efekt płynnego znikania/pojawiania
+                if (category === 'all' || status === category) {
+                    card.style.display = 'flex';
+                    setTimeout(() => {
+                        card.style.opacity = card.classList.contains('development-mode') ? '0.85' : '1';
+                        card.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 200);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
