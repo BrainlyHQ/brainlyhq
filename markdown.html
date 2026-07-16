@@ -142,41 +142,38 @@
             color: #dbdee1;
             margin-top: 2px;
         }
-        .discord-text-rendered h1 {
-            font-size: 1.5rem;
-            line-height: 1.875rem;
-            margin: 16px 0 8px 0;
-            color: #f2f3f5;
-            font-weight: 700;
-        }
-        .discord-text-rendered h2 {
-            font-size: 1.25rem;
-            line-height: 1.625rem;
-            margin: 16px 0 8px 0;
-            color: #f2f3f5;
-            font-weight: 700;
-        }
+        
+        /* POPRAWKA 1 & 4: Naturalne marginesy dla nagłówków i spójna struktura */
+        .discord-text-rendered h1, 
+        .discord-text-rendered h2, 
         .discord-text-rendered h3 {
-            font-size: 1rem;
-            line-height: 1.375rem;
-            margin: 16px 0 8px 0;
+            margin: 12px 0 4px 0;
             color: #f2f3f5;
             font-weight: 700;
         }
+        .discord-text-rendered h1 { font-size: 1.45rem; line-height: 1.8rem; }
+        .discord-text-rendered h2 { font-size: 1.2rem; line-height: 1.5rem; }
+        .discord-text-rendered h3 { font-size: 1rem; line-height: 1.375rem; }
+        
         .discord-text-rendered p {
-            margin: 4px 0;
+            margin: 2px 0;
         }
         .discord-subtext {
             font-size: 0.83rem;
             color: #949ba4;
-            margin: 4px 0;
+            margin: 2px 0;
             display: block;
         }
+        
+        /* POPRAWKA 1: Precyzyjny, naturalny odstęp dla pustej linii _ _ */
         .discord-spacer-line {
             display: block;
-            height: 1.375rem;
+            height: 1.1rem;
             content: "";
+            margin: 0;
+            padding: 0;
         }
+        
         .discord-inline-code {
             background: #1e1f22;
             padding: .2em .4em;
@@ -191,7 +188,7 @@
             border: 1px solid #2b2d31;
             border-radius: 4px;
             padding: 8px;
-            margin-top: 6px;
+            margin: 4px 0;
             font-family: Consolas, monospace;
             font-size: 0.875rem;
             color: #deede6;
@@ -210,30 +207,41 @@
             flex-shrink: 0;
         }
         .discord-blockquote-content {
-            color: #949ba4;
+            color: #dbdee1;
         }
+        
         .discord-spoiler {
             background-color: #1e1f22;
             border-radius: 3px;
             color: transparent;
             cursor: pointer;
             padding: 0 2px;
+            user-select: none; /* POPRAWKA 4: Zapobieganie zaznaczaniu tekstu przy kliku */
             transition: background 0.15s ease, color 0.15s ease;
         }
         .discord-spoiler.revealed {
             background-color: rgba(255, 255, 255, 0.1);
             color: #dbdee1;
+            user-select: text;
         }
         .discord-spoiler:not(.revealed):hover {
             background-color: #2e3035;
         }
+        
+        /* POPRAWKA 2 & 3: Zaawansowana stylistyka list punktowanych i zagnieżdżonych */
         .discord-list {
-            margin: 8px 0 8px 20px;
+            margin: 2px 0 2px 18px;
             padding-left: 0;
+            list-style-type: disc;
+        }
+        .discord-list .discord-list {
+            margin-top: 0;
+            margin-bottom: 0;
+            list-style-type: circle; /* Wewnętrzny poziom listy ma pusty okrąg */
         }
         .discord-list-item {
-            list-style-type: disc;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            line-height: 1.35rem;
         }
         
         .cheatsheet-section {
@@ -379,52 +387,145 @@
                 discordTime.textContent = `Today at ${hours}:${minutes}`;
             }
 
-            // 2. Dynamiczne formatowanie tekstu (Discord Markdown Parser)
+            // Bezpieczna ucieczka znaków HTML
+            function escapeHTML(str) {
+                return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            }
+
+            // 2. Dynamiczne formatowanie tekstu (Kompletny Discord Parser)
             function parseMarkdown(text) {
-                if (!text) return "<em>No message typed...</em>";
+                if (!text || text.trim() === "") return "<em>No message typed...</em>";
 
-                let html = text;
+                // Najpierw zabezpieczamy HTML przed wstrzykiwaniem skryptów
+                let escapedText = escapeHTML(text);
 
-                // Bezpieczna konwersja znaków specjalnych HTML
-                html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                // --- BLOKI KODU (Globalne wyłączenie parsowania wewnątrz) ---
+                const codeBlocks = [];
+                escapedText = escapedText.replace(/```([\s\S]*?)```/g, (match, code) => {
+                    const id = `__CODE_BLOCK_PLACEHOLDER_${codeBlocks.length}__`;
+                    codeBlocks.push(`<pre class="discord-code-block"><code>${code.trim()}</code></pre>`);
+                    return id;
+                });
 
-                // Bloki kodu (Code Blocks: ```js ... ```)
-                html = html.replace(/```([\s\S]*?)```/g, '<pre class="discord-code-block"><code>$1</code></pre>');
+                const inlineCodes = [];
+                escapedText = escapedText.replace(/`([^`\n]+?)`/g, (match, code) => {
+                    const id = `__INLINE_CODE_PLACEHOLDER_${inlineCodes.length}__`;
+                    inlineCodes.push(`<code class="discord-inline-code">${code}</code>`);
+                    return id;
+                });
 
-                // Nagłówki H1, H2, H3 (musi być na początku linii)
-                html = html.split('\n').map(line => {
+                // Przetwarzanie linii po linii (Struktury blokowe)
+                let lines = escapedText.split('\n');
+                let resultLines = [];
+                let activeListStack = []; // Śledzenie głębokości list dla zagnieżdżeń
+
+                function closeAllLists() {
+                    while (activeListStack.length > 0) {
+                        resultLines.push('</ul>');
+                        activeListStack.pop();
+                    }
+                }
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i];
+                    let trimmed = line.trim();
+
+                    // 1. Spacery (_ _)
+                    if (trimmed === '_ _') {
+                        closeAllLists();
+                        resultLines.push('<span class="discord-spacer-line"></span>');
+                        continue;
+                    }
+
+                    // 2. Nagłówki (H1, H2, H3, Subtext)
                     if (line.startsWith('# ')) {
-                        return `<h1>${line.substring(2)}</h1>`;
+                        closeAllLists();
+                        resultLines.push(`<h1>${line.substring(2)}</h1>`);
+                        continue;
                     } else if (line.startsWith('## ')) {
-                        return `<h2>${line.substring(3)}</h2>`;
+                        closeAllLists();
+                        resultLines.push(`<h2>${line.substring(3)}</h2>`);
+                        continue;
                     } else if (line.startsWith('### ')) {
-                        return `<h3>${line.substring(4)}</h3>`;
+                        closeAllLists();
+                        resultLines.push(`<h3>${line.substring(4)}</h3>`);
+                        continue;
                     } else if (line.startsWith('-# ')) {
-                        return `<span class="discord-subtext">${line.substring(3)}</span>`;
-                    } else if (line.startsWith('&gt; ')) { // > Quote
-                        return `
+                        closeAllLists();
+                        resultLines.push(`<span class="discord-subtext">${line.substring(3)}</span>`);
+                        continue;
+                    }
+
+                    // 3. Cytaty (> Quote)
+                    if (line.startsWith('&gt; ')) {
+                        closeAllLists();
+                        resultLines.push(`
                             <div class="discord-blockquote">
                                 <div class="discord-blockquote-line"></div>
                                 <div class="discord-blockquote-content">${line.substring(5)}</div>
                             </div>
-                        `;
-                    } else if (line.startsWith('- ')) { // Bullet Lists
-                        return `<ul class="discord-list"><li class="discord-list-item">${line.substring(2)}</li></ul>`;
-                    } else if (line.trim() === '_ _') { // Spacer line
-                        return `<span class="discord-spacer-line"></span>`;
+                        `);
+                        continue;
                     }
-                    return line;
-                }).join('\n');
 
-                // Podstawowe style typograficzne (Inline)
+                    // 4. POPRAWKA 2 & 3: Zaawansowane listy punktowane i zagnieżdżone (* oraz -)
+                    const listMatch = line.match(/^(\s*)([-*])\s+(.*)$/);
+                    if (listMatch) {
+                        const indent = listMatch[1].length; // Obliczamy wcięcie (spacje przed znakiem)
+                        const content = listMatch[3];
+                        
+                        // Poziom wcięcia: 0 spacji = poziom 0, >0 spacji = poziom 1 (zagnieżdżenie)
+                        const targetDepth = indent > 0 ? 1 : 0; 
+
+                        if (activeListStack.length <= targetDepth) {
+                            // Otwieramy nową listę (lub podlistę)
+                            while (activeListStack.length <= targetDepth) {
+                                resultLines.push('<ul class="discord-list">');
+                                activeListStack.push(true);
+                            }
+                        } else {
+                            // Zamykamy podlisty, jeśli wracamy do wyższego poziomu
+                            while (activeListStack.length > targetDepth + 1) {
+                                resultLines.push('</ul>');
+                                activeListStack.pop();
+                            }
+                        }
+
+                        resultLines.push(`<li class="discord-list-item">${content}</li>`);
+                        continue;
+                    }
+
+                    // Zwykła linia tekstu (zamyka otwarte listy)
+                    if (trimmed !== "") {
+                        closeAllLists();
+                        resultLines.push(`<p>${line}</p>`);
+                    } else {
+                        // POPRAWKA 4: Zachowanie pustych linii w naturalny sposób (nie psując layoutu)
+                        closeAllLists();
+                        resultLines.push('<p style="height: 4px; margin:0;"></p>');
+                    }
+                }
+
+                closeAllLists();
+                let html = resultLines.join('\n');
+
+                // Podstawowe formatowanie inline (Bold, Italic, Underline, Strike)
                 html = html.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>'); // Bold
                 html = html.replace(/\*([\s\S]+?)\*/g, '<em>$1</em>'); // Italic
                 html = html.replace(/__([\s\S]+?)__/g, '<u>$1</u>'); // Underline
-                html = html.replace(/~~([\s\S]+?)~~/g, '<del>$1</del>'); // Strike
-                html = html.replace(/`([^`]+?)`/g, '<code class="discord-inline-code">$1</code>'); // Inline Code
+                html = html.replace(/~~([\s\S]+?)__/g, '<del>$1</del>'); // Strike
+                html = html.replace(/~~([\s\S]+?)~~/g, '<del>$1</del>'); // Strike (poprawka dla ucinania)
 
-                // Spoiler system (kliknij, by odkryć)
+                // Spoilery (System click-to-reveal)
                 html = html.replace(/\|\|([\s\S]+?)\|\|/g, '<span class="discord-spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
+
+                // Przywracanie zablokowanych bloków kodu z placeholderów
+                inlineCodes.forEach((code, index) => {
+                    html = html.replace(`__INLINE_CODE_PLACEHOLDER_${index}__`, code);
+                });
+                codeBlocks.forEach((block, index) => {
+                    html = html.replace(`__CODE_BLOCK_PLACEHOLDER_${index}__`, block);
+                });
 
                 return html;
             }
