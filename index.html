@@ -47,30 +47,34 @@
             100% { background-position: center 1000px; }
         }
 
-        /* --- POPRAWKI DLA LIGHT THEME (MAKSYMALNA WIDOCZNOŚĆ) --- */
+        /* --- POPRAWKI DLA LIGHT THEME (MAKSYMALNA WIDOCZNOŚĆ GRIDU I KONTRASTU) --- */
         [data-theme="light"] .cyber-grid-bg {
-            opacity: 0.3;
+            opacity: 0.35;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
         }
 
         [data-theme="light"] .hero-lead,
         [data-theme="light"] .eco-desc,
         [data-theme="light"] .stat-label {
-            color: #2d3748 !important; /* Maksymalnie głęboki, ciemny odcień szarości */
+            color: #1a202c !important; /* Ekstra kontrastowy ciemny tekst */
         }
 
         [data-theme="light"] .eco-card {
-            background-color: #f8fafc; /* Wyraźniejsze odcięcie kart od tła */
-            border-color: #cbd5e1;
+            background-color: #f8fafc; 
+            border-color: #b8c2cc;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
         }
 
         [data-theme="light"] .stats-banner {
-            background-color: #f1f5f9;
+            background-color: #e2e8f0;
             border-color: #cbd5e1;
         }
 
         /* Zmiana wyglądu konsoli w trybie jasnym */
         [data-theme="light"] .discord-console-wrapper {
-            background-color: #1e293b; /* Głęboki grafit dla kontrastu w jasnym motywie */
+            background-color: #1e293b; 
             border-color: #94a3b8;
             box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
         }
@@ -95,20 +99,30 @@
             max-width: 850px;
         }
 
-        /* POPRAWKA: Minimalistyczny, techniczny status systemowy (Brak AI Slop) */
-        .hero-status-tag {
+        /* INTERAKTYWNY STATUS LINK: ALL SERVICES OPERATIONAL */
+        .hero-status-link {
             display: inline-flex;
             align-items: center;
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            padding: 6px 16px;
+            padding: 8px 18px;
             border-radius: 8px;
             font-family: monospace;
             font-size: 0.8rem;
             font-weight: 700;
             color: var(--text-primary);
             letter-spacing: 0.5px;
+            text-decoration: none;
             margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .hero-status-link:hover {
+            border-color: var(--color-brainly-green);
+            background-color: rgba(153, 238, 96, 0.02);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(153, 238, 96, 0.1);
         }
 
         .status-accent {
@@ -138,7 +152,7 @@
             margin: 0 auto 36px auto;
         }
 
-        /* Przyciski Akcji z pełnym neonem dookoła */
+        /* Przyciski Akcji */
         .hero-actions {
             display: flex;
             justify-content: center;
@@ -156,7 +170,7 @@
             font-size: 0.95rem;
             text-decoration: none;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px rgba(153, 238, 96, 0.3); /* Równomierny blask */
+            box-shadow: 0 0 15px rgba(153, 238, 96, 0.3); 
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -164,7 +178,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 28px rgba(153, 238, 96, 0.65); /* Zwiększony neon z każdej strony */
+            box-shadow: 0 0 28px rgba(153, 238, 96, 0.65); 
             background-color: #aeff70;
         }
 
@@ -469,15 +483,17 @@
     <header id="header-placeholder"></header>
 
     <main>
+        <!-- 🌌 HERO SECTION -->
         <section class="hero-section">
             <div class="cyber-grid-bg"></div>
             <div class="glow-orb orb-left"></div>
             <div class="glow-orb orb-right"></div>
 
             <div class="hero-content">
-                <div class="hero-status-tag">
-                    <span class="status-accent">[</span> ECOSYSTEM: ACTIVE <span class="status-accent">]</span>
-                </div>
+                <!-- POPRAWKA: Przycisk statusu systemowego odsyłający do status.html -->
+                <a href="status.html" class="hero-status-link">
+                    <span class="status-accent">[</span> ALL SERVICES OPERATIONAL <span class="status-accent">]</span>
+                </a>
                 
                 <h1 class="hero-title">
                     The Pulse of Community <span>Automation</span>
@@ -501,6 +517,7 @@
                 </div>
             </div>
 
+            <!-- ↕️ ANIMOWANY WSKAŹNIK SCROLLA -->
             <div class="scroll-arrow-container" onclick="scrollToSection()">
                 <span>Scroll to Explore</span>
                 <svg class="arrow-down-animated" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -510,6 +527,7 @@
             </div>
         </section>
 
+        <!-- 📊 CYFRY / STATYSTYKI LIVE -->
         <section class="stats-banner" id="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
@@ -527,6 +545,7 @@
             </div>
         </section>
 
+        <!-- 🚀 PODSTAWOWY EKOSYSTEM -->
         <section class="ecosystem-section">
             <div style="text-align: center; margin-bottom: 50px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
@@ -534,6 +553,7 @@
             </div>
 
             <div class="eco-grid">
+                <!-- Karta 1: Brainly Core Bot -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -554,6 +574,7 @@
                     </a>
                 </div>
 
+                <!-- Karta 2: Partnership Program -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -576,6 +597,7 @@
                     </a>
                 </div>
 
+                <!-- Karta 3: Tools and Palettes -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -597,6 +619,7 @@
             </div>
         </section>
 
+        <!-- 💻 TECH CONSOLE: JOIN DISCORD -->
         <section style="padding: 0 20px;">
             <div class="discord-console-wrapper">
                 <div class="discord-console-header">
@@ -628,6 +651,7 @@
 
     <footer id="footer-placeholder"></footer>
 
+    <!-- INTERAKTYWNA STRZAŁKA SCROLLA -->
     <script>
         function scrollToSection() {
             const element = document.getElementById("stats-section");
