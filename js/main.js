@@ -158,7 +158,7 @@ function updateLogoState(theme) {
     const logoImg = document.getElementById('header-logo-img');
     if (logoImg) {
         if (theme === 'dark') {
-            logoImg.src = 'assets/BRAINLYHQ LOGO WHITE.png';
+            logoImg.src = 'assets/BRAINLYHQ LOGO white.png';
         } else {
             logoImg.src = 'assets/BRAINLYHQ LOGO.png';
         }
