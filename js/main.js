@@ -102,7 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function initNavigationHighlight() {
     let path = window.location.pathname.split("/").pop() || "index.html";
     
-    // POPRAWKA: Jeśli jesteśmy na podstronie careers.html, podświetl przycisk powiązany z id "nav-mission"
+    // UNIFIKACJA: Jeśli użytkownik przegląda podstrony sekcji, podświetlona zostaje główna kategoria Careers
+    if (path === "benefits.html" || path === "tracks.html") {
+        path = "careers.html";
+    }
+    
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
     if (activeLink) {
         activeLink.classList.add('active');
@@ -229,7 +233,6 @@ function initProfileDropdown() {
     }
 }
 
-// System obsługi flag i języków
 function initLanguageSystem() {
     const langSelect = document.getElementById('custom-lang-select');
     let currentLang = localStorage.getItem('lang') || 'en';
