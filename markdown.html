@@ -327,7 +327,7 @@
                     </div>
                     <div class="discord-message-content">
                         <div class="discord-author-info">
-                            <span class="discord-author-name">Guest</span>
+                            <span class="discord-author-name" id="preview-username">Guest</span>
                             <span class="discord-timestamp" id="discord-time">Today at 15:29</span>
                         </div>
                         <div id="discord-preview-output" class="discord-text-rendered"></div>
@@ -364,5 +364,127 @@
     </main>
 
     <footer id="footer-placeholder"></footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const textarea = document.getElementById("discord-input");
+            const output = document.getElementById("discord-preview-output");
+            const discordTime = document.getElementById("discord-time");
+
+            // 1. Ustawienie aktualnej godziny (Discord Style)
+            if (discordTime) {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                discordTime.textContent = `Today at ${hours}:${minutes}`;
+            }
+
+            // 2. Dynamiczne formatowanie tekstu (Discord Markdown Parser)
+            function parseMarkdown(text) {
+                if (!text) return "<em>No message typed...</em>";
+
+                let html = text;
+
+                // Bezpieczna konwersja znaków specjalnych HTML
+                html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+                // Bloki kodu (Code Blocks: ```js ... ```)
+                html = html.replace(/```([\s\S]*?)```/g, '<pre class="discord-code-block"><code>$1</code></pre>');
+
+                // Nagłówki H1, H2, H3 (musi być na początku linii)
+                html = html.split('\n').map(line => {
+                    if (line.startsWith('# ')) {
+                        return `<h1>${line.substring(2)}</h1>`;
+                    } else if (line.startsWith('## ')) {
+                        return `<h2>${line.substring(3)}</h2>`;
+                    } else if (line.startsWith('### ')) {
+                        return `<h3>${line.substring(4)}</h3>`;
+                    } else if (line.startsWith('-# ')) {
+                        return `<span class="discord-subtext">${line.substring(3)}</span>`;
+                    } else if (line.startsWith('&gt; ')) { // > Quote
+                        return `
+                            <div class="discord-blockquote">
+                                <div class="discord-blockquote-line"></div>
+                                <div class="discord-blockquote-content">${line.substring(5)}</div>
+                            </div>
+                        `;
+                    } else if (line.startsWith('- ')) { // Bullet Lists
+                        return `<ul class="discord-list"><li class="discord-list-item">${line.substring(2)}</li></ul>`;
+                    } else if (line.trim() === '_ _') { // Spacer line
+                        return `<span class="discord-spacer-line"></span>`;
+                    }
+                    return line;
+                }).join('\n');
+
+                // Podstawowe style typograficzne (Inline)
+                html = html.replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>'); // Bold
+                html = html.replace(/\*([\s\S]+?)\*/g, '<em>$1</em>'); // Italic
+                html = html.replace(/__([\s\S]+?)__/g, '<u>$1</u>'); // Underline
+                html = html.replace(/~~([\s\S]+?)~~/g, '<del>$1</del>'); // Strike
+                html = html.replace(/`([^`]+?)`/g, '<code class="discord-inline-code">$1</code>'); // Inline Code
+
+                // Spoiler system (kliknij, by odkryć)
+                html = html.replace(/\|\|([\s\S]+?)\|\|/g, '<span class="discord-spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
+
+                return html;
+            }
+
+            // Nasłuchiwanie wpisywania na żywo
+            textarea.addEventListener("input", () => {
+                output.innerHTML = parseMarkdown(textarea.value);
+            });
+
+            // Inicjalizacja pustego stanu
+            output.innerHTML = parseMarkdown("");
+
+            // 3. Logika przycisków na pasku narzędzi (Toolbar Buttons)
+            document.querySelectorAll(".toolbar-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const prefix = btn.getAttribute("data-prefix");
+                    const suffix = btn.getAttribute("data-suffix");
+                    
+                    const startPos = textarea.selectionStart;
+                    const endPos = textarea.selectionEnd;
+                    const text = textarea.value;
+                    const selectedText = text.substring(startPos, endPos);
+
+                    // Wstrzykiwanie formatowania wokół zaznaczonego tekstu
+                    const replacement = prefix + selectedText + suffix;
+                    textarea.value = text.substring(0, startPos) + replacement + text.substring(endPos);
+
+                    // Przywracamy kursor na właściwe miejsce i odświeżamy preview
+                    textarea.focus();
+                    const newCursorPos = startPos + prefix.length + selectedText.length;
+                    textarea.setSelectionRange(newCursorPos, newCursorPos);
+                    
+                    output.innerHTML = parseMarkdown(textarea.value);
+                });
+            });
+
+            // 4. Synchronizacja awatara i nicku z nagłówkiem (po załadowaniu headeru)
+            const syncUserPreview = () => {
+                const headerGuestName = document.querySelector(".dropdown-header h4");
+                const headerAvatar = document.querySelector("#active-avatar-img");
+                const previewUsername = document.getElementById("preview-username");
+                const previewAvatar = document.getElementById("preview-avatar");
+
+                if (headerGuestName && previewUsername) {
+                    previewUsername.textContent = headerGuestName.textContent;
+                }
+                if (headerAvatar && previewAvatar) {
+                    previewAvatar.src = headerAvatar.src;
+                }
+            };
+
+            // Ponieważ nagłówek ładuje się asynchronicznie, ponawiamy próbę synchronizacji co 100ms aż do skutku
+            const interval = setInterval(() => {
+                const headerLoaded = document.querySelector(".dropdown-header");
+                if (headerLoaded) {
+                    syncUserPreview();
+                    clearInterval(interval);
+                }
+            }, 100);
+        });
+    </script>
 </body>
 </html>
