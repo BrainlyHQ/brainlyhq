@@ -564,3 +564,14 @@ html [data-theme] .card code,
 html .card code {
     color: #99ee60 !important;
 }
+
+/* Kiedy strona jest w domyślnym trybie ciemnym, odwróć kolory logo na białe */
+#header-logo-img {
+    filter: brightness(0) invert(1) !important;
+    transition: filter 0.3s ease;
+}
+
+/* Kiedy strona wykryje włączenie trybu jasnego, przywróć oryginalne czarne logo */
+[data-theme="light"] #header-logo-img {
+    filter: none !important;
+}
