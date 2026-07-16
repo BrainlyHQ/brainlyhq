@@ -1,0 +1,41 @@
+{
+  "nav-home": "Start",
+  "nav-products": "Produkty",
+  "nav-careers": "Kariera",
+  "nav-tools": "Narzędzia",
+  "nav-documentation": "Dokumentacja",
+  "welcome-guest": "Witaj w naszym ekosystemie!",
+  "admin-panel": "Panel Administratora",
+  "all-services-operational": "WSZYSTKIE USŁUGI DZIAŁAJĄ",
+  "system-status-nav": "Status Systemów",
+  "welcome-desc": "Witaj na naszej platformie!",
+
+  "hero-title-1": "Serce Automatyzacji Społeczności",
+  "hero-lead-text": "Projektujemy zaawansowane boty, moduły międzyplatformowe i sieci synchronizacji danych, aby zabezpieczać, grywalizować i rozwijać społeczności edukacyjne.",
+  "explore-products-btn": "Eksploruj Produkty",
+  "join-discord-btn": "Dołącz do Discorda",
+  "scroll-explore": "Przewiń, aby odkrywać",
+
+  "stat-latency": "Opóźnienie Bota",
+  "stat-users": "Aktywni Użytkownicy",
+  "stat-messages": "Wiadomości Edukacyjne",
+
+  "eco-title-main": "Nasz Główny Ekosystem",
+  "eco-desc-main": "Budujemy dynamiczne ekosystemy edukacyjne działające bezpośrednio w ramach struktur i inicjatyw społecznościowych Brainly.",
+
+  "core-bot-title": "Brainly Core Bot",
+  "core-bot-desc": "Zaawansowane filtry AutoMod, automatyczne bramki weryfikacji użytkowników i szybkie systemy rejestrowania zdarzeń chroniące sieć.",
+  "connect-discord": "Połącz przez Discorda",
+
+  "partnership-title": "Program Partnerski",
+  "partnership-desc": "Centralny katalog sieciowy łączący zweryfikowanych właścicieli serwerów i menedżerów pod wspólnym szyldem edukacyjnym.",
+  "launch-portal": "Uruchom Portal",
+
+  "webmaster-title": "Narzędzia Webmastera",
+  "webmaster-desc": "Odkryj naszą gamę narzędzi produkcyjnych, od generatorów formatowania Markdown po oficjalne palety kolorów Hex.",
+  "access-tools": "Przejdź do Narzędzi",
+
+  "console-header": "Zsynchronizuj się z naszą siecią techniczną",
+  "console-desc-text": "Połącz się z zarządem społeczności, bierz udział w okrągłych stołach deweloperów, zgłaszaj błędy lub testuj prototypy na żywo na Discordzie.",
+  "join-discord-hq": "Dołącz do Discord HQ"
+}
