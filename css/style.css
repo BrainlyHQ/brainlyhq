@@ -4,31 +4,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* ==========================================
-   ZMIENNE CSS - MOTYW JASNY (Domyślny)
+   ZMIENNE CSS - MOTYW CIEMNY (Domyślny)
    ========================================== */
 :root {
     --font-primary: 'Montserrat', sans-serif;
     
     /* Kolory Brainly */
     --color-brainly-green: #99ee60;
-    --color-brainly-blue: #D9F0FF;
+    --color-brainly-blue: #2A4870;
     --color-brainly-dark-blue: #00204a;
     
-    /* Tła i teksty dla trybu jasnego */
-    --bg-primary: #FFFFFF;
-    --bg-secondary: #F5F8FA;
-    --text-primary: #1A1A1A;       /* Ciemny tekst dla jasnego tła */
-    --text-secondary: #5A6B7C;     /* Szary tekst pomocniczy */
-    --border-color: rgba(0, 32, 74, 0.08);
-    --header-bg: rgba(255, 255, 255, 0.8);
-    --footer-bg: #F5F8FA;
-    --dropdown-bg: #FFFFFF;
-}
-
-/* ==========================================
-   ZMIENNE CSS - ROZJAŚNIONY MOTYW CIEMNY
-   ========================================== */
-[data-theme="dark"] {
+    /* Tła i teksty dla trybu ciemnego */
     --bg-primary: #1E2530;
     --bg-secondary: #293241;
     --text-primary: #F5F7FA;       /* Jasny (biały) tekst dla ciemnego tła */
@@ -36,8 +22,22 @@
     --border-color: rgba(255, 255, 255, 0.15);
     --header-bg: rgba(30, 37, 48, 0.85);
     --footer-bg: #141920;
-    --color-brainly-blue: #2A4870;
     --dropdown-bg: #293241;
+}
+
+/* ==========================================
+   ZMIENNE CSS - ODWRÓCONY MOTYW JASNY
+   ========================================== */
+[data-theme="light"] {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F8FA;
+    --text-primary: #1A1A1A;       /* Ciemny tekst dla jasnego tła */
+    --text-secondary: #5A6B7C;     /* Szary tekst pomocniczy */
+    --border-color: rgba(0, 32, 74, 0.08);
+    --header-bg: rgba(255, 255, 255, 0.8);
+    --footer-bg: #F5F8FA;
+    --color-brainly-blue: #D9F0FF;
+    --dropdown-bg: #FFFFFF;
 }
 
 /* ==========================================
@@ -124,15 +124,15 @@ nav ul {
     display: flex;
     list-style: none;
     gap: 8px;
-    background-color: rgba(0, 32, 74, 0.03);
+    background-color: rgba(240, 243, 246, 0.03);
     padding: 6px;
     border-radius: 30px;
-    border: 1px solid rgba(0, 32, 74, 0.05);
+    border: 1px solid rgba(240, 243, 246, 0.05);
 }
 
-[data-theme="dark"] nav ul {
-    background-color: rgba(240, 243, 246, 0.03);
-    border: 1px solid rgba(240, 243, 246, 0.05);
+[data-theme="light"] nav ul {
+    background-color: rgba(0, 32, 74, 0.03);
+    border: 1px solid rgba(0, 32, 74, 0.05);
 }
 
 nav a {
@@ -146,30 +146,29 @@ nav a {
     display: inline-block;
 }
 
-/* Efekt najechania w trybie jasnym (delikatna szarość) */
+/* Efekt najechania w trybie ciemnym */
 nav a:hover {
-    color: var(--text-primary);
-    background-color: rgba(0, 32, 74, 0.05);
-}
-
-/* Efekt najechania w trybie ciemnym (jasno-białe podświetlenie) */
-[data-theme="dark"] nav a:hover {
     color: var(--text-primary);
     background-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Aktywna podstrona (Zawsze zielone tło i czarny tekst) */
+/* Efekt najechania w trybie jasnym */
+[data-theme="light"] nav a:hover {
+    color: var(--text-primary);
+    background-color: rgba(0, 32, 74, 0.05);
+}
+
+/* Aktywna podstrona */
 nav a.active {
     color: #000000 !important;
     background-color: var(--color-brainly-green) !important;
     box-shadow: 0 2px 8px rgba(153, 238, 96, 0.3);
 }
 
-/* POPRAWKA: Zapobiega ściemnieniu aktywnego zielonego przycisku przy najechaniu */
 nav a.active:hover {
     color: #000000 !important;
     background-color: var(--color-brainly-green) !important;
-    opacity: 0.95; /* Delikatny, estetyczny klikalny błysk */
+    opacity: 0.95;
 }
 
 .header-actions {
@@ -180,8 +179,8 @@ nav a.active:hover {
 }
 
 .action-btn {
-    background-color: rgba(0, 32, 74, 0.03);
-    border: 1px solid rgba(0, 32, 74, 0.05);
+    background-color: rgba(240, 243, 246, 0.03);
+    border: 1px solid rgba(240, 243, 246, 0.05);
     cursor: pointer;
     width: 40px;
     height: 40px;
@@ -194,13 +193,18 @@ nav a.active:hover {
     transition: all 0.2s ease;
 }
 
-[data-theme="dark"] .action-btn {
-    background-color: rgba(240, 243, 246, 0.03);
-    border: 1px solid rgba(240, 243, 246, 0.05);
+[data-theme="light"] .action-btn {
+    background-color: rgba(0, 32, 74, 0.03);
+    border: 1px solid rgba(0, 32, 74, 0.05);
 }
 
 .action-btn:hover {
     transform: translateY(-1px);
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .action-btn:hover {
     background-color: rgba(0, 32, 74, 0.08);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -212,7 +216,6 @@ nav a.active:hover {
     pointer-events: none;
 }
 
-/* Ograniczenie rozmiaru awatara astronauty */
 .user-avatar-btn {
     overflow: hidden;
     padding: 0 !important;
@@ -243,7 +246,7 @@ nav a.active:hover {
     border: 1px solid var(--border-color);
     border-radius: 16px;
     width: 260px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     display: none;
     flex-direction: column;
     padding: 12px 0;
@@ -279,7 +282,6 @@ nav a.active:hover {
     text-align: left;
 }
 
-/* ZIELONE IKONY NAGŁÓWKÓW W DROPDOWNIE */
 .header-green-icon {
     width: 14px;
     height: 14px;
@@ -287,7 +289,6 @@ nav a.active:hover {
     flex-shrink: 0;
 }
 
-/* UNIWERSALNA ETYKIETA SEKCJI DROPDOWNA (UPPERCASE) */
 .section-label-uppercase {
     font-size: 0.72rem;
     font-weight: 700;
@@ -301,7 +302,6 @@ nav a.active:hover {
     text-align: left;
 }
 
-/* Sekcja PANELS */
 .dropdown-links {
     display: flex;
     flex-direction: column;
@@ -309,7 +309,6 @@ nav a.active:hover {
     border-bottom: 1px solid var(--border-color);
 }
 
-/* PIONOWE PRZYCISKI W RAMKACH (PŁASKIE I RÓWNE) */
 .panels-framed-container {
     display: flex;
     flex-direction: column;
@@ -339,15 +338,14 @@ nav a.active:hover {
 .panel-framed-btn:hover {
     background-color: var(--border-color);
     border-color: var(--color-brainly-green);
-    color: var(--color-brainly-dark-blue);
+    color: #FFFFFF;
     padding-left: 15px;
 }
 
-[data-theme="dark"] .panel-framed-btn:hover {
-    color: #FFFFFF;
+[data-theme="light"] .panel-framed-btn:hover {
+    color: var(--color-brainly-dark-blue);
 }
 
-/* Sekcja LANGUAGE */
 .lang-dropdown-container {
     padding: 10px 16px;
     border-bottom: 1px solid var(--border-color);
@@ -367,7 +365,6 @@ nav a.active:hover {
     outline: none;
 }
 
-/* Sekcja QUICK LINKS */
 .promo-links-container {
     padding: 10px 16px 4px 16px;
 }
@@ -396,10 +393,9 @@ nav a.active:hover {
 .promo-card:hover {
     transform: translateY(-2px);
     border-color: var(--color-brainly-green);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Szare ikony wektorowe wewnątrz kafelków */
 .promo-card .promo-tile-icon {
     width: 22px;
     height: 22px;
@@ -419,7 +415,6 @@ nav a.active:hover {
     color: var(--text-primary);
 }
 
-/* Płynne skalowanie ikon wektorowych w przyciskach akcji */
 .action-btn svg {
     width: 20px;
     height: 20px;
@@ -431,98 +426,7 @@ nav a.active:hover {
 }
 
 /* ==========================================
-   FORMULARZ LOGOWANIA ADMIN / WYSZUKIWARKA
-   ========================================== */
-.admin-login-container {
-    max-width: 400px;
-    margin: 80px auto;
-    padding: 32px;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-    text-align: center;
-}
-
-.admin-login-container h2 {
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin-bottom: 8px;
-    color: var(--color-brainly-green);
-}
-
-.admin-login-container p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 24px;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.form-group {
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.2s ease;
-}
-
-.form-input:focus {
-    border-color: var(--color-brainly-green);
-}
-
-.login-btn {
-    background-color: var(--color-brainly-green);
-    color: #000000;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    font-family: var(--font-primary);
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin-top: 8px;
-}
-
-.login-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(153, 238, 96, 0.4);
-}
-
-.login-error {
-    color: #ff4a4a;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-top: 12px;
-    display: none;
-}
-
-/* ==========================================
-   STRUKTURA TREŚCI PODSTRON (INDEX, ETC.)
+   STRUKTURA TREŚCI
    ========================================== */
 .content-section {
     max-width: 1000px;
@@ -530,7 +434,6 @@ nav a.active:hover {
     padding: 0 24px;
 }
 
-/* Nagłówek h1 jest ZAWSZE ZIELONY */
 .content-title {
     font-size: 2.5rem;
     font-weight: 900;
@@ -564,7 +467,7 @@ nav a.active:hover {
 .card:hover {
     transform: translateY(-4px);
     border-color: var(--color-brainly-green);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .card h3 {
@@ -578,9 +481,6 @@ nav a.active:hover {
     font-size: 0.92rem;
 }
 
-/* ==========================================
-   STOPKA (FOOTER)
-   ========================================== */
 footer {
     background-color: var(--footer-bg);
     border-top: 1px solid var(--border-color);
@@ -593,7 +493,7 @@ footer {
 }
 
 /* ==========================================
-   DROPDOWN SUBMENU DLA ZAKŁADKI TOOLS (STABILNY HOVER & BRAK PRZEZROCZYSTOŚCI)
+   DROPDOWN SUBMENU (TOOLS)
    ========================================== */
 .dropdown-nav-item {
     position: relative;
@@ -604,13 +504,13 @@ footer {
     top: 100%;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
-    background-color: var(--bg-secondary) !important; /* W pełni kryjące tło */
+    background-color: var(--bg-secondary) !important;
     border: 1px solid var(--border-color);
     border-radius: 12px;
     list-style: none;
     padding: 8px 0;
     min-width: 180px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -621,7 +521,6 @@ footer {
     z-index: 1200;
 }
 
-/* Niewidzialny most zapobiegający mruganiu i zamykaniu menu */
 .nav-submenu::before {
     content: "";
     position: absolute;
@@ -639,7 +538,6 @@ footer {
     transform: translateX(-50%) translateY(5px);
 }
 
-/* Linki wewnątrz podmenu */
 .nav-submenu li a {
     display: block;
     width: 100%;
@@ -655,7 +553,6 @@ footer {
     transition: color 0.2s ease, padding-left 0.2s ease !important;
 }
 
-/* Wyczyszczenie i agresywne nadpisanie efektu najechania dla spójności koloru #99ee60 */
 html nav ul.main-nav-list li.dropdown-nav-item ul.nav-submenu li a:hover {
     color: #99ee60 !important;
     background-color: transparent !important;
@@ -663,7 +560,6 @@ html nav ul.main-nav-list li.dropdown-nav-item ul.nav-submenu li a:hover {
     padding-left: 20px !important;
 }
 
-/* Agresywne wymuszenie koloru dla tagów code na dole strony w sekcji Markdown Reference */
 html [data-theme] .card code,
 html .card code {
     color: #99ee60 !important;
