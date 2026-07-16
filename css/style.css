@@ -603,3 +603,18 @@ html .card code {
 [data-theme="light"] #header-logo-img {
     filter: none !important;
 }
+
+/* ==========================================
+   SPÓJNA PODMIANA KOLORU LOGO (INVERT SYSTEM)
+   ========================================== */
+
+/* Domyślnie w trybie ciemnym logo ma być białe (odwrócone, jeśli oryginalnie jest ciemne, lub bez zmian) */
+#header-logo-img {
+    transition: filter 0.3s ease;
+}
+
+/* Kiedy aktywny jest tryb jasny -> wymuszamy ciemny kolor logo poprzez odwrócenie */
+[data-theme="light"] #header-logo-img {
+    filter: brightness(0.2) cubic-bezier(0.4, 0, 0.2, 1) !important; 
+    /* Alternatywnie, jeśli logo jest oryginalnie białe: filter: invert(1) !important; */
+}
