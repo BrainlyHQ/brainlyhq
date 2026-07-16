@@ -100,7 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 
 function initNavigationHighlight() {
-    const path = window.location.pathname.split("/").pop() || "index.html";
+    let path = window.location.pathname.split("/").pop() || "index.html";
+    
+    // POPRAWKA: Jeśli jesteśmy na podstronie careers.html, podświetl przycisk powiązany z id "nav-mission"
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
     if (activeLink) {
         activeLink.classList.add('active');
@@ -108,11 +110,9 @@ function initNavigationHighlight() {
 }
 
 function initThemeSystem() {
-    // Odczyt zapisanego motywu lub domyślny ciemny
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     
-    // Zapewniamy stałe, poprawne źródło dla pliku logo
     updateLogoState();
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
 
@@ -130,7 +130,6 @@ function initThemeSystem() {
             updateLogoState();
             if (typeof updateThemeIcon === 'function') updateThemeIcon(newTheme);
             
-            // Zapis zdarzenia zmiany motywu do panelu powiadomień
             try {
                 const now = new Date();
                 const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -156,7 +155,6 @@ function initThemeSystem() {
 function updateLogoState() {
     const logoImg = document.getElementById('header-logo-img');
     if (logoImg) {
-        // Zawsze trzymamy bazowy plik - o zmianę koloru dba filtr w pliku style.css
         logoImg.src = 'assets/BRAINLYHQ LOGO.png';
     }
 }
@@ -231,6 +229,7 @@ function initProfileDropdown() {
     }
 }
 
+// System obsługi flag i języków
 function initLanguageSystem() {
     const langSelect = document.getElementById('custom-lang-select');
     let currentLang = localStorage.getItem('lang') || 'en';
