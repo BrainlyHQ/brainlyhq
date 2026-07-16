@@ -48,6 +48,18 @@
             100% { background-position: center 1000px; }
         }
 
+        /* Widoczność siatki i tekstów w Light Theme */
+        [data-theme="light"] .cyber-grid-bg {
+            opacity: 0.25; /* Mocniejsza siatka w trybie jasnym */
+        }
+
+        [data-theme="light"] .hero-lead,
+        [data-theme="light"] .eco-desc,
+        [data-theme="light"] .console-desc,
+        [data-theme="light"] .stat-label {
+            color: #4a5568 !important; /* Zdecydowanie ciemniejszy i wyraźniejszy tekst */
+        }
+
         /* Pulsujące Neonowe Punkty w Tle */
         .glow-orb {
             position: absolute;
@@ -75,13 +87,15 @@
             max-width: 850px;
         }
 
+        /* POPRAWKA: Idealnie wyrównana kropka i tekst w odznace */
         .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 10px;
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 30px;
             font-size: 0.82rem;
             font-weight: 800;
@@ -97,12 +111,16 @@
             height: 8px;
             background-color: var(--color-brainly-green);
             border-radius: 50%;
+            display: inline-block;
             position: relative;
+            transform: translateY(0px); /* Idealne wyrównanie w osi Y */
         }
 
         .hero-badge .ping-dot::after {
             content: '';
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-color: var(--color-brainly-green);
@@ -112,7 +130,7 @@
 
         @keyframes ping {
             0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
+            100% { transform: scale(3.5); opacity: 0; }
         }
 
         .hero-title {
@@ -137,7 +155,7 @@
             margin: 0 auto 36px auto;
         }
 
-        /* Przyciski Akcji z efektami najechania */
+        /* Przyciski Akcji */
         .hero-actions {
             display: flex;
             justify-content: center;
@@ -145,25 +163,27 @@
             margin-bottom: 60px;
         }
 
+        /* POPRAWKA: Neon rozchodzi się równomiernie dookoła całego przycisku */
         .btn-primary {
             background-color: var(--color-brainly-green);
-            color: #0b0c0f !important; /* Gwarancja doskonałej czytelności na zieleni */
+            color: #0b0c0f !important;
             border: none;
             border-radius: 14px;
             padding: 16px 32px;
             font-weight: 800;
             font-size: 0.95rem;
             text-decoration: none;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.2);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px rgba(153, 238, 96, 0.3); /* Symetryczny neon dookoła */
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            position: relative;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(153, 238, 96, 0.35);
+            box-shadow: 0 0 28px rgba(153, 238, 96, 0.65); /* Zwiększony blask na hover z każdej strony */
             background-color: #aeff70;
         }
 
@@ -341,7 +361,7 @@
 
         /* --- WYPASIONY PANEL DISCORD (COMMAND CONSOLE) --- */
         .discord-console-wrapper {
-            background-color: #0d0f12; /* Stały ciemny, technologiczny kolor dla obu motywów */
+            background-color: #0d0f12; /* Stały, ciemny kolor dla zachowania czytelności konsoli */
             border: 1px solid #1f242c;
             border-radius: 20px;
             padding: 40px;
@@ -352,7 +372,6 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* Ozdobna belka okna programisty na górze */
         .discord-console-header {
             position: absolute;
             top: 0;
@@ -423,7 +442,7 @@
         }
 
         .discord-console-btn {
-            background-color: #5865F2; /* Oryginalny Discord Blurple */
+            background-color: #5865F2;
             color: #ffffff !important;
             border: none;
             padding: 16px 28px;
@@ -465,6 +484,7 @@
     <header id="header-placeholder"></header>
 
     <main>
+        <!-- 🌌 HERO SECTION -->
         <section class="hero-section">
             <div class="cyber-grid-bg"></div>
             <div class="glow-orb orb-left"></div>
@@ -481,7 +501,7 @@
                 </h1>
                 
                 <p class="hero-lead">
-                    We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure and gamify online school communities.
+                    We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand educational communities.
                 </p>
 
                 <div class="hero-actions">
@@ -498,6 +518,7 @@
                 </div>
             </div>
 
+            <!-- ↕️ ANIMOWANY WSKAŹNIK SCROLLA -->
             <div class="scroll-arrow-container" onclick="scrollToSection()">
                 <span>Scroll to Explore</span>
                 <svg class="arrow-down-animated" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -507,30 +528,33 @@
             </div>
         </section>
 
+        <!-- 📊 CYFRY / STATYSTYKI LIVE (Zgodnie z realnymi danymi) -->
         <section class="stats-banner" id="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <div class="stat-number">30K+</div>
-                    <div class="stat-label">Processed Logs Daily</div>
+                    <div class="stat-number">26 ms</div>
+                    <div class="stat-label">Core Bot Latency</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">120+</div>
-                    <div class="stat-label">System Node Integrations</div>
+                    <div class="stat-number">1,200+</div>
+                    <div class="stat-label">Active Platform Users</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Network Uptime API</div>
+                    <div class="stat-number">210K+</div>
+                    <div class="stat-label">Educational Materials & Logs</div>
                 </div>
             </div>
         </section>
 
+        <!-- 🚀 PODSTAWOWY EKOSYSTEM -->
         <section class="ecosystem-section">
             <div style="text-align: center; margin-bottom: 50px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">High-speed development workflows connecting students and technical teams across networks.</p>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">We build dynamic, educational ecosystems operating within the structures and community initiatives of Brainly.</p>
             </div>
 
             <div class="eco-grid">
+                <!-- Karta 1: Discord Utilities -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -551,6 +575,7 @@
                     </a>
                 </div>
 
+                <!-- Karta 2: Brainly Creatives -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -572,6 +597,7 @@
                     </a>
                 </div>
 
+                <!-- Karta 3: Tools and Palettes -->
                 <div class="eco-card">
                     <div>
                         <div class="eco-icon-box">
@@ -593,6 +619,7 @@
             </div>
         </section>
 
+        <!-- 💻 TECH CONSOLE: JOIN DISCORD -->
         <section style="padding: 0 20px;">
             <div class="discord-console-wrapper">
                 <div class="discord-console-header">
@@ -624,6 +651,7 @@
 
     <footer id="footer-placeholder"></footer>
 
+    <!-- INTERAKTYWNA STRZAŁKA SCROLLA -->
     <script>
         function scrollToSection() {
             const element = document.getElementById("stats-section");
