@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kariera - BrainlyHQ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Styl dedykowany dla podstrony Careers - Inspirowany Supercell */
+        
+        .careers-hero {
+            position: relative;
+            width: 100%;
+            min-height: 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #0b0f19;
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        /* Canvas dla animowanych linii i kropek w tle (logistyka i tech) */
+        #constellation-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .careers-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .careers-tag {
+            display: inline-block;
+            background-color: rgba(153, 238, 96, 0.1);
+            color: var(--color-brainly-green);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(153, 238, 96, 0.2);
+        }
+
+        .careers-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .careers-hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 35px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .discord-recruit-box {
+            background: linear-gradient(135deg, rgba(42, 72, 112, 0.3) 0%, rgba(30, 37, 48, 0.6) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 700px;
+            margin: -60px auto 80px auto;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .discord-recruit-box h3 {
+            font-size: 1.6rem;
+            color: #FFFFFF;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .discord-recruit-box p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #5865F2; /* Kolor Discord */
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 32px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-2px);
+            background-color: #4752C4;
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+        }
+
+        .discord-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Sekcja Działów (Siatka Supercell) */
+        .teams-section {
+            max-width: 1200px;
+            margin: 0 auto 100px auto;
+            padding: 0 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 12px;
+        }
+
+        [data-theme="light"] .section-header h2 {
+            color: var(--text-primary);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .teams-grid {
+                grid-template-columns: 1fr;
+            }
+            .careers-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Prostokąty stylizowane na Supercell */
+        .team-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .team-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-card:hover::before {
+            background-color: var(--color-brainly-green);
+        }
+
+        .team-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .team-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .team-arrow {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .team-card:hover .team-arrow {
+            transform: translateX(5px);
+            color: var(--color-brainly-green);
+        }
+
+        .team-card-body h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 12px;
+        }
+
+        [data-theme="light"] .team-card-body h3 {
+            color: var(--text-primary);
+        }
+
+        .team-card-body p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .team-card, .discord-recruit-box {
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="careers-hero">
+            <canvas id="constellation-canvas"></canvas>
+            <div class="careers-hero-content">
+                <span class="careers-tag">We are hiring</span>
+                <h1 data-translate="hero-title">Oficjalne Centrum BrainlyHQ</h1>
+                <p data-translate="hero-subtitle">Dołącz do zespołu tworzącego i rozwijającego globalną społeczność wspierającą miliony uczniów na całym świecie.</p>
+            </div>
+        </section>
+
+        <section class="content-section" style="margin-top: 0; margin-bottom: 40px; padding: 0 24px;">
+            <div class="discord-recruit-box">
+                <h3>Dołącz do procesu rekrutacyjnego</h3>
+                <p>Nie publikujemy tradycyjnych, statycznych ofert pracy. Cała nasza struktura rekrutacyjna, wywiady oraz onboarding odbywają się na dedykowanym serwerze aplikacyjnym Discord.</p>
+                <a href="https://discord.gg/your-recruitment-link" target="_blank" class="discord-btn">
+                    <svg viewBox="0 0 127.14 96.36">
+                        <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.4-5c.89-.65,1.76-1.34,2.58-2.06a75.22,75.22,0,0,0,72.57,0c.82.72,1.69,1.41,2.58,2.06a68.43,68.43,0,0,1-10.4,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31-18.83C129.87,48.12,123.1,25.25,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
+                    </svg>
+                    Aplikuj przez Discorda
+                </a>
+            </div>
+        </section>
+
+        <section class="teams-section">
+            <div class="section-header">
+                <h2>Nasze Działy i Zespoły</h2>
+                <p>Wybierz obszar, który najbardziej odpowiada Twojej pasji i umiejętnościom.</p>
+            </div>
+
+            <div class="teams-grid">
+                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                    <div class="team-card-header">
+                        <span class="team-icon">🛡️</span>
+                        <span class="team-arrow">→</span>
+                    </div>
+                    <div class="team-card-body">
+                        <h3>Community & Moderation</h3>
+                        <p>Zadbaj o porządek, bezpieczeństwo i pozytywną atmosferę na naszych serwerach. To serce operacji BrainlyHQ.</p>
+                    </div>
+                </div>
+
+                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                    <div class="team-card-header">
+                        <span class="team-icon">💻</span>
+                        <span class="team-arrow">→</span>
+                    </div>
+                    <div class="team-card-body">
+                        <h3>Product & Automation</h3>
+                        <p>Projektuj, twórz i optymalizuj narzędzia automatyzacji, boty i skrypty ułatwiające pracę moderatorom.</p>
+                    </div>
+                </div>
+
+                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                    <div class="team-card-header">
+                        <span class="team-icon">📈</span>
+                        <span class="team-arrow">→</span>
+                    </div>
+                    <div class="team-card-body">
+                        <h3>Operations & Logistics</h3>
+                        <p>Koordynuj projekty, organizuj zadania i kontroluj harmonogramy staży oraz struktur wewnętrznych.</p>
+                    </div>
+                </div>
+
+                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                    <div class="team-card-header">
+                        <span class="team-icon">🎨</span>
+                        <span class="team-arrow">→</span>
+                    </div>
+                    <div class="team-card-body">
+                        <h3>Creative & Design</h3>
+                        <p>Twórz materiały graficzne, buduj wizerunek marki i kreuj interfejsy dla naszych narzędzi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Animacja tła Canvas (Konstelacja połączona liniami)
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('constellation-canvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = canvas.offsetWidth;
+            let height = canvas.height = canvas.offsetHeight;
+
+            const dots = [];
+            const dotCount = Math.min(60, Math.floor((width * height) / 15000));
+            const connectionDistance = 120;
+
+            class Dot {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 2 + 1;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = '#99ee60';
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < dotCount; i++) {
+                dots.push(new Dot());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].update();
+                    dots[i].draw();
+
+                    for (let j = i + 1; j < dots.length; j++) {
+                        const dx = dots[i].x - dots[j].x;
+                        const dy = dots[i].y - dots[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < connectionDistance) {
+                            ctx.beginPath();
+                            ctx.moveTo(dots[i].x, dots[i].y);
+                            ctx.lineTo(dots[j].x, dots[j].y);
+                            const alpha = (1 - (dist / connectionDistance)) * 0.15;
+                            ctx.strokeStyle = `rgba(153, 238, 96, ${alpha})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = canvas.offsetWidth;
+                height = canvas.height = canvas.offsetHeight;
+            });
+
+            animate();
+        });
+    </script>
+</body>
+</html>
