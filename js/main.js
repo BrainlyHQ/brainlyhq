@@ -47,7 +47,7 @@ const translations = {
         "welcome-guest": "¡Bienvenido a nuestra plataforma!", "admin-panel": "Panel de Admin",
         "hero-title": "Centro Oficial BrainlyHQ", "hero-subtitle": "Donde la pasión por aprender se une con la tecnología y la comunidad.", "hero-cta": "Únete",
         "prod-title": "Nuestros Productos", "prod-lead": "Descubre las plataformas innovadoras diseñadas por Employee.",
-        "mission-title": "Nuestra Misión", "mission-lead": "Creemos en hacer la educación accesible para todos los estudiantes.",
+        "mission-title": "Nuestra Misión", "mission-lead": "Creemos en hacer la educación accesible para todos los Estados.",
         "tools-title": "Herramientas de la Comunidad", "tools-lead": "Utilidades diseñadas para optimizar la moderación y seguridad."
     },
     pt: {
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (headerPlaceholder) headerPlaceholder.innerHTML = headerHtml;
         if (footerPlaceholder) footerPlaceholder.innerHTML = footerHtml;
 
-        // INICJALIZACJA SYSTEMÓW DOPIERO PO WSTRZYKNIĘCIU NAGŁÓWKA DO DOM!
+        // Inicjalizacja systemów po wstrzyknięciu struktury do drzewa DOM
         initThemeSystem();
         initNavigationHighlight();
         initProfileDropdown();
@@ -108,14 +108,12 @@ function initNavigationHighlight() {
 }
 
 function initThemeSystem() {
-    // Domyślnym motywem startowym jest 'dark'
+    // Odczyt zapisanego motywu lub domyślny ciemny
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     
-    // KLUCZOWE: Ponieważ funkcja odpala się wewnątrz bloku .then() po załadowaniu HTML,
-    // ten selektor nareszcie bez problemu znajdzie element graficzny i podmieni źródło!
+    // Aktualizacja widoku logotypu oraz powiązanych ikon
     updateLogoState(currentTheme);
-    
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
 
     const themeBtn = document.getElementById('theme-toggle-btn');
@@ -123,16 +121,17 @@ function initThemeSystem() {
         themeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             
-            const oldTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-            const newTheme = oldTheme === 'dark' ? 'light' : 'dark';
+            // Pobieramy aktualny stan bezpośrednio z dokumentu, bez sztywnych uproszczeń
+            const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
             updateLogoState(newTheme);
-            
             if (typeof updateThemeIcon === 'function') updateThemeIcon(newTheme);
             
+            // Zapis zdarzenia zmiany motywu do panelu powiadomień
             try {
                 const now = new Date();
                 const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -262,7 +261,6 @@ function applyMagicTranslations(lang) {
     });
 }
 
-// Obsługa płynnych przejść z efektem fade-out
 function initPageTransitions() {
     const localLinks = document.querySelectorAll('nav a, .logo-container a, .dropdown-links a');
     localLinks.forEach(link => {
