@@ -7,22 +7,6 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .back-link {
-            text-decoration: none;
-            color: var(--color-brainly-green);
-            font-weight: 700;
-            font-size: 0.88rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 30px;
-            transition: opacity 0.2s ease;
-        }
-
-        .back-link:hover {
-            opacity: 0.8;
-        }
-
         .benefits-detailed-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -58,7 +42,6 @@
             justify-content: flex-start;
         }
 
-        /* Poprawka: Ikonka i tekst idealnie w jednej linii */
         .benefit-card-title {
             display: flex;
             align-items: center;
@@ -82,7 +65,6 @@
             display: block;
         }
 
-        /* Poprawka: Ostatni kafelek bez zbędnych odstępów na dole */
         .benefit-last-card {
             grid-column: span 2;
         }
@@ -109,10 +91,8 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <!-- Spójny kontener główny ze standardowymi klasami i wyśrodkowanym nagłówkiem -->
+    <!-- Główna sekcja z wyśrodkowanym nagłówkiem -->
     <main class="content-section" style="margin-top: 50px;">
-        
-        <a href="careers.html" class="back-link">← Back to Careers</a>
 
         <div style="text-align: center; margin-bottom: 40px;">
             <h1 class="content-title">Why You'll Love Working Here</h1>
@@ -123,7 +103,7 @@
 
         <div class="benefits-detailed-grid">
             
-            <!-- Cultural Philosophy (Inspiracja Supercell: You Are Not Your Job Title) -->
+            <!-- Cultural Philosophy -->
             <div class="philosophy-banner">
                 <h3>Impact Over Hierarchy ™</h3>
                 <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1rem; margin: 0;">
@@ -160,12 +140,16 @@
                 </p>
             </div>
 
-            <!-- Virtual Economy (BrainlyCoins) -->
+            <!-- Virtual Economy (BrainlyCoins) - Zoptymalizowana, piękna ikona monety z logo 'B' -->
             <div class="card benefit-extended-card">
                 <div class="benefit-card-title">
                     <svg class="benefit-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <!-- Obrys Monety -->
                         <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v12M15 9H10.5a2.5 2.5 0 0 0 0 5H14a2.5 2.5 0 0 1 0 5H9"></path>
+                        <!-- Wewnętrzny krąg tokenu -->
+                        <circle cx="12" cy="12" r="7" stroke-dasharray="2,2"></circle>
+                        <!-- Stylowa litera B w środku monety -->
+                        <path d="M10 8h2.5a2 2 0 0 1 0 4H10V8zm0 4h3a2 2 0 0 1 0 4H10v-4z" fill="currentColor" stroke="none"></path>
                     </svg>
                     <h3>BrainlyCoins Incentives</h3>
                 </div>
