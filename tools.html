@@ -12,9 +12,10 @@
             margin: 0 auto;
             padding: 60px 24px;
         }
+        /* Układ 2 na górze, 2 na dole */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 24px;
             margin-top: 40px;
         }
@@ -25,6 +26,7 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
+            min-height: 200px;
         }
         .tools-icon {
             width: 32px;
@@ -32,7 +34,10 @@
             color: var(--color-brainly-green);
             margin-bottom: 16px;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
+            .tools-grid {
+                grid-template-columns: 1fr; /* Na telefonach tradycyjnie jeden pod drugim */
+            }
             .tools-container {
                 padding: 40px 24px;
             }
