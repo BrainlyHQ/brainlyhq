@@ -1,6 +1,6 @@
 /**
  * BrainlyHQ - Central System Core Engine
- * Handled features: i18n dynamic loading, navigation highlights, profile, dynamic notifications & theme loggers
+ * Handled features: i18n dynamic loading, navigation highlights, profile, dynamic notifications (cards) & theme loggers
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -140,7 +140,7 @@ function createNotification(text, details = "") {
     }
 }
 
-// Funkcja renderująca elementy listy powiadomień w dropdownie
+// Funkcja renderująca elementy listy powiadomień w postaci eleganckich kafelków (kart)
 function renderNotifications() {
     const notifList = document.getElementById("dropdown-notifications-list");
     if (!notifList) return;
@@ -150,7 +150,7 @@ function renderNotifications() {
         const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
         const nowMs = new Date().getTime();
 
-        // Filtrujemy wpisy starsze niż 7 dni (retencja)
+        // Filtrowanie wpisów starszych niż 7 dni (retencja)
         const activeLogs = logs.filter(log => (nowMs - (log.dateMs || 0)) < sevenDaysMs);
         
         // Zapisujemy przefiltrowaną tablicę
@@ -167,14 +167,18 @@ function renderNotifications() {
             return;
         }
 
-        // Generowanie struktury HTML powiadomień
+        // Generowanie powiadomień jako eleganckie, osobne kafelki na bazie klasy .card
         notifList.innerHTML = activeLogs.map(log => `
-            <div style="border-bottom: 1px solid rgba(255,255,255,0.03); padding: 6px 0; text-align: left;">
-                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; color: var(--text-secondary);">
-                    <span>${log.text}</span>
-                    <span style="font-family: monospace; opacity: 0.7;">${log.time}</span>
+            <div class="card" style="padding: 10px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-secondary); transition: none; transform: none; box-shadow: none;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; text-align: left;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-primary); line-height: 1.3;">${log.text}</span>
+                    <span style="font-family: monospace; font-size: 0.65rem; color: var(--text-secondary); opacity: 0.8; white-space: nowrap;">${log.time}</span>
                 </div>
-                ${log.details ? `<div style="font-size: 0.68rem; font-family: monospace; color: var(--color-brainly-green); opacity: 0.85; margin-top: 2px;">${log.details}</div>` : ''}
+                ${log.details ? `
+                    <div style="font-family: monospace; font-size: 0.68rem; color: var(--color-brainly-green); margin-top: 4px; text-align: left; word-break: break-all;">
+                        ${log.details}
+                    </div>
+                ` : ''}
             </div>
         `).join('');
 
@@ -197,7 +201,7 @@ function initThemeToggle() {
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
 
-        // LOGOWANIE ZMIANY MOTYWU: Generuje powiadomienie
+        // Generowanie powiadomienia o zmianie motywu
         const formattedThemeName = newTheme.charAt(0).toUpperCase() + newTheme.slice(1);
         createNotification("Theme updated", `Switched to ${formattedThemeName} mode`);
     });
