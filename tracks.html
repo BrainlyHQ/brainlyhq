@@ -3,82 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Operational Tracks - BrainlyHQ</title>
+    <title>Operational Tracks - BrainlyHQ</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .tracks-detailed-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-            margin-bottom: 60px;
-        }
-
-        .autonomy-banner {
-            grid-column: span 2;
+        /* Unikalny styl Interaktywnego Pulpitu Dowodzenia */
+        
+        .protocol-broadcast {
             background: linear-gradient(135deg, rgba(153, 238, 96, 0.05) 0%, rgba(42, 72, 112, 0.1) 100%);
             border: 1px solid var(--border-color);
             border-left: 4px solid var(--color-brainly-green);
             border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 12px;
+            padding: 28px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .autonomy-banner h3 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-            color: #FFFFFF;
-        }
-
-        [data-theme="light"] .autonomy-banner h3 {
-            color: var(--text-primary);
-        }
-
-        .track-extended-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        .track-card-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-
-        .track-card-title h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin: 0;
-            line-height: 1;
-        }
-
-        .track-card-icon {
-            width: 24px;
-            height: 24px;
+        .protocol-tag {
+            display: inline-block;
+            font-family: monospace;
+            font-size: 0.75rem;
+            background-color: rgba(153, 238, 96, 0.15);
             color: var(--color-brainly-green);
-            flex-shrink: 0;
-            display: block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .track-last-card {
-            grid-column: span 2;
-        }
-
-        .track-extended-card p {
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        /* Stylizacja przekreślenia i poprawki tekstu */
         .strike-name {
             text-decoration: line-through;
-            opacity: 0.6;
-            font-weight: 500;
+            opacity: 0.5;
         }
 
         .correct-name {
@@ -86,12 +44,196 @@
             font-weight: 800;
         }
 
-        @media (max-width: 768px) {
-            .tracks-detailed-grid {
+        /* Główny kontener konsoli */
+        .console-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 30px;
+            margin-bottom: 60px;
+            align-items: start;
+        }
+
+        /* Lewa strona: przyciski wyboru */
+        .console-navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .console-nav-item {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            user-select: none;
+        }
+
+        .console-nav-item:hover {
+            border-color: rgba(153, 238, 96, 0.4);
+            transform: translateX(4px);
+        }
+
+        /* Kiedy dany przycisk jest aktywny */
+        .console-nav-item.active {
+            border-color: var(--color-brainly-green) !important;
+            background-color: rgba(153, 238, 96, 0.02);
+            box-shadow: 0 4px 20px rgba(153, 238, 96, 0.05);
+        }
+
+        .nav-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-item-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--text-secondary);
+            transition: color 0.25s ease;
+        }
+
+        .console-nav-item.active .nav-item-icon {
+            color: var(--color-brainly-green);
+        }
+
+        .nav-item-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .nav-item-arrow {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .console-nav-item.active .nav-item-arrow {
+            transform: translateX(4px);
+            color: var(--color-brainly-green);
+        }
+
+        /* Prawa strona: Ekran monitora CRT / Konsoli */
+        .console-monitor {
+            background-color: #0b0f19;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 36px;
+            min-height: 440px;
+            position: relative;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Ozdobna siatka i kropki monitora */
+        .monitor-grid-overlay {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .monitor-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .monitor-dot.live-pulse {
+            background-color: var(--color-brainly-green);
+            box-shadow: 0 0 8px var(--color-brainly-green);
+            animation: pulse-glow 1.8s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Dynamiczna sekcja tekstowa wewnątrz monitora */
+        .monitor-screen-content {
+            opacity: 1;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .monitor-screen-content.fade-out {
+            opacity: 0;
+        }
+
+        .monitor-tag {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--color-brainly-green);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .monitor-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        [data-theme="light"] .monitor-title {
+            color: #FFFFFF; /* Zostawiamy ciemną konsolę dla obu motywów jako unikalny element */
+        }
+
+        .monitor-desc {
+            color: #a0aec0;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .monitor-meta-box {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+        }
+
+        .meta-subtitle {
+            font-family: monospace;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .meta-project-tag {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-family: monospace;
+            font-size: 0.82rem;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .console-dashboard {
                 grid-template-columns: 1fr;
             }
-            .autonomy-banner, .track-last-card {
-                grid-column: span 1;
+            .console-monitor {
+                min-height: auto;
             }
         }
     </style>
@@ -108,83 +250,103 @@
         <div style="text-align: center; margin-bottom: 40px;">
             <h1 class="content-title">Our Operational Tracks</h1>
             <p class="content-lead" style="max-width: 750px; margin: 12px auto 0 auto;">
-                Explore our core structure divisions and discover how you can actively shape our community platforms.
+                Interact with our system terminal below to explore custom structures, deployment scopes, and active project environments.
             </p>
         </div>
 
-        <div class="tracks-detailed-grid">
+        <div class="protocol-broadcast">
+            <span class="protocol-tag">System Protocol: Active Self-Regulation</span>
+            <h3 style="margin: 0 0 8px 0; font-size: 1.3rem;">Fluid Structures & Dynamic Initiative</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; margin: 0;">
+                We refuse to lock talent within rigid boundaries. Our framework is fully self-regulated - if you propose a new focus group, custom workflow, or specific project, you have the backing to construct and lead your own cell. Through this model, <span class="strike-name">BrainlyHQ</span> <span class="correct-name">BrainlyHQ teams</span> have developed stellar, community-first deployments such as the gamified smelt-and-drop system **Science Scavengers** and our official **Partnership Program**.
+            </p>
+        </div>
+
+        <div class="console-dashboard">
             
-            <div class="autonomy-banner">
-                <h3>Fluid Structures & Unlimited Initiative</h3>
-                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1rem; margin: 0; margin-bottom: 16px;">
-                    Our organizational layout is completely dynamic and self-regulated. We don't believe in locking talents into closed, rigid roles. If you identify a structural gap, have a vision for a brand new department, or want to launch a custom community feature - you have the complete freedom, support, and resources to build and lead your own squad.
-                </p>
-                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1rem; margin: 0;">
-                    Through this open framework, <span class="strike-name">BrainlyHQ</span> <span class="correct-name">BrainlyHQ teams</span> have already successfully shipped and scaled incredible initiatives, such as the gamified virtual smelting and drop-rate ecosystem **Science Scavengers**, as well as our official, community-driven **Partnership Program**.
-                </p>
+            <div class="console-navigation">
+                
+                <div class="console-nav-item active" onclick="switchConsoleTrack('moderation', this)">
+                    <div class="nav-item-meta">
+                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        <span class="nav-item-title">Community & Moderation</span>
+                    </div>
+                    <span class="nav-item-arrow">→</span>
+                </div>
+
+                <div class="console-nav-item" onclick="switchConsoleTrack('automation', this)">
+                    <div class="nav-item-meta">
+                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        <span class="nav-item-title">Product & Automation</span>
+                    </div>
+                    <span class="nav-item-arrow">→</span>
+                </div>
+
+                <div class="console-nav-item" onclick="switchConsoleTrack('logistics', this)">
+                    <div class="nav-item-meta">
+                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span class="nav-item-title">Operations & Logistics</span>
+                    </div>
+                    <span class="nav-item-arrow">→</span>
+                </div>
+
+                <div class="console-nav-item" onclick="switchConsoleTrack('creative', this)">
+                    <div class="nav-item-meta">
+                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
+                        </svg>
+                        <span class="nav-item-title">Creative & Design</span>
+                    </div>
+                    <span class="nav-item-arrow">→</span>
+                </div>
+
+                <div class="console-nav-item" onclick="switchConsoleTrack('research', this)">
+                    <div class="nav-item-meta">
+                        <svg class="nav-item-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                        </svg>
+                        <span class="nav-item-title">Research & Development</span>
+                    </div>
+                    <span class="nav-item-arrow">→</span>
+                </div>
+
             </div>
 
-            <div class="card track-extended-card">
-                <div class="track-card-title">
-                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                    <h3>Community & Moderation</h3>
+            <div class="console-monitor">
+                
+                <div class="monitor-grid-overlay">
+                    <div class="monitor-dot"></div>
+                    <div class="monitor-dot"></div>
+                    <div class="monitor-dot live-pulse"></div>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                    The heart of our network. This track focuses on platform safety, processing verifications, managing active public spaces, and maintaining server regulations to foster positive, collaborative student ecosystems.
-                </p>
-            </div>
 
-            <div class="card track-extended-card">
-                <div class="track-card-title">
-                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <polyline points="16 18 22 12 16 6"></polyline>
-                        <polyline points="8 6 2 12 8 18"></polyline>
-                    </svg>
-                    <h3>Product & Automation</h3>
-                </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                    For the coders and builders. This group designs, develops, and maintains our custom bot frameworks, webhooks, regex-driven logging systems, and our custom layout extension platforms.
-                </p>
-            </div>
+                <div id="monitor-content" class="monitor-screen-content">
+                    <div>
+                        <span class="monitor-tag" id="screen-tag">Track // 01</span>
+                        <h2 class="monitor-title" id="screen-title">Community & Moderation</h2>
+                        <p class="monitor-desc" id="screen-desc">
+                            The core defense line of our network. This track focuses heavily on platform safety, processing member verifications, administering public spaces, and actively enforcing server regulations to foster collaborative student communities.
+                        </p>
+                    </div>
 
-            <div class="card track-extended-card">
-                <div class="track-card-title">
-                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <line x1="18" y1="20" x2="18" y2="10"></line>
-                        <line x1="12" y1="20" x2="12" y2="4"></line>
-                        <line x1="6" y1="20" x2="6" y2="14"></line>
-                    </svg>
-                    <h3>Operations & Logistics</h3>
+                    <div class="monitor-meta-box">
+                        <span class="meta-subtitle" id="screen-meta-title">Key Frameworks</span>
+                        <div id="screen-meta-tags">
+                            <span class="meta-project-tag">Verification API</span>
+                            <span class="meta-project-tag" style="margin-left: 8px;">Staff Rotas</span>
+                        </div>
+                    </div>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                    The orchestrators. Focused on workflow scheduling, coordinating active staff rotas, managing project roadmaps, and producing detailed internal audits of server performance and activity logs.
-                </p>
-            </div>
 
-            <div class="card track-extended-card">
-                <div class="track-card-title">
-                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
-                    </svg>
-                    <h3>Creative & Design</h3>
-                </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                    The visual architects. This group crafts visual guidelines, custom bot embed templates, front-end interface layouts, and all media materials required for official partnerships.
-                </p>
-            </div>
-
-            <div class="card track-extended-card track-last-card">
-                <div class="track-card-title">
-                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-                    </svg>
-                    <h3>Research & Development (R&D)</h3>
-                </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                    Dedicated to exploring and testing experimental community features, innovative game design models, and new automation technologies. If you want to pitch, design, and prototype completely new features from scratch, this is where you can start.
-                </p>
             </div>
 
         </div>
@@ -192,5 +354,80 @@
 
     <footer id="footer-placeholder"></footer>
 
+    <script>
+        // Baza danych dla dynamicznego pulpitu
+        const TRACK_DATA = {
+            moderation: {
+                tag: "Track // 01",
+                title: "Community & Moderation",
+                desc: "The core defense line of our network. This track focuses heavily on platform safety, processing member verifications, administering public spaces, and actively enforcing server regulations to foster collaborative student communities.",
+                metaTitle: "Ecosystem Focus",
+                tags: ["Verification API", "Staff Rotas", "User Safety"]
+            },
+            automation: {
+                tag: "Track // 02",
+                title: "Product & Automation",
+                desc: "Designed for the system builders and developers. This group designs, scripts, and scales our customized bot infrastructures, automated log filters, API integrations, and user layouts (such as our custom extensions).",
+                metaTitle: "Ecosystem Focus",
+                tags: ["Node.js Bot", "Regex Rules", "Webhooks"]
+            },
+            logistics: {
+                tag: "Track // 03",
+                title: "Operations & Logistics",
+                desc: "The organizational backbone. Focused entirely on team coordination, structuring complex task pipelines, scheduling global staff assignments, and producing thorough internal performance audit logs.",
+                metaTitle: "Ecosystem Focus",
+                tags: ["Partnership Program", "Task Pipelines", "Audits"]
+            },
+            creative: {
+                tag: "Track // 04",
+                title: "Creative & Design",
+                desc: "The visual architects. This group crafts modern branding directions, custom media kits, front-end interface layouts, and bot embed templates to ensure premium, unified aesthetic criteria.",
+                metaTitle: "Ecosystem Focus",
+                tags: ["UI Layouts", "Asset Guidelines", "SVG Tokens"]
+            },
+            research: {
+                tag: "Track // 05",
+                title: "Research & Development",
+                desc: "Our experimental laboratory. Dedicated entirely to pitching, conceptualizing, prototyping, and launching completely unique, interactive mechanisms such as gamified community ecosystems and new automation paradigms.",
+                metaTitle: "Flagship Releases",
+                tags: ["Science Scavengers", "Gamification Model"]
+            }
+        };
+
+        function switchConsoleTrack(trackKey, element) {
+            // 1. Zdejmij klasę active ze wszystkich przycisków i dodaj do klikniętego
+            const navItems = document.querySelectorAll('.console-nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            // 2. Pobierz dane dla wybranego działu
+            const data = TRACK_DATA[trackKey];
+            if (!data) return;
+
+            const monitorContent = document.getElementById('monitor-content');
+            const screenTag = document.getElementById('screen-tag');
+            const screenTitle = document.getElementById('screen-title');
+            const screenDesc = document.getElementById('screen-desc');
+            const metaTitle = document.getElementById('screen-meta-title');
+            const metaTagsContainer = document.getElementById('screen-meta-tags');
+
+            // 3. Płynna animacja podmiany tekstu (Fade-out -> Podmiana -> Fade-in)
+            monitorContent.classList.add('fade-out');
+
+            setTimeout(() => {
+                screenTag.innerText = data.tag;
+                screenTitle.innerText = data.title;
+                screenDesc.innerText = data.desc;
+                metaTitle.innerText = data.metaTitle;
+
+                // Generowanie tagów technologicznych
+                metaTagsContainer.innerHTML = data.tags.map(tag => 
+                    `<span class="meta-project-tag" style="margin-right: 8px; margin-bottom: 8px;">${tag}</span>`
+                ).join('');
+
+                monitorContent.classList.remove('fade-out');
+            }, 200);
+        }
+    </script>
 </body>
 </html>
