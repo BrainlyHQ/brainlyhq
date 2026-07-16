@@ -102,9 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
 function initNavigationHighlight() {
     let path = window.location.pathname.split("/").pop() || "index.html";
     
-    // UNIFIKACJA: Jeśli użytkownik przegląda podstrony sekcji, podświetlona zostaje główna kategoria Careers
+    // Obsługa podświetlania dla podstron kariery
     if (path === "benefits.html" || path === "tracks.html") {
         path = "careers.html";
+    }
+    
+    // NOWOŚĆ: Jeśli użytkownik jest na stronie status.html, podświetlona pozostaje zakładka Products
+    if (path === "status.html") {
+        path = "products.html";
     }
     
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
