@@ -7,13 +7,6 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .benefits-page-header {
-            text-align: center;
-            padding: 60px 24px 20px 24px;
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-            border-bottom: 1px solid var(--border-color);
-        }
-
         .back-link {
             text-decoration: none;
             color: var(--color-brainly-green);
@@ -22,7 +15,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             transition: opacity 0.2s ease;
         }
 
@@ -44,7 +37,7 @@
             border: 1px solid var(--border-color);
             border-left: 4px solid var(--color-brainly-green);
             border-radius: 16px;
-            padding: 36px;
+            padding: 32px;
             margin-bottom: 12px;
         }
 
@@ -60,12 +53,12 @@
         }
 
         .benefit-extended-card {
-            min-height: 220px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
         }
 
+        /* Poprawka: Ikonka i tekst idealnie w jednej linii */
         .benefit-card-title {
             display: flex;
             align-items: center;
@@ -74,9 +67,11 @@
         }
 
         .benefit-card-title h3 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: var(--text-primary);
+            margin: 0;
+            line-height: 1;
         }
 
         .benefit-card-icon {
@@ -84,13 +79,24 @@
             height: 24px;
             color: var(--color-brainly-green);
             flex-shrink: 0;
+            display: block;
+        }
+
+        /* Poprawka: Ostatni kafelek bez zbędnych odstępów na dole */
+        .benefit-last-card {
+            grid-column: span 2;
+        }
+
+        .benefit-extended-card p {
+            margin: 0;
+            line-height: 1.6;
         }
 
         @media (max-width: 768px) {
             .benefits-detailed-grid {
                 grid-template-columns: 1fr;
             }
-            .philosophy-banner {
+            .philosophy-banner, .benefit-last-card {
                 grid-column: span 1;
             }
         }
@@ -103,24 +109,29 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <div class="benefits-page-header">
-        <div style="max-width: 1000px; margin: 0 auto; text-align: left;">
-            <a href="careers.html" class="back-link">← Back to Careers</a>
-            <h1 class="content-title" style="text-align: left; margin-bottom: 10px;">Why You'll Love Working Here</h1>
-            <p class="content-lead" style="text-align: left; margin-bottom: 0;">Discover what makes our independent development culture and internal ecosystem unique.</p>
-        </div>
-    </div>
+    <!-- Spójny kontener główny ze standardowymi klasami i wyśrodkowanym nagłówkiem -->
+    <main class="content-section" style="margin-top: 50px;">
+        
+        <a href="careers.html" class="back-link">← Back to Careers</a>
 
-    <main class="content-section" style="margin-top: 40px;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 class="content-title">Why You'll Love Working Here</h1>
+            <p class="content-lead" style="max-width: 750px; margin: 12px auto 0 auto;">
+                Discover what makes our independent development culture and internal ecosystem unique.
+            </p>
+        </div>
+
         <div class="benefits-detailed-grid">
             
+            <!-- Cultural Philosophy (Inspiracja Supercell: You Are Not Your Job Title) -->
             <div class="philosophy-banner">
                 <h3>Impact Over Hierarchy ™</h3>
-                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1rem;">
-                    Here, you won’t waste energy chasing superficial corporate status or navigating complex ladders. Internally, our structural directory completely omits prefixes like Senior, Junior, Principal, or Director. Recognition within BrainlyHQ is anchored entirely to your initiative, execution speed, and ownership—your titles will never define the ultimate impact you can deliver around here.
+                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1rem; margin: 0;">
+                    Here, you won't waste energy chasing superficial corporate status or navigating complex ladders. Internally, our structural directory completely omits prefixes like Senior, Junior, Principal, or Director. Recognition within BrainlyHQ is anchored entirely to your initiative, execution speed, and ownership - your titles will never define the ultimate impact you can deliver around here.
                 </p>
             </div>
 
+            <!-- Small Teams & Collaboration -->
             <div class="card benefit-extended-card">
                 <div class="benefit-card-title">
                     <svg class="benefit-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -131,11 +142,12 @@
                     </svg>
                     <h3>Small Independent Teams</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
                     We organize into compact, focused operational cells. By minimizing bureaucratic layers and unnecessary synchronization meetings, we grant every team member maximum speed to develop tools, ship system code, and secure environments without friction.
                 </p>
             </div>
 
+            <!-- Growth & Passion -->
             <div class="card benefit-extended-card">
                 <div class="benefit-card-title">
                     <svg class="benefit-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -143,11 +155,12 @@
                     </svg>
                     <h3>Cultivating Pure Passion</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
                     We are built by creators for creators. Whether you are tuning server automation rules, experimenting with regex definitions, or designing complex gamified token structures, you have the backing and freedom to turn your hobbies into main community features.
                 </p>
             </div>
 
+            <!-- Virtual Economy (BrainlyCoins) -->
             <div class="card benefit-extended-card">
                 <div class="benefit-card-title">
                     <svg class="benefit-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -156,11 +169,12 @@
                     </svg>
                     <h3>BrainlyCoins Incentives</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
                     Get directly rewarded through our unique virtual community economy framework. Accumulate internal BrainlyCoins tokens by completing critical project milestones, tracking bugs, or assisting with onboarding to spend on ecosystem perks.
                 </p>
             </div>
 
+            <!-- Live Server Events -->
             <div class="card benefit-extended-card">
                 <div class="benefit-card-title">
                     <svg class="benefit-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -168,12 +182,13 @@
                     </svg>
                     <h3>Ecosystem Events & Rallies</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
                     Gain full access to exclusive internal developer rallies, staff gaming tournaments, and collaborative group workshops. We focus heavily on celebrating project launches and connecting our decentralized network of contributors.
                 </p>
             </div>
 
-            <div class="card benefit-extended-card" style="grid-column: span 2;">
+            <!-- Premium Tool Access -->
+            <div class="card benefit-extended-card benefit-last-card">
                 <div class="benefit-card-title">
                     <svg class="benefit-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
@@ -182,7 +197,7 @@
                     </svg>
                     <h3>Full Premium Toolset Access</h3>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
                     To maintain top-tier infrastructure efficiency, every engineer and moderator receives complete access to premium enterprise environments, advanced analytical tracking layout parameters, private repository setups, and tailored server utility configurations built directly into our custom internal extensions.
                 </p>
             </div>
