@@ -19,15 +19,15 @@ const translations = {
         "tools-title": "Narzędzia Społecznościowe", "tools-lead": "Wszechstronny zestaw narzędzi stworzony zarówno dla członków serwera, jak i personelu. Zaprojektowany, aby ułatwić korzystanie z Discorda."
     },
     id: {
-        "nav-home": "Beranda", "nav-products": "Produk", "nav-mission": "Misi", "nav-documentation": "Dokumentasi", "nav-tools": "Alat",
+        "nav-home": "Beranda", "nav-products": "Produk", "nav-careers": "Karir", "nav-documentation": "Dokumentasi", "nav-tools": "Alat",
         "welcome-guest": "Selamat datang di platform kami!", "admin-panel": "Panel Admin",
-        "hero-title": "Pusat Resmi BrainlyHQ", "hero-subtitle": "Tempat di mana semangat belajar bertemu dengan teknologi dan komunitas.", "hero-cta": "Gabung Sekarang",
+        "hero-title": "Pusat Resmi BrainlyHQ", "hero-subtitle": "Tempat di mana semangat belajar bertemu dengan teknologi i komunitas.", "hero-cta": "Gabung Sekarang",
         "prod-title": "Produk Kami", "prod-lead": "Temukan platform inovatif yang dibuat oleh tim kami.",
         "mission-title": "Misi Kami", "mission-lead": "Kami percaya dalam membuat pendidikan dapat diakses oleh semua siswa.",
         "tools-title": "Alat Komunitas", "tools-lead": "Kumpulan alat yang dirancang untuk mengoptimalkan tugas moderasi."
     },
     fr: {
-        "nav-home": "Accueil", "nav-products": "Produits", "nav-mission": "Mission", "nav-documentation": "Documentation", "nav-tools": "Outils",
+        "nav-home": "Accueil", "nav-products": "Produits", "nav-careers": "Carrières", "nav-documentation": "Documentation", "nav-tools": "Outils",
         "welcome-guest": "Bienvenue sur notre plateforme !", "admin-panel": "Panel Admin",
         "hero-title": "Hub Officiel BrainlyHQ", "hero-subtitle": "Où la passion d'apprendre rencontre la technologie et la communauté.", "hero-cta": "Reignez-nous",
         "prod-title": "Nos Produits", "prod-lead": "Découvrez les plateformes innovantes créées par notre équipe.",
@@ -35,7 +35,7 @@ const translations = {
         "tools-title": "Outils Communautaires", "tools-lead": "Une suite d'outils conçus pour optimiser la modération."
     },
     ru: {
-        "nav-home": "Главная", "nav-products": "Продукты", "nav-mission": "Миссия", "nav-documentation": "Документация", "nav-tools": "Инструменты",
+        "nav-home": "Главная", "nav-products": "Продукты", "nav-careers": "Карьера", "nav-documentation": "Документация", "nav-tools": "Инструменты",
         "welcome-guest": "Добро пожаловать!", "admin-panel": "Панель админа",
         "hero-title": "Официальный хаб BrainlyHQ", "hero-subtitle": "Где страсть к обучению встречается с технологиями и сообществом.", "hero-cta": "Присоединиться",
         "prod-title": "Наши продукты", "prod-lead": "Откройте для себя инновационные платформы нашей команды.",
@@ -43,7 +43,7 @@ const translations = {
         "tools-title": "Инструменты сообщества", "tools-lead": "Набор утилит для оптимизации модерации и безопасности."
     },
     es: {
-        "nav-home": "Inicio", "nav-products": "Productos", "nav-mission": "Misión", "nav-documentation": "Documentación", "nav-tools": "Herramientas",
+        "nav-home": "Inicio", "nav-products": "Productos", "nav-careers": "Carreras", "nav-documentation": "Documentación", "nav-tools": "Herramientas",
         "welcome-guest": "¡Bienvenido a nuestra plataforma!", "admin-panel": "Panel de Admin",
         "hero-title": "Centro Oficial BrainlyHQ", "hero-subtitle": "Donde la pasión por aprender se une con la tecnología y la comunidad.", "hero-cta": "Únete",
         "prod-title": "Nuestros Productos", "prod-lead": "Descubre las plataformas innovadoras diseñadas por nuestro equipo.",
@@ -51,15 +51,15 @@ const translations = {
         "tools-title": "Herramientas de la Comunidad", "tools-lead": "Utilidades diseñadas para optimizar la moderación y seguridad."
     },
     pt: {
-        "nav-home": "Início", "nav-products": "Produtos", "nav-mission": "Missão", "nav-documentation": "Documentação", "nav-tools": "Ferramentas",
+        "nav-home": "Início", "nav-products": "Produtos", "nav-careers": "Carreiras", "nav-documentation": "Documentação", "nav-tools": "Ferramentas",
         "welcome-guest": "Bem-vindo à nossa plataforma!", "admin-panel": "Painel do Admin",
         "hero-title": "Hub Oficial BrainlyHQ", "hero-subtitle": "Onde a paixão pelo aprendizado encontra a tecnologia e a comunidade.", "hero-cta": "Juntar-se",
         "prod-title": "Nossos Produtos", "prod-lead": "Descubra plataformas inovadoras desenvolvidas pela nossa equipe.",
         "mission-title": "Nossa Missão", "mission-lead": "Acreditamos em tornar a educação acessível para todos os alunos.",
-        "tools-title": "Ferramentas do Moderador", "tools-lead": "Utilitários desenvolvidos para otimizar as tarefas de moderação."
+        "tools-title": "Ferramentas do Moderador", "tools-lead": "Utilitários desenvolvidos para otimizar las tarefas de moderação."
     },
     ro: {
-        "nav-home": "Acasă", "nav-products": "Produse", "nav-mission": "Misiune", "nav-documentation": "Documentație", "nav-tools": "Instrumente",
+        "nav-home": "Acasă", "nav-products": "Produse", "nav-careers": "Cariere", "nav-documentation": "Documentație", "nav-tools": "Instrumente",
         "welcome-guest": "Bun venit pe platforma noastră!", "admin-panel": "Panel Admin",
         "hero-title": "Hub-ul Oficial BrainlyHQ", "hero-subtitle": "Unde pasiunea pentru învățare întâlnește tehnologia și comunitatea.", "hero-cta": "Alătură-te",
         "prod-title": "Produsele Noastre", "prod-lead": "Descoperă platformele inovatoare create de echipa noastră.",
@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initLanguageSystem();
         initPageTransitions();
         
-        // KLUCZOWE: Inicjalizujemy edytor Markdown zaraz po tym, jak nagłówek i stopka zostaną wstrzyknięte do DOM
         initDiscordMarkdownSandbox();
         
     }).catch(err => console.error("Error loading components: ", err));
@@ -123,10 +122,39 @@ function initThemeSystem() {
 function initProfileDropdown() {
     const userBtn = document.getElementById('user-profile-btn');
     const dropdown = document.getElementById('profile-dropdown');
+    const notificationsList = document.getElementById('dropdown-notifications-list');
+
+    function renderDropdownNotifications() {
+        if (!notificationsList) return;
+        try {
+            const logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
+            if (logs.length === 0) {
+                notificationsList.innerHTML = `
+                    <div style="font-size: 0.78rem; color: var(--text-secondary); text-align: left; font-style: italic; padding: 4px 0;">
+                        No recent activities.
+                    </div>`;
+                return;
+            }
+            notificationsList.innerHTML = logs.map(log => `
+                <div style="display: flex; flex-direction: column; background: var(--bg-primary); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 8px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                        <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-primary); line-height: 1.3;">${log.text}</span>
+                        <span style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 500; white-space: nowrap;">${log.time}</span>
+                    </div>
+                    ${log.details ? `<span style="font-family: monospace; font-size: 0.72rem; color: #99ee60; font-weight: 700; margin-top: 2px;">${log.details}</span>` : ''}
+                </div>
+            `).join('');
+        } catch (e) {
+            console.warn("Could not load notifications:", e);
+        }
+    }
 
     if (userBtn && dropdown) {
         userBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            if (!dropdown.classList.contains('show')) {
+                renderDropdownNotifications();
+            }
             dropdown.classList.toggle('show');
         });
 
@@ -205,16 +233,9 @@ function initDiscordMarkdownSandbox() {
         let html = text;
         
         html = html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        
         html = html.replace(/```([\s\S]*?)```/g, '<div class="discord-code-block">$1</div>');
-        
         html = html.replace(/^_\s+_\s*$/gim, '<span class="discord-spacer-line"></span>');
-        
-        // Zgodnie z wytycznymi: Pierwsze "-# " robi mały tekst, a kolejne "-# " w tej samej linii zostają jako tekst
-        html = html.replace(/^-#\s+([\s\S]*?)$/gim, (match, content) => {
-            return `<span class="discord-subtext">${content}</span>`;
-        });
-        
+        html = html.replace(/^-#\s+(.*)$/gim, '<span class="discord-subtext">$1</span>');
         html = html.replace(/^###\s+(.*)$/gim, '<h3>$1</h3>');
         html = html.replace(/^##\s+(.*)$/gim, '<h2>$1</h2>');
         html = html.replace(/^#\s+(.*)$/gim, '<h1>$1</h1>');
@@ -222,7 +243,6 @@ function initDiscordMarkdownSandbox() {
         html = html.replace(/^-\s+(.*)$/gim, '<ul class="discord-list"><li class="discord-list-item">$1</li></ul>');
         html = html.replace(/`([^`\n]+)`/g, '<span class="discord-inline-code">$1</span>');
         html = html.replace(/\|\|([\s\S]*?)\|\|/g, '<span class="discord-spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
-        
         html = html.replace(/\*\*\*([\s\S]*?)\*\*\*/g, '<strong><em>$1</em></strong>');
         html = html.replace(/\*\*([\s\S]*?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/\*([\s\S]*?)\*/g, '<em>$1</em>');
@@ -237,49 +257,39 @@ function initDiscordMarkdownSandbox() {
         outputArea.innerHTML = parseDiscordMarkdown(inputArea.value);
     }
 
-    // Zaawansowane wstawianie i usuwanie formatowania (Toggle/Cofanie akcji)
     function toggleFormatting(prefix, suffix) {
         const start = inputArea.selectionStart;
         const end = inputArea.selectionEnd;
         const text = inputArea.value;
         const selectedText = text.substring(start, end);
 
-        // Przypadek 1: Jeśli tekst przed i za zaznaczeniem ma już te znaki (np. kliknięcie wewnątrz sformatowanego słowa)
         const hasSurrounding = prefix && suffix &&
             text.substring(start - prefix.length, start) === prefix &&
             text.substring(end, end + suffix.length) === suffix;
 
-        // Przypadek 2: Jeśli samo zaznaczenie ma już w sobie te znaki na krańcach (np. zaznaczenie całego "**tekst**")
         const isEnclosed = prefix && suffix && selectedText.startsWith(prefix) && selectedText.endsWith(suffix);
 
         if (hasSurrounding) {
-            // Cofnij formatowanie (usuń znaki wokół)
             inputArea.value = text.substring(0, start - prefix.length) + selectedText + text.substring(end + suffix.length);
             inputArea.focus();
             inputArea.setSelectionRange(start - prefix.length, end - prefix.length);
         } else if (isEnclosed) {
-            // Cofnij formatowanie (usuń znaki z krańców zaznaczenia)
             const unwrapped = selectedText.substring(prefix.length, selectedText.length - suffix.length);
             inputArea.value = text.substring(0, start) + unwrapped + text.substring(end);
             inputArea.focus();
             inputArea.setSelectionRange(start, start + unwrapped.length);
         } else {
-            // Brak formatowania: Nałóż je klasycznie
             const replacement = prefix + selectedText + suffix;
             inputArea.value = text.substring(0, start) + replacement + text.substring(end);
             inputArea.focus();
-            
             let newStart = start + prefix.length;
             let newEnd = newStart + selectedText.length;
-            
-            // Jeśli nic nie było zaznaczone, postaw kursor w środku znaczników
             if (start === end) {
                 newStart = start + prefix.length;
                 newEnd = newStart;
             }
             inputArea.setSelectionRange(newStart, newEnd);
         }
-        
         updatePreview();
     }
 
@@ -306,8 +316,7 @@ function initDiscordMarkdownSandbox() {
             previewAvatar.src = storedAvatar;
         }
     } catch (e) {
-        console.warn("Storage access restricted:", e);
+        console.warn("Storage restricted", e);
     }
-
     updatePreview();
 }
