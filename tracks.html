@@ -42,7 +42,7 @@
             font-weight: 800;
         }
 
-        /* Spójny układ modułowy (Zsynchronizowany z szerokością baneru) */
+        /* POPRAWKA: Wymuszenie równej wysokości kolumn (align-items: stretch) */
         .tracks-layout-grid {
             display: grid;
             grid-template-columns: 1fr 1.3fr;
@@ -50,13 +50,15 @@
             margin-bottom: 60px;
             width: 100%;
             box-sizing: border-box;
+            align-items: stretch; 
         }
 
-        /* Lewa nawigacja: Eleganckie kafelki */
+        /* Lewe Menu: Wybór obszaru */
         .tracks-menu {
             display: flex;
             flex-direction: column;
             gap: 16px;
+            height: 100%;
         }
 
         .track-menu-btn {
@@ -72,6 +74,7 @@
             transition: all 0.25s ease;
             text-align: left;
             user-select: none;
+            box-sizing: border-box;
         }
 
         .track-menu-btn:hover {
@@ -122,27 +125,27 @@
             color: var(--color-brainly-green);
         }
 
-        /* Prawa strona: Karta Prezentacji Działu */
+        /* Prawa strona: Karta Prezentacji Działu (Zawsze równa lewej kolumnie) */
         .track-showcase-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 40px;
-            min-height: 420px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            height: 100%; /* Rozciąga się do pełnej wysokości grida */
         }
 
         .showcase-display {
             opacity: 1;
             transition: opacity 0.2s ease-in-out;
-        }
-
-        .showcase-display.fade-out {
-            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
 
         .showcase-header-tag {
@@ -177,6 +180,7 @@
         .showcase-footer {
             border-top: 1px solid var(--border-color);
             padding-top: 24px;
+            margin-top: auto; /* Wpycha stopkę na sam dół równego kafelka */
         }
 
         .footer-label {
@@ -189,8 +193,16 @@
             display: block;
         }
 
+        /* POPRAWKA: Bezpieczny flexbox zapobiegający rozjeżdżaniu kafelka */
+        .pills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         .project-pill {
-            display: inline-block;
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
@@ -198,9 +210,8 @@
             padding: 8px 16px;
             border-radius: 30px;
             font-weight: 700;
-            margin-right: 8px;
-            margin-bottom: 8px;
             transition: border-color 0.2s ease;
+            white-space: nowrap; /* Zapobiega łamaniu pojedynczego słowa */
         }
 
         .track-showcase-card:hover .project-pill {
@@ -210,9 +221,6 @@
         @media (max-width: 900px) {
             .tracks-layout-grid {
                 grid-template-columns: 1fr;
-            }
-            .track-showcase-card {
-                min-height: auto;
             }
         }
     </style>
@@ -234,7 +242,7 @@
             </p>
         </div>
 
-        <!-- ELASTYCZNY PROTOKÓŁ WSPÓŁPRACY (Bez surowego markdownu i bez błędów) -->
+        <!-- ELASTYCZNY PROTOKÓŁ WSPÓŁPRACY -->
         <div class="protocol-broadcast">
             <span class="protocol-tag">Ecosystem Principles</span>
             <h3 style="margin: 0 0 10px 0; font-size: 1.35rem; font-weight: 800;">Fluid Structures & Shared Initiative</h3>
@@ -328,7 +336,7 @@
 
                     <div class="showcase-footer">
                         <span class="footer-label" id="showcase-footer-title">Active Platform Modules</span>
-                        <div id="showcase-pills-box">
+                        <div id="showcase-pills-box" class="pills-container">
                             <span class="project-pill">Brainly Hub</span>
                             <span class="project-pill">User Verifications</span>
                         </div>
@@ -342,9 +350,8 @@
 
     <footer id="footer-placeholder"></footer>
 
-    <!-- SKRYPT DYNAMICZNEJ PREZENTACJI (Przyjazny i elastyczny) -->
+    <!-- SKRYPT DYNAMICZNEJ PREZENTACJI -->
     <script>
-        // Baza danych o zespołach z uwzględnieniem Twoich platform i projektów
         const TRACK_SHOWCASE_DATABASE = {
             moderation: {
                 tag: "Track Division 01",
@@ -384,7 +391,6 @@
         };
 
         function switchTrackShowcase(trackKey, element) {
-            // Zmiana klasy active
             const buttons = document.querySelectorAll('.track-menu-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
@@ -399,7 +405,6 @@
             const targetFooterLabel = document.getElementById('showcase-footer-title');
             const targetPillsBox = document.getElementById('showcase-pills-box');
 
-            // Płynna animacja podmiany treści
             targetContainer.classList.add('fade-out');
 
             setTimeout(() => {
@@ -408,7 +413,6 @@
                 targetDesc.innerText = data.desc;
                 targetFooterLabel.innerText = data.footerLabel;
 
-                // Renderowanie okrągłych kafelków projektowych
                 targetPillsBox.innerHTML = data.pills.map(pill => 
                     `<span class="project-pill">${pill}</span>`
                 ).join('');
