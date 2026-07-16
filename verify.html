@@ -43,6 +43,34 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.03);
         }
 
+        /* Naprawa przycisku - wymuszenie unikalnego brandingu Brainly Green */
+        #verify-submit-btn {
+            background-color: var(--color-brainly-green) !important;
+            color: #000000 !important;
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(153, 238, 96, 0.2);
+        }
+
+        #verify-submit-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            opacity: 0.95;
+            box-shadow: 0 6px 16px rgba(153, 238, 96, 0.35);
+        }
+
+        #verify-submit-btn:disabled {
+            background-color: var(--border-color) !important;
+            color: var(--text-secondary) !important;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
         /* Dynamiczny podtytuł lewej kolumny */
         .column-sub-title {
             font-size: 1.3rem;
@@ -186,7 +214,7 @@
                         <label for="mod-search-input">User Nickname, Tag, or ID</label>
                         <input type="text" id="mod-search-input" class="form-input" placeholder="Enter credentials">
                     </div>
-                    <button id="verify-submit-btn" class="login-btn" style="width: 100%;">Perform Query</button>
+                    <button id="verify-submit-btn" style="width: 100%;">Perform Query</button>
                 </div>
             </div>
 
@@ -247,7 +275,7 @@
             { nickname: "kinga5606", usertag: "kinga5606", discordId: "464400654656602122" },
             { nickname: "Ksperix", usertag: "ksperix.dev", discordId: "743056866593996832" },
             { nickname: "brainlymods", usertag: "brainlymods", discordId: "1352379443028430901" },
-            { nickname: "-SιɳιʂƚҽɾDυƙҽ-", usertag: "duke99y_35816", discordId: "1325405206355378227" },
+            { nickname: "-SιɳιʂƚҽZDυƙҽ-", usertag: "duke99y_35816", discordId: "1325405206355378227" },
             { nickname: "Axcyyl03", usertag: "axcyyl03", discordId: "1499973941639381062" },
             { nickname: "Ibas", usertag: "ibasnibos", discordId: "1359149418628256020" },
             { nickname: "~mathbb{I}vaaZz🇮🇩", usertag: "itzmealtarz", discordId: "1362043467311611998" },
