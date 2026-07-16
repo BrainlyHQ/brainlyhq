@@ -6,6 +6,38 @@
     <title>BrainlyHQ - Tools</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tools-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .tools-card {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .tools-icon {
+            width: 32px;
+            height: 32px;
+            color: var(--color-brainly-green);
+            margin-bottom: 16px;
+        }
+        @media (max-width: 600px) {
+            .tools-container {
+                padding: 40px 24px;
+            }
+        }
+    </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 </head>
@@ -14,51 +46,56 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <main class="content-section">
+    <main class="tools-container">
         <h1 class="content-title" data-translate="tools-title">Community Utilities</h1>
-        <p class="content-lead">
+        <p class="content-lead" style="margin-bottom: 0;" data-translate="tools-lead">
             A versatile suite of tools built for both our server members and staff. Designed to enhance your Discord experience, streamline formatting, and keep our community safe.
         </p>
-        
-        <div class="grid-layout" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
-            
-            <a href="verify.html" style="text-decoration: none; color: inherit; display: block;">
-                <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <h3 style="display: flex; align-items: center; gap: 10px; color: var(--text-primary);">
-                            <svg class="header-green-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
-                            Verify Moderator
-                        </h3>
-                        <p style="margin-top: 12px; line-height: 1.5;">
-                            Instantly check and confirm the cryptographic identity of active BrainlyHQ staff members to prevent phishing or DM scams.
-                        </p>
-                    </div>
+
+        <div class="tools-grid">
+            <a href="verify.html" class="card tools-card">
+                <div>
+                    <svg class="tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <h3>Verify Moderator</h3>
+                    <p>Instantly confirm the official identity, active role configurations, and server permissions of any BrainlyHQ staff member.</p>
                 </div>
             </a>
 
-            <a href="markdown.html" style="text-decoration: none; color: inherit; display: block;">
-                <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <h3 style="display: flex; align-items: center; gap: 10px; color: var(--text-primary);">
-                            <svg class="header-green-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
-                            Discord Markdown
-                        </h3>
-                        <p style="margin-top: 12px; line-height: 1.5;">
-                            An interactive companion to help you master Discord's text formatting, code blocks, headers, and custom embedded colors.
-                        </p>
-                    </div>
+            <a href="markdown.html" class="card tools-card">
+                <div>
+                    <svg class="tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <h3>Discord Markdown</h3>
+                    <p>Format announcements like a pro. Write your texts with live syntax highlighting and check how it looks on Discord chat.</p>
                 </div>
             </a>
 
+            <a href="palette.html" class="card tools-card">
+                <div>
+                    <svg class="tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.32454 19.466 5.34776 20.2192 4.91262 20.7144L4.82843 20.8101C4.46937 21.2181 3.86173 21.2721 3.43852 20.932C1.29367 18.6658 0 15.5453 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C10.65 24 9.5 22.85 9.5 21.5C9.5 20.7825 9.81 20.1375 10.3025 19.6925C10.5197 19.4961 10.65 19.2127 10.65 18.9C10.65 18.2925 10.1575 17.8 9.55 17.8H8C4.68629 17.8 2 15.1137 2 11.8C2 11.69 2.01 11.58 2.02 11.47C2.47 11.77 3.02 11.95 3.61 11.95H5C6.10457 11.95 7 11.0546 7 9.95V8.5C7 7.39543 7.89543 6.5 9 6.5H15C16.1046 6.5 17 7.39543 17 8.5V9.95C17 11.0546 17.8954 11.95 19 11.95H19.5C20.8807 11.95 22 13.0693 22 14.45V15C22 18.866 18.866 22 15 22H12Z"></path>
+                    </svg>
+                    <h3>Hex Palette</h3>
+                    <p>Explore official core Design System colors of Brainly. View hexadecimal codes and copy colors with a single click.</p>
+                </div>
+            </a>
+
+            <a href="https://chromewebstore.google.com/detail/brainly-creatives/pgfbplkcnljoadikklfopgpdmehjhbic?hl=pl&utm_source=ext_sidebar" target="_blank" class="card tools-card">
+                <div>
+                    <svg class="tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <h3>Brainly Creatives</h3>
+                    <p>Official browser extension project designed to optimize workspace layout, styling features, and moderation workflow templates.</p>
+                </div>
+            </a>
         </div>
     </main>
 
