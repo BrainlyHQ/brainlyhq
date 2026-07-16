@@ -112,8 +112,8 @@ function initThemeSystem() {
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     
-    // Aktualizacja widoku logotypu oraz powiązanych ikon
-    updateLogoState(currentTheme);
+    // Zapewniamy stałe, poprawne źródło dla pliku logo
+    updateLogoState();
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
 
     const themeBtn = document.getElementById('theme-toggle-btn');
@@ -121,14 +121,13 @@ function initThemeSystem() {
         themeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             
-            // Pobieramy aktualny stan bezpośrednio z dokumentu, bez sztywnych uproszczeń
             const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
             const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
-            updateLogoState(newTheme);
+            updateLogoState();
             if (typeof updateThemeIcon === 'function') updateThemeIcon(newTheme);
             
             // Zapis zdarzenia zmiany motywu do panelu powiadomień
@@ -154,14 +153,11 @@ function initThemeSystem() {
     }
 }
 
-function updateLogoState(theme) {
+function updateLogoState() {
     const logoImg = document.getElementById('header-logo-img');
     if (logoImg) {
-        if (theme === 'dark') {
-            logoImg.src = 'assets/BRAINLYHQ LOGO white.png';
-        } else {
-            logoImg.src = 'assets/BRAINLYHQ LOGO.png';
-        }
+        // Zawsze trzymamy bazowy plik - o zmianę koloru dba filtr w pliku style.css
+        logoImg.src = 'assets/BRAINLYHQ LOGO.png';
     }
 }
 
