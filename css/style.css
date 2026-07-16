@@ -592,10 +592,13 @@ html .card code {
    SPÓJNA PODMIANA KOLORU LOGO (INVERT SYSTEM)
    ========================================== */
 #header-logo-img {
+    filter: none; /* Domyślnie w trybie ciemnym logo pozostaje białe */
     transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Wymuszenie czarnego koloru dla białego logo w trybie jasnym */
-[data-theme="light"] #header-logo-img {
+/* Kiedy nadrzędny dokument ma motyw jasny, zmuszamy obrazek logo do bycia czarnym */
+html[data-theme="light"] #header-logo-img,
+[data-theme="light"] #header-logo-img,
+[data-theme="light"] .logo-img {
     filter: invert(1) brightness(0) !important;
 }
