@@ -12,11 +12,24 @@
             margin: 0 auto;
             padding: 60px 24px;
         }
+        .palette-section {
+            margin-top: 40px;
+        }
+        .section-title-palette {
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            text-align: left;
+        }
         .palette-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
         }
         .color-card {
             background-color: var(--bg-secondary);
@@ -33,23 +46,22 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.06);
         }
         .color-display {
-            height: 140px;
+            height: 110px;
             width: 100%;
-            transition: opacity 0.2s ease;
         }
         .color-info {
-            padding: 16px;
+            padding: 12px 16px;
             text-align: left;
         }
         .color-name {
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .color-hex {
             font-family: 'Consolas', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
             font-weight: 600;
             display: flex;
@@ -57,36 +69,44 @@
             justify-content: space-between;
         }
         .copy-icon {
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             color: var(--text-secondary);
-            opacity: 0.6;
-            transition: opacity 0.2s ease;
+            opacity: 0.5;
         }
         .color-card:hover .copy-icon {
             opacity: 1;
             color: var(--color-brainly-green);
         }
-        /* Notification Toast */
+        
+        /* Toast Notification - Zielony z obramowaniem */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: -60px;
             right: 30px;
             background-color: #111214;
             color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 14px 24px;
+            border-radius: 10px;
             font-size: 0.9rem;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid var(--color-brainly-green);
-            display: none;
-            z-index: 2000;
-            animation: toastIn 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            border: 1px solid #99ee60;
+            z-index: 2500;
+            transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        @keyframes toastIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .toast.show {
+            bottom: 30px;
+        }
+        .toast-success-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #99ee60;
+            border-radius: 50%;
+            display: inline-block;
         }
     </style>
     <script src="js/theme.js"></script>
@@ -100,112 +120,212 @@
     <main class="palette-container">
         <h1 class="content-title">Brainly Hex Palette</h1>
         <p class="content-lead" style="margin-bottom: 0;">
-            Interactive design assets. Explore the official palette of the Brainly Design System and copy color codes with a single click.
+            Interactive design assets. Explore the official core spectrum of the Brainly Design System and copy color codes with a single click.
         </p>
 
-        <div class="palette-grid">
-            <div class="color-card" onclick="copyColor('#FFE0CC', 'Peach Light')">
-                <div class="color-display" style="background-color: #FFE0CC;"></div>
-                <div class="color-info">
-                    <div class="color-name">Peach Light</div>
-                    <div class="color-hex"><span>#FFE0CC</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+        <div class="palette-section">
+            <h2 class="section-title-palette">Brand & Highlights</h2>
+            <div class="palette-grid">
+                <div class="color-card" onclick="copyColor('#00204A', 'Navy Main')">
+                    <div class="color-display" style="background-color: #00204A;"></div>
+                    <div class="color-info"><div class="color-name">Navy Main</div><div class="color-hex"><span>#00204A</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#99EE60', 'Neon Green')">
+                    <div class="color-display" style="background-color: #99EE60;"></div>
+                    <div class="color-info"><div class="color-name">Neon Green</div><div class="color-hex"><span>#99EE60</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#D9F0FF', 'Light Blue')">
+                    <div class="color-display" style="background-color: #D9F0FF;"></div>
+                    <div class="color-info"><div class="color-name">Light Blue</div><div class="color-hex"><span>#D9F0FF</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
             </div>
-            <div class="color-card" onclick="copyColor('#FF7B24', 'Peach Brand')">
-                <div class="color-display" style="background-color: #FF7B24;"></div>
-                <div class="color-info">
-                    <div class="color-name">Peach Brand</div>
-                    <div class="color-hex"><span>#FF7B24</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+        </div>
+
+        <div class="palette-section">
+            <h2 class="section-title-palette">Blue Spectrum</h2>
+            <div class="palette-grid">
+                <div class="color-card" onclick="copyColor('#E1F2FF', 'Blue 10')">
+                    <div class="color-display" style="background-color: #E1F2FF;"></div>
+                    <div class="color-info"><div class="color-name">Blue 10</div><div class="color-hex"><span>#E1F2FF</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#B3DBFF', 'Blue 20')">
+                    <div class="color-display" style="background-color: #B3DBFF;"></div>
+                    <div class="color-info"><div class="color-name">Blue 20</div><div class="color-hex"><span>#B3DBFF</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#4DB0FF', 'Blue 40')">
+                    <div class="color-display" style="background-color: #4DB0FF;"></div>
+                    <div class="color-info"><div class="color-name">Blue 40</div><div class="color-hex"><span>#4DB0FF</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#0073E6', 'Blue 60')">
+                    <div class="color-display" style="background-color: #0073E6;"></div>
+                    <div class="color-info"><div class="color-name">Blue 60</div><div class="color-hex"><span>#0073E6</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#004799', 'Blue 80')">
+                    <div class="color-display" style="background-color: #004799;"></div>
+                    <div class="color-info"><div class="color-name">Blue 80</div><div class="color-hex"><span>#004799</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
             </div>
-            <div class="color-card" onclick="copyColor('#FFF5D1', 'Yellow Light')">
-                <div class="color-display" style="background-color: #FFF5D1;"></div>
-                <div class="color-info">
-                    <div class="color-name">Yellow Light</div>
-                    <div class="color-hex"><span>#FFF5D1</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+        </div>
+
+        <div class="palette-section">
+            <h2 class="section-title-palette">Green Spectrum</h2>
+            <div class="palette-grid">
+                <div class="color-card" onclick="copyColor('#E3F7E3', 'Green 10')">
+                    <div class="color-display" style="background-color: #E3F7E3;"></div>
+                    <div class="color-info"><div class="color-name">Green 10</div><div class="color-hex"><span>#E3F7E3</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#BCEBB9', 'Green 20')">
+                    <div class="color-display" style="background-color: #BCEBB9;"></div>
+                    <div class="color-info"><div class="color-name">Green 20</div><div class="color-hex"><span>#BCEBB9</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#60D158', 'Green 40')">
+                    <div class="color-display" style="background-color: #60D158;"></div>
+                    <div class="color-info"><div class="color-name">Green 40</div><div class="color-hex"><span>#60D158</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#13A10E', 'Green 60')">
+                    <div class="color-display" style="background-color: #13A10E;"></div>
+                    <div class="color-info"><div class="color-name">Green 60</div><div class="color-hex"><span>#13A10E</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#0B6B08', 'Green 80')">
+                    <div class="color-display" style="background-color: #0B6B08;"></div>
+                    <div class="color-info"><div class="color-name">Green 80</div><div class="color-hex"><span>#0B6B08</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
             </div>
-            <div class="color-card" onclick="copyColor('#FFD11A', 'Yellow Brand')">
-                <div class="color-display" style="background-color: #FFD11A;"></div>
-                <div class="color-info">
-                    <div class="color-name">Yellow Brand</div>
-                    <div class="color-hex"><span>#FFD11A</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+        </div>
+
+        <div class="palette-section">
+            <h2 class="section-title-palette">Yellow Spectrum</h2>
+            <div class="palette-grid">
+                <div class="color-card" onclick="copyColor('#FFF5D1', 'Yellow 10')">
+                    <div class="color-display" style="background-color: #FFF5D1;"></div>
+                    <div class="color-info"><div class="color-name">Yellow 10</div><div class="color-hex"><span>#FFF5D1</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#FFE6A3', 'Yellow 20')">
+                    <div class="color-display" style="background-color: #FFE6A3;"></div>
+                    <div class="color-info"><div class="color-name">Yellow 20</div><div class="color-hex"><span>#FFE6A3</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#FFDC4D', 'Yellow 40')">
+                    <div class="color-display" style="background-color: #FFDC4D;"></div>
+                    <div class="color-info"><div class="color-name">Yellow 40</div><div class="color-hex"><span>#FFDC4D</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#FFD11A', 'Yellow 60')">
+                    <div class="color-display" style="background-color: #FFD11A;"></div>
+                    <div class="color-info"><div class="color-name">Yellow 60</div><div class="color-hex"><span>#FFD11A</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#A68500', 'Yellow 80')">
+                    <div class="color-display" style="background-color: #A68500;"></div>
+                    <div class="color-info"><div class="color-name">Yellow 80</div><div class="color-hex"><span>#A68500</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
             </div>
-            <div class="color-card" onclick="copyColor('#E1F2FF', 'Blue Light')">
-                <div class="color-display" style="background-color: #E1F2FF;"></div>
-                <div class="color-info">
-                    <div class="color-name">Blue Light</div>
-                    <div class="color-hex"><span>#E1F2FF</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+        </div>
+
+        <div class="palette-section">
+            <h2 class="section-title-palette">Peach & Orange Spectrum</h2>
+            <div class="palette-grid">
+                <div class="color-card" onclick="copyColor('#FFE0CC', 'Peach 10')">
+                    <div class="color-display" style="background-color: #FFE0CC;"></div>
+                    <div class="color-info"><div class="color-name">Peach 10</div><div class="color-hex"><span>#FFE0CC</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#FFBC9E', 'Peach 20')">
+                    <div class="color-display" style="background-color: #FFBC9E;"></div>
+                    <div class="color-info"><div class="color-name">Peach 20</div><div class="color-hex"><span>#FFBC9E</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#FF9454', 'Peach 40')">
+                    <div class="color-display" style="background-color: #FF9454;"></div>
+                    <div class="color-info"><div class="color-name">Peach 40</div><div class="color-hex"><span>#FF9454</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#FF7B24', 'Peach 60')">
+                    <div class="color-display" style="background-color: #FF7B24;"></div>
+                    <div class="color-info"><div class="color-name">Peach 60</div><div class="color-hex"><span>#FF7B24</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#BF4300', 'Peach 80')">
+                    <div class="color-display" style="background-color: #BF4300;"></div>
+                    <div class="color-info"><div class="color-name">Peach 80</div><div class="color-hex"><span>#BF4300</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
             </div>
-            <div class="color-card" onclick="copyColor('#0073E6', 'Blue Brand')">
-                <div class="color-display" style="background-color: #0073E6;"></div>
-                <div class="color-info">
-                    <div class="color-name">Blue Brand</div>
-                    <div class="color-hex"><span>#0073E6</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+        </div>
+
+        <div class="palette-section">
+            <h2 class="section-title-palette">Red Spectrum</h2>
+            <div class="palette-grid">
+                <div class="color-card" onclick="copyColor('#FCEBEB', 'Red 10')">
+                    <div class="color-display" style="background-color: #FCEBEB;"></div>
+                    <div class="color-info"><div class="color-name">Red 10</div><div class="color-hex"><span>#FCEBEB</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#F7C8C8', 'Red 20')">
+                    <div class="color-display" style="background-color: #F7C8C8;"></div>
+                    <div class="color-info"><div class="color-name">Red 20</div><div class="color-hex"><span>#F7C8C8</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#EB5E5E', 'Red 40')">
+                    <div class="color-display" style="background-color: #EB5E5E;"></div>
+                    <div class="color-info"><div class="color-name">Red 40</div><div class="color-hex"><span>#EB5E5E</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#E02424', 'Red 60')">
+                    <div class="color-display" style="background-color: #E02424;"></div>
+                    <div class="color-info"><div class="color-name">Red 60</div><div class="color-hex"><span>#E02424</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
+                </div>
+                <div class="color-card" onclick="copyColor('#9B1C1C', 'Red 80')">
+                    <div class="color-display" style="background-color: #9B1C1C;"></div>
+                    <div class="color-info"><div class="color-name">Red 80</div><div class="color-hex"><span>#9B1C1C</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
             </div>
-            <div class="color-card" onclick="copyColor('#E3F7E3', 'Green Light')">
-                <div class="color-display" style="background-color: #E3F7E3;"></div>
-                <div class="color-info">
-                    <div class="color-name">Green Light</div>
-                    <div class="color-hex"><span>#E3F7E3</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+        </div>
+
+        <div class="palette-section" style="margin-bottom: 40px;">
+            <h2 class="section-title-palette">Neutrals & Slate</h2>
+            <div class="palette-grid">
+                <div class="color-card" onclick="copyColor('#FFFFFF', 'White')">
+                    <div class="color-display" style="background-color: #FFFFFF; border-bottom: 1px solid var(--border-color);"></div>
+                    <div class="color-info"><div class="color-name">White</div><div class="color-hex"><span>#FFFFFF</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
-            </div>
-            <div class="color-card" onclick="copyColor('#13A10E', 'Green Brand')">
-                <div class="color-display" style="background-color: #13A10E;"></div>
-                <div class="color-info">
-                    <div class="color-name">Green Brand</div>
-                    <div class="color-hex"><span>#13A10E</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+                <div class="color-card" onclick="copyColor('#F5F8FA', 'Slate Lightest')">
+                    <div class="color-display" style="background-color: #F5F8FA;"></div>
+                    <div class="color-info"><div class="color-name">Slate Lightest</div><div class="color-hex"><span>#F5F8FA</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
-            </div>
-            <div class="color-card" onclick="copyColor('#00204A', 'Navy Brand')">
-                <div class="color-display" style="background-color: #00204A;"></div>
-                <div class="color-info">
-                    <div class="color-name">Navy Brand</div>
-                    <div class="color-hex"><span>#00204A</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+                <div class="color-card" onclick="copyColor('#D3D3D3', 'Slate Light')">
+                    <div class="color-display" style="background-color: #D3D3D3;"></div>
+                    <div class="color-info"><div class="color-name">Slate Light</div><div class="color-hex"><span>#D3D3D3</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
-            </div>
-            <div class="color-card" onclick="copyColor('#323C47', 'Slate Dark')">
-                <div class="color-display" style="background-color: #323C47;"></div>
-                <div class="color-info">
-                    <div class="color-name">Slate Dark</div>
-                    <div class="color-hex"><span>#323C47</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+                <div class="color-card" onclick="copyColor('#5A6B7C', 'Slate Medium')">
+                    <div class="color-display" style="background-color: #5A6B7C;"></div>
+                    <div class="color-info"><div class="color-name">Slate Medium</div><div class="color-hex"><span>#5A6B7C</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
-            </div>
-            <div class="color-card" onclick="copyColor('#D3D3D3', 'Slate Light')">
-                <div class="color-display" style="background-color: #D3D3D3;"></div>
-                <div class="color-info">
-                    <div class="color-name">Slate Light</div>
-                    <div class="color-hex"><span>#D3D3D3</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+                <div class="color-card" onclick="copyColor('#323C47', 'Slate Dark')">
+                    <div class="color-display" style="background-color: #323C47;"></div>
+                    <div class="color-info"><div class="color-name">Slate Dark</div><div class="color-hex"><span>#323C47</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
-            </div>
-            <div class="color-card" onclick="copyColor('#99EE60', 'Neon Green')">
-                <div class="color-display" style="background-color: #99EE60;"></div>
-                <div class="color-info">
-                    <div class="color-name">Neon Green</div>
-                    <div class="color-hex"><span>#99EE60</span> <svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div>
+                <div class="color-card" onclick="copyColor('#1A1A1A', 'Black Text')">
+                    <div class="color-display" style="background-color: #1A1A1A;"></div>
+                    <div class="color-info"><div class="color-name">Black Text</div><div class="color-hex"><span>#1A1A1A</span><svg class="copy-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div>
                 </div>
             </div>
         </div>
     </main>
 
-    <div id="toast" class="toast">Color copied to clipboard!</div>
+    <div id="toast" class="toast">
+        <span class="toast-success-dot"></span>
+        <span id="toast-text">Successfully copied!</span>
+    </div>
 
     <footer id="footer-placeholder"></footer>
 
     <script>
+        let toastTimeout;
         function copyColor(hex, name) {
             navigator.clipboard.writeText(hex).then(() => {
                 const toast = document.getElementById('toast');
-                toast.textContent = `Copied ${name} (${hex}) to clipboard!`;
-                toast.style.display = 'block';
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 2000);
+                const toastText = document.getElementById('toast-text');
+                
+                toastText.textContent = `Pomyślnie skopiowano: ${name} (${hex})`;
+                toast.classList.add('show');
+                
+                // Reset timeoutów, gdyby ktoś klikał szybko jeden po drugim
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
             }).catch(err => {
-                console.error('Could not copy text: ', err);
+                console.error('Błąd zapisu do schowka: ', err);
             });
         }
     </script>
