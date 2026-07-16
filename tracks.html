@@ -42,17 +42,17 @@
             font-weight: 800;
         }
 
-        /* NAPRAWA: Zmiana na Flexbox z idealnym wyrównaniem wysokości (stretch) */
+        /* PERFEKCYJNE WYRÓWNANIE: Lewa kolumna dyktuje wysokość, prawa się dopasowuje */
         .tracks-flex-container {
             display: flex;
-            align-items: stretch;
+            align-items: stretch; /* Rozciąga prawą kartę dokładnie do wysokości lewego menu */
             gap: 30px;
             margin-bottom: 60px;
             width: 100%;
             box-sizing: border-box;
         }
 
-        /* Lewe Menu: Stała szerokość i elastyczny wzrost */
+        /* Lewe Menu: Stała szerokość */
         .tracks-menu {
             display: flex;
             flex-direction: column;
@@ -65,7 +65,7 @@
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 22px;
+            padding: 20px 22px; /* Subtelna korekta pionowa */
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -125,15 +125,15 @@
             color: var(--color-brainly-green);
         }
 
-        /* NAPRAWA: Prawa karta dopasowuje się i NIGDY nie przekracza dołu kafelków */
+        /* POPRAWKA: Prawa karta ma mniejsze paddingi i marginesy, aby była naturalnie niższa */
         .track-showcase-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 40px;
+            padding: 30px; /* Zmniejszone z 40px, aby nie rozpychać karty w dół */
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            flex: 1; /* Wypełnia całą pozostałą przestrzeń w poziomie i pionie */
+            flex: 1; 
             display: flex;
             flex-direction: column;
         }
@@ -155,39 +155,39 @@
             color: var(--color-brainly-green);
             text-transform: uppercase;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: block;
             letter-spacing: 0.5px;
         }
 
         .showcase-title {
-            font-size: 1.7rem;
+            font-size: 1.6rem; /* Delikatne zmniejszenie dla lepszego dopasowania */
             font-weight: 900;
             color: var(--text-primary);
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             letter-spacing: -0.5px;
         }
 
         .showcase-desc {
             color: var(--text-secondary);
-            font-size: 1.02rem;
-            line-height: 1.65;
-            margin-bottom: 30px; /* Bezpieczny odstęp od pigułek */
+            font-size: 0.98rem;
+            line-height: 1.6;
+            margin-bottom: 20px; /* Bezpieczny, mniejszy odstęp */
         }
 
         .showcase-footer {
             border-top: 1px solid var(--border-color);
-            padding-top: 24px;
-            margin-top: auto; /* Wpycha stopkę na dół karty bez jej powiększania */
+            padding-top: 20px;
+            margin-top: auto; /* Wpycha stopkę idealnie na sam dół dopasowanej karty */
         }
 
         .footer-label {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-secondary);
             text-transform: uppercase;
             font-weight: 700;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: block;
         }
 
@@ -203,8 +203,8 @@
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            font-size: 0.85rem;
-            padding: 8px 16px;
+            font-size: 0.82rem;
+            padding: 6px 14px;
             border-radius: 30px;
             font-weight: 700;
             transition: border-color 0.2s ease;
