@@ -68,19 +68,24 @@
             box-shadow: 0 10px 30px rgba(153, 238, 96, 0.05);
         }
 
-        /* Podział na sekcję górną (grafika + tekst) i dolną (akcja) */
+        /* Podział na sekcję górną i dolną */
         .product-top-flow {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        /* Kontener na grafikę PNG */
+        /* POPRAWKA: Kontener na grafikę PNG z ciemniejszym kontrastem i siatką (grid) */
         .product-img-wrapper {
             width: 100%;
             height: 180px;
             border-radius: 12px;
-            background-color: var(--bg-primary);
+            background-color: #121418; /* Ciemne tło jako baza, by jasne loga były zawsze widoczne */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center;
             border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
@@ -88,13 +93,27 @@
             overflow: hidden;
             padding: 16px;
             box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Subtelny blask za logiem dla jeszcze lepszej widoczności */
+        .product-img-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: rgba(153, 238, 96, 0.06);
+            filter: blur(30px);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .product-png {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 85%;
+            max-height: 85%;
             object-fit: contain;
             transition: transform 0.3s ease;
+            z-index: 1; /* Nad efektem blasku */
         }
 
         .product-card:hover .product-png {
@@ -163,7 +182,7 @@
             background-color: rgba(153, 238, 96, 0.02);
         }
 
-        /* Kiedy produkt jest nieaktywny */
+        /* Kiedy produkt jest w fazie rozwoju */
         .product-card.development-mode {
             opacity: 0.85;
         }
@@ -219,7 +238,7 @@
                     <h3 class="product-title">Brainly Core</h3>
                     <p class="product-desc">Our flagship administration utility. Engineered to secure operations, manage automated moderation logs, and maintain user safety parameters across public community networks.</p>
                 </div>
-                <a href="tools.html" class="product-action-btn">View Tool Details</a>
+                <a href="https://discord.gg/brainlyhq" target="_blank" class="product-action-btn">Join Discord to check</a>
             </div>
 
             <div class="product-card" data-status="active">
@@ -243,7 +262,7 @@
                     <h3 class="product-title">Science Scavengers</h3>
                     <p class="product-desc">An interactive, gamified community economy. Hunt for rare scientific elements, trade collectibles, smelt items, and unlock specialized profile roles through custom algorithm drop-rates.</p>
                 </div>
-                <a href="tracks.html" class="product-action-btn">Learn More inside Tracks</a>
+                <a href="https://discord.gg/brainlyhq" target="_blank" class="product-action-btn">Join Discord to check</a>
             </div>
 
             <div class="product-card development-mode" data-status="dev">
@@ -289,7 +308,6 @@
 
     <script>
         function filterProducts(category, element) {
-            // Zmiana aktywnego przycisku filtra
             const buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
@@ -299,7 +317,6 @@
             cards.forEach(card => {
                 const status = card.getAttribute('data-status');
                 
-                // Efekt płynnego znikania/pojawiania
                 if (category === 'all' || status === category) {
                     card.style.display = 'flex';
                     setTimeout(() => {
