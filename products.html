@@ -75,15 +75,15 @@
             gap: 20px;
         }
 
-        /* POPRAWKA: Kontener na grafikę PNG z ciemniejszym kontrastem i siatką (grid) */
+        /* DYNAMICZNE TŁO Z SIATKĄ: Doskonale widoczne loga w trybie jasnym i ciemnym */
         .product-img-wrapper {
             width: 100%;
             height: 180px;
             border-radius: 12px;
-            background-color: #121418; /* Ciemne tło jako baza, by jasne loga były zawsze widoczne */
+            background-color: var(--bg-primary); /* Reaguje na motyw */
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
             background-size: 20px 20px;
             background-position: center;
             border: 1px solid var(--border-color);
@@ -96,16 +96,22 @@
             position: relative;
         }
 
-        /* Subtelny blask za logiem dla jeszcze lepszej widoczności */
+        /* Subtelny blask za logiem dopasowany do motywu */
         .product-img-wrapper::after {
             content: '';
             position: absolute;
             width: 80px;
             height: 80px;
-            background: rgba(153, 238, 96, 0.06);
-            filter: blur(30px);
+            background: var(--color-brainly-green);
+            opacity: 0.04;
+            filter: blur(25px);
             border-radius: 50%;
             pointer-events: none;
+        }
+
+        /* Dodatkowy kontrast dla jasnego trybu, by białe loga nie znikały */
+        [data-theme="light"] .product-img-wrapper {
+            background-color: #f5f7f9; /* Delikatne odcięcie od czystej bieli tła */
         }
 
         .product-png {
