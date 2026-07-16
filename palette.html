@@ -79,10 +79,9 @@
             color: var(--color-brainly-green);
         }
         
-        /* Toast Notification - Zielony z obramowaniem */
         .toast {
             position: fixed;
-            bottom: -60px;
+            bottom: 30px;
             right: 30px;
             background-color: #111214;
             color: #ffffff;
@@ -90,16 +89,20 @@
             border-radius: 10px;
             font-size: 0.9rem;
             font-weight: 700;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
             border: 1px solid #99ee60;
-            z-index: 2500;
-            transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 9999;
+            pointer-events: none;
             display: flex;
             align-items: center;
             gap: 10px;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
         }
         .toast.show {
-            bottom: 30px;
+            opacity: 1;
+            transform: translateY(0);
         }
         .toast-success-dot {
             width: 8px;
@@ -319,13 +322,29 @@
                 toastText.textContent = `Pomyślnie skopiowano: ${name} (${hex})`;
                 toast.classList.add('show');
                 
-                // Reset timeoutów, gdyby ktoś klikał szybko jeden po drugim
+                try {
+                    const now = new Date();
+                    const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                    
+                    let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
+                    logs.unshift({
+                        time: timestamp,
+                        text: `Skopiowano kolor assetu: ${name}`,
+                        details: hex
+                    });
+                    
+                    if(logs.length > 15) logs.pop();
+                    localStorage.setItem('brainly_notifications', JSON.stringify(logs));
+                } catch(e) {
+                    console.warn("Storage restricted", e);
+                }
+
                 clearTimeout(toastTimeout);
                 toastTimeout = setTimeout(() => {
                     toast.classList.remove('show');
                 }, 2500);
             }).catch(err => {
-                console.error('Błąd zapisu do schowka: ', err);
+                console.error('Błąd schowka: ', err);
             });
         }
     </script>
