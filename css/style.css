@@ -32,7 +32,7 @@
     --bg-primary: #FFFFFF;
     --bg-secondary: #F5F8FA;
     --text-primary: #1A1A1A;       /* Ciemny tekst dla jasnego tła */
-    --text-secondary: #334155;     /* Bardziej nasycony, kontrastowy ciemnoszary */
+    --text-secondary: #334155;     /* Bardziej nasycony, kontrastowy szary */
     --border-color: rgba(0, 32, 74, 0.15);
     --header-bg: rgba(255, 255, 255, 0.8);
     --footer-bg: #F5F8FA;
@@ -246,7 +246,7 @@ nav a.active:hover {
     background-color: var(--dropdown-bg);
     border: 1px solid var(--border-color);
     border-radius: 16px;
-    width: 320px; /* Zwiększona szerokość dla zmieszczenia powiadomień i kafelków */
+    width: 275px; /* Przywrócona optymalna, zgrabna szerokość */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     display: none; /* Domyślnie ukryty */
     flex-direction: column;
@@ -257,7 +257,7 @@ nav a.active:hover {
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* POPRAWKA: Obsługa aktywnej klasy ze skryptu JS */
+/* Obsługa aktywnej klasy ze skryptu JS */
 .profile-dropdown.active {
     display: flex !important;
     opacity: 1;
@@ -287,6 +287,16 @@ nav a.active:hover {
     text-align: left;
 }
 
+/* --- SEKCJA POWIADOMIEŃ (DODANE I POPRAWIONE) --- */
+.dropdown-notifications-section {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#dropdown-notifications-list {
+    margin-top: 4px;
+}
+
 .header-green-icon {
     width: 14px;
     height: 14px;
@@ -307,6 +317,7 @@ nav a.active:hover {
     text-align: left;
 }
 
+/* --- MENU LINKÓW I PRZYCISKI PANELU --- */
 .dropdown-links {
     display: flex;
     flex-direction: column;
@@ -351,6 +362,7 @@ nav a.active:hover {
     color: var(--color-brainly-dark-blue);
 }
 
+/* --- WYBÓR JĘZYKA W DROPDOWNIE --- */
 .lang-dropdown-container {
     padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
@@ -375,6 +387,7 @@ nav a.active:hover {
     border-color: var(--color-brainly-green);
 }
 
+/* --- KAFELKI PROMOCYJNE (QUICK TILES) --- */
 .promo-links-container {
     padding: 12px 16px 4px 16px;
 }
