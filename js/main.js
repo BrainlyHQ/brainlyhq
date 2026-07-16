@@ -111,6 +111,9 @@ function initThemeSystem() {
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     
+    // Podmiana logo przy starcie
+    updateLogoState(currentTheme);
+    
     if (typeof updateThemeIcon === 'function') updateThemeIcon(currentTheme);
 
     const themeBtn = document.getElementById('theme-toggle-btn');
@@ -123,6 +126,9 @@ function initThemeSystem() {
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+            
+            // Podmiana logo przy przełączaniu motywu
+            updateLogoState(newTheme);
             
             if (typeof updateThemeIcon === 'function') updateThemeIcon(newTheme);
             
@@ -146,6 +152,18 @@ function initThemeSystem() {
                 console.warn("Storage restricted", err);
             }
         });
+    }
+}
+
+// Funkcja pomocnicza do zamiany logotypu w zależności od motywu
+function updateLogoState(theme) {
+    const logoImg = document.getElementById('header-logo-img');
+    if (logoImg) {
+        if (theme === 'dark') {
+            logoImg.src = 'assets/BRAINLYHQ LOGO WHITE.png';
+        } else {
+            logoImg.src = 'assets/BRAINLYHQ LOGO.png';
+        }
     }
 }
 
