@@ -1,1 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Operational Tracks - BrainlyHQ</title>
+    <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tracks-detailed-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+            margin-bottom: 60px;
+        }
 
+        .autonomy-banner {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(153, 238, 96, 0.05) 0%, rgba(42, 72, 112, 0.1) 100%);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--color-brainly-green);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 12px;
+        }
+
+        .autonomy-banner h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+        }
+
+        [data-theme="light"] .autonomy-banner h3 {
+            color: var(--text-primary);
+        }
+
+        .track-extended-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .track-card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .track-card-title h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .track-card-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--color-brainly-green);
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .track-last-card {
+            grid-column: span 2;
+        }
+
+        .track-extended-card p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Stylizacja przekreślenia i poprawki tekstu */
+        .strike-name {
+            text-decoration: line-through;
+            opacity: 0.6;
+            font-weight: 500;
+        }
+
+        .correct-name {
+            color: var(--color-brainly-green);
+            font-weight: 800;
+        }
+
+        @media (max-width: 768px) {
+            .tracks-detailed-grid {
+                grid-template-columns: 1fr;
+            }
+            .autonomy-banner, .track-last-card {
+                grid-column: span 1;
+            }
+        }
+    </style>
+    <script src="js/theme.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <div id="google_translate_element"></div>
+    <header id="header-placeholder"></header>
+
+    <main class="content-section" style="margin-top: 50px;">
+
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 class="content-title">Our Operational Tracks</h1>
+            <p class="content-lead" style="max-width: 750px; margin: 12px auto 0 auto;">
+                Explore our core structure divisions and discover how you can actively shape our community platforms.
+            </p>
+        </div>
+
+        <div class="tracks-detailed-grid">
+            
+            <div class="autonomy-banner">
+                <h3>Fluid Structures & Unlimited Initiative</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1rem; margin: 0; margin-bottom: 16px;">
+                    Our organizational layout is completely dynamic and self-regulated. We don't believe in locking talents into closed, rigid roles. If you identify a structural gap, have a vision for a brand new department, or want to launch a custom community feature - you have the complete freedom, support, and resources to build and lead your own squad.
+                </p>
+                <p style="color: var(--text-secondary); line-height: 1.7; font-size: 1rem; margin: 0;">
+                    Through this open framework, <span class="strike-name">BrainlyHQ</span> <span class="correct-name">BrainlyHQ teams</span> have already successfully shipped and scaled incredible initiatives, such as the gamified virtual smelting and drop-rate ecosystem **Science Scavengers**, as well as our official, community-driven **Partnership Program**.
+                </p>
+            </div>
+
+            <div class="card track-extended-card">
+                <div class="track-card-title">
+                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <h3>Community & Moderation</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    The heart of our network. This track focuses on platform safety, processing verifications, managing active public spaces, and maintaining server regulations to foster positive, collaborative student ecosystems.
+                </p>
+            </div>
+
+            <div class="card track-extended-card">
+                <div class="track-card-title">
+                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <h3>Product & Automation</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    For the coders and builders. This group designs, develops, and maintains our custom bot frameworks, webhooks, regex-driven logging systems, and our custom layout extension platforms.
+                </p>
+            </div>
+
+            <div class="card track-extended-card">
+                <div class="track-card-title">
+                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <h3>Operations & Logistics</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    The orchestrators. Focused on workflow scheduling, coordinating active staff rotas, managing project roadmaps, and producing detailed internal audits of server performance and activity logs.
+                </p>
+            </div>
+
+            <div class="card track-extended-card">
+                <div class="track-card-title">
+                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
+                    </svg>
+                    <h3>Creative & Design</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    The visual architects. This group crafts visual guidelines, custom bot embed templates, front-end interface layouts, and all media materials required for official partnerships.
+                </p>
+            </div>
+
+            <div class="card track-extended-card track-last-card">
+                <div class="track-card-title">
+                    <svg class="track-card-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                    </svg>
+                    <h3>Research & Development (R&D)</h3>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Dedicated to exploring and testing experimental community features, innovative game design models, and new automation technologies. If you want to pitch, design, and prototype completely new features from scratch, this is where you can start.
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+</body>
+</html>
