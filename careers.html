@@ -7,22 +7,24 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Styl dedykowany dla podstrony Careers - Inspirowany Supercell */
+        /* Dedicated styles for Careers page - Supercell Inspired Custom UI */
         
         .careers-hero {
             position: relative;
             width: 100%;
-            min-height: 550px;
+            min-height: 600px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background-color: #0b0f19;
-            padding: 80px 24px;
+            /* Allows hero backdrop to flow seamlessly behind the sticky transparent header */
+            margin-top: -68px; 
+            padding: 140px 24px 100px 24px;
             text-align: center;
+            background: radial-gradient(circle at center, #1e2530 0%, #0b0f19 100%);
         }
 
-        /* Canvas dla animowanych linii i kropek w tle (logistyka i tech) */
+        /* Animated network constellation layer */
         #constellation-canvas {
             position: absolute;
             top: 0;
@@ -31,7 +33,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.6;
+            opacity: 0.45;
         }
 
         .careers-hero-content {
@@ -48,15 +50,15 @@
             padding: 6px 16px;
             border-radius: 30px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 28px;
             border: 1px solid rgba(153, 238, 96, 0.2);
         }
 
         .careers-hero h1 {
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             font-weight: 900;
             color: #FFFFFF;
             line-height: 1.1;
@@ -68,60 +70,66 @@
             font-size: 1.15rem;
             color: var(--text-secondary);
             line-height: 1.6;
-            margin-bottom: 35px;
-            max-width: 850px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        /* Modern recruitment card overlay */
         .discord-recruit-box {
-            background: linear-gradient(135deg, rgba(42, 72, 112, 0.3) 0%, rgba(30, 37, 48, 0.6) 100%);
+            background: linear-gradient(135deg, rgba(41, 50, 65, 0.4) 0%, rgba(30, 37, 48, 0.7) 100%);
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            padding: 40px;
-            max-width: 700px;
+            padding: 48px 40px;
+            max-width: 760px;
             margin: -60px auto 80px auto;
             position: relative;
             z-index: 10;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
             text-align: center;
+            transition: all 0.3s ease;
         }
 
         .discord-recruit-box h3 {
-            font-size: 1.6rem;
+            font-size: 1.75rem;
             color: #FFFFFF;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .discord-recruit-box p {
             color: var(--text-secondary);
-            font-size: 0.98rem;
-            margin-bottom: 24px;
-            line-height: 1.5;
+            font-size: 1rem;
+            margin-bottom: 28px;
+            line-height: 1.6;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .discord-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background-color: #5865F2; /* Kolor Discord */
+            gap: 12px;
+            background-color: #5865F2;
             color: #FFFFFF;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1rem;
-            padding: 14px 32px;
+            font-size: 0.95rem;
+            padding: 16px 36px;
             border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+            box-shadow: 0 4px 18px rgba(88, 101, 242, 0.35);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
         }
 
         .discord-btn:hover {
             transform: translateY(-2px);
             background-color: #4752C4;
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+            box-shadow: 0 6px 24px rgba(88, 101, 242, 0.5);
         }
 
         .discord-btn svg {
@@ -130,23 +138,24 @@
             fill: currentColor;
         }
 
-        /* Sekcja Działów (Siatka Supercell) */
+        /* Teams grid section - Supercell minimalist architecture */
         .teams-section {
             max-width: 1200px;
-            margin: 0 auto 100px auto;
+            margin: 0 auto 120px auto;
             padding: 0 24px;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         .section-header h2 {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 900;
             color: #FFFFFF;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
         }
 
         [data-theme="light"] .section-header h2 {
@@ -169,20 +178,23 @@
                 grid-template-columns: 1fr;
             }
             .careers-hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.6rem;
+            }
+            .careers-hero {
+                padding-top: 120px;
             }
         }
 
-        /* Prostokąty stylizowane na Supercell */
+        /* Minimalist team tokens with corporate tech aesthetic */
         .team-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 40px;
+            padding: 44px 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 280px;
+            min-height: 290px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -196,14 +208,15 @@
             left: 0;
             width: 4px;
             height: 100%;
-            background-color: var(--border-color);
+            background-color: transparent;
             transition: background-color 0.3s ease;
         }
 
         .team-card:hover {
             transform: translateY(-4px);
             border-color: var(--color-brainly-green);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+            background-color: linear-gradient(to bottom right, var(--bg-secondary), rgba(153, 238, 96, 0.02));
         }
 
         .team-card:hover::before {
@@ -213,31 +226,40 @@
         .team-card-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
+            align-items: center;
+            margin-bottom: 24px;
         }
 
-        .team-icon {
-            font-size: 2.5rem;
-            line-height: 1;
+        .team-svg-icon {
+            width: 32px;
+            height: 32px;
+            color: var(--text-secondary);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .team-card:hover .team-svg-icon {
+            color: var(--color-brainly-green);
+            transform: scale(1.05);
         }
 
         .team-arrow {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-secondary);
+            font-weight: 300;
             transition: transform 0.25s ease, color 0.25s ease;
         }
 
         .team-card:hover .team-arrow {
-            transform: translateX(5px);
+            transform: translateX(6px);
             color: var(--color-brainly-green);
         }
 
         .team-card-body h3 {
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             font-weight: 800;
             color: #FFFFFF;
             margin-bottom: 12px;
+            letter-spacing: -0.3px;
         }
 
         [data-theme="light"] .team-card-body h3 {
@@ -247,11 +269,7 @@
         .team-card-body p {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .team-card, .discord-recruit-box {
-            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -260,89 +278,110 @@
     <div id="header-placeholder"></div>
 
     <main>
+        <!-- Hero Layout -->
         <section class="careers-hero">
             <canvas id="constellation-canvas"></canvas>
             <div class="careers-hero-content">
                 <span class="careers-tag">We are hiring</span>
                 <h1>BrainlyHQ Careers</h1>
                 <p>
-                    Welcome to the centralized recruitment hub. Explore the comprehensive core structures, workflow frameworks, and professional environments derived directly from the official BrainlyHQ management principles. This framework is crafted specifically for community engineers, creative thinkers, and operations staff to build the global ecosystem supporting millions of students. Join an independent team of developers and moderators to design cutting-edge automation setups, manage server networks, and cultivate spaces for educational growth across the globe with a single&nbsp;click.
+                    Welcome to the centralized recruitment hub. Explore the comprehensive core structures, workflow frameworks, and professional environments derived directly from the official BrainlyHQ management principles. Join an independent team of developers and moderators to design cutting-edge automation setups, manage server networks, and cultivate spaces for educational growth across the globe with a single&nbsp;click.
                 </p>
             </div>
         </section>
 
-        <section class="content-section" style="margin-top: 0; margin-bottom: 40px; padding: 0 24px;">
+        <!-- Fixed content container to avoid breaking footer structures -->
+        <div class="content-section" style="margin-top: 0; margin-bottom: 0;">
+            
+            <!-- Discord recruitment funnel panel -->
             <div class="discord-recruit-box">
-                <h3>Dołącz do procesu rekrutacyjnego</h3>
-                <p>Nie publikujemy tradycyjnych, statycznych ofert pracy. Cała nasza struktura rekrutacyjna, wywiady oraz onboarding odbywają się na dedykowanym serwerze aplikacyjnym Discord.</p>
+                <h3>Join the Recruitment Ecosystem</h3>
+                <p>We do not publish traditional, static corporate listings. Our entire verification framework, live interviews, and initial staff onboarding sequences are fully handled within our secure application server network on Discord.</p>
                 <a href="https://discord.gg/your-recruitment-link" target="_blank" class="discord-btn">
                     <svg viewBox="0 0 127.14 96.36">
                         <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.4-5c.89-.65,1.76-1.34,2.58-2.06a75.22,75.22,0,0,0,72.57,0c.82.72,1.69,1.41,2.58,2.06a68.43,68.43,0,0,1-10.4,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31-18.83C129.87,48.12,123.1,25.25,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
                     </svg>
-                    Aplikuj przez Discorda
+                    Apply via Discord
                 </a>
             </div>
-        </section>
 
-        <section class="teams-section">
-            <div class="section-header">
-                <h2>Nasze Działy i Zespoły</h2>
-                <p>Wybierz obszar, który najbardziej odpowiada Twojej pasji i umiejętnościom.</p>
-            </div>
-
-            <div class="teams-grid">
-                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
-                    <div class="team-card-header">
-                        <span class="team-icon">🛡️</span>
-                        <span class="team-arrow">→</span>
-                    </div>
-                    <div class="team-card-body">
-                        <h3>Community & Moderation</h3>
-                        <p>Zadbaj o porządek, bezpieczeństwo i pozytywną atmosferę na naszych serwerach. To serce operacji BrainlyHQ.</p>
-                    </div>
+            <!-- Division Modules (Supercell Grid) -->
+            <section class="teams-section">
+                <div class="section-header">
+                    <h2>Explore Our Teams</h2>
+                    <p>Select a core operational field that best matches your focus and expertise.</p>
                 </div>
 
-                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
-                    <div class="team-card-header">
-                        <span class="team-icon">💻</span>
-                        <span class="team-arrow">→</span>
+                <div class="teams-grid">
+                    <!-- 1. Community & Moderation -->
+                    <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                        <div class="team-card-header">
+                            <svg class="team-svg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <span class="team-arrow">→</span>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Community & Moderation</h3>
+                            <p>Govern platform regulations, preserve end-user safety, and cultivate healthy environments inside our active public spheres. This represents the primary pillar of our daily services.</p>
+                        </div>
                     </div>
-                    <div class="team-card-body">
-                        <h3>Product & Automation</h3>
-                        <p>Projektuj, twórz i optymalizuj narzędzia automatyzacji, boty i skrypty ułatwiające pracę moderatorom.</p>
-                    </div>
-                </div>
 
-                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
-                    <div class="team-card-header">
-                        <span class="team-icon">📈</span>
-                        <span class="team-arrow">→</span>
+                    <!-- 2. Engineering & Automation -->
+                    <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                        <div class="team-card-header">
+                            <svg class="team-svg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                            <span class="team-arrow">→</span>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Product & Automation</h3>
+                            <p>Build, engineer, and scale modular infrastructure setups, service webhooks, and advanced bot scripting sequences to amplify mod staff workflows and cross-platform logging mechanics.</p>
+                        </div>
                     </div>
-                    <div class="team-card-body">
-                        <h3>Operations & Logistics</h3>
-                        <p>Koordynuj projekty, organizuj zadania i kontroluj harmonogramy staży oraz struktur wewnętrznych.</p>
-                    </div>
-                </div>
 
-                <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
-                    <div class="team-card-header">
-                        <span class="team-icon">🎨</span>
-                        <span class="team-arrow">→</span>
+                    <!-- 3. Operations & Logistics -->
+                    <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                        <div class="team-card-header">
+                            <svg class="team-svg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            <span class="team-arrow">→</span>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Operations & Logistics</h3>
+                            <p>Coordinate inter-department goals, orchestrate task pipelines, manage active staff rotas, and verify comprehensive internal structure audit reporting guidelines.</p>
+                        </div>
                     </div>
-                    <div class="team-card-body">
-                        <h3>Creative & Design</h3>
-                        <p>Twórz materiały graficzne, buduj wizerunek marki i kreuj interfejsy dla naszych narzędzi.</p>
+
+                    <!-- 4. Creative & Design -->
+                    <div class="team-card" onclick="window.open('https://discord.gg/your-recruitment-link', '_blank')">
+                        <div class="team-card-header">
+                            <svg class="team-svg-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"></path>
+                                <path d="M12 6V12L16 14"></path>
+                            </svg>
+                            <span class="team-arrow">→</span>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Creative & Design</h3>
+                            <p>Design multi-platform graphic layout parameters, forge unified visual branding criteria, and shape interactive front-end layouts across our customized asset systems.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <div id="footer-placeholder"></div>
 
     <script src="js/main.js"></script>
     <script>
-        // Animacja tła Canvas (Konstelacja połączona liniami)
+        // High-performance background vector mesh script
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('constellation-canvas');
             if (!canvas) return;
@@ -352,16 +391,16 @@
             let height = canvas.height = canvas.offsetHeight;
 
             const dots = [];
-            const dotCount = Math.min(60, Math.floor((width * height) / 15000));
-            const connectionDistance = 120;
+            const dotCount = Math.min(60, Math.floor((width * height) / 16000));
+            const connectionDistance = 135;
 
             class Dot {
                 constructor() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5;
-                    this.radius = Math.random() * 2 + 1;
+                    this.vx = (Math.random() - 0.5) * 0.4;
+                    this.vy = (Math.random() - 0.5) * 0.4;
+                    this.radius = Math.random() * 1.5 + 1;
                 }
 
                 update() {
@@ -400,9 +439,9 @@
                             ctx.beginPath();
                             ctx.moveTo(dots[i].x, dots[i].y);
                             ctx.lineTo(dots[j].x, dots[j].y);
-                            const alpha = (1 - (dist / connectionDistance)) * 0.15;
+                            const alpha = (1 - (dist / connectionDistance)) * 0.12;
                             ctx.strokeStyle = `rgba(153, 238, 96, ${alpha})`;
-                            ctx.lineWidth = 1;
+                            ctx.lineWidth = 0.8;
                             ctx.stroke();
                         }
                     }
