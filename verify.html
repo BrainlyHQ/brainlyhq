@@ -43,25 +43,68 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.03);
         }
 
-        /* Naprawa przycisku - wymuszenie unikalnego brandingu Brainly Green */
+        /* Nowoczesny, pionowy układ formularza */
+        .verify-vertical-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .form-input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-input-wrapper label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Eleganckie pole wpisywania */
+        .verify-custom-input {
+            width: 100%;
+            padding: 14px 20px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .verify-custom-input:focus {
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 0 0 3px rgba(153, 238, 96, 0.1);
+        }
+
+        /* Wymuszenie unikalnego brandingu Brainly Green na przycisku */
         #verify-submit-btn {
+            width: 100%;
             background-color: var(--color-brainly-green) !important;
             color: #000000 !important;
             font-family: var(--font-primary);
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border: none;
-            padding: 14px 24px;
-            border-radius: 30px;
+            padding: 16px 24px;
+            border-radius: 12px;
             cursor: pointer;
             transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 12px rgba(153, 238, 96, 0.2);
+            box-shadow: 0 4px 12px rgba(153, 238, 96, 0.15);
         }
 
         #verify-submit-btn:hover:not(:disabled) {
             transform: translateY(-1px);
             opacity: 0.95;
-            box-shadow: 0 6px 16px rgba(153, 238, 96, 0.35);
+            box-shadow: 0 6px 16px rgba(153, 238, 96, 0.3);
         }
 
         #verify-submit-btn:disabled {
@@ -69,6 +112,7 @@
             color: var(--text-secondary) !important;
             cursor: not-allowed;
             box-shadow: none;
+            transform: none;
         }
 
         /* Dynamiczny podtytuł lewej kolumny */
@@ -76,7 +120,7 @@
             font-size: 1.3rem;
             font-weight: 800;
             margin-bottom: 12px;
-            color: var(--text-primary); /* Reaguje na Dark/Light Mode */
+            color: var(--text-primary);
         }
 
         .verification-column.result-column {
@@ -209,12 +253,12 @@
                     Enter any known detail of the user (their Discord Nickname, User Tag, or Discord ID) below to perform a security query.
                 </p>
 
-                <div class="login-form">
-                    <div class="form-group">
+                <div class="verify-vertical-form">
+                    <div class="form-input-wrapper">
                         <label for="mod-search-input">User Nickname, Tag, or ID</label>
-                        <input type="text" id="mod-search-input" class="form-input" placeholder="Enter credentials">
+                        <input type="text" id="mod-search-input" class="verify-custom-input" placeholder="Enter credentials">
                     </div>
-                    <button id="verify-submit-btn" style="width: 100%;">Perform Query</button>
+                    <button id="verify-submit-btn">Perform Query</button>
                 </div>
             </div>
 
