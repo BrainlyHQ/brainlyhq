@@ -47,7 +47,7 @@
             100% { background-position: center 1000px; }
         }
 
-        /* --- POPRAWKI DLA LIGHT THEME (MAKSYMALNA WIDOCZNOŚĆ GRIDU I KONTRASTU) --- */
+        /* --- POPRAWKI DLA LIGHT THEME --- */
         [data-theme="light"] .cyber-grid-bg {
             opacity: 0.35;
             background-image: 
@@ -61,14 +61,13 @@
             color: #1a202c !important; 
         }
 
-        [data-theme="light"] .eco-card,
-        [data-theme="light"] .milestone-card {
+        [data-theme="light"] .eco-card {
             background-color: #f8fafc; 
             border-color: #b8c2cc;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
         }
 
-        /* Zwiększony kontrast paska statystyk w jasnym motywie */
+        /* Kontrast paska statystyk w jasnym motywie */
         [data-theme="light"] .stats-banner {
             background-color: #cbd5e1;
             border-top: 2px solid #94a3b8;
@@ -128,7 +127,6 @@
             max-width: 850px;
         }
 
-        /* STATUS LINK z symetrycznymi odstępami */
         .hero-status-link {
             display: inline-flex;
             align-items: center;
@@ -180,7 +178,6 @@
             margin: 0 auto 36px auto;
         }
 
-        /* Przyciski Akcji */
         .hero-actions {
             display: flex;
             justify-content: center;
@@ -231,7 +228,6 @@
             transform: translateY(-2px);
         }
 
-        /* Strzałka sugerująca scrollowanie */
         .scroll-arrow-container {
             position: absolute;
             bottom: 30px;
@@ -382,72 +378,111 @@
             gap: 10px;
         }
 
-        /* --- Sekcja Sukcesów (Milestones) --- */
-        .milestones-section {
-            padding: 40px 20px 40px 20px;
-            max-width: 1100px;
+        /* --- NOWA HORYZONTALNA OŚ SUKCESÓW (WAVE TIMELINE) --- */
+        .milestones-wave-section {
+            padding: 80px 20px;
+            max-width: 1200px;
             margin: 0 auto;
             box-sizing: border-box;
+            overflow: hidden;
         }
 
-        .milestones-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 40px;
+        .wave-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 140px;
+            margin-bottom: 140px;
+            padding: 0 40px;
         }
 
-        .milestone-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 28px 24px;
-            text-align: left;
+        /* Środkowa ciągła linia technologiczna */
+        .wave-axis-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--border-color) 15%, var(--border-color) 85%, transparent 100%);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+
+        .wave-node {
+            position: relative;
+            width: 30%;
+            z-index: 2;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            min-height: 220px;
+            align-items: center;
         }
 
-        .milestone-badge {
+        /* Pulsujący punkt na linii */
+        .wave-dot {
+            width: 14px;
+            height: 14px;
+            background-color: var(--bg-primary);
+            border: 3px solid var(--color-brainly-green);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 12px var(--color-brainly-green);
+            z-index: 3;
+        }
+
+        /* Bloki z tekstami wyrzucane naprzemiennie w górę i w dół */
+        .wave-box {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+        }
+
+        /* Pozycjonowanie Góra (Węzeł 1 i Węzeł 3) */
+        .node-up .wave-box {
+            bottom: 30px;
+        }
+
+        /* Pozycjonowanie Dół (Węzeł 2) */
+        .node-down .wave-box {
+            top: 30px;
+        }
+
+        .wave-tag {
             font-family: monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
+            font-size: 0.68rem;
+            font-weight: 800;
             color: var(--color-brainly-green);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            background: rgba(153, 238, 96, 0.05);
-            padding: 4px 10px;
-            border-radius: 6px;
-            width: fit-content;
-            border: 1px solid rgba(153, 238, 96, 0.15);
-            margin-bottom: 12px;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        .milestone-text {
-            font-size: 1.05rem;
-            font-weight: 800;
-            line-height: 1.4;
+        .wave-title {
+            font-size: 1.1rem;
+            font-weight: 900;
             color: var(--text-primary);
             margin: 0 0 8px 0;
+            line-height: 1.3;
         }
 
-        .milestone-sub {
-            font-size: 0.85rem;
+        .wave-text {
+            font-size: 0.84rem;
             color: var(--text-secondary);
             line-height: 1.5;
             margin: 0;
-            flex-grow: 1;
         }
 
-        /* --- STYLIZACJA KONSOLI DISCORD (POPRAWIONA SYMETRIA) --- */
+        /* --- STYLIZACJA KONSOLI DISCORD (PRZYWRÓCONA ODPOWIEDNIA SZEROKOŚĆ) --- */
         .discord-console-wrapper {
             background-color: #0d0f12; 
             border: 1px solid #1f242c;
             border-radius: 20px;
             padding: 40px;
             margin: 40px auto 80px auto;
-            max-width: 1100px; /* POPRAWKA: Taka sama szerokość jak siatki kafelków */
+            max-width: 900px; /* POPRAWKA: Przywrócono węższą, dynamiczną szerokość panelu */
             width: 100%;
             position: relative;
             overflow: hidden;
@@ -501,7 +536,7 @@
 
         .console-text-side {
             text-align: left;
-            max-width: 650px;
+            max-width: 500px;
         }
 
         .console-terminal-line {
@@ -555,7 +590,12 @@
         /* --- Responsywność --- */
         @media (max-width: 900px) {
             .hero-title { font-size: 2.3rem; }
-            .stats-grid, .eco-grid, .milestones-grid { grid-template-columns: 1fr; }
+            .stats-grid, .eco-grid { grid-template-columns: 1fr; }
+            .wave-container { flex-direction: column; gap: 180px; margin: 60px 0; padding: 0; }
+            .wave-axis-line { display: none; }
+            .wave-node { width: 100%; }
+            .wave-dot { display: none; }
+            .node-up .wave-box, .node-down .wave-box { position: relative; top: 0; bottom: 0; }
             .discord-console-content { flex-direction: column; text-align: center; gap: 24px; }
             .console-text-side { text-align: center; }
             .hero-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto 40px auto; }
@@ -701,41 +741,50 @@
             </div>
         </section>
 
-        <!-- SEKCJA SUKCESÓW (MILESTONES) -->
-        <section class="milestones-section">
+        <!-- SEKCJA SUKCESÓW (HORYZONTALNA LINIA SINUSOIDALNA) -->
+        <section class="milestones-wave-section">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
                 <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Proud moments and technical privileges that set our hub apart.</p>
             </div>
 
-            <div class="milestones-grid">
-                <div class="milestone-card">
-                    <div>
-                        <div class="milestone-badge">Integrations</div>
-                        <p class="milestone-text">Official collaboration agreement with Brainly Creatives</p>
+            <div class="wave-container">
+                <!-- Oś horyzontalna -->
+                <div class="wave-axis-line"></div>
+
+                <!-- Sukces 1: GÓRA -->
+                <div class="wave-node node-up">
+                    <div class="wave-box">
+                        <span class="wave-tag">Integrations</span>
+                        <h3 class="wave-title">Official collaboration agreement with Brainly Creatives</h3>
+                        <p class="wave-text">Successfully deployed specialized custom utilities and web management assets built straight into the browser extension.</p>
                     </div>
-                    <p class="milestone-sub">Successfully deployed specialized custom utilities and web management assets built straight into the browser extension.</p>
+                    <div class="wave-dot"></div>
                 </div>
 
-                <div class="milestone-card">
-                    <div>
-                        <div class="milestone-badge">Team</div>
-                        <p class="milestone-text"><span style="text-decoration: line-through; opacity: 0.5; font-weight: 500; margin-right: 4px;">Employment</span>Collaboration with a global team</p>
+                <!-- Sukces 2: DÓŁ -->
+                <div class="wave-node node-down">
+                    <div class="wave-dot"></div>
+                    <div class="wave-box">
+                        <span class="wave-tag">Team Matrix</span>
+                        <h3 class="wave-title"><span style="text-decoration: line-through; opacity: 0.5; font-weight: 500; margin-right: 6px;">Employment</span>Collaboration with a global team</h3>
+                        <p class="wave-text">Operating alongside an extraordinary infrastructure management matrix of over 20 global creators, mod developers, and server administrators.</p>
                     </div>
-                    <p class="milestone-sub">Operating alongside an extraordinary infrastructure management matrix of over 20 global creators, mod developers, and server administrators.</p>
                 </div>
 
-                <div class="milestone-card">
-                    <div>
-                        <div class="milestone-badge">Infrastructure</div>
-                        <p class="milestone-text">Exclusive domain authorization: discord.brainly.com</p>
+                <!-- Sukces 3: GÓRA -->
+                <div class="wave-node node-up">
+                    <div class="wave-box">
+                        <span class="wave-tag">Infrastructure</span>
+                        <h3 class="wave-title">Exclusive domain authorization: discord.brainly.com</h3>
+                        <p class="wave-text">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
                     </div>
-                    <p class="milestone-sub">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
+                    <div class="wave-dot"></div>
                 </div>
             </div>
         </section>
 
-        <!-- KONSOLA DEWELOPERSKA (ZSYNCHRONIZOWANA SZEROKOŚĆ) -->
+        <!-- KONSOLA DEWELOPERSKA -->
         <section style="padding: 0 20px;">
             <div class="discord-console-wrapper">
                 <div class="discord-console-header">
