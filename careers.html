@@ -43,6 +43,7 @@
             margin-top: 40px;
         }
 
+        /* POPRAWKA: Precyzyjny selektor gwarantujący płynne podświetlanie ramek */
         .careers-grid .careers-card {
             text-decoration: none;
             color: inherit;
@@ -108,19 +109,19 @@
             display: inline-block;
         }
 
-        /* --- POPRAWKA: ODCHUDZONY I ZMNIEJSZONY TERMINAL REKRUTACJI --- */
+        /* --- POPRAWKA: IDEALNIE WYRÓWNANY TERMINAL REKRUTACJI --- */
         .recruit-terminal-container {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 28px 32px; /* Zmniejszony padding wewnętrzny */
+            padding: 40px;
             margin-bottom: 50px;
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: 40px;
-            align-items: center;
+            gap: 50px;
+            align-items: center; /* Centrowanie zawartości w pionie */
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            position: relative;
         }
 
         .recruit-action-side {
@@ -131,49 +132,64 @@
         }
 
         .recruit-info-side {
-            background-color: rgba(11, 12, 15, 0.4);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px 24px; /* Zmniejszone oddechy panelu bocznego */
             box-sizing: border-box;
+            width: 100%;
+            position: relative;
         }
 
+        /* Ścieżka pionowa z linią pomocniczą łączącą węzły */
         .vertical-steps-matrix {
             display: flex;
             flex-direction: column;
-            gap: 14px; /* Zmniejszony odstęp między wierszami */
+            gap: 24px;
             position: relative;
+            padding-left: 10px;
+        }
+
+        .vertical-steps-matrix::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 13px;
+            bottom: 8px;
+            width: 1px;
+            background-color: var(--border-color);
+            opacity: 0.5;
+            z-index: 1;
         }
 
         .step-row {
             display: flex;
             align-items: flex-start;
-            gap: 14px;
+            gap: 20px;
             text-align: left;
+            position: relative;
+            z-index: 2;
         }
 
         .step-status-indicator {
-            width: 7px;
+            width: 8px;
             height: 8px;
             border-radius: 50%;
             background-color: var(--color-brainly-green);
-            margin-top: 5px;
-            box-shadow: 0 0 6px var(--color-brainly-green);
+            margin-top: 6px;
+            box-shadow: 0 0 10px var(--color-brainly-green);
             flex-shrink: 0;
         }
 
         .step-meta-info h4 {
-            font-size: 0.85rem; /* Delikatniejsza czcionka nagłówków */
+            font-size: 0.95rem;
             font-weight: 800;
             color: var(--text-primary);
-            margin: 0 0 2px 0;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.3px;
         }
 
         .step-meta-info p {
-            font-size: 0.78rem;
+            font-size: 0.82rem;
             color: var(--text-secondary);
             margin: 0;
-            line-height: 1.35;
+            line-height: 1.45;
         }
 
         .recruit-btn {
@@ -185,18 +201,17 @@
             color: #FFFFFF;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.88rem;
-            padding: 11px 24px; /* Bardziej kompaktowy przycisk */
-            border-radius: 20px;
-            margin-top: 18px;
+            font-size: 0.9rem;
+            padding: 12px 26px;
+            border-radius: 24px;
+            margin-top: 20px;
             transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.15);
         }
 
         .recruit-btn:hover {
             background-color: #4752C4;
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(88, 101, 242, 0.25);
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
         }
 
         .recruit-btn svg {
@@ -314,7 +329,8 @@
         }
 
         @media (max-width: 900px) {
-            .recruit-terminal-container { grid-template-columns: 1fr; gap: 24px; padding: 20px; }
+            .recruit-terminal-container { grid-template-columns: 1fr; gap: 40px; padding: 30px 24px; }
+            .vertical-steps-matrix::before { left: 13px; }
             .benefits-split-grid { grid-template-columns: 1fr; }
             .tech-terminal-box { min-height: 240px; }
         }
@@ -344,12 +360,12 @@
 
     <main class="content-section" style="margin-top: 50px;">
         
-        <!-- ODCHUDZONY, ZWARTEGO FORMATU DWUKOLUMNOWY TERMINAL REKRUTACJI -->
+        <!-- ODŚWIEŻONY, PROPORCJONALNY TERMINAL REKRUTACYJNY -->
         <div class="recruit-terminal-container">
-            <!-- LEWA STRONA: Tekst & Przycisk Akcji -->
+            <!-- LEWA KOLUMNA -->
             <div class="recruit-action-side">
-                <h3 style="font-size: 1.35rem; font-weight: 900; margin: 0 0 10px 0;">Join the Recruitment Ecosystem</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin: 0; max-width: 440px;">
+                <h3 style="font-size: 1.5rem; font-weight: 900; margin: 0 0 12px 0;">Join the Recruitment Ecosystem</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0; max-width: 480px;">
                     We do not host static corporate listings. Our application sequences, verification tracks, and staff onboarding sequences are fully handled through our secure recruitment layout on Discord.
                 </p>
                 <a href="https://discord.gg/your-recruitment-link" target="_blank" class="recruit-btn">
@@ -360,7 +376,7 @@
                 </a>
             </div>
 
-            <!-- PRAWA STRONA: Kroki procesowe w mniejszym wydaniu -->
+            <!-- PRAWA KOLUMNA -->
             <div class="recruit-info-side">
                 <div class="vertical-steps-matrix">
                     <div class="step-row">
