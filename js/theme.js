@@ -18,12 +18,14 @@ function initTheme() {
     document.documentElement.setAttribute('data-theme', currentTheme);
     localStorage.setItem('theme', currentTheme);
     
-    // Obserwuj wstrzykiwanie DOM, aby zaktualizować logo natychmiast po załadowaniu nagłówka
+    // Obserwuj wstrzykiwanie DOM, aby zaktualizować elementy natychmiast po wyrenderowaniu nagłówka
     const observer = new MutationObserver(() => {
         const logo = document.getElementById('header-logo-img');
-        if (logo) {
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        if (logo || themeBtn) {
             updateLogo(currentTheme);
-            observer.disconnect(); // Zakończ obserwację, gdy logo zostało znalezione
+            updateThemeIcon(currentTheme);
+            observer.disconnect(); // Zakończ obserwację, gdy elementy zostały odnalezione
         }
     });
     
@@ -55,11 +57,13 @@ function updateLogo(theme) {
     }
 }
 
-// Podmiana ikonki SVG w przycisku w zależności od wybranego motywu
+// Podmiana ikonki SVG w przycisku w zależności od aktywnego motywu
 function updateThemeIcon(theme) {
     const themeBtn = document.getElementById('theme-toggle-btn');
     if (!themeBtn) return;
     
+    // Sinc: Jeśli aktywny jest motyw ciemny, przycisk pokazuje SŁOŃCE (sugerując kliknięcie na tryb jasny).
+    // Jeśli aktywny jest motyw jasny, przycisk wyświetla KSIĘŻYC (sugerując przejście na ciemny).
     if (theme === 'dark') {
         themeBtn.innerHTML = `
             <svg class="user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
