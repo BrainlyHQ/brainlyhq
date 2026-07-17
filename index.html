@@ -61,15 +61,24 @@
             color: #1a202c !important; 
         }
 
-        [data-theme="light"] .eco-card {
+        [data-theme="light"] .eco-card,
+        [data-theme="light"] .milestone-card {
             background-color: #f8fafc; 
             border-color: #b8c2cc;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
         }
 
+        /* POPRAWKA: Znacznie mocniejszy i bardziej czytelny pasek statystyk w jasnym motywie */
         [data-theme="light"] .stats-banner {
-            background-color: #e2e8f0;
-            border-color: #cbd5e1;
+            background-color: #cbd5e1;
+            border-top: 2px solid #94a3b8;
+            border-bottom: 2px solid #94a3b8;
+        }
+        [data-theme="light"] .stat-number {
+            color: #0f172a !important;
+        }
+        [data-theme="light"] .stat-label {
+            color: #334155 !important;
         }
 
         /* Zmiana wyglądu konsoli w trybie jasnym */
@@ -152,9 +161,9 @@
         .hero-title {
             font-size: 3.4rem;
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.15;
             letter-spacing: -1.5px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: var(--text-primary);
         }
 
@@ -167,7 +176,7 @@
             font-size: 1.15rem;
             color: var(--text-secondary);
             line-height: 1.6;
-            max-width: 650px;
+            max-width: 720px;
             margin: 0 auto 36px auto;
         }
 
@@ -373,6 +382,61 @@
             gap: 10px;
         }
 
+        /* --- Sekcja Sukcesów (Milestones) --- */
+        .milestones-section {
+            padding: 40px 20px 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .milestones-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .milestone-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px 24px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .milestone-badge {
+            font-family: monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--color-brainly-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(153, 238, 96, 0.05);
+            padding: 4px 10px;
+            border-radius: 6px;
+            width: fit-content;
+            border: 1px solid rgba(153, 238, 96, 0.15);
+        }
+
+        .milestone-text {
+            font-size: 1.05rem;
+            font-weight: 800;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .milestone-sub {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
         /* --- STYLIZACJA KONSOLI DISCORD --- */
         .discord-console-wrapper {
             background-color: #0d0f12; 
@@ -485,8 +549,8 @@
 
         /* --- Responsywność --- */
         @media (max-width: 900px) {
-            .hero-title { font-size: 2.6rem; }
-            .stats-grid, .eco-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2.3rem; }
+            .stats-grid, .eco-grid, .milestones-grid { grid-template-columns: 1fr; }
             .discord-console-content { flex-direction: column; text-align: center; gap: 24px; }
             .console-text-side { text-align: center; }
             .hero-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto 40px auto; }
@@ -498,44 +562,44 @@
 </head>
 <body>
 
-    <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
     <main>
+        <!-- SEKCJA HERO -->
         <section class="hero-section">
             <div class="cyber-grid-bg"></div>
             <div class="glow-orb orb-left"></div>
             <div class="glow-orb orb-right"></div>
 
             <div class="hero-content">
-                <a href="status.html" class="hero-status-link" data-translate="all-services-operational">
+                <a href="status.html" class="hero-status-link">
                     <span class="status-accent">[ </span>ALL SERVICES OPERATIONAL<span class="status-accent"> ]</span>
                 </a>
                 
-                <h1 class="hero-title" data-translate="hero-title">
-                    The Pulse of Community <span>Automation</span>
+                <h1 class="hero-title">
+                    More than a community.<br><span>A place to belong.</span>
                 </h1>
                 
-                <p class="hero-lead" data-translate="hero-subtitle">
-                    We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand educational communities.
+                <p class="hero-lead">
+                    Meet people. Share ideas. Learn something new every day. We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand educational communities.
                 </p>
 
                 <div class="hero-actions">
                     <a href="products.html" class="btn-primary">
-                        <span data-translate="explore-products">Explore Products</span>
+                        <span>Explore Products</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
                     </a>
                     <a href="https://discord.gg/brainlyhq" target="_blank" class="btn-secondary">
-                        <span data-translate="join-discord">Join Discord Server</span>
+                        <span>Join Discord Server</span>
                     </a>
                 </div>
             </div>
 
             <div class="scroll-arrow-container" onclick="scrollToSection()">
-                <span data-translate="scroll-explore">Scroll to Explore</span>
+                <span>Scroll to Explore</span>
                 <svg class="arrow-down-animated" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <polyline points="19 12 12 19 5 12"></polyline>
@@ -543,27 +607,29 @@
             </div>
         </section>
 
+        <!-- SEKCJA STATYSTYK -->
         <section class="stats-banner" id="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number">26 ms</div>
-                    <div class="stat-label" data-translate="stat-latency">Core Bot Latency</div>
+                    <div class="stat-label">Core Bot Latency</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">1,200+</div>
-                    <div class="stat-label" data-translate="stat-users">Active Platform Users</div>
+                    <div class="stat-label">Active Platform Users</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">210K+</div>
-                    <div class="stat-label" data-translate="stat-messages">Educational Messages</div>
+                    <div class="stat-label">Messages</div>
                 </div>
             </div>
         </section>
 
+        <!-- SEKCJA EKOSYSTEMU -->
         <section class="ecosystem-section">
             <div style="text-align: center; margin-bottom: 50px;">
-                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;" data-translate="eco-heading">Our Core Ecosystem</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;" data-translate="eco-subheading">We build dynamic, educational ecosystems operating within the structures and community initiatives of Brainly.</p>
+                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">We build a dynamic, educational ecosystem operating within the structures and community initiatives of Brainly.</p>
             </div>
 
             <div class="eco-grid">
@@ -575,11 +641,11 @@
                                 <line x1="9" y1="3" x2="9" y2="21"></line>
                             </svg>
                         </div>
-                        <h3 class="eco-title" data-translate="prod-core-title">Brainly Core Bot</h3>
-                        <p class="eco-desc" data-translate="eco-core-desc">Advanced AutoMod processing layouts, automated member verification gates, and fast cross-server verification logging systems built to shield public student networks.</p>
+                        <h3 class="eco-title">Brainly Core Bot</h3>
+                        <p class="eco-desc">Our foundation and our little helper. Beyond automated verification gates and cross-server security logs, it anchors our community events, engagement tracking, and multi-guild interactive frameworks.</p>
                     </div>
                     <a href="https://discord.gg/brainlyhq" target="_blank" class="eco-link-btn">
-                        <span data-translate="connect-discord">Connect via Discord</span>
+                        <span>Connect via Discord</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -597,11 +663,11 @@
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
                         </div>
-                        <h3 class="eco-title" data-translate="prod-partnership-title">Partnership Program</h3>
-                        <p class="eco-desc" data-translate="eco-partnership-desc">The central network directory connecting verified server owners and managers under a shared educational framework to deploy cross-server initiatives.</p>
+                        <h3 class="eco-title">Partnership Program</h3>
+                        <p class="eco-desc">The central network directory connecting verified server owners and managers under a shared educational framework to deploy cross-server initiatives.</p>
                     </div>
                     <a href="https://partnershiphq.vercel.app/" target="_blank" class="eco-link-btn">
-                        <span data-translate="launch-portal">Launch External Portal</span>
+                        <span>Launch External Portal</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -616,11 +682,11 @@
                                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                             </svg>
                         </div>
-                        <h3 class="eco-title" data-translate="tool-utilities-title">Webmaster Utilities</h3>
-                        <p class="eco-desc" data-translate="eco-utilities-desc">Discover our range of production tools, from Discord Markdown formatting generators to the official Brainly color Hex palettes.</p>
+                        <h3 class="eco-title">Webmaster Utilities</h3>
+                        <p class="eco-desc">Discover our range of production tools, from Discord Markdown formatting generators to the official Brainly color Hex palettes.</p>
                     </div>
                     <a href="tools.html" class="eco-link-btn">
-                        <span data-translate="access-tools">Access Tools Dashboard</span>
+                        <span>Access Tools Dashboard</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -630,6 +696,35 @@
             </div>
         </section>
 
+        <!-- SEKCJA SUKCESÓW (NOWA) -->
+        <section class="milestones-section">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Proud moments and technical privileges that set our hub apart.</p>
+            </div>
+
+            <div class="milestones-grid">
+                <div class="milestone-card">
+                    <div class="milestone-badge">Integrations</div>
+                    <p class="milestone-text">Official collaboration agreement with Brainly Creatives</p>
+                    <p class="milestone-sub">Successfully deployed specialized custom utilities and web management assets built straight into the browser extension.</p>
+                </div>
+
+                <div class="milestone-card">
+                    <div class="milestone-badge">Team</div>
+                    <p class="milestone-text"><span style="text-decoration: line-through; opacity: 0.5; font-weight: 500; margin-right: 4px;">Employment</span>Collaboration with a global team</p>
+                    <p class="milestone-sub">Operating alongside an extraordinary infrastructure management matrix of over 20 global creators, mod developers, and server administrators.</p>
+                </div>
+
+                <div class="milestone-card">
+                    <div class="milestone-badge">Infrastructure</div>
+                    <p class="milestone-text">Exclusive domain authorization: discord.brainly.com</p>
+                    <p class="milestone-sub">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- KONSOLA DEWELOPERSKA -->
         <section style="padding: 0 20px;">
             <div class="discord-console-wrapper">
                 <div class="discord-console-header">
@@ -642,8 +737,8 @@
                 <div class="discord-console-content">
                     <div class="console-text-side">
                         <span class="console-terminal-line">$ npm run connect --production</span>
-                        <h3 class="console-main-headline" data-translate="console-headline">Synchronize with our technical network.</h3>
-                        <p class="console-desc" data-translate="console-desc">
+                        <h3 class="console-main-headline">Synchronize with our technical network.</h3>
+                        <p class="console-desc">
                             Connect with our community management board, join active technical roundtables, report platform bugs, or preview upcoming experimental prototypes live on Discord.
                         </p>
                     </div>
@@ -652,7 +747,7 @@
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 2px;">
                             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.094 13.094 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.195.373.289a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z"/>
                         </svg>
-                        <span data-translate="join-discord-hq">Join Discord HQ</span>
+                        <span>Join Discord HQ</span>
                     </a>
                 </div>
             </div>
