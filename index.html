@@ -80,26 +80,6 @@
             color: #334155 !important;
         }
 
-        /* Zmiana wyglądu konsoli w trybie jasnym */
-        [data-theme="light"] .discord-console-wrapper {
-            background-color: #1e293b; 
-            border-color: #94a3b8;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
-        }
-
-        [data-theme="light"] .discord-console-header {
-            background-color: #0f172a;
-            border-bottom-color: #334155;
-        }
-
-        [data-theme="light"] .console-title {
-            color: #64748b;
-        }
-
-        [data-theme="light"] .console-desc {
-            color: #cbd5e1;
-        }
-
         /* Pulsujące Neonowe Kule w Tle */
         .glow-orb {
             position: absolute;
@@ -378,30 +358,37 @@
             gap: 10px;
         }
 
-        /* --- NAJWAŻNIEJSZA ZMIANA: CAŁKOWICIE BEZPIECZNA OŚ STRUKTURALNA GRID --- */
+        /* --- OŚ FALISTA OD LEWEJ DO PRAWEJ (FULL EDGE-TO-EDGE) --- */
         .milestones-wave-section {
-            padding: 80px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            box-sizing: border-box;
+            padding: 80px 0 120px 0;
+            width: 100%;
+            overflow: hidden;
         }
 
         .wave-grid-layout {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            row-gap: 20px;
-            column-gap: 40px;
-            margin-top: 60px;
+            row-gap: 10px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 40px auto 0 auto;
             align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
-        /* Kontener linii animowanej wektorowo */
+        /* Kontener linii wektorowej idący bezwzględnie na 100% szerokości okna */
         .wave-svg-row {
             grid-column: span 3;
-            width: 100%;
-            height: 60px;
+            width: 100vw;
             position: relative;
-            margin: 15px 0;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            height: 60px;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .wave-svg-element {
@@ -410,12 +397,12 @@
             display: block;
         }
 
-        /* Prawdziwy animowany prąd płynący wewnątrz wektora linii */
+        /* Prawdziwy płynący prąd wektorowy */
         .animated-pulse-path {
             stroke: var(--color-brainly-green);
             stroke-width: 3;
             stroke-dasharray: 12, 12;
-            animation: stroke-flow 1.2s linear infinite;
+            animation: stroke-flow 1.5s linear infinite;
         }
 
         @keyframes stroke-flow {
@@ -424,13 +411,31 @@
             }
         }
 
+        /* POPRAWKA PUKTÓW: Prawdziwe, okrągłe kropki HTML spozycjonowane na linii */
+        .wave-node-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--bg-primary);
+            border: 3px solid var(--color-brainly-green);
+            border-radius: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px var(--color-brainly-green);
+            z-index: 5;
+        }
+
+        /* Dokładne współrzędne węzłów dopasowane do środka kolumn Grid */
+        .dot-1 { left: 16.66%; }
+        .dot-2 { left: 50%; }
+        .dot-3 { left: 83.33%; }
+
         .wave-text-block {
             text-align: center;
-            padding: 10px;
+            padding: 0 15px;
             box-sizing: border-box;
         }
 
-        /* Ukrywanie pustych przestrzeni w siatce symetrycznej */
         .wave-spacer {
             visibility: hidden;
             pointer-events: none;
@@ -462,128 +467,12 @@
             margin: 0;
         }
 
-        /* --- STYLIZACJA KONSOLI DISCORD (ZSYNCHRONIZOWANA DO MAX 1200PX) --- */
-        .discord-console-wrapper {
-            background-color: #0d0f12; 
-            border: 1px solid #1f242c;
-            border-radius: 20px;
-            padding: 40px;
-            margin: 40px auto 80px auto;
-            max-width: 1200px; 
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            box-sizing: border-box;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-        }
-
-        .discord-console-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 32px;
-            background-color: #08090b;
-            border-bottom: 1px solid #1f242c;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            box-sizing: border-box;
-            gap: 6px;
-            transition: background-color 0.2s ease, border-bottom-color 0.2s ease;
-        }
-
-        .console-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-        .dot-red { background-color: #ff5f56; }
-        .dot-yellow { background-color: #ffbd2e; }
-        .dot-green { background-color: #27c93f; }
-
-        .console-title {
-            font-family: monospace;
-            font-size: 0.72rem;
-            color: #4a5568;
-            margin-left: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.2s ease;
-        }
-
-        .discord-console-content {
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-        }
-
-        .console-text-side {
-            text-align: left;
-            max-width: 700px;
-        }
-
-        .console-terminal-line {
-            font-family: monospace;
-            color: #4e5664;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .console-main-headline {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #ffffff;
-            margin: 0 0 12px 0;
-            letter-spacing: -0.5px;
-        }
-
-        .console-desc {
-            color: #94a3b8;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 0;
-            transition: color 0.2s ease;
-        }
-
-        .discord-console-btn {
-            background-color: #5865F2;
-            color: #ffffff !important;
-            border: none;
-            padding: 16px 28px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.92rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            white-space: nowrap;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.3);
-        }
-
-        .discord-console-btn:hover {
-            transform: scale(1.05);
-            background-color: #4752c4;
-            box-shadow: 0 8px 30px rgba(88, 101, 242, 0.5);
-        }
-
         /* --- Responsywność --- */
         @media (max-width: 900px) {
             .hero-title { font-size: 2.3rem; }
             .stats-grid, .eco-grid { grid-template-columns: 1fr; }
             .wave-grid-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 30px; }
-            .wave-svg-row, .wave-spacer { display: none; }
-            .discord-console-content { flex-direction: column; text-align: center; gap: 24px; }
-            .console-text-side { text-align: center; }
-            .hero-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto 40px auto; }
-            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+            .wave-svg-row, .wave-spacer, .wave-node-dot { display: none; }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -725,7 +614,7 @@
             </div>
         </section>
 
-        <!-- SEKCJA SUKCESÓW (NAJBEZPIECZNIEJSZA OSIOWA SIATKA GRID) -->
+        <!-- SEKCJA SUKCESÓW (KRAWĘDŹ DO KRAWĘDZI Z PUNKTAMI WŁAŚCIWYMI) -->
         <section class="milestones-wave-section">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
@@ -734,7 +623,7 @@
 
             <div class="wave-grid-layout">
                 
-                <!-- RZĄD 1: Sukces 1 (Lewo), Puste miejsce (Środek), Sukces 3 (Prawo) -->
+                <!-- RZĄD 1: Tekst Sukcesu 1 i Sukcesu 3 -->
                 <div class="wave-text-block">
                     <span class="wave-tag">Integrations</span>
                     <h3 class="wave-title">Official collaboration agreement with Brainly Creatives</h3>
@@ -747,21 +636,19 @@
                     <p class="wave-text">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
                 </div>
 
-                <!-- RZĄD 2: Dynamiczna, wektorowa fala SVG z płynącym prądem i kropkami -->
+                <!-- RZĄD 2: Animowana Linia 100vw z kropkami pozycjonowanymi w HTML -->
                 <div class="wave-svg-row">
                     <svg class="wave-svg-element" viewBox="0 0 1000 60" preserveAspectRatio="none">
-                        <!-- Płynąca linia wektorowa (Sinusoida) -->
                         <path d="M 0 30 Q 166 0, 333 30 T 666 30 T 1000 30" fill="none" stroke="var(--border-color)" stroke-width="2" />
                         <path d="M 0 30 Q 166 0, 333 30 T 666 30 T 1000 30" fill="none" class="animated-pulse-path" />
-                        
-                        <!-- Stałe, bezpieczne punkty węzłowe (Kropki) -->
-                        <circle cx="166" cy="15" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" style="box-shadow: 0 0 10px var(--color-brainly-green);" />
-                        <circle cx="500" cy="30" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" />
-                        <circle cx="833" cy="45" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" />
                     </svg>
+                    <!-- Punkty węzłowe (Kropki HTML chronione przed spłaszczaniem) -->
+                    <div class="wave-node-dot dot-1"></div>
+                    <div class="wave-node-dot dot-2"></div>
+                    <div class="wave-node-dot dot-3"></div>
                 </div>
 
-                <!-- RZĄD 3: Puste miejsce (Lewo), Sukces 2 (Środek), Puste miejsce (Prawo) -->
+                <!-- RZĄD 3: Tekst Sukcesu 2 -->
                 <div class="wave-spacer"></div>
                 <div class="wave-text-block">
                     <span class="wave-tag">Team Matrix</span>
@@ -770,35 +657,6 @@
                 </div>
                 <div class="wave-spacer"></div>
 
-            </div>
-        </section>
-
-        <!-- KONSOLA DEWELOPERSKA -->
-        <section style="padding: 0 20px;">
-            <div class="discord-console-wrapper">
-                <div class="discord-console-header">
-                    <span class="console-dot dot-red"></span>
-                    <span class="console-dot dot-yellow"></span>
-                    <span class="console-dot dot-green"></span>
-                    <span class="console-title">brainlyhq_node_bridge.js</span>
-                </div>
-                
-                <div class="discord-console-content">
-                    <div class="console-text-side">
-                        <span class="console-terminal-line">$ npm run connect --production</span>
-                        <h3 class="console-main-headline">Synchronize with our technical network.</h3>
-                        <p class="console-desc">
-                            Connect with our community management board, join active technical roundtables, report platform bugs, or preview upcoming experimental prototypes live on Discord.
-                        </p>
-                    </div>
-                    
-                    <a href="https://discord.gg/brainlyhq" target="_blank" class="discord-console-btn">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 2px;">
-                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.094 13.094 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.195.373.289a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z"/>
-                        </svg>
-                        <span>Join Discord HQ</span>
-                    </a>
-                </div>
             </div>
         </section>
     </main>
