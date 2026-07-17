@@ -10,10 +10,15 @@
         .palette-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 24px;
+            /* POPRAWKA: Symetryczne marginesy góra/dół (50px) bez zaburzania viewportu */
+            padding: 50px 24px;
+            box-sizing: border-box;
         }
         .palette-section {
             margin-top: 40px;
+        }
+        .palette-section:last-of-type {
+            margin-bottom: 50px; /* Blokada równego odstępu od stopki */
         }
         .section-title-palette {
             font-size: 1.1rem;
@@ -79,6 +84,7 @@
             color: var(--color-brainly-green);
         }
         
+        /* POPRAWKA: Bezpieczne powiadomienie Toast mieszczące się w bezpiecznym oknie viewportu */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -97,8 +103,9 @@
             align-items: center;
             gap: 10px;
             opacity: 0;
-            transform: translateY(100px);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+            /* Zmiana ze 100px na 30px, aby nie uciekało poza krawędź ekranu i nie tworzyło scrollbara */
+            transform: translateY(30px); 
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
         }
         .toast.show {
             opacity: 1;
@@ -122,7 +129,6 @@
 
     <main class="palette-container">
         <h1 class="content-title">Brainly Hex Palette</h1>
-        <!-- Bezpieczna linia tekstu bez sierotki na końcu -->
         <p class="content-lead" style="margin-bottom: 0;">
             Welcome to the centralized asset interface. Explore the comprehensive core spectrum, typography standards, and brand gradients derived directly from the official Brainly Design System specifications. Instantly copy any hexadecimal color code to your system clipboard with a single&nbsp;click.
         </p>
@@ -306,6 +312,7 @@
         </div>
     </main>
 
+    <!-- KONTENER POWIADOMIENIA (Z ZABEZPIECZONYM PIONOWYM TRANSLATE) -->
     <div id="toast" class="toast">
         <span class="toast-success-dot"></span>
         <span id="toast-text">Successfully copied!</span>
@@ -320,14 +327,13 @@
                 const toast = document.getElementById('toast');
                 const toastText = document.getElementById('toast-text');
                 
-                // Powiadomienie Toast po angielsku
                 toastText.textContent = `Successfully copied: ${name} (${hex})`;
                 toast.classList.add('show');
                 
                 try {
                     const now = new Date();
                     const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-                    const timeMs = now.getTime(); // Zapisujemy milisekundy do retencji 7 dni
+                    const timeMs = now.getTime();
                     
                     let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
                     logs.unshift({
