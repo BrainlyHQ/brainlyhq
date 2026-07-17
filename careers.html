@@ -43,7 +43,6 @@
             margin-top: 40px;
         }
 
-        /* POPRAWKA: Bezbłędne podświetlanie ramki na zielono */
         .careers-grid .careers-card {
             text-decoration: none;
             color: inherit;
@@ -109,19 +108,19 @@
             display: inline-block;
         }
 
-        /* --- NOWY DWUKOLUMNOWY TERMINAL REKRUTACJI --- */
+        /* --- POPRAWKA: ODCHUDZONY I ZMNIEJSZONY TERMINAL REKRUTACJI --- */
         .recruit-terminal-container {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 28px 32px; /* Zmniejszony padding wewnętrzny */
             margin-bottom: 50px;
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: 48px;
+            gap: 40px;
             align-items: center;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         }
 
         .recruit-action-side {
@@ -134,76 +133,75 @@
         .recruit-info-side {
             background-color: rgba(11, 12, 15, 0.4);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 28px;
+            border-radius: 12px;
+            padding: 20px 24px; /* Zmniejszone oddechy panelu bocznego */
             box-sizing: border-box;
         }
 
-        /* Pionowa ścieżka etapów onboardingowych */
         .vertical-steps-matrix {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 14px; /* Zmniejszony odstęp między wierszami */
             position: relative;
         }
 
         .step-row {
             display: flex;
             align-items: flex-start;
-            gap: 16px;
+            gap: 14px;
             text-align: left;
         }
 
         .step-status-indicator {
-            width: 8px;
+            width: 7px;
             height: 8px;
             border-radius: 50%;
             background-color: var(--color-brainly-green);
-            margin-top: 6px;
-            box-shadow: 0 0 8px var(--color-brainly-green);
+            margin-top: 5px;
+            box-shadow: 0 0 6px var(--color-brainly-green);
             flex-shrink: 0;
         }
 
         .step-meta-info h4 {
-            font-size: 0.9rem;
+            font-size: 0.85rem; /* Delikatniejsza czcionka nagłówków */
             font-weight: 800;
             color: var(--text-primary);
             margin: 0 0 2px 0;
         }
 
         .step-meta-info p {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-secondary);
             margin: 0;
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .recruit-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             background-color: #5865F2;
             color: #FFFFFF;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.9rem;
-            padding: 14px 32px;
-            border-radius: 24px;
-            margin-top: 24px;
+            font-size: 0.88rem;
+            padding: 11px 24px; /* Bardziej kompaktowy przycisk */
+            border-radius: 20px;
+            margin-top: 18px;
             transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.2);
+            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.15);
         }
 
         .recruit-btn:hover {
             background-color: #4752C4;
             transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.35);
+            box-shadow: 0 6px 16px rgba(88, 101, 242, 0.25);
         }
 
         .recruit-btn svg {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             fill: currentColor;
         }
 
@@ -316,7 +314,7 @@
         }
 
         @media (max-width: 900px) {
-            .recruit-terminal-container { grid-template-columns: 1fr; gap: 32px; padding: 24px; }
+            .recruit-terminal-container { grid-template-columns: 1fr; gap: 24px; padding: 20px; }
             .benefits-split-grid { grid-template-columns: 1fr; }
             .tech-terminal-box { min-height: 240px; }
         }
@@ -346,12 +344,12 @@
 
     <main class="content-section" style="margin-top: 50px;">
         
-        <!-- NOWY ASYMETRYCZNY DWUKOLUMNOWY TERMINAL REKRUTACJI -->
+        <!-- ODCHUDZONY, ZWARTEGO FORMATU DWUKOLUMNOWY TERMINAL REKRUTACJI -->
         <div class="recruit-terminal-container">
             <!-- LEWA STRONA: Tekst & Przycisk Akcji -->
             <div class="recruit-action-side">
-                <h3 style="font-size: 1.5rem; font-weight: 900; margin: 0 0 12px 0;">Join the Recruitment Ecosystem</h3>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0; max-width: 480px;">
+                <h3 style="font-size: 1.35rem; font-weight: 900; margin: 0 0 10px 0;">Join the Recruitment Ecosystem</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin: 0; max-width: 440px;">
                     We do not host static corporate listings. Our application sequences, verification tracks, and staff onboarding sequences are fully handled through our secure recruitment layout on Discord.
                 </p>
                 <a href="https://discord.gg/your-recruitment-link" target="_blank" class="recruit-btn">
@@ -362,7 +360,7 @@
                 </a>
             </div>
 
-            <!-- PRAWA STRONA: Prawdziwe kroki weryfikacyjne w kontenerze -->
+            <!-- PRAWA STRONA: Kroki procesowe w mniejszym wydaniu -->
             <div class="recruit-info-side">
                 <div class="vertical-steps-matrix">
                     <div class="step-row">
