@@ -7,33 +7,47 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
+        /* Gwarancja pełnego resetu dla tej podstrony */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sekcja główna działa jako elastyczny pionowy kontener o wymuszonych, sztywnych paddingach */
         .support-page-wrapper {
             max-width: 900px;
             margin: 0 auto;
-            /* Odstępy boczne bezpieczne, pionowe kontrolowane przez równe marginesy główne */
-            padding: 0 24px;
+            /* BEZWZGLĘDNA RÓWNOŚĆ: Dokładnie 50px czystej przestrzeni od góry paska i 50px do stopki */
+            padding-top: 50px !important;
+            padding-bottom: 50px !important;
+            padding-left: 24px;
+            padding-right: 24px;
             box-sizing: border-box;
         }
 
-        /* POPRAWKA: Usunięcie domyślnych marginesów kolidujących z pozycjonowaniem góra/dół */
-        .support-page-wrapper .content-title {
+        /* CAŁKOWITY RESET marginesów elementów tekstowych na górze strony */
+        .support-header {
+            text-align: center;
             margin-top: 0 !important;
+            margin-bottom: 40px; 
+        }
+
+        .support-header .content-title {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
             margin-bottom: 16px;
         }
 
-        .support-page-wrapper .content-lead {
+        .support-header .content-lead {
             margin-top: 0 !important;
             margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
         }
 
-        .support-header {
-            text-align: center;
-            margin-bottom: 40px; /* Przestrzeń między wstępem a główną kartą plików */
-        }
-
-        /* POPRAWKA: Blokada równego odstępu 50px całego bloku od stopki */
+        /* CAŁKOWITY RESET marginesów elementu na samym dole strony */
         .support-page-wrapper .card {
-            margin-bottom: 50px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important; /* Usunięty margines, dół kontrolowany wyłącznie przez padding-bottom: 50px wrappers */
         }
 
         .document-category {
@@ -41,7 +55,6 @@
             margin-bottom: 0;
         }
 
-        /* Pierwsza kategoria nie potrzebuje górnego odstępu, bo ma już nagłówek karty h3 */
         .document-category:first-of-type {
             margin-top: 0;
         }
@@ -55,12 +68,15 @@
             margin-bottom: 14px;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 6px;
+            margin-top: 0;
         }
         .file-list {
             list-style: none;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin: 0;
+            padding: 0;
         }
         .file-item {
             display: flex;
@@ -114,10 +130,11 @@
             border: 1px solid rgba(153, 238, 96, 0.2);
             border-radius: 12px;
             padding: 20px;
-            margin-top: 40px; /* Spójny, równy odstęp wewnątrz karty */
+            margin-top: 40px;
             display: flex;
             align-items: flex-start;
             gap: 16px;
+            margin-bottom: 0;
         }
         .discord-info-icon {
             color: var(--color-brainly-green);
@@ -130,6 +147,7 @@
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 4px;
+            margin-top: 0;
         }
         .discord-info-text p {
             font-size: 0.9rem;
@@ -147,7 +165,8 @@
         }
         @media (max-width: 600px) {
             .support-page-wrapper {
-                padding: 40px 24px;
+                padding-top: 40px !important;
+                padding-bottom: 40px !important;
             }
             .discord-info-box {
                 flex-direction: column;
@@ -163,8 +182,8 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <!-- POPRAWKA: Sztywne, idealnie równe 50px odstępu na samej górze strony -->
-    <main class="support-page-wrapper" style="margin-top: 50px !important;">
+    <!-- Usunąłem stąd style margin, przerzuciłem kontrolę na sztywne i równe padding-top i padding-bottom kontenera -->
+    <main class="support-page-wrapper">
         <div class="support-header">
             <h1 class="content-title">Documentation & Archives</h1>
             <p class="content-lead">
@@ -173,7 +192,7 @@
         </div>
 
         <div class="card">
-            <h3 style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px; font-size: 1.4rem;">
+            <h3 style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px; font-size: 1.4rem; margin-top: 0;">
                 <svg class="header-green-icon" style="width: 24px; height: 24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
