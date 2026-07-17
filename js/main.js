@@ -62,7 +62,22 @@ function initLanguageSystem() {
         });
     }
 
+    // Pierwsze załadowanie języka
     loadLanguage(savedLang);
+
+    // --- POPRAWKA GLOBALNEGO TŁUMACZENIA TREŚCI ---
+    // Monitorujemy zmiany w DOM. Jeśli strona główna lub jakiekolwiek elementy 
+    // z 'data-translate' załadują się chwilę później, zostaną natychmiast przetłumaczone.
+    const observer = new MutationObserver(() => {
+        if (window.__cachedTranslations) {
+            applyTranslations(window.__cachedTranslations);
+        }
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
 }
 
 async function loadLanguage(lang) {
@@ -71,6 +86,10 @@ async function loadLanguage(lang) {
         if (!response.ok) throw new Error(`Could not load translations for: ${lang}`);
 
         const translations = await response.json();
+        
+        // Zapisujemy słownik w pamięci globalnej, by MutationObserver mógł z niego korzystać
+        window.__cachedTranslations = translations;
+        
         applyTranslations(translations);
         localStorage.setItem("selectedLanguage", lang);
     } catch (error) {
@@ -84,9 +103,13 @@ function applyTranslations(translations) {
         const key = element.getAttribute("data-translate");
         if (translations[key]) {
             if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                element.placeholder = translations[key];
+                if (element.placeholder !== translations[key]) {
+                    element.placeholder = translations[key];
+                }
             } else {
-                element.textContent = translations[key];
+                if (element.textContent !== translations[key]) {
+                    element.textContent = translations[key];
+                }
             }
         }
     });
@@ -227,7 +250,7 @@ function initProfileDropdown() {
         e.stopPropagation();
         dropdown.classList.toggle("active");
         
-        // Przy każdym otwarciu dropdownu odświeżamy listę powiadomień
+        // Przy każdym otwciu dropdownu odświeżamy listę powiadomień
         if (dropdown.classList.contains("active")) {
             renderNotifications();
         }
