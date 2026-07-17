@@ -10,8 +10,9 @@
         .tools-container {
             max-width: 1200px;
             margin: 0 auto;
-            /* POPRAWKA: Równe odstępy - 50px na górze, 50px na dole (boki 24px) */
-            padding: 50px 24px 50px 24px;
+            /* Odstępy boczne, pionowe kontrolowane przez marginesy (jak na reszcie stron) */
+            padding: 0 24px;
+            box-sizing: border-box;
         }
         
         .tools-grid {
@@ -19,6 +20,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 24px;
             margin-top: 40px;
+            margin-bottom: 50px; /* Perfekcyjnie równy odstęp na dole */
         }
         
         .tools-grid .tools-card {
@@ -55,9 +57,6 @@
             .tools-grid {
                 grid-template-columns: 1fr;
             }
-            .tools-container {
-                padding: 40px 24px;
-            }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -68,7 +67,8 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <main class="tools-container">
+    <!-- IDEALNIE RÓWNY ODSTĘP NA GÓRZE: 50px (tak samo jak w dole gridu) -->
+    <main class="tools-container" style="margin-top: 50px;">
         <h1 class="content-title" data-translate="tools-title">Community Utilities</h1>
         <p class="content-lead" style="margin-bottom: 0;" data-translate="tools-lead">
             A versatile suite of tools built for both our server members and staff. Designed to enhance your Discord experience, streamline formatting, and keep our community safe.
@@ -97,7 +97,6 @@
                 </div>
             </a>
 
-            <!-- POPRAWKA: Nowa, czysta, symetryczna i geometryczna ikonka palety/próbek kolorów -->
             <a href="palette.html" class="tools-card">
                 <div>
                     <svg class="tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
