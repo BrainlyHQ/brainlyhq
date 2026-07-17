@@ -378,10 +378,10 @@
             gap: 10px;
         }
 
-        /* --- NOWA HORYZONTALNA OŚ SUKCESÓW (WAVE TIMELINE) --- */
+        /* --- POWRÓT SYMETRII I ANIMACJA LINII DANYCH (WAVE TIMELINE) --- */
         .milestones-wave-section {
             padding: 80px 20px;
-            max-width: 1200px;
+            max-width: 1200px; /* Synchronizacja lewej i prawej krawędzi z konsolą */
             margin: 0 auto;
             box-sizing: border-box;
             overflow: hidden;
@@ -392,21 +392,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 140px;
-            margin-bottom: 140px;
-            padding: 0 40px;
+            margin-top: 160px;
+            margin-bottom: 160px;
+            padding: 0;
         }
 
-        /* Środkowa ciągła linia technologiczna */
+        /* NOWOŚĆ: Animowany, płynący prąd przesyłania danych wewnątrz linii osi czasu */
         .wave-axis-line {
             position: absolute;
             top: 50%;
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent 0%, var(--border-color) 15%, var(--border-color) 85%, transparent 100%);
+            background: linear-gradient(90deg, 
+                rgba(153, 238, 96, 0) 0%, 
+                var(--color-brainly-green) 20%, 
+                var(--border-color) 40%, 
+                var(--color-brainly-green) 60%, 
+                var(--border-color) 85%, 
+                rgba(153, 238, 96, 0) 100%);
+            background-size: 200% 100%;
             z-index: 1;
             transform: translateY(-50%);
+            animation: wave-flow 4s linear infinite;
+        }
+
+        @keyframes wave-flow {
+            0% { background-position: 200% 0; }
+            100% { background-position: 0 0; }
         }
 
         .wave-node {
@@ -418,7 +431,7 @@
             align-items: center;
         }
 
-        /* Pulsujący punkt na linii */
+        /* Pulsujący punkt węzłowy */
         .wave-dot {
             width: 14px;
             height: 14px;
@@ -428,25 +441,29 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            box-shadow: 0 0 12px var(--color-brainly-green);
+            box-shadow: 0 0 14px var(--color-brainly-green);
             z-index: 3;
         }
 
-        /* Bloki z tekstami wyrzucane naprzemiennie w górę i w dół */
+        /* POPRAWKA: Bezpieczne odsunięcie bloków opisu od linii za pomocą sztywnych marginesów */
         .wave-box {
             width: 100%;
             text-align: center;
             position: absolute;
+            box-sizing: border-box;
+            padding: 0 10px;
         }
 
-        /* Pozycjonowanie Góra (Węzeł 1 i Węzeł 3) */
+        /* Korekta pozycjonowania w górę (bez ryzyka nachodzenia) */
         .node-up .wave-box {
-            bottom: 30px;
+            bottom: 0;
+            transform: translateY(-32px);
         }
 
-        /* Pozycjonowanie Dół (Węzeł 2) */
+        /* Korekta pozycjonowania w dół (bez ryzyka nachodzenia) */
         .node-down .wave-box {
-            top: 30px;
+            top: 0;
+            transform: translateY(32px);
         }
 
         .wave-tag {
@@ -475,14 +492,14 @@
             margin: 0;
         }
 
-        /* --- STYLIZACJA KONSOLI DISCORD (PRZYWRÓCONA ODPOWIEDNIA SZEROKOŚĆ) --- */
+        /* --- STYLIZACJA KONSOLI DISCORD (ZSYNCHRONIZOWANA DO 1200PX) --- */
         .discord-console-wrapper {
             background-color: #0d0f12; 
             border: 1px solid #1f242c;
             border-radius: 20px;
             padding: 40px;
             margin: 40px auto 80px auto;
-            max-width: 900px; /* POPRAWKA: Przywrócono węższą, dynamiczną szerokość panelu */
+            max-width: 1200px; /* POPRAWKA: Idealne dopasowanie i styk krawędzi z sekcją wyżej */
             width: 100%;
             position: relative;
             overflow: hidden;
@@ -536,7 +553,7 @@
 
         .console-text-side {
             text-align: left;
-            max-width: 500px;
+            max-width: 700px;
         }
 
         .console-terminal-line {
@@ -595,7 +612,7 @@
             .wave-axis-line { display: none; }
             .wave-node { width: 100%; }
             .wave-dot { display: none; }
-            .node-up .wave-box, .node-down .wave-box { position: relative; top: 0; bottom: 0; }
+            .node-up .wave-box, .node-down .wave-box { position: relative; top: 0; bottom: 0; transform: none; }
             .discord-console-content { flex-direction: column; text-align: center; gap: 24px; }
             .console-text-side { text-align: center; }
             .hero-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto 40px auto; }
@@ -741,7 +758,7 @@
             </div>
         </section>
 
-        <!-- SEKCJA SUKCESÓW (HORYZONTALNA LINIA SINUSOIDALNA) -->
+        <!-- SEKCJA SUKCESÓW (PŁYNĄCA MAGISTRALA DANYCH) -->
         <section class="milestones-wave-section">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
@@ -749,7 +766,7 @@
             </div>
 
             <div class="wave-container">
-                <!-- Oś horyzontalna -->
+                <!-- Oś horyzontalna (Płynąca) -->
                 <div class="wave-axis-line"></div>
 
                 <!-- Sukces 1: GÓRA -->
@@ -784,7 +801,7 @@
             </div>
         </section>
 
-        <!-- KONSOLA DEWELOPERSKA -->
+        <!-- KONSOLA DEWELOPERSKA (SZEKOŚĆ ZGRAJA ZE STYKIEM KRAWĘDZI) -->
         <section style="padding: 0 20px;">
             <div class="discord-console-wrapper">
                 <div class="discord-console-header">
