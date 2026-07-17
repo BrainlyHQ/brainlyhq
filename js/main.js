@@ -67,13 +67,13 @@ function initLanguageSystem() {
     // Pierwsze załadowanie języka z pliku JSON przy starcie witryny
     loadLanguage(savedLang);
 
-    // Dynamiczny obserwator struktury DOM - dba o tłumaczenie nowo załadowanej treści podstron
+    // Bezpieczny obserwator struktury DOM - zapobiega zapętleniom przy zmianie języka
     if (!domObserver) {
         domObserver = new MutationObserver(() => {
             if (window.__cachedTranslations) {
-                domObserver.disconnect(); // Chwilowe odłączenie zapobiega pętli nieskończonej
+                domObserver.disconnect(); // Chwilowe odłączenie blokuje powstawanie pętli
                 applyTranslations(window.__cachedTranslations);
-                startObserving(); // Ponowne uruchomienie nasłuchiwania
+                startObserving(); // Ponowne bezpieczne uruchomienie nasłuchiwania
             }
         });
         startObserving();
@@ -93,7 +93,7 @@ async function loadLanguage(lang) {
         if (!response.ok) throw new Error(`Could not load translation file: lang/${lang}.json`);
 
         const translations = await response.json();
-        window.__cachedTranslations = translations; // Zapis struktury słownika w pamięci podręcznej okna
+        window.__cachedTranslations = translations;
         
         if (domObserver) domObserver.disconnect();
         applyTranslations(translations);
