@@ -68,7 +68,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
         }
 
-        /* POPRAWKA: Znacznie mocniejszy i bardziej czytelny pasek statystyk w jasnym motywie */
+        /* Zwiększony kontrast paska statystyk w jasnym motywie */
         [data-theme="light"] .stats-banner {
             background-color: #cbd5e1;
             border-top: 2px solid #94a3b8;
@@ -101,7 +101,7 @@
             color: #cbd5e1;
         }
 
-        /* POWRÓT NEONÓW: Pulsujące Neonowe Kule w Tle */
+        /* Pulsujące Neonowe Kule w Tle */
         .glow-orb {
             position: absolute;
             width: 300px;
@@ -280,7 +280,7 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 24px;
             text-align: center;
         }
 
@@ -307,7 +307,7 @@
 
         /* --- Sekcja Ekosystemu --- */
         .ecosystem-section {
-            padding: 80px 20px;
+            padding: 80px 20px 40px 20px;
             max-width: 1100px;
             margin: 0 auto;
             box-sizing: border-box;
@@ -384,7 +384,7 @@
 
         /* --- Sekcja Sukcesów (Milestones) --- */
         .milestones-section {
-            padding: 40px 20px 80px 20px;
+            padding: 40px 20px 40px 20px;
             max-width: 1100px;
             margin: 0 auto;
             box-sizing: border-box;
@@ -405,7 +405,8 @@
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            justify-content: space-between;
+            min-height: 220px;
         }
 
         .milestone-badge {
@@ -420,6 +421,7 @@
             border-radius: 6px;
             width: fit-content;
             border: 1px solid rgba(153, 238, 96, 0.15);
+            margin-bottom: 12px;
         }
 
         .milestone-text {
@@ -427,7 +429,7 @@
             font-weight: 800;
             line-height: 1.4;
             color: var(--text-primary);
-            margin: 0;
+            margin: 0 0 8px 0;
         }
 
         .milestone-sub {
@@ -435,19 +437,22 @@
             color: var(--text-secondary);
             line-height: 1.5;
             margin: 0;
+            flex-grow: 1;
         }
 
-        /* --- STYLIZACJA KONSOLI DISCORD --- */
+        /* --- STYLIZACJA KONSOLI DISCORD (POPRAWIONA SYMETRIA) --- */
         .discord-console-wrapper {
             background-color: #0d0f12; 
             border: 1px solid #1f242c;
             border-radius: 20px;
             padding: 40px;
             margin: 40px auto 80px auto;
-            max-width: 900px;
+            max-width: 1100px; /* POPRAWKA: Taka sama szerokość jak siatki kafelków */
+            width: 100%;
             position: relative;
             overflow: hidden;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            box-sizing: border-box;
             transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
@@ -496,7 +501,7 @@
 
         .console-text-side {
             text-align: left;
-            max-width: 500px;
+            max-width: 650px;
         }
 
         .console-terminal-line {
@@ -696,7 +701,7 @@
             </div>
         </section>
 
-        <!-- SEKCJA SUKCESÓW (NOWA) -->
+        <!-- SEKCJA SUKCESÓW (MILESTONES) -->
         <section class="milestones-section">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
@@ -705,26 +710,32 @@
 
             <div class="milestones-grid">
                 <div class="milestone-card">
-                    <div class="milestone-badge">Integrations</div>
-                    <p class="milestone-text">Official collaboration agreement with Brainly Creatives</p>
+                    <div>
+                        <div class="milestone-badge">Integrations</div>
+                        <p class="milestone-text">Official collaboration agreement with Brainly Creatives</p>
+                    </div>
                     <p class="milestone-sub">Successfully deployed specialized custom utilities and web management assets built straight into the browser extension.</p>
                 </div>
 
                 <div class="milestone-card">
-                    <div class="milestone-badge">Team</div>
-                    <p class="milestone-text"><span style="text-decoration: line-through; opacity: 0.5; font-weight: 500; margin-right: 4px;">Employment</span>Collaboration with a global team</p>
+                    <div>
+                        <div class="milestone-badge">Team</div>
+                        <p class="milestone-text"><span style="text-decoration: line-through; opacity: 0.5; font-weight: 500; margin-right: 4px;">Employment</span>Collaboration with a global team</p>
+                    </div>
                     <p class="milestone-sub">Operating alongside an extraordinary infrastructure management matrix of over 20 global creators, mod developers, and server administrators.</p>
                 </div>
 
                 <div class="milestone-card">
-                    <div class="milestone-badge">Infrastructure</div>
-                    <p class="milestone-text">Exclusive domain authorization: discord.brainly.com</p>
+                    <div>
+                        <div class="milestone-badge">Infrastructure</div>
+                        <p class="milestone-text">Exclusive domain authorization: discord.brainly.com</p>
+                    </div>
                     <p class="milestone-sub">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
                 </div>
             </div>
         </section>
 
-        <!-- KONSOLA DEWELOPERSKA -->
+        <!-- KONSOLA DEWELOPERSKA (ZSYNCHRONIZOWANA SZEROKOŚĆ) -->
         <section style="padding: 0 20px;">
             <div class="discord-console-wrapper">
                 <div class="discord-console-header">
