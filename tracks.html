@@ -6,17 +6,23 @@
     <title>Operational Tracks - BrainlyHQ</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
-<style>
-        /* Elegancki baner wprowadzający */
+    <style>
+        /* POPRAWKA: Elegancki baner bez bocznej kreski, z pełnym hoverem dookoła */
         .protocol-broadcast {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-left: 4px solid var(--color-brainly-green);
             border-radius: 16px;
             padding: 32px;
             margin-bottom: 40px;
             box-sizing: border-box;
             width: 100%;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .protocol-broadcast:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-brainly-green); /* Zielone obramowanie dookoła */
+            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.05);
         }
 
         .protocol-tag {
@@ -45,14 +51,14 @@
         /* Układ Flexbox */
         .tracks-flex-container {
             display: flex;
-            align-items: flex-start; /* Zmiana ze stretch na start, by menu dyktowało warunki */
+            align-items: flex-start;
             gap: 30px;
-            margin-bottom: 60px;
+            margin-bottom: 50px; /* POPRAWKA: Równy, symetryczny odstęp na dole (50px) */
             width: 100%;
             box-sizing: border-box;
         }
 
-        /* Lewe Menu: Dokładna wysokość 5 kafelków z przerwami to 384px */
+        /* Lewe Menu */
         .tracks-menu {
             display: flex;
             flex-direction: column;
@@ -66,7 +72,7 @@
             border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 20px 22px;
-            height: 64px; /* Sztywna wysokość kafelka */
+            height: 64px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -79,7 +85,7 @@
         }
 
         .track-menu-btn:hover {
-            border-color: rgba(153, 238, 96, 0.4);
+            border-color: var(--color-brainly-green);
             transform: translateY(-2px);
         }
 
@@ -126,7 +132,7 @@
             color: var(--color-brainly-green);
         }
 
-        /* BETONOWA BLOKADA ROZMIARU: Prawy blok ma zamrożony wymiar 384px góra-dół */
+        /* Prawy blok podglądu */
         .track-showcase-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -137,12 +143,16 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            
-            /* ABSOLUTNY ZAKAZ ZMIANY WYSOKOŚCI */
             height: 384px !important;
             min-height: 384px !important;
             max-height: 384px !important;
-            overflow: hidden; /* Gwarancja, że nic nie wyjdzie na zewnątrz */
+            overflow: hidden;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .track-showcase-card:hover {
+            border-color: rgba(153, 238, 96, 0.3);
+            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.02);
         }
 
         .showcase-display {
@@ -187,7 +197,7 @@
         .showcase-footer {
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
-            margin-top: auto; /* Zawsze idealnie przyklejone do dolnego rantu o rozmiarze 384px */
+            margin-top: auto;
         }
 
         .footer-label {
