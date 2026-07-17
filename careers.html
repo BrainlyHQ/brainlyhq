@@ -43,7 +43,8 @@
             margin-top: 40px;
         }
 
-        .careers-card {
+        /* POPRAWKA: Silniejszy selektor CSS gwarantujący płynne zielone podświetlenie ramki */
+        .careers-grid .careers-card {
             text-decoration: none;
             color: inherit;
             display: flex;
@@ -51,14 +52,18 @@
             justify-content: space-between;
             height: 100%;
             min-height: 200px;
+            background-color: var(--bg-secondary);
             border: 1px solid var(--border-color) !important;
             border-radius: 16px !important;
+            padding: 28px 24px;
+            box-sizing: border-box;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .careers-card:hover {
+        .careers-grid .careers-card:hover {
             border-color: var(--color-brainly-green) !important;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.06);
         }
 
         .careers-card::before, .careers-card::after {
@@ -104,31 +109,38 @@
             display: inline-block;
         }
 
+        /* POPRAWKA: Wyrównana, symetryczna struktura flexbox dla bannera rekrutacji */
         .recruit-banner {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 40px 32px;
-            text-align: center;
             margin-bottom: 50px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
         }
 
-        /* NOWOŚĆ: Wizualna ścieżka rekrutacji zapobiegająca pustce */
+        /* POPRAWKA: Perfekcyjnie wyśrodkowany i zbalansowany pasek etapów */
         .recruitment-steps-bar {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 16px;
-            margin: 24px auto 8px auto;
+            margin: 24px 0;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
-            padding: 10px 24px;
+            padding: 12px 28px;
             border-radius: 30px;
             font-family: monospace;
             font-size: 0.78rem;
             color: var(--text-secondary);
+            width: fit-content;
+            box-sizing: border-box;
         }
 
         .step-active-node {
@@ -143,21 +155,23 @@
         .recruit-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 10px;
             background-color: #5865F2;
             color: #FFFFFF;
             text-decoration: none;
             font-weight: 700;
             font-size: 0.9rem;
-            padding: 12px 28px;
+            padding: 14px 32px;
             border-radius: 24px;
-            margin-top: 20px;
-            transition: background-color 0.2s ease, transform 0.2s ease;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.2);
         }
 
         .recruit-btn:hover {
             background-color: #4752C4;
             transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.35);
         }
 
         .recruit-btn svg {
@@ -283,8 +297,10 @@
             }
             .recruitment-steps-bar {
                 flex-direction: column;
-                gap: 6px;
+                gap: 8px;
                 border-radius: 12px;
+                width: 100%;
+                padding: 16px;
             }
             .step-divider-arrow {
                 transform: rotate(90deg);
@@ -312,7 +328,6 @@
         <canvas id="constellation-canvas"></canvas>
         <div class="careers-hero-inner">
             <h1 class="content-title" style="margin-bottom: 12px;">BrainlyHQ Careers</h1>
-            <!-- POPRAWKA 1: Czysty, krótszy i symetryczny opis bez single-word overflow -->
             <p class="content-lead" style="margin-bottom: 0; max-width: 760px;">
                 Explore ecosystem workflow models derived from standard development architecture. Join our staff team to shape automation systems and global community networks.
             </p>
@@ -321,13 +336,13 @@
 
     <main class="content-section" style="margin-top: 50px;">
         
+        <!-- SEKCJA BANNERA REKRUTACYJNEGO (WYŚRODKOWANA I ZBALANSOWANA) -->
         <div class="recruit-banner">
             <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 10px;">Join the Recruitment Ecosystem</h3>
             <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 650px; margin: 0 auto;">
                 We do not host static corporate listings. Our application sequences, verification tracks, and staff onboarding sequences are fully handled through our secure recruitment layout on Discord.
             </p>
 
-            <!-- POPRAWKA 3: Wzbogacenie pustej przestrzeni elementem etapów procesowych -->
             <div class="recruitment-steps-bar">
                 <span class="step-active-node">01. Application</span>
                 <span class="step-divider-arrow">→</span>
@@ -395,8 +410,9 @@
             <p style="font-size: 0.95rem;">Select an internal deployment line matching your technical profile.</p>
         </div>
 
+        <!-- SEKCJA KAFELKÓW (Z POPRAWIONYMI REGUŁAMI HOVER) -->
         <div class="careers-grid" style="margin-bottom: 60px;">
-            <a href="tracks.html" class="card careers-card">
+            <a href="tracks.html" class="careers-card">
                 <div>
                     <div class="careers-card-top">
                         <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -410,7 +426,7 @@
                 <span class="card-read-more">Read More</span>
             </a>
 
-            <a href="tracks.html" class="card careers-card">
+            <a href="tracks.html" class="careers-card">
                 <div>
                     <div class="careers-card-top">
                         <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -425,7 +441,7 @@
                 <span class="card-read-more">Read More</span>
             </a>
 
-            <a href="tracks.html" class="card careers-card">
+            <a href="tracks.html" class="careers-card">
                 <div>
                     <div class="careers-card-top">
                         <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -441,8 +457,7 @@
                 <span class="card-read-more">Read More</span>
             </a>
 
-            <!-- POPRAWKA 2: Profesjonalna, poprawna ikona wektorowa palety malarskiej i pędzla -->
-            <a href="tracks.html" class="card careers-card">
+            <a href="tracks.html" class="careers-card">
                 <div>
                     <div class="careers-card-top">
                         <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
