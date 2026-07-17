@@ -10,7 +10,7 @@
         .palette-container {
             max-width: 1200px;
             margin: 0 auto;
-            /* POPRAWKA: Symetryczne marginesy góra/dół (50px) bez zaburzania viewportu */
+            /* Zsynchronizowane, idealnie równe odstępy góra/dół sekcji głównej */
             padding: 50px 24px;
             box-sizing: border-box;
         }
@@ -18,7 +18,7 @@
             margin-top: 40px;
         }
         .palette-section:last-of-type {
-            margin-bottom: 50px; /* Blokada równego odstępu od stopki */
+            margin-bottom: 50px; /* Symetryczna blokada od dołu do stopki */
         }
         .section-title-palette {
             font-size: 1.1rem;
@@ -84,33 +84,36 @@
             color: var(--color-brainly-green);
         }
         
-        /* POPRAWKA: Bezpieczne powiadomienie Toast mieszczące się w bezpiecznym oknie viewportu */
+        /* POPRAWKA: Bezwzględne nadpisanie globalnego CSS za pomocą !important */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #111214;
-            color: #ffffff;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-            border: 1px solid #99ee60;
-            z-index: 9999;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            /* Zmiana ze 100px na 30px, aby nie uciekało poza krawędź ekranu i nie tworzyło scrollbara */
-            transform: translateY(30px); 
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+            position: fixed !important;
+            bottom: 40px !important; /* Sztywno nad krawędzią ekranu, niezależnie od przewijania */
+            right: 30px !important;
+            background-color: #111214 !important;
+            color: #ffffff !important;
+            padding: 14px 24px !important;
+            border-radius: 10px !important;
+            font-size: 0.9rem !important;
+            font-weight: 700 !important;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5) !important;
+            border: 1px solid #99ee60 !important;
+            z-index: 99999 !important; /* Najwyższa możliwa warstwa nad całą stroną i stopką */
+            pointer-events: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            opacity: 0 !important;
+            
+            /* Zmiana transformacji startowej, by animacja nie wychodziła poza ramy viewportu */
+            transform: translateY(20px) !important; 
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease !important;
         }
+        
         .toast.show {
-            opacity: 1;
-            transform: translateY(0);
+            opacity: 1 !important;
+            transform: translateY(0) !important; /* Idealny powrót na bezpieczną wysokość */
         }
+        
         .toast-success-dot {
             width: 8px;
             height: 8px;
@@ -312,7 +315,7 @@
         </div>
     </main>
 
-    <!-- KONTENER POWIADOMIENIA (Z ZABEZPIECZONYM PIONOWYM TRANSLATE) -->
+    <!-- POPRAWIONY TOAST (Z WYMUSZONYM POZYCJONOWANIEM POWYŻEJ DOLNEJ KRAWĘDZI VIEWPORTU) -->
     <div id="toast" class="toast">
         <span class="toast-success-dot"></span>
         <span id="toast-text">Successfully copied!</span>
