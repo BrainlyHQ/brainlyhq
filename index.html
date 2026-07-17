@@ -595,7 +595,7 @@
             </div>
         </section>
 
-        <!-- SEKCJA SUKCESÓW (PERFEKCYJNIE WYRÓWNANA FALISTA MAGISTRALA) -->
+        <!-- SEKCJA SUKCESÓW (PŁYNĄCA STRUKTURALNA LINIA WAVE) -->
         <section class="milestones-wave-section">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
@@ -617,27 +617,12 @@
                     <p class="wave-text">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
                 </div>
 
-                <!-- RZĄD 2: Animowana Linia 100vw z kropkami wektorowymi wtopionymi w układ współrzędnych SVG -->
+                <!-- RZĄD 2: Animowana Linia 100vw rozciągnięta wektorowo od krawędzi do krawędzi -->
                 <div class="wave-svg-row">
                     <svg class="wave-svg-element" viewBox="0 0 1000 60" preserveAspectRatio="none" style="overflow: visible;">
-                        <defs>
-                            <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-                                <feGaussianBlur stdDeviation="3" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-                        </defs>
-
-                        <!-- Główna ścieżka fali i nakładka z animowanym przesunięciem obrysu (płynący prąd) -->
+                        <!-- Główna ścieżka fali i nakładka z animowanym prądem danych -->
                         <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" stroke="var(--border-color)" stroke-width="2" />
                         <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" class="animated-pulse-path" />
-                        
-                        <!-- Okrągłe kropki wtopione w szczyty matematyczne fali z blokadą deformacji proporcji -->
-                        <circle cx="166.66" cy="15" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" filter="url(#neon-glow)" style="vector-effect: non-scaling-stroke;" />
-                        <circle cx="500" cy="30" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" filter="url(#neon-glow)" style="vector-effect: non-scaling-stroke;" />
-                        <circle cx="833.33" cy="45" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" filter="url(#neon-glow)" style="vector-effect: non-scaling-stroke;" />
                     </svg>
                 </div>
 
