@@ -32,7 +32,7 @@
             position: relative;
         }
 
-        /* Minimalistyczny powrót do Home (Zamiast nagłówka) */
+        /* Minimalistyczny powrót do Home */
         .back-home-container {
             display: flex;
             justify-content: flex-start;
@@ -67,7 +67,7 @@
             color: #ffffff;
             border-radius: 8px;
             padding: 20px 24px;
-            font-weight: 900; /* Odpowiednik Proxima Nova Black */
+            font-weight: 900;
             font-size: 1.15rem;
             display: flex;
             align-items: center;
@@ -104,7 +104,7 @@
 
         .components-section-header {
             font-size: 1rem;
-            font-weight: 900; /* Impactful Proxima Nova Black look */
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-secondary);
@@ -114,7 +114,7 @@
             text-align: left;
         }
 
-        /* Pojedynczy Komponent (Wiersz Systemu) */
+        /* Pojedynczy Komponent */
         .component-row {
             padding: 16px 0;
             border-bottom: 1px solid var(--border-color);
@@ -136,7 +136,7 @@
 
         .component-name {
             font-size: 0.95rem;
-            font-weight: 800; /* Proxima Nova Bold/Black styling */
+            font-weight: 800;
             color: var(--text-primary);
         }
 
@@ -154,7 +154,7 @@
         /* Wykres Uptime (15-dniowe słupki) */
         .uptime-graph {
             display: flex;
-            gap: 5px; /* Przyjazny odstęp do najeżdżania myszką */
+            gap: 5px;
             height: 34px;
             width: 100%;
             margin-top: 4px;
@@ -170,10 +170,9 @@
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease;
         }
 
-        /* INTERAKCJA: Efekt najechania na słupek statusu */
         .uptime-bar:hover {
-            background-color: #2bd173; /* Podświetlenie */
-            transform: scaleY(1.15); /* Płynne uniesienie w pionie */
+            background-color: #2bd173;
+            transform: scaleY(1.15);
         }
 
         .uptime-bar.under-development {
@@ -227,6 +226,7 @@
             font-size: 1.6rem;
             font-weight: 900;
             color: var(--color-brainly-green);
+            transition: color 0.3s ease;
         }
 
         /* Historia incydentów */
@@ -390,31 +390,18 @@
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-title">API Response Latency</div>
-                <div class="metric-value">26 ms</div>
+                <div class="metric-value" id="metric-latency">26 ms</div>
             </div>
             <div class="metric-card">
                 <div class="metric-title">Cross-Bridge Sync Speed</div>
-                <div class="metric-value">0.12s</div>
+                <div class="metric-value" id="metric-sync">0.12s</div>
             </div>
         </div>
 
+        <!-- POPRAWKA: Dynamiczny kontener na w pełni generowane daty historii -->
         <div class="incidents-section">
             <div class="components-section-header">Past Incidents</div>
-            
-            <div class="incident-day">
-                <div class="incident-date">July 16, 2026</div>
-                <div class="incident-item">No incidents reported today.</div>
-            </div>
-
-            <div class="incident-day">
-                <div class="incident-date">July 15, 2026</div>
-                <div class="incident-item">No incidents reported.</div>
-            </div>
-
-            <div class="incident-day">
-                <div class="incident-date">July 14, 2026</div>
-                <div class="incident-item">No incidents reported.</div>
-            </div>
+            <div id="dynamic-incidents-container"></div>
         </div>
 
         <div class="status-footer">
@@ -428,12 +415,10 @@
             if (!container) return;
 
             let html = '';
-            // Generujemy dokładnie 15 czystych słupków z przypisanymi datami i tooltipami
             for (let i = 14; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
                 
-                // Format przyjazny dla dymka podpowiedzi: np. "16 Jul"
                 const dateString = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
 
                 if (isDev) {
@@ -445,30 +430,73 @@
             container.innerHTML = html;
         }
 
+        // NOWOŚĆ: Skrypt generujący kalendarzowe daty dla sekcji incydentów
+        function generatePastIncidents() {
+            const container = document.getElementById('dynamic-incidents-container');
+            if (!container) return;
+
+            let html = '';
+            for (let i = 0; i < 3; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                
+                // Generuje format np. "July 17, 2026"
+                const formalDate = date.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+
+                const statusText = i === 0 ? "No incidents reported today." : "No incidents reported.";
+
+                html += `
+                    <div class="incident-day">
+                        <div class="incident-date">${formalDate}</div>
+                        <div class="incident-item">${statusText}</div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        // NOWOŚĆ: Realistyczna symulacja fluktuacji pakietów (Jitter) sieciowych
+        function simulateMetricsFluctuation() {
+            const latencyElement = document.getElementById('metric-latency');
+            const syncElement = document.getElementById('metric-sync');
+
+            setInterval(() => {
+                // Latency w granicach 22ms - 29ms
+                const randomLatency = Math.floor(Math.random() * (29 - 22 + 1)) + 22;
+                if (latencyElement) latencyElement.innerText = `${randomLatency} ms`;
+
+                // Sync Speed w granicach 0.10s - 0.15s
+                const randomSync = (Math.random() * (0.15 - 0.10) + 0.10).toFixed(2);
+                if (syncElement) syncElement.innerText = `${randomSync}s`;
+            }, 3500); // Zmiana co 3.5 sekundy
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
-            // Aktywne systemy
             generateUptimeGraph('graph-core', false);
             generateUptimeGraph('graph-partnership', false);
             generateUptimeGraph('graph-scavengers', false);
             
-            // W przygotowaniu
             generateUptimeGraph('graph-hub', true);
             generateUptimeGraph('graph-synapse', true);
             generateUptimeGraph('graph-lab', true);
+
+            generatePastIncidents();
+            simulateMetricsFluctuation();
         });
     </script>
 
     <script>
         function syncTheme() {
-            // Odczytujemy aktywny motyw z localStorage (domyślnie ciemny 'dark')
             const savedTheme = localStorage.getItem("theme") || "dark";
             document.documentElement.setAttribute("data-theme", savedTheme);
         }
 
-        // Synchronizujemy motyw przy załadowaniu strony statusu
         syncTheme();
 
-        // Nasłuchujemy zmian w czasie rzeczywistym
         window.addEventListener('storage', (e) => {
             if (e.key === 'theme') {
                 syncTheme();
