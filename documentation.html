@@ -10,15 +10,42 @@
         .support-page-wrapper {
             max-width: 900px;
             margin: 0 auto;
-            padding: 60px 24px;
+            /* Odstępy boczne bezpieczne, pionowe kontrolowane przez równe marginesy główne */
+            padding: 0 24px;
+            box-sizing: border-box;
         }
+
+        /* POPRAWKA: Usunięcie domyślnych marginesów kolidujących z pozycjonowaniem góra/dół */
+        .support-page-wrapper .content-title {
+            margin-top: 0 !important;
+            margin-bottom: 16px;
+        }
+
+        .support-page-wrapper .content-lead {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
         .support-header {
             text-align: center;
-            margin-bottom: 45px;
+            margin-bottom: 40px; /* Przestrzeń między wstępem a główną kartą plików */
         }
+
+        /* POPRAWKA: Blokada równego odstępu 50px całego bloku od stopki */
+        .support-page-wrapper .card {
+            margin-bottom: 50px !important;
+        }
+
         .document-category {
-            margin-bottom: 28px;
+            margin-top: 32px;
+            margin-bottom: 0;
         }
+
+        /* Pierwsza kategoria nie potrzebuje górnego odstępu, bo ma już nagłówek karty h3 */
+        .document-category:first-of-type {
+            margin-top: 0;
+        }
+
         .document-category h4 {
             font-size: 1rem;
             font-weight: 700;
@@ -87,7 +114,7 @@
             border: 1px solid rgba(153, 238, 96, 0.2);
             border-radius: 12px;
             padding: 20px;
-            margin-top: 32px;
+            margin-top: 40px; /* Spójny, równy odstęp wewnątrz karty */
             display: flex;
             align-items: flex-start;
             gap: 16px;
@@ -136,10 +163,11 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <main class="support-page-wrapper">
+    <!-- POPRAWKA: Sztywne, idealnie równe 50px odstępu na samej górze strony -->
+    <main class="support-page-wrapper" style="margin-top: 50px !important;">
         <div class="support-header">
             <h1 class="content-title">Documentation & Archives</h1>
-            <p class="content-lead" style="margin-bottom: 0;">
+            <p class="content-lead">
                 Access official server parameters, read our system design details, and download historical consolidated server reports.
             </p>
         </div>
@@ -173,7 +201,7 @@
                 </ul>
             </div>
 
-            <div class="document-category" style="margin-top: 32px;">
+            <div class="document-category">
                 <h4>Consolidated Monthly Reports (2026)</h4>
                 <ul class="file-list">
                     <li>
@@ -233,7 +261,7 @@
                 </ul>
             </div>
 
-            <div class="document-category" style="margin-top: 32px;">
+            <div class="document-category">
                 <h4>Annual Archives</h4>
                 <ul class="file-list">
                     <li>
