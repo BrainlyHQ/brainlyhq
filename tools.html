@@ -7,20 +7,42 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
+        /* Gwarancja braku marginesów dla body, by nie zaburzały obliczeń */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
         .tools-container {
             max-width: 1200px;
             margin: 0 auto;
-            /* Odstępy boczne, pionowe kontrolowane przez marginesy (jak na reszcie stron) */
+            /* Usunięte pionowe paddingi, kontrolujemy wszystko sztywnymi marginesami */
             padding: 0 24px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* POPRAWKA: Reset domyślnych marginesów tekstu, by nie sumowały się z górą */
+        .tools-container .content-title {
+            margin-top: 0 !important;
+            margin-bottom: 12px; /* Zachowany odstęp do opisu */
+        }
+
+        .tools-container .content-lead {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
         }
         
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 24px;
-            margin-top: 40px;
-            margin-bottom: 50px; /* Perfekcyjnie równy odstęp na dole */
+            margin-top: 40px; /* Odstęp od tekstu do kafelków */
+            width: 100%;
+            /* POPRAWKA: Perfekcyjnie równy odstęp na dole (50px) */
+            margin-bottom: 50px !important; 
         }
         
         .tools-grid .tools-card {
@@ -67,10 +89,10 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <!-- IDEALNIE RÓWNY ODSTĘP NA GÓRZE: 50px (tak samo jak w dole gridu) -->
-    <main class="tools-container" style="margin-top: 50px;">
+    <!-- POPRAWKA: IDEALNIE RÓWNY ODSTĘP NA GÓRZE: Sztywne 50px -->
+    <main class="tools-container" style="margin-top: 50px !important;">
         <h1 class="content-title" data-translate="tools-title">Community Utilities</h1>
-        <p class="content-lead" style="margin-bottom: 0;" data-translate="tools-lead">
+        <p class="content-lead" data-translate="tools-lead">
             A versatile suite of tools built for both our server members and staff. Designed to enhance your Discord experience, streamline formatting, and keep our community safe.
         </p>
 
