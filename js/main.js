@@ -9,6 +9,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
+ * Pomocnicza funkcja wymuszająca odpowiedni filtr na logo w zależności od motywu
+ */
+function syncLogoFilter() {
+    const logoImg = document.getElementById("header-logo-img");
+    if (!logoImg) return;
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    
+    if (currentTheme === "light") {
+        logoImg.style.setProperty("filter", "invert(1) brightness(0)", "important");
+    } else {
+        logoImg.style.setProperty("filter", "none", "important");
+    }
+}
+
+/**
  * Ładuje dynamicznie nagłówek oraz stopkę z zewnętrznych plików HTML i inicjuje ich logikę
  */
 function initHeaderAndFooter() {
@@ -22,12 +38,13 @@ function initHeaderAndFooter() {
             .then(data => {
                 headerPlaceholder.innerHTML = data;
                 
-                // --- KLUCZOWA SYNCHRONIZACJA MOTYWU ---
-                // Odczytujemy zapisany motyw i natychmiast go aplikujemy na tag HTML
+                // Odczytujemy zapisany motyw i natychmiast go aplikujemy
                 const savedTheme = localStorage.getItem("theme") || "dark";
                 document.documentElement.setAttribute("data-theme", savedTheme);
                 
-                // Po pomyślnym wstrzyknięciu HTML inicjujemy wszystkie komponenty
+                syncLogoFilter();
+                
+                // Inicjacja komponentów nagłówka
                 initThemeToggle();
                 initProfileDropdown();
                 initLanguageSystem(); 
@@ -115,8 +132,6 @@ function initNavigationHighlight() {
 /**
  * --- GLOBALNY SYSTEM POWIADOMIEŃ (Zapis i odczyt localStorage) ---
  */
-
-// Pomocnicza funkcja generująca wpis logu i powiadomienia
 function createNotification(text, details = "") {
     try {
         const now = new Date();
@@ -125,7 +140,6 @@ function createNotification(text, details = "") {
         
         let logs = JSON.parse(localStorage.getItem('brainly_notifications')) || [];
         
-        // Dodajemy nowe zdarzenie na sam początek tablicy
         logs.unshift({
             time: timestamp,
             dateMs: timeMs,
@@ -133,19 +147,15 @@ function createNotification(text, details = "") {
             details: details
         });
         
-        // Ograniczenie pojemności do 15 wpisów
         if (logs.length > 15) logs.pop();
         
         localStorage.setItem('brainly_notifications', JSON.stringify(logs));
-        
-        // Natychmiast odświeżamy listę w otwartym dropdownie
         renderNotifications();
     } catch (e) {
         console.warn("Storage write restricted:", e);
     }
 }
 
-// Funkcja renderująca elementy listy powiadomień w postaci eleganckich kafelków (kart)
 function renderNotifications() {
     const notifList = document.getElementById("dropdown-notifications-list");
     if (!notifList) return;
@@ -155,10 +165,8 @@ function renderNotifications() {
         const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
         const nowMs = new Date().getTime();
 
-        // Filtrowanie wpisów starszych niż 7 dni (retencja)
         const activeLogs = logs.filter(log => (nowMs - (log.dateMs || 0)) < sevenDaysMs);
         
-        // Zapisujemy przefiltrowaną tablicę
         if (activeLogs.length !== logs.length) {
             localStorage.setItem('brainly_notifications', JSON.stringify(activeLogs));
         }
@@ -172,7 +180,6 @@ function renderNotifications() {
             return;
         }
 
-        // Generowanie powiadomień jako eleganckie, osobne kafelki na bazie klasy .card
         notifList.innerHTML = activeLogs.map(log => `
             <div class="card" style="padding: 10px 12px; margin-bottom: 6px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-secondary); transition: none; transform: none; box-shadow: none;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; text-align: left;">
@@ -193,7 +200,7 @@ function renderNotifications() {
 }
 
 /**
- * --- OBSŁUGA MOTYWÓW (Zintegrowana z systemem logowania powiadomień) ---
+ * --- OBSŁUGA MOTYWÓW ---
  */
 function initThemeToggle() {
     const toggleBtn = document.getElementById("theme-toggle-btn");
@@ -206,7 +213,8 @@ function initThemeToggle() {
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
 
-        // Generowanie powiadomienia o zmianie motywu
+        syncLogoFilter();
+
         const formattedThemeName = newTheme.charAt(0).toUpperCase() + newTheme.slice(1);
         createNotification("Theme updated", `Switched to ${formattedThemeName} mode`);
     });
@@ -222,12 +230,10 @@ function initProfileDropdown() {
 
     if (!profileBtn || !dropdown) return;
 
-    // Przełączanie klasy .active przy kliknięciu w avatar
     profileBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         dropdown.classList.toggle("active");
         
-        // Przy każdym otwarciu dropdownu odświeżamy listę powiadomień
         if (dropdown.classList.contains("active")) {
             renderNotifications();
         }
@@ -239,7 +245,6 @@ function initProfileDropdown() {
         }
     });
 
-    // Czyszczenie powiadomień
     if (clearBtn) {
         clearBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -248,6 +253,5 @@ function initProfileDropdown() {
         });
     }
 
-    // Inicjalne wczytanie logów przy starcie nagłówka
     renderNotifications();
 }
