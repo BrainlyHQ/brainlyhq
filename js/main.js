@@ -219,15 +219,21 @@ function initThemeToggle() {
     const toggleBtn = document.getElementById("theme-toggle-btn");
     if (!toggleBtn) return;
 
-    toggleBtn.addEventListener("click", () => {
-        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-        
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
+    // Pobierz aktualny stan i wymuś synchronizację wyglądu ikony oraz logo
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    if (typeof updateThemeIcon === "function") updateThemeIcon(currentTheme);
+    if (typeof updateLogo === "function") updateLogo(currentTheme);
 
-        const formattedThemeName = newTheme.charAt(0).toUpperCase() + newTheme.slice(1);
-        createNotification("Theme updated", `Switched to ${formattedThemeName} mode`);
+    toggleBtn.addEventListener("click", () => {
+        // Wywołaj główną funkcję przełączającą z pliku theme.js
+        if (typeof toggleTheme === "function") {
+            toggleTheme();
+            
+            // Rejestracja powiadomienia na podstawie zaktualizowanego stanu
+            const newTheme = document.documentElement.getAttribute("data-theme");
+            const formattedThemeName = newTheme.charAt(0).toUpperCase() + newTheme.slice(1);
+            createNotification("Theme updated", `Switched to ${formattedThemeName} mode`);
+        }
     });
 }
 
