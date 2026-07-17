@@ -377,7 +377,7 @@
             box-sizing: border-box;
         }
 
-        /* Kontener linii wektorowej idący bezwzględnie na 100% szerokości okna */
+        /* Kontener linii wektorowej idący na 100% szerokości okna przeglądarki */
         .wave-svg-row {
             grid-column: span 3;
             width: 100vw;
@@ -397,7 +397,7 @@
             display: block;
         }
 
-        /* Prawdziwy płynący prąd wektorowy */
+        /* Płynący prąd wektorowy */
         .animated-pulse-path {
             stroke: var(--color-brainly-green);
             stroke-width: 3;
@@ -410,25 +410,6 @@
                 stroke-dashoffset: -24;
             }
         }
-
-        /* POPRAWKA PUKTÓW: Prawdziwe, okrągłe kropki HTML spozycjonowane na linii */
-        .wave-node-dot {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background-color: var(--bg-primary);
-            border: 3px solid var(--color-brainly-green);
-            border-radius: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px var(--color-brainly-green);
-            z-index: 5;
-        }
-
-        /* Dokładne współrzędne węzłów dopasowane do środka kolumn Grid */
-        .dot-1 { left: 16.66%; }
-        .dot-2 { left: 50%; }
-        .dot-3 { left: 83.33%; }
 
         .wave-text-block {
             text-align: center;
@@ -472,7 +453,7 @@
             .hero-title { font-size: 2.3rem; }
             .stats-grid, .eco-grid { grid-template-columns: 1fr; }
             .wave-grid-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 30px; }
-            .wave-svg-row, .wave-spacer, .wave-node-dot { display: none; }
+            .wave-svg-row, .wave-spacer { display: none; }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -597,7 +578,7 @@
                     <div>
                         <div class="eco-icon-box">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12(2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                             </svg>
                         </div>
                         <h3 class="eco-title">Webmaster Utilities</h3>
@@ -614,7 +595,7 @@
             </div>
         </section>
 
-        <!-- SEKCJA SUKCESÓW (KRAWĘDŹ DO KRAWĘDZI Z PUNKTAMI WŁAŚCIWYMI) -->
+        <!-- SEKCJA SUKCESÓW (PERFEKCYJNIE WYRÓWNANA FALISTA MAGISTRALA) -->
         <section class="milestones-wave-section">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
@@ -623,7 +604,7 @@
 
             <div class="wave-grid-layout">
                 
-                <!-- RZĄD 1: Tekst Sukcesu 1 i Sukcesu 3 -->
+                <!-- RZĄD 1: Tekst Sukcesu 1 (Lewo) i Sukcesu 3 (Prawo) -->
                 <div class="wave-text-block">
                     <span class="wave-tag">Integrations</span>
                     <h3 class="wave-title">Official collaboration agreement with Brainly Creatives</h3>
@@ -636,19 +617,31 @@
                     <p class="wave-text">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
                 </div>
 
-                <!-- RZĄD 2: Animowana Linia 100vw z kropkami pozycjonowanymi w HTML -->
+                <!-- RZĄD 2: Animowana Linia 100vw z kropkami wektorowymi wtopionymi w układ współrzędnych SVG -->
                 <div class="wave-svg-row">
-                    <svg class="wave-svg-element" viewBox="0 0 1000 60" preserveAspectRatio="none">
-                        <path d="M 0 30 Q 166 0, 333 30 T 666 30 T 1000 30" fill="none" stroke="var(--border-color)" stroke-width="2" />
-                        <path d="M 0 30 Q 166 0, 333 30 T 666 30 T 1000 30" fill="none" class="animated-pulse-path" />
+                    <svg class="wave-svg-element" viewBox="0 0 1000 60" preserveAspectRatio="none" style="overflow: visible;">
+                        <defs>
+                            <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="3" result="blur" />
+                                <feMerge>
+                                    <feMergeNode in="blur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        <!-- Główna ścieżka fali i nakładka z animowanym przesunięciem obrysu (płynący prąd) -->
+                        <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" stroke="var(--border-color)" stroke-width="2" />
+                        <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" class="animated-pulse-path" />
+                        
+                        <!-- Okrągłe kropki wtopione w szczyty matematyczne fali z blokadą deformacji proporcji -->
+                        <circle cx="166.66" cy="15" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" filter="url(#neon-glow)" style="vector-effect: non-scaling-stroke;" />
+                        <circle cx="500" cy="30" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" filter="url(#neon-glow)" style="vector-effect: non-scaling-stroke;" />
+                        <circle cx="833.33" cy="45" r="6" fill="var(--bg-primary)" stroke="var(--color-brainly-green)" stroke-width="3" filter="url(#neon-glow)" style="vector-effect: non-scaling-stroke;" />
                     </svg>
-                    <!-- Punkty węzłowe (Kropki HTML chronione przed spłaszczaniem) -->
-                    <div class="wave-node-dot dot-1"></div>
-                    <div class="wave-node-dot dot-2"></div>
-                    <div class="wave-node-dot dot-3"></div>
                 </div>
 
-                <!-- RZĄD 3: Tekst Sukcesu 2 -->
+                <!-- RZĄD 3: Tekst Sukcesu 2 (Środek) -->
                 <div class="wave-spacer"></div>
                 <div class="wave-text-block">
                     <span class="wave-tag">Team Matrix</span>
