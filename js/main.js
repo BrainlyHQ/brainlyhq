@@ -33,6 +33,9 @@ function initHeaderAndFooter() {
                 initProfileDropdown();
                 initLanguageSystem(); 
                 initNavigationHighlight(); 
+                
+                // NOWOŚĆ: Inicjalizacja obsługi hamburger menu dla urządzeń mobilnych
+                initMobileMenu();
             })
             .catch(err => console.error("Error loading header:", err));
     }
@@ -271,4 +274,26 @@ function initProfileDropdown() {
     }
 
     renderNotifications();
+}
+
+/**
+ * NOWOŚĆ: --- OBSŁUGA HAMBURGER MENU DLA TELEFONÓW ---
+ */
+function initMobileMenu() {
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const navMenu = document.querySelector("header nav");
+
+    if (!menuBtn || !navMenu) return;
+
+    menuBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navMenu.classList.toggle("mobile-active");
+    });
+
+    // Zamknij menu mobilne, jeśli użytkownik kliknie gdziekolwiek poza nim lub poza przyciskiem
+    document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && e.target !== menuBtn) {
+            navMenu.classList.remove("mobile-active");
+        }
+    });
 }
