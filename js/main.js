@@ -277,7 +277,7 @@ function initProfileDropdown() {
 }
 
 /**
- * NOWOŚĆ: --- OBSŁUGA HAMBURGER MENU DLA TELEFONÓW ---
+ * --- OBSŁUGA HAMBURGER MENU DLA TELEFONÓW (FULL-SCREEN OVERLAY) ---
  */
 function initMobileMenu() {
     const menuBtn = document.getElementById("mobile-menu-btn");
@@ -287,13 +287,34 @@ function initMobileMenu() {
 
     menuBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        navMenu.classList.toggle("mobile-active");
+        const isActive = navMenu.classList.toggle("mobile-active");
+        
+        // Blokada/odblokowanie przewijania strony w tle
+        if (isActive) {
+            document.body.classList.add("mobile-menu-open");
+        } else {
+            document.body.classList.remove("mobile-menu-open");
+        }
     });
 
-    // Zamknij menu mobilne, jeśli użytkownik kliknie gdziekolwiek poza nim lub poza przyciskiem
+    // Zamknij menu mobilne i odblokuj scroll, gdy użytkownik kliknie poza obszar menu
     document.addEventListener("click", (e) => {
         if (!navMenu.contains(e.target) && e.target !== menuBtn) {
             navMenu.classList.remove("mobile-active");
+            document.body.classList.remove("mobile-menu-open");
         }
+    });
+
+    // Zamknięcie menu po kliknięciu w link wewnętrzny (chyba że otwiera podmenu na mobilkach)
+    navMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+                // Jeśli link nie ma podmenu (nav-submenu), zamykamy overlay
+                if (!link.nextElementSibling || !link.nextElementSibling.classList.contains("nav-submenu")) {
+                    navMenu.classList.remove("mobile-active");
+                    document.body.classList.remove("mobile-menu-open");
+                }
+            }
+        });
     });
 }
