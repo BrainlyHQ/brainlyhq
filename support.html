@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support & Knowledge Base - BrainlyHQ</title>
+    <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* --- SUPPORT KNOWLEDGE BASE STYLES --- */
+        .support-hero {
+            position: relative;
+            padding: 60px 24px 40px 24px;
+            text-align: center;
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-box-container {
+            max-width: 680px;
+            margin: 30px auto 0 auto;
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-wrapper svg.search-icon {
+            position: absolute;
+            left: 18px;
+            width: 22px;
+            height: 22px;
+            color: var(--text-secondary);
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+
+        .support-search-input {
+            width: 100%;
+            padding: 16px 20px 16px 52px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+        }
+
+        .support-search-input:focus {
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 0 25px rgba(153, 238, 96, 0.25);
+        }
+
+        .support-search-input:focus + svg.search-icon {
+            color: var(--color-brainly-green);
+        }
+
+        .search-tags-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .tag-btn {
+            background-color: rgba(240, 243, 246, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag-btn:hover, .tag-btn.active {
+            background-color: var(--color-brainly-green);
+            color: #000000;
+            border-color: var(--color-brainly-green);
+        }
+
+        /* Hot Questions Grid */
+        .hot-questions-section {
+            max-width: 1100px;
+            margin: 40px auto 20px auto;
+            padding: 0 24px;
+        }
+
+        .section-header-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+        }
+
+        .hot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .hot-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .hot-card:hover {
+            border-color: var(--color-brainly-green);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .hot-card-badge {
+            display: inline-block;
+            background-color: rgba(153, 238, 96, 0.15);
+            color: var(--color-brainly-green);
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .hot-card h4 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hot-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Accordion FAQ Database */
+        .faq-container {
+            max-width: 1100px;
+            margin: 40px auto 80px auto;
+            padding: 0 24px;
+        }
+
+        .faq-item {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(153, 238, 96, 0.4);
+        }
+
+        .faq-header {
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .faq-question {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .faq-category-tag {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .faq-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+            padding: 0 24px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-top: 0px solid transparent;
+        }
+
+        .faq-item.active .faq-content {
+            max-height: 1000px;
+            padding: 18px 24px 24px 24px;
+            border-top: 1px solid var(--border-color);
+            transition: max-height 0.5s ease-in, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+            color: var(--color-brainly-green);
+        }
+
+        .faq-answer-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .faq-answer-text strong {
+            color: var(--text-primary);
+        }
+
+        .faq-answer-text ul {
+            margin: 10px 0 10px 20px;
+        }
+
+        .faq-answer-text li {
+            margin-bottom: 4px;
+        }
+
+        .ai-badge {
+            background: linear-gradient(135deg, #99ee60, #2A4870);
+            color: #000;
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        .no-results-msg {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hot-grid { grid-template-columns: 1fr; }
+            .faq-question { flex-direction: column; align-items: flex-start; gap: 6px; }
+        }
+    </style>
+    <script src="js/theme.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <header id="header-placeholder"></header>
+
+    <main>
+        <!-- HERO & SEARCH SECTION -->
+        <section class="support-hero">
+            <h1 class="content-title">Help & Support Center</h1>
+            <p class="content-lead">Search our extensive knowledge base or filter by tags to find answers regarding server rules, economy rates, crates, and pet mechanics.</p>
+
+            <div class="search-box-container">
+                <div class="search-input-wrapper">
+                    <input type="text" id="support-search" class="support-search-input" placeholder="Search questions, keywords, or ask AI (e.g., 'Crate chances', 'Rules', 'Pets')...">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+
+                <div class="search-tags-container">
+                    <button class="tag-btn active" onclick="filterByTag('all')">All Topics</button>
+                    <button class="tag-btn" onclick="filterByTag('rules')">Server Rules</button>
+                    <button class="tag-btn" onclick="filterByTag('economy')">Economy & XP</button>
+                    <button class="tag-btn" onclick="filterByTag('crates')">Crates & Chances</button>
+                    <button class="tag-btn" onclick="filterByTag('pets')">Pets System</button>
+                    <button class="tag-btn" onclick="filterByTag('premium')">HQ Premium</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOT QUESTIONS SECTION -->
+        <section class="hot-questions-section" id="hot-section">
+            <div class="section-header-title">
+                <svg class="header-green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 22px; height: 22px;">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>HOT QUESTIONS</span>
+            </div>
+
+            <div class="hot-grid">
+                <div class="hot-card" onclick="openAndScrollToFaq('faq-1')">
+                    <span class="hot-card-badge">Economy & Drop Rates</span>
+                    <h4>What are the exact chances for Mythic & Diamond Chests?</h4>
+                    <p>Mythic Chests offer 20 Coins (28%), 60 Coins (25%), 210 Coins (12%), and up to 890 Coins (3%). Diamond Chests feature top-tier multipliers up to 965 Coins!</p>
+                </div>
+
+                <div class="hot-card" onclick="openAndScrollToFaq('faq-15')">
+                    <span class="hot-card-badge">Pets System</span>
+                    <h4>How do Pets work and what abilities do they grant?</h4>
+                    <p>Pets like Ollie (1.4x Coin Collector), Kaya (5% discount), Mi Fuego (Profit Burn 2x), and Sally (1.3x XP) provide permanent passive boosts.</p>
+                </div>
+
+                <div class="hot-card" onclick="openAndScrollToFaq('faq-20')">
+                    <span class="hot-card-badge">Server Regulations</span>
+                    <h4>Is Real Money Trading (RMT) or Alt-Account farming allowed?</h4>
+                    <p>Strictly forbidden. Violations result in an immediate global economy reset, permanent ban from BrainlyHQ, and blacklisting.</p>
+                </div>
+
+                <div class="hot-card" onclick="openAndScrollToFaq('faq-28')">
+                    <span class="hot-card-badge">HQ Premium</span>
+                    <h4>What benefits do I get with HQ Premium subscription?</h4>
+                    <p>Includes 1.5x XP Boost, 10% shop discounts, +5 Coins/24h, exclusive Science Scavengers access, and pre-release feature trials.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ DATABASE SECTION -->
+        <section class="faq-container">
+            <div class="section-header-title">
+                <svg class="header-green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 22px; height: 22px;">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span>KNOWLEDGE BASE & FAQ</span> <span class="ai-badge">AI SEARCH READY</span>
+            </div>
+
+            <div id="faq-list">
+                <!-- FAQ ITEMS GENERATED BELOW -->
+            </div>
+
+            <div id="no-results" class="no-results-msg">
+                No matching articles found. Try using different keywords or selecting "All Topics".
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script>
+        // COMPREHENSIVE KNOWLEDGE BASE DATABASE (35 ADVANCED QUESTIONS)
+        const faqData = [
+            {
+                id: "faq-1",
+                tag: "crates",
+                category: "Crates & Chances",
+                question: "What are the exact drop chances and loot tables for Mythic and Diamond Chests?",
+                answer: "According to the official BrainlyHQ Loot Documentation, drop tables are completely transparent:<br><ul><li><strong>Mythic Chest:</strong> 5 Coins (30%), 20 Coins (28%), 60 Coins (25%), 210 Coins (12%), 890 Coins (3%), 1000 Coins (2%).</li><li><strong>Diamond Chest:</strong> 20 Coins (22%), 40 Coins (20%), 80 Coins (22%), 350 Coins (20%), 965 Coins (4%), 1080 Coins (2%).</li></ul>Level multipliers apply to the chance of triggering a drop, not the contents inside."
+            },
+            {
+                id: "faq-2",
+                tag: "crates",
+                category: "Crates & Chances",
+                question: "How do Loot Categories work and what are the item rarity tiers?",
+                answer: "Items inside loot boxes are divided into 5 category tiers:<br><ul><li><strong>Super Rare:</strong> 49.00% drop probability[cite: 2]</li><li><strong>Epic:</strong> 28.00% drop probability[cite: 2]</li><li><strong>Mythic:</strong> 13.00% drop probability[cite: 2]</li><li><strong>Legendary:</strong> 7.00% drop probability[cite: 2]</li><li><strong>Ultra:</strong> 3.00% drop probability[cite: 2]</li></ul>Everyone has equal percentage chances per category tier[cite: 2]. During draws, there is also a specific percentage chance to receive direct Coins or XP instead of a physical item[cite: 2]."
+            },
+            {
+                id: "faq-3",
+                tag: "crates",
+                category: "Crates & Chances",
+                question: "What are the rewards and probabilities for Scratchcards (Gold, Gambler, Dark Horse)?",
+                answer: "Scratchcards operate under public probabilistic algorithms[cite: 2]:<br><ul><li><strong>Gold Scratchcard:</strong> Empty Slot (35%), 5 Coins (30%), 10 Coins (28%), 20 Coins (23%), 40 Coins (11%), 80 Coins (3%).[cite: 2]</li><li><strong>Gambler Scratchcard:</strong> Empty Slot (29%), 5 Coins (29%), 10 Coins (18%), 15 Coins (15%), 20 Coins (10%), 60 Coins (4%), 80 Coins (3%), 100 XP (2%).[cite: 2]</li><li><strong>Dark Horse Scratchcard:</strong> Empty Slot (45%), 15 Coins (28%), 30 Coins (15%), 120 Coins (8%), 300 Coins (2%), 1150 Coins (1%), 500 Coins (1%).[cite: 2]</li></ul>"
+            },
+            {
+                id: "faq-4",
+                tag: "crates",
+                category: "Crates & Chances",
+                question: "What are the winning odds for Lizzard, Obsidian, and Crazy Gambler minigames?",
+                answer: "High-tier gambles feature rare high-payout slots[cite: 2]:<br><ul><li><strong>Grade Gambler:</strong> Win Chance scales up to 1390 Coins (10%) and 1600 Coins (1%)[cite: 2].</li><li><strong>Obsidian Gambler:</strong> 5 Coins (6.00%), 90 Coins (0.06%), 110 Coins (0.03%), 130 Coins (0.02%), 150 Coins (0.50%), 4500 Coins (0.80%), Jackpot 5000 Coins (0.01%).[cite: 2]</li><li><strong>Crazy Gambler:</strong> Features Jackpot up to 5000 Coins and 3 Gems bonus rolls[cite: 2].</li></ul>"
+            },
+            {
+                id: "faq-5",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "How do I earn Coins on the BrainlyHQ server?",
+                answer: "Coins can be obtained through multiple channels[cite: 2]:<br><ul><li><strong>Economy Commands:</strong> <code>work</code> (1h cooldown, max 10 Coins), <code>hustle</code> (6h cooldown, max 15 Coins), <code>crime</code> (8h cooldown, max 25 Coins)[cite: 2].</li><li><strong>Daily Login:</strong> Send at least 1 message every 24 hours to earn +1 Coin[cite: 2].</li><li><strong>Arts Channel:</strong> Publish artwork with description every 2 hours for +2 Coins[cite: 2].</li><li><strong>Long Messages:</strong> Messages over 200 characters reward +3 Coins every 30 mins[cite: 2].</li><li><strong>Role Income:</strong> Collect daily passive yield via <code>Icollect-income</code>[cite: 2].</li></ul>"
+            },
+            {
+                id: "faq-6",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "What are the exact XP gains for messaging, attachments, and Voice Channels?",
+                answer: "XP progression is structured as follows[cite: 2]:<br><ul><li>Standard text message: <strong>4 XP</strong>[cite: 2]</li><li>Message with attachment/image: <strong>3.00% chance multiplier</strong> or <strong>4 XP base</strong>[cite: 2]</li><li>Long Message (>200 letters): <strong>6 XP</strong>[cite: 2]</li><li>Minute in Voice Channel (unmuted mic): <strong>5 XP / minute</strong>[cite: 2]</li><li>Replying under <code>#edu-posts</code>: <strong>2x XP Double Multiplier</strong>[cite: 2]</li></ul>"
+            },
+            {
+                id: "faq-7",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "How do Level Boosters and Multipliers scale up to Level 50?",
+                answer: "As your level increases, your income scaling and reward chances rise[cite: 2]:<br><ul><li><strong>Level 5-15:</strong> Boosters scale from 1.3x to 1.6x XP, yielding 8 to 32 Coins every 24h[cite: 2].</li><li><strong>Level 20 (Bronze):</strong> 1.3x XP multiplier, 64 Coins yield[cite: 2].</li><li><strong>Level 30 (Gold):</strong> 2.0x XP multiplier, 256 Coins yield[cite: 2].</li><li><strong>Level 40 (Diamond):</strong> 2.3x XP multiplier, 780 Coins yield[cite: 2].</li><li><strong>Level 50 (Ascendant):</strong> 2.6x XP multiplier, 1500 Coins daily yield (18% income rate)[cite: 2].</li></ul>"
+            },
+            {
+                id: "faq-8",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "How does the Robbing mechanic (<code>frob</code>) work and what are the risks?",
+                answer: "The <code>rob</code> command allows attempting to steal from another user's wallet[cite: 2]. Success rates depend on targeted user account tiers: 20% success rate on default users, scaling up to 40% against specific random accounts[cite: 2]. Failing a robbery attempt incurs heavy monetary fines up to 15 Coins[cite: 2]."
+            },
+            {
+                id: "faq-9",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "What are the chances and mechanics for Cock-Fight wagers?",
+                answer: "Cock-Fight minigames have a baseline default win chance of <strong>50.00%</strong>, which can be modified up to <strong>70.00% maximum win rate</strong> depending on specialized role boosts and active server tags (+2 Coins per active role)[cite: 2]."
+            },
+            {
+                id: "faq-10",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "How does Coin Rain work during Mi Fuego or server events?",
+                answer: "Coin Rain events distribute pooled coins across active chatters[cite: 2]. Standard Coin Rain yields 420 Coins total pool, while Coin Rain+ yields up to 670 Coins[cite: 2]. Having the Mi Fuego pet or special event roles grants +2 bonus coins per drop[cite: 2]."
+            },
+            {
+                id: "faq-11",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "What are Discount Rules and can store promotions be stacked?",
+                answer: "Under server Discount Rules, <strong>promotions cannot be combined or stacked</strong> by default[cite: 2]. If a user qualifies for multiple discounts (e.g., 5% role discount and 10% HQ Premium discount), the system automatically selects the single most favorable promotion[cite: 2]."
+            },
+            {
+                id: "faq-12",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "What is the Science Scavengers channel and how do I unlock it?",
+                answer: "Science Scavengers is an exclusive educational channel unlocked via the server shop or HQ Premium[cite: 2]. Users can execute the <code>Iscavenge</code> command every 15 minutes to earn specialized academic items, XP, and coins[cite: 2]."
+            },
+            {
+                id: "faq-13",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "What daily yields do specific server roles provide?",
+                answer: "Roles grant automatic income collected every 12 to 48 hours[cite: 2]:<br><ul><li><strong>Nitro Booster:</strong> 10 Coins / 24h + 2.00% yield[cite: 2]</li><li><strong>Moderator / Admin:</strong> 5-6 Coins / 48h + 1.5x XP multiplier[cite: 2]</li><li><strong>Ambassador / CA:</strong> 2-4 Coins / 24h[cite: 2]</li><li><strong>Bronze / Gold Scavenger:</strong> 2-6 Coins / 12h[cite: 2]</li></ul>"
+            },
+            {
+                id: "faq-14",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "Do levels guarantee specific rewards inside crates?",
+                answer: "No[cite: 2]. Your user level determines your <strong>probability percentage</strong> of triggering a loot drop, but it does NOT alter the specific contents or odds of the crate itself[cite: 2]. Crate drop contents remain fixed according to public documentation[cite: 2]."
+            },
+            {
+                id: "faq-15",
+                tag: "pets",
+                category: "Pets System",
+                question: "What abilities does OLLIE the Elephant possess?",
+                answer: "<strong>OLLIE</strong> is a friendly elephant with an incredible memory for treasures[cite: 2].<br><strong>Ability - Coin Collector:</strong> Passively increases the amount of coins earned from economic commands (<code>work</code>, <code>crime</code>, <code>hustle</code>) by a massive <strong>1.4x multiplier</strong>[cite: 2]."
+            },
+            {
+                id: "faq-16",
+                tag: "pets",
+                category: "Pets System",
+                question: "What abilities does KAYA the Panda grant?",
+                answer: "<strong>KAYA</strong> is a calm panda, master of saving energy[cite: 2].<br><strong>Ability - Frugality:</strong> Reduces all economic purchase costs in the server shop by <strong>5% for every single item</strong>[cite: 2]."
+            },
+            {
+                id: "faq-17",
+                tag: "pets",
+                category: "Pets System",
+                question: "What abilities does SASHA the Turtle grant?",
+                answer: "<strong>SASHA</strong> is a patient turtle focused on long-term wealth[cite: 2].<br><strong>Ability - Stable Income:</strong> Provides a guaranteed passive income of <strong>50 coins per month</strong>, automatically deposited into your savings vault[cite: 2]."
+            },
+            {
+                id: "faq-18",
+                tag: "pets",
+                category: "Pets System",
+                question: "What abilities does MI FUEGO the Phoenix grant?",
+                answer: "<strong>MI FUEGO</strong> is a fiery phoenix that ignites profits[cite: 2].<br><strong>Ability - Profit Burn:</strong> Once per day, executing <code>fuego-power</code> doubles all economy earnings (<code>work</code>, <code>crime</code>, <code>hustle</code>) for 1 hour and adds +2 coins to every passive income payout[cite: 2]."
+            },
+            {
+                id: "faq-19",
+                tag: "pets",
+                category: "Pets System",
+                question: "What abilities do SALLY the Cat and FIFMA the Fox grant?",
+                answer: "<strong>SALLY (Cat):</strong> Grants <em>Experience</em> ability, increasing all earned XP from economy and chat progression by <strong>1.3x</strong>[cite: 2].<br><strong>FIFMA (Fox):</strong> Grants <em>Lucky Strike</em>, boosting the probability of securing higher loot tiers in crates and giveaways by <strong>1.3x</strong>[cite: 2]."
+            },
+            {
+                id: "faq-20",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What is the policy on Alt-Accounts, Multi-Accounting, and Currency Farming?",
+                answer: "According to Chapter VIII § 1 of Ecosystem Regulations, using multiple accounts (alt-accounts), mass currency farming, or artificially inflating engagement is strictly prohibited. Violators face an immediate total reset of all virtual economy progress and permanent bans[cite: 1]."
+            },
+            {
+                id: "faq-21",
+                tag: "rules",
+                category: "Server Rules",
+                question: "Is Real Money Trading (RMT) allowed for server coins or items?",
+                answer: "No[cite: 1, 2]. Under Chapter VIII § 2 and XI § 2, virtual coins and items have no real-world monetary value[cite: 1, 2]. Exchanging, selling, or trading server assets for real legal tender or external services is illegal and results in legal/moderation enforcement[cite: 1]."
+            },
+            {
+                id: "faq-22",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What are the rules regarding toxicity, hate speech, and harassment?",
+                answer: "Chapter VI § 1 strictly mandates respectful treatment[cite: 1]. Harassment, discrimination, hate speech, personal attacks, trolling, or targeted toxicity based on race, nationality, religion, gender, or beliefs carry zero tolerance and immediate suspensions[cite: 1]."
+            },
+            {
+                id: "faq-23",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What is the official language of the BrainlyHQ Ecosystem?",
+                answer: "Under Chapter IV § 1, the primary and official language for moderation, public chat, and documentation is English[cite: 1]. Active use of other languages is restricted exclusively to designated international channels[cite: 1]."
+            },
+            {
+                id: "faq-24",
+                tag: "rules",
+                category: "Server Rules",
+                question: "How do I appeal a moderation penalty or mute?",
+                answer: "Under Chapter XII § 2, public arguments regarding moderation actions are strictly forbidden[cite: 1]. All appeals, complaints, or feedback must be submitted privately by opening a ticket or messaging an Administrator directly[cite: 1]."
+            },
+            {
+                id: "faq-25",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What are the rules regarding Direct Messages (DMs) and safety?",
+                answer: "Chapter VII § 3 specifies that conflicts, scams, or harassment occurring in Direct Messages (DMs) between community members are moderated with equal severity to on-server incidents when reported with proof[cite: 1]."
+            },
+            {
+                id: "faq-26",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What happens if I exploit a bot bug or system vulnerability?",
+                answer: "Chapter VII § 4 prohibits exploiting system bugs or unintended mechanics[cite: 1]. Any detected vulnerability must be reported immediately to Management[cite: 1]. Unreported exploitation results in permanent account suspension[cite: 1]."
+            },
+            {
+                id: "faq-27",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What is BrainlyHQ's legal relationship with Brainly sp. z o.o.?",
+                answer: "Under Chapter II § 2-3, BrainlyHQ is an independent community project operated by natural persons[cite: 1]. While visual assets are used with explicit consent[cite: 1], Brainly sp. z o.o. bears no legal responsibility for server operations[cite: 1]."
+            },
+            {
+                id: "faq-28",
+                tag: "premium",
+                category: "HQ Premium",
+                question: "What benefits are included with the HQ Premium subscription?",
+                answer: "HQ Premium provides comprehensive perks[cite: 2]:<br><ul><li>Special badge and access to the exclusive Premium Zone[cite: 2]</li><li>Full access to Science Scavengers & Brainly Color Palette[cite: 2]</li><li><strong>1.5x XP Boost</strong> across all activities[cite: 2]</li><li><strong>10% discount</strong> on all shop items[cite: 2]</li><li>+5 Coins / 24 hours passive yield[cite: 2]</li><li>+25 XP for submitting accepted server suggestions[cite: 2]</li><li>Access to real-time economy transaction logs[cite: 2]</li></ul>"
+            },
+            {
+                id: "faq-29",
+                tag: "premium",
+                category: "HQ Premium",
+                question: "Does HQ Premium grant extra XP for submitting suggestions?",
+                answer: "Yes! HQ Premium members automatically receive <strong>+25 XP</strong> for every constructive server suggestion submitted that gets approved by Management[cite: 2]."
+            },
+            {
+                id: "faq-30",
+                tag: "premium",
+                category: "HQ Premium",
+                question: "How do I access Economy Logs as a Premium subscriber?",
+                answer: "HQ Premium unlocks real-time transparency logs via the Brainly Core bot, allowing subscribers to track item price histories, market trends, and personal ledger transactions[cite: 2]."
+            },
+            {
+                id: "faq-31",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What data is collected by the Brainly Core bot?",
+                answer: "The bot operates under strict data minimization protocols (Privacy Policy § 2)[cite: 1]: it collects only your public Discord User ID, Username, Avatar URL, and internal virtual economy counters (XP, Coins)[cite: 1]. It NEVER collects emails, passwords, or personal data[cite: 1]."
+            },
+            {
+                id: "faq-32",
+                tag: "rules",
+                category: "Server Rules",
+                question: "How can I request complete deletion of my data (Right to be Forgotten)?",
+                answer: "Under Privacy Policy § 7, you can request total data erasure by opening a ticket[cite: 1]. Upon verification, all associated records, coin balances, and XP progression are permanently scrubbed from the secure database[cite: 1]."
+            },
+            {
+                id: "faq-33",
+                tag: "economy",
+                category: "Economy & XP",
+                question: "How does the Partnership Program cross-promotional network work?",
+                answer: "The Partnership Program links verified external server owners under an educational directory[cite: 1, 2]. Partnered server reps gain promotional tiles, coin rewards, and cross-guild event access[cite: 2]."
+            },
+            {
+                id: "faq-34",
+                tag: "rules",
+                category: "Server Rules",
+                question: "Are external advertising and referral links allowed?",
+                answer: "Chapter X § 1 strictly prohibits unsolicited advertising of external Discord servers, websites, social media accounts, or referral links without explicit written approval from Staff[cite: 1]."
+            },
+            {
+                id: "faq-35",
+                tag: "rules",
+                category: "Server Rules",
+                question: "What disciplinary actions can Management enforce?",
+                answer: "Under Chapter XII § 5, penalties escalate based on severity: official warnings, temporary text/voice mutes, feature access restriction, economy balance resets, and permanent bans[cite: 1]."
+            }
+        ];
+
+        // RENDER FAQ ITEMS DYNAMICALLY
+        function renderFaq(data) {
+            const container = document.getElementById('faq-list');
+            const noResults = document.getElementById('no-results');
+            
+            if (data.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            container.innerHTML = data.map(item => `
+                <div class="faq-item" id="${item.id}" data-tag="${item.tag}">
+                    <div class="faq-header" onclick="toggleFaq('${item.id}')">
+                        <div class="faq-question">
+                            <span class="faq-category-tag">${item.category}</span>
+                            <span>${item.question}</span>
+                        </div>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-answer-text">${item.answer}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // TOGGLE ACCORDION
+        function toggleFaq(id) {
+            const target = document.getElementById(id);
+            if (!target) return;
+            
+            const isActive = target.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            
+            // Open clicked if was not active
+            if (!isActive) {
+                target.classList.add('active');
+            }
+        }
+
+        // SEARCH & TAG FILTERING SYSTEM (WITH SMART AI MATCHING)
+        const searchInput = document.getElementById('support-search');
+        let currentTag = 'all';
+
+        function filterFaq() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            const filtered = faqData.filter(item => {
+                const matchesTag = (currentTag === 'all') || (item.tag === currentTag);
+                const matchesQuery = query === '' || 
+                    item.question.toLowerCase().includes(query) || 
+                    item.answer.toLowerCase().includes(query) ||
+                    item.category.toLowerCase().includes(query);
+                
+                return matchesTag && matchesQuery;
+            });
+
+            renderFaq(filtered);
+        }
+
+        function filterByTag(tag) {
+            currentTag = tag;
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterFaq();
+        }
+
+        searchInput.addEventListener('input', filterFaq);
+
+        // HOT QUESTION CLICK HANDLER
+        function openAndScrollToFaq(id) {
+            currentTag = 'all';
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tag-btn')[0].classList.add('active');
+            searchInput.value = '';
+            filterFaq();
+
+            setTimeout(() => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('active');
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+
+        // INITIAL RENDER
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFaq(faqData);
+        });
+    </script>
+</body>
+</html>
