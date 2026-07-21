@@ -128,7 +128,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* OBRAZEK OGNIA Z ASSETS */
         .fire-icon-img {
             width: 16px;
             height: 16px;
@@ -200,7 +199,7 @@
             background-color: var(--color-brainly-green);
         }
 
-        /* --- STREFA THINKING ANIMATION (WYPEŁNIACZ DLA WYSZUKIWARKI) --- */
+        /* --- STREFA THINK / OKAY ANIMATED PANEL --- */
         .thinking-wrapper {
             max-width: 1100px;
             margin: 40px auto;
@@ -217,13 +216,15 @@
             display: none;
         }
 
-        .thinking-emoji {
-            font-size: 3.2rem;
+        .thinking-img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
             margin-bottom: 12px;
-            display: inline-block;
             animation: thinkingFloat 2.5s ease-in-out infinite;
             filter: drop-shadow(0 6px 15px rgba(153, 238, 96, 0.2));
             user-select: none;
+            transition: transform 0.2s ease;
         }
 
         @keyframes thinkingFloat {
@@ -231,7 +232,7 @@
                 transform: translateY(0) rotate(0deg);
             }
             50% {
-                transform: translateY(-10px) rotate(8deg);
+                transform: translateY(-8px) rotate(5deg);
             }
         }
 
@@ -384,7 +385,7 @@
                 </p>
             </div>
 
-            <!-- Prawa strona: Stały Kafelek Hot Question (Użycie assets/fire.png) -->
+            <!-- Prawa strona: Stały Kafelek Hot Question -->
             <div class="hot-slider-card" id="hot-card-container">
                 <div class="hot-card-header">
                     <div class="fire-badge">
@@ -420,10 +421,10 @@
             </div>
         </section>
 
-        <!-- STREFA ANIMACJI MYŚLENIA (POJAWIA SIĘ, GDY WYSZUKIWARKA JEST PUSTA) -->
+        <!-- STREFA THINK / OKAY ANIMACJI -->
         <section class="thinking-wrapper" id="thinking-container">
-            <span class="thinking-emoji">🤔</span>
-            <p class="thinking-text">Waiting for your input... Type anything above to search our answers!</p>
+            <img id="status-icon-img" src="assets/think.png" alt="Status Icon" class="thinking-img">
+            <p id="status-icon-text" class="thinking-text">Waiting for your input... Type anything above to search our answers!</p>
         </section>
 
         <!-- SEKCJA WYNIKÓW WYSZUKIWANIA -->
@@ -449,127 +450,129 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // BAZA DANYCH FAQ (35 PYTAŃ)
+        // CLEAN DATABASE WITHOUT CITATION ANNOTATIONS
         const faqDatabase = [
             {
                 id: "faq-1",
                 question: "What are the exact drop chances for Mythic and Diamond Chests?",
-                answer: "According to official Loot Documentation[cite: 1, 2]:<br><ul><li><strong>Mythic Chest:</strong> 5 Coins (30%), 20 Coins (28%), 60 Coins (25%), 210 Coins (12%), 890 Coins (3%), 1000 Coins (2%).[cite: 2]</li><li><strong>Diamond Chest:</strong> 20 Coins (22%), 40 Coins (20%), 80 Coins (22%), 350 Coins (20%), 965 Coins (4%), 1080 Coins (2%).[cite: 2]</li></ul>"
+                answer: "According to official Loot Documentation:<br><ul><li><strong>Mythic Chest:</strong> 5 Coins (30%), 20 Coins (28%), 60 Coins (25%), 210 Coins (12%), 890 Coins (3%), 1000 Coins (2%).</li><li><strong>Diamond Chest:</strong> 20 Coins (22%), 40 Coins (20%), 80 Coins (22%), 350 Coins (20%), 965 Coins (4%), 1080 Coins (2%).</li></ul>"
             },
             {
                 id: "faq-2",
                 question: "How do Loot Categories work and what are the item rarity tiers?",
-                answer: "Items inside loot boxes are divided into 5 category tiers[cite: 2]:<br><ul><li><strong>Super Rare:</strong> 49.00% drop probability[cite: 2]</li><li><strong>Epic:</strong> 28.00% drop probability[cite: 2]</li><li><strong>Mythic:</strong> 13.00% drop probability[cite: 2]</li><li><strong>Legendary:</strong> 7.00% drop probability[cite: 2]</li><li><strong>Ultra:</strong> 3.00% drop probability[cite: 2]</li></ul>Everyone has equal percentage chances per category tier[cite: 2]."
+                answer: "Items inside loot boxes are divided into 5 category tiers:<br><ul><li><strong>Super Rare:</strong> 49.00% drop probability</li><li><strong>Epic:</strong> 28.00% drop probability</li><li><strong>Mythic:</strong> 13.00% drop probability</li><li><strong>Legendary:</strong> 7.00% drop probability</li><li><strong>Ultra:</strong> 3.00% drop probability</li></ul>Everyone has equal percentage chances per category tier."
             },
             {
                 id: "faq-3",
                 question: "What are the rewards and probabilities for Scratchcards?",
-                answer: "Scratchcard probabilistic odds[cite: 2]:<br><ul><li><strong>Gold Scratchcard:</strong> Empty Slot (35%), 5 Coins (30%), 10 Coins (28%), 20 Coins (23%), 40 Coins (11%), 80 Coins (3%).[cite: 2]</li><li><strong>Gambler Scratchcard:</strong> Empty Slot (29%), 5 Coins (29%), 10 Coins (18%), 15 Coins (15%), 20 Coins (10%), 60 Coins (4%), 80 Coins (3%), 100 XP (2%).[cite: 2]</li><li><strong>Dark Horse Scratchcard:</strong> Empty Slot (45%), 15 Coins (28%), 30 Coins (15%), 120 Coins (8%), 300 Coins (2%), 1150 Coins (1%), 500 Coins (1%).[cite: 2]</li></ul>"
+                answer: "Scratchcard probabilistic odds:<br><ul><li><strong>Gold Scratchcard:</strong> Empty Slot (35%), 5 Coins (30%), 10 Coins (28%), 20 Coins (23%), 40 Coins (11%), 80 Coins (3%).</li><li><strong>Gambler Scratchcard:</strong> Empty Slot (29%), 5 Coins (29%), 10 Coins (18%), 15 Coins (15%), 20 Coins (10%), 60 Coins (4%), 80 Coins (3%), 100 XP (2%).</li><li><strong>Dark Horse Scratchcard:</strong> Empty Slot (45%), 15 Coins (28%), 30 Coins (15%), 120 Coins (8%), 300 Coins (2%), 1150 Coins (1%), 500 Coins (1%).</li></ul>"
             },
             {
                 id: "faq-4",
                 question: "What are the winning odds for Obsidian and Crazy Gambler minigames?",
-                answer: "High-tier gambles probabilities[cite: 2]:<br><ul><li><strong>Obsidian Gambler:</strong> 5 Coins (6.00%), 90 Coins (0.06%), 110 Coins (0.03%), 130 Coins (0.02%), 150 Coins (0.50%), 4500 Coins (0.80%), Jackpot 5000 Coins (0.01%).[cite: 2]</li><li><strong>Crazy Gambler:</strong> Features Jackpot up to 5000 Coins and 3 Gems bonus rolls[cite: 2].</li></ul>"
+                answer: "High-tier gambles probabilities:<br><ul><li><strong>Obsidian Gambler:</strong> 5 Coins (6.00%), 90 Coins (0.06%), 110 Coins (0.03%), 130 Coins (0.02%), 150 Coins (0.50%), 4500 Coins (0.80%), Jackpot 5000 Coins (0.01%).</li><li><strong>Crazy Gambler:</strong> Features Jackpot up to 5000 Coins and 3 Gems bonus rolls.</li></ul>"
             },
             {
                 id: "faq-5",
                 question: "How do I earn Coins on the BrainlyHQ server?",
-                answer: "Coins can be obtained through multiple channels[cite: 2]:<br><ul><li><strong>Economy Commands:</strong> <code>work</code> (1h cooldown, max 10 Coins), <code>hustle</code> (6h cooldown, max 15 Coins), <code>crime</code> (8h cooldown, max 25 Coins)[cite: 2].</li><li><strong>Daily Login:</strong> Send at least 1 message every 24 hours to earn +1 Coin[cite: 2].</li><li><strong>Arts Channel:</strong> Publish artwork with description every 2 hours for +2 Coins[cite: 2].</li><li><strong>Long Messages:</strong> Messages over 200 characters reward +3 Coins every 30 mins[cite: 2].</li><li><strong>Role Income:</strong> Collect daily passive yield via <code>Icollect-income</code>[cite: 2].</li></ul>"
+                answer: "Coins can be obtained through multiple channels:<br><ul><li><strong>Economy Commands:</strong> <code>work</code> (1h cooldown, max 10 Coins), <code>hustle</code> (6h cooldown, max 15 Coins), <code>crime</code> (8h cooldown, max 25 Coins).</li><li><strong>Daily Login:</strong> Send at least 1 message every 24 hours to earn +1 Coin.</li><li><strong>Arts Channel:</strong> Publish artwork with description every 2 hours for +2 Coins.</li><li><strong>Long Messages:</strong> Messages over 200 characters reward +3 Coins every 30 mins.</li><li><strong>Role Income:</strong> Collect daily passive yield via <code>Icollect-income</code>.</li></ul>"
             },
             {
                 id: "faq-6",
                 question: "What are the exact XP gains for messaging and Voice Channels?",
-                answer: "XP yields[cite: 2]:<br><ul><li>Standard text message: <strong>4 XP</strong>[cite: 2]</li><li>Message with attachment: <strong>4 XP base / +3.00% bonus</strong>[cite: 2]</li><li>Long Message (>200 letters): <strong>6 XP</strong>[cite: 2]</li><li>Minute in Voice Channel (unmuted mic): <strong>5 XP / minute</strong>[cite: 2]</li><li>Replying under <code>#edu-posts</code>: <strong>2x XP Double Multiplier</strong>[cite: 2]</li></ul>"
+                answer: "XP yields:<br><ul><li>Standard text message: <strong>4 XP</strong></li><li>Message with attachment: <strong>4 XP base / +3.00% bonus</strong></li><li>Long Message (>200 letters): <strong>6 XP</strong></li><li>Minute in Voice Channel (unmuted mic): <strong>5 XP / minute</strong></li><li>Replying under <code>#edu-posts</code>: <strong>2x XP Double Multiplier</strong></li></ul>"
             },
             {
                 id: "faq-7",
                 question: "How do Level Boosters scale up to Level 50?",
-                answer: "Progression scaling[cite: 2]:<br><ul><li><strong>Level 20 (Bronze):</strong> 1.3x XP multiplier, 64 Coins yield[cite: 2].</li><li><strong>Level 30 (Gold):</strong> 2.0x XP multiplier, 256 Coins yield[cite: 2].</li><li><strong>Level 40 (Diamond):</strong> 2.3x XP multiplier, 780 Coins yield[cite: 2].</li><li><strong>Level 50 (Ascendant):</strong> 2.6x XP multiplier, 1500 Coins daily yield[cite: 2].</li></ul>"
+                answer: "Progression scaling:<br><ul><li><strong>Level 20 (Bronze):</strong> 1.3x XP multiplier, 64 Coins yield.</li><li><strong>Level 30 (Gold):</strong> 2.0x XP multiplier, 256 Coins yield.</li><li><strong>Level 40 (Diamond):</strong> 2.3x XP multiplier, 780 Coins yield.</li><li><strong>Level 50 (Ascendant):</strong> 2.6x XP multiplier, 1500 Coins daily yield.</li></ul>"
             },
             {
                 id: "faq-8",
                 question: "How does the Robbing mechanic (frob) work?",
-                answer: "The <code>rob</code> command allows attempting to steal from another user's wallet[cite: 2]. Success rates depend on targeted user account tiers: 20% default, up to 40% against specific accounts[cite: 2]. Failing incurs fines up to 15 Coins[cite: 2]."
+                answer: "The <code>rob</code> command allows attempting to steal from another user's wallet. Success rates depend on targeted user account tiers: 20% default, up to 40% against specific accounts. Failing incurs fines up to 15 Coins."
             },
             {
                 id: "faq-15",
                 question: "What abilities does OLLIE the Elephant grant?",
-                answer: "<strong>OLLIE</strong> (Ability - Coin Collector): Passively increases coins earned from economic commands (<code>work</code>, <code>crime</code>, <code>hustle</code>) by <strong>1.4x</strong>[cite: 2]."
+                answer: "<strong>OLLIE</strong> (Ability - Coin Collector): Passively increases coins earned from economic commands (<code>work</code>, <code>crime</code>, <code>hustle</code>) by <strong>1.4x</strong>."
             },
             {
                 id: "faq-16",
                 question: "What abilities does KAYA the Panda grant?",
-                answer: "<strong>KAYA</strong> (Ability - Frugality): Reduces all purchase costs in the server shop by <strong>5% for every single item</strong>[cite: 2]."
+                answer: "<strong>KAYA</strong> (Ability - Frugality): Reduces all purchase costs in the server shop by <strong>5% for every single item</strong>."
             },
             {
                 id: "faq-17",
                 question: "What abilities does SASHA the Turtle grant?",
-                answer: "<strong>SASHA</strong> (Ability - Stable Income): Provides a guaranteed passive income of <strong>50 coins per month</strong> deposited into savings[cite: 2]."
+                answer: "<strong>SASHA</strong> (Ability - Stable Income): Provides a guaranteed passive income of <strong>50 coins per month</strong> deposited into savings."
             },
             {
                 id: "faq-18",
                 question: "What abilities does MI FUEGO the Phoenix grant?",
-                answer: "<strong>MI FUEGO</strong> (Ability - Profit Burn): Once per day, executing <code>fuego-power</code> doubles all economy earnings for 1 hour and adds +2 coins to all income payouts[cite: 2]."
+                answer: "<strong>MI FUEGO</strong> (Ability - Profit Burn): Once per day, executing <code>fuego-power</code> doubles all economy earnings for 1 hour and adds +2 coins to all income payouts."
             },
             {
                 id: "faq-19",
                 question: "What abilities do SALLY the Cat and FIFMA the Fox grant?",
-                answer: "<strong>SALLY:</strong> Boosts earned XP by <strong>1.3x</strong>[cite: 2].<br><strong>FIFMA:</strong> Boosts chances of securing higher loot tiers in crates by <strong>1.3x</strong>[cite: 2]."
+                answer: "<strong>SALLY:</strong> Boosts earned XP by <strong>1.3x</strong>.<br><strong>FIFMA:</strong> Boosts chances of securing higher loot tiers in crates by <strong>1.3x</strong>."
             },
             {
                 id: "faq-28",
                 question: "What perks come with HQ Premium?",
-                answer: "Perks include[cite: 2]:<br><ul><li>Special badge and access to Premium Zone[cite: 2]</li><li>Science Scavengers & Color Palette access[cite: 2]</li><li><strong>1.5x XP Boost</strong> across all activities[cite: 2]</li><li><strong>10% discount</strong> on all shop items[cite: 2]</li><li>+5 Coins / 24 hours passive yield[cite: 2]</li><li>+25 XP per accepted suggestion[cite: 2]</li><li>Access to real-time economy transaction logs[cite: 2]</li></ul>"
+                answer: "Perks include:<br><ul><li>Special badge and access to Premium Zone</li><li>Science Scavengers & Color Palette access</li><li><strong>1.5x XP Boost</strong> across all activities</li><li><strong>10% discount</strong> on all shop items</li><li>+5 Coins / 24 hours passive yield</li><li>+25 XP per accepted suggestion</li><li>Access to real-time economy transaction logs</li></ul>"
             },
             {
                 id: "faq-20",
                 question: "Are Alt-Accounts or Currency Farming allowed?",
-                answer: "Prohibited under Chapter VIII § 1[cite: 1]. Using alt-accounts or farming yields an immediate total economy reset and permanent ban[cite: 1]."
+                answer: "Prohibited under Chapter VIII § 1. Using alt-accounts or farming yields an immediate total economy reset and permanent ban."
             },
             {
                 id: "faq-21",
                 question: "Is Real Money Trading (RMT) allowed?",
-                answer: "Prohibited under Chapter VIII § 2[cite: 1]. Server assets have no real-world value[cite: 1, 2]. Exchanging them for real currency results in immediate ban[cite: 1]."
+                answer: "Prohibited under Chapter VIII § 2. Server assets have no real-world value. Exchanging them for real currency results in immediate ban."
             },
             {
                 id: "faq-22",
                 question: "What is the policy on toxicity and hate speech?",
-                answer: "Zero tolerance under Chapter VI § 1[cite: 1]. Harassment or toxicity regarding race, religion, gender, or beliefs results in immediate suspension[cite: 1]."
+                answer: "Zero tolerance under Chapter VI § 1. Harassment or toxicity regarding race, religion, gender, or beliefs results in immediate suspension."
             },
             {
                 id: "faq-23",
                 question: "What is the official language of BrainlyHQ?",
-                answer: "Under Chapter IV § 1, the primary official language is English[cite: 1]. Other languages are allowed exclusively in designated international channels[cite: 1]."
+                answer: "Under Chapter IV § 1, the primary official language is English. Other languages are allowed exclusively in designated international channels."
             },
             {
                 id: "faq-24",
                 question: "How do I appeal a moderation mute or ban?",
-                answer: "Public arguments are forbidden (Chapter XII § 2)[cite: 1]. Appeals must be directed privately via the ticket system or to an Administrator[cite: 1]."
+                answer: "Public arguments are forbidden (Chapter XII § 2). Appeals must be directed privately via the ticket system or to an Administrator."
             },
             {
                 id: "faq-31",
                 question: "What personal data does the bot store?",
-                answer: "Data Minimization (Privacy Policy § 2)[cite: 1]: the bot stores only your public Discord User ID, Username, Avatar URL, and virtual counters (XP, Coins)[cite: 1]. No emails or passwords are collected[cite: 1]."
+                answer: "Data Minimization (Privacy Policy § 2): the bot stores only your public Discord User ID, Username, Avatar URL, and virtual counters (XP, Coins). No emails or passwords are collected."
             }
         ];
 
-        // OBSŁUGA WYSZUKIWANIA W CZASIE RZECZYWISTYM
+        // SEARCH HANDLING & DYNAMIC THINK/OKAY ICON TOGGLE
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
             const noResults = document.getElementById('no-results');
             const thinkingContainer = document.getElementById('thinking-container');
+            const statusImg = document.getElementById('status-icon-img');
+            const statusText = document.getElementById('status-icon-text');
             
             const trimmedQuery = query.toLowerCase().trim();
             
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
                 thinkingContainer.classList.remove('hidden');
+                statusImg.src = "assets/think.png";
+                statusText.innerText = "Waiting for your input... Type anything above to search our answers!";
                 container.innerHTML = "";
                 return;
             }
-
-            thinkingContainer.classList.add('hidden');
 
             const searchWords = trimmedQuery.split(/\s+/).filter(w => w.length > 0);
 
@@ -593,12 +596,10 @@
 
             scoredResults.sort((a, b) => b.score - a.score);
 
-            wrapper.classList.add('visible');
-
-            if (scoredResults.length === 0) {
-                container.innerHTML = "";
-                noResults.style.display = "block";
-            } else {
+            if (scoredResults.length > 0) {
+                // Pokazujemy wyniki i opcjonalnie podmieniamy na ikone okay.png
+                thinkingContainer.classList.add('hidden');
+                wrapper.classList.add('visible');
                 noResults.style.display = "none";
                 container.innerHTML = scoredResults.map(res => `
                     <div class="faq-item" id="${res.item.id}">
@@ -613,6 +614,11 @@
                         </div>
                     </div>
                 `).join('');
+            } else {
+                // Brak wynikow - pokazujemy ikone trybu awaryjnego lub informację
+                wrapper.classList.add('visible');
+                container.innerHTML = "";
+                noResults.style.display = "block";
             }
         }
 
@@ -643,7 +649,7 @@
             }, 100);
         }
 
-        // DYNAMICZNY SLIDER HOT QUESTIONS (2.5 s)
+        // DYNAMICZNY SLIDER HOT QUESTIONS (ZMIANA DOKŁADNIE CO 3.2 SEKUNDY)
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hot-slide-item');
         const dots = document.querySelectorAll('.dot-indicator');
@@ -658,11 +664,12 @@
             dots[currentSlide].classList.add('active');
         }
 
-        let slideInterval = setInterval(nextSlide, 2500);
+        // CZAS ZMIENIONY DOKŁADNIE NA 3200ms (3.2 s)
+        let slideInterval = setInterval(nextSlide, 3200);
 
         const hotContainer = document.getElementById('hot-card-container');
         hotContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
-        hotContainer.addEventListener('mouseleave', () => slideInterval = setInterval(nextSlide, 2500));
+        hotContainer.addEventListener('mouseleave', () => slideInterval = setInterval(nextSlide, 3200));
 
         // NASŁUCHIVANIE WYSZUKIWARKI
         document.getElementById('support-search').addEventListener('input', (e) => {
