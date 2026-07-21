@@ -404,6 +404,13 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
+        // PRELOADING ANIMACJI W PAMIĘCI CHRANI PRZED OPÓŹNIENIEM
+        const preloadedGifs = {};
+        ["think", "okay", "sad"].forEach(name => {
+            preloadedGifs[name] = new Image();
+            preloadedGifs[name].src = `assets/${name}.gif`;
+        });
+
         const faqDatabase = [
             {
                 id: "faq-1",
@@ -507,18 +514,16 @@
             }
         ];
 
-        // TRACKING STATUS STANU ANIMACJI GIF
-        let currentStatusState = "think"; // 'think', 'okay', 'sad'
+        let currentStatusState = "think";
 
         function setStatusGif(state, text) {
             const statusImg = document.getElementById('status-icon-img');
             const statusText = document.getElementById('status-icon-text');
 
-            // Podmieniamy obrazek tylko wtedy, gdy stan uległ faktycznej zmianie
             if (currentStatusState !== state) {
                 currentStatusState = state;
-                // Dodajemy timestamp, aby odtworzyć animację GIF dokładnie od 0 sekundy
-                statusImg.src = `assets/${state}.gif?t=${new Date().getTime()}`;
+                // Błyskawiczna zmiana za pomocą bufora pamięci RAM
+                statusImg.src = preloadedGifs[state].src;
             }
 
             statusText.innerText = text;
@@ -531,7 +536,6 @@
             
             const trimmedQuery = query.toLowerCase().trim();
             
-            // Domyślny stan przy wyczyszczonym polu tekstowym (Reset pełny)
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
                 setStatusGif("think", "Waiting for your input... Type anything above to search our answers!");
@@ -562,7 +566,6 @@
             scoredResults.sort((a, b) => b.score - a.score);
 
             if (scoredResults.length > 0) {
-                // Znaleziono wyniki -> Ustawiamy okay.gif (tylko raz przy wejściu w ten stan)
                 setStatusGif("okay", "Found the best matching answers for you below!");
                 
                 wrapper.classList.add('visible');
@@ -580,7 +583,6 @@
                     </div>
                 `).join('');
             } else {
-                // Brak wyników -> Przełączamy na sad.gif
                 setStatusGif("sad", "No matching answers found. Try searching with different keywords!");
                 wrapper.classList.remove('visible');
                 container.innerHTML = "";
