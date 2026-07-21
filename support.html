@@ -199,7 +199,7 @@
             background-color: var(--color-brainly-green);
         }
 
-        /* --- STREFA ANIMACJI THINK.GIF / OKAY.GIF --- */
+        /* --- STREFA ANIMACJI THINK.GIF / OKAY.GIF / SAD.GIF --- */
         .thinking-wrapper {
             max-width: 1100px;
             margin: 30px auto 10px auto;
@@ -240,18 +240,6 @@
         .faq-section-wrapper.visible {
             display: block;
             animation: fadeInPage 0.3s ease-out forwards;
-        }
-
-        .search-results-header {
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .faq-item {
@@ -328,14 +316,6 @@
             margin-bottom: 4px;
         }
 
-        .no-results-msg {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            display: none;
-        }
-
         @media (max-width: 850px) {
             .support-hero-layout {
                 grid-template-columns: 1fr;
@@ -407,7 +387,7 @@
             </div>
         </section>
 
-        <!-- STREFA ANIMACJI THINK.GIF / OKAY.GIF -->
+        <!-- STREFA ANIMACJI THINK.GIF / OKAY.GIF / SAD.GIF -->
         <section class="thinking-wrapper" id="thinking-container">
             <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" class="thinking-gif">
             <p id="status-icon-text" class="thinking-text">Waiting for your input... Type anything above to search our answers!</p>
@@ -415,20 +395,8 @@
 
         <!-- SEKCJA WYNIKÓW WYSZUKIWANIA -->
         <section class="faq-section-wrapper" id="faq-wrapper">
-            <div class="search-results-header">
-                <svg class="header-green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px; height:18px;">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                <span>TOP MATCHING ANSWERS</span>
-            </div>
-
             <div id="faq-results-container">
                 <!-- DYNAMICZNE WYNIKI -->
-            </div>
-
-            <div id="no-results" class="no-results-msg">
-                No matching articles found. Try searching with individual keywords like "loot", "coins", or "rules".
             </div>
         </section>
     </main>
@@ -505,7 +473,7 @@
             {
                 id: "faq-28",
                 question: "What perks come with HQ Premium?",
-                answer: "HQ Premium gives you a VIP experience on our server:<br><ul><li>Exclusive badge and access to the Premium Zone</li><li>Unlocks Science Scavengers (<code>!scavenge</code>) & Color Palette</li><li><strong>1.5x XP Boost</strong> across all active channels</li><li><strong>10% discount</strong> on all shop purchases</li><li>+5 Coins per 24 hours passive yield</li><li>+25 XP for accepted server suggestions</li><li>Access to real-time bot transaction logs</li></ul>"
+                answer: "HQ Premium gives you a VIP experience on our server:<br><ul><li>Exclusive badge and access to the Premium Zone</li><li>Unlocks Science Scavengers (<code>!scavenge</code>) & Color Palette</li><li><strong>1.5x XP Boost</strong> across all active channels</li><li><strong>10% discount</strong> on all shop purchases</li><li>+5 Coins per 24 hours passive yield</li><li>+25 XP for accepted suggestion</li><li>Access to real-time bot transaction logs</li></ul>"
             },
             {
                 id: "faq-20",
@@ -539,21 +507,34 @@
             }
         ];
 
-        // SEARCH HANDLING Z DYNAMICZNĄ PODMIANĄ THINK.GIF -> OKAY.GIF
+        // TRACKING STATUS STANU ANIMACJI GIF
+        let currentStatusState = "think"; // 'think', 'okay', 'sad'
+
+        function setStatusGif(state, text) {
+            const statusImg = document.getElementById('status-icon-img');
+            const statusText = document.getElementById('status-icon-text');
+
+            // Podmieniamy obrazek tylko wtedy, gdy stan uległ faktycznej zmianie
+            if (currentStatusState !== state) {
+                currentStatusState = state;
+                // Dodajemy timestamp, aby odtworzyć animację GIF dokładnie od 0 sekundy
+                statusImg.src = `assets/${state}.gif?t=${new Date().getTime()}`;
+            }
+
+            statusText.innerText = text;
+        }
+
+        // SEARCH HANDLING
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
-            const noResults = document.getElementById('no-results');
-            const statusImg = document.getElementById('status-icon-img');
-            const statusText = document.getElementById('status-icon-text');
             
             const trimmedQuery = query.toLowerCase().trim();
             
-            // Domyślny stan gdy pole jest puste lub skasowano tekst
+            // Domyślny stan przy wyczyszczonym polu tekstowym (Reset pełny)
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
-                statusImg.src = "assets/think.gif";
-                statusText.innerText = "Waiting for your input... Type anything above to search our answers!";
+                setStatusGif("think", "Waiting for your input... Type anything above to search our answers!");
                 container.innerHTML = "";
                 return;
             }
@@ -581,12 +562,10 @@
             scoredResults.sort((a, b) => b.score - a.score);
 
             if (scoredResults.length > 0) {
-                // Udane wyszukanie -> podmieniamy obrazek w obszarze roboczym na okay.gif z mrugnięciem!
-                statusImg.src = "assets/okay.gif";
-                statusText.innerText = "Found the best matching answers for you below!";
+                // Znaleziono wyniki -> Ustawiamy okay.gif (tylko raz przy wejściu w ten stan)
+                setStatusGif("okay", "Found the best matching answers for you below!");
                 
                 wrapper.classList.add('visible');
-                noResults.style.display = "none";
                 container.innerHTML = scoredResults.map(res => `
                     <div class="faq-item" id="${res.item.id}">
                         <div class="faq-header" onclick="toggleFaq('${res.item.id}')">
@@ -601,12 +580,10 @@
                     </div>
                 `).join('');
             } else {
-                // Brak wyników -> przywracamy think.gif z komunikatem o braku dopasowań
-                statusImg.src = "assets/think.gif";
-                statusText.innerText = "No matching answers found. Try searching with different keywords!";
+                // Brak wyników -> Przełączamy na sad.gif
+                setStatusGif("sad", "No matching answers found. Try searching with different keywords!");
                 wrapper.classList.remove('visible');
                 container.innerHTML = "";
-                noResults.style.display = "none";
             }
         }
 
