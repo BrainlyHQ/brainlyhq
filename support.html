@@ -202,7 +202,7 @@
         /* --- STREFA ANIMACJI THINK.GIF / OKAY.GIF --- */
         .thinking-wrapper {
             max-width: 1100px;
-            margin: 40px auto;
+            margin: 30px auto 10px auto;
             padding: 0 24px;
             display: flex;
             flex-direction: column;
@@ -210,10 +210,6 @@
             justify-content: center;
             text-align: center;
             transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .thinking-wrapper.hidden {
-            display: none;
         }
 
         .thinking-gif {
@@ -255,31 +251,7 @@
             letter-spacing: 0.8px;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .success-status-badge {
-            display: flex;
-            align-items: center;
             gap: 8px;
-            background: rgba(153, 238, 96, 0.08);
-            border: 1px solid var(--color-brainly-green);
-            padding: 6px 12px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            width: fit-content;
-        }
-
-        .success-status-badge img {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-        }
-
-        .success-status-badge span {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--color-brainly-green);
         }
 
         .faq-item {
@@ -435,19 +407,14 @@
             </div>
         </section>
 
-        <!-- STREFA ANIMACJI THINK.GIF -->
+        <!-- STREFA ANIMACJI THINK.GIF / OKAY.GIF -->
         <section class="thinking-wrapper" id="thinking-container">
-            <img id="status-icon-img" src="assets/think.gif" alt="Thinking GIF" class="thinking-gif">
+            <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" class="thinking-gif">
             <p id="status-icon-text" class="thinking-text">Waiting for your input... Type anything above to search our answers!</p>
         </section>
 
         <!-- SEKCJA WYNIKÓW WYSZUKIWANIA -->
         <section class="faq-section-wrapper" id="faq-wrapper">
-            <div class="success-status-badge">
-                <img src="assets/okay.gif" alt="Okay GIF">
-                <span>Found the best matches for you!</span>
-            </div>
-
             <div class="search-results-header">
                 <svg class="header-green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px; height:18px;">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -469,7 +436,6 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // CZYSTA, PRZYJAZNA BAZA DANYCH FAQ Z POPRAWIONYMI KOMENDAMI (NP. !work)
         const faqDatabase = [
             {
                 id: "faq-1",
@@ -573,20 +539,19 @@
             }
         ];
 
-        // SEARCH HANDLING
+        // SEARCH HANDLING Z DYNAMICZNĄ PODMIANĄ THINK.GIF -> OKAY.GIF
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
             const noResults = document.getElementById('no-results');
-            const thinkingContainer = document.getElementById('thinking-container');
             const statusImg = document.getElementById('status-icon-img');
             const statusText = document.getElementById('status-icon-text');
             
             const trimmedQuery = query.toLowerCase().trim();
             
+            // Domyślny stan gdy pole jest puste lub skasowano tekst
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
-                thinkingContainer.classList.remove('hidden');
                 statusImg.src = "assets/think.gif";
                 statusText.innerText = "Waiting for your input... Type anything above to search our answers!";
                 container.innerHTML = "";
@@ -616,7 +581,10 @@
             scoredResults.sort((a, b) => b.score - a.score);
 
             if (scoredResults.length > 0) {
-                thinkingContainer.classList.add('hidden');
+                // Udane wyszukanie -> podmieniamy obrazek w obszarze roboczym na okay.gif z mrugnięciem!
+                statusImg.src = "assets/okay.gif";
+                statusText.innerText = "Found the best matching answers for you below!";
+                
                 wrapper.classList.add('visible');
                 noResults.style.display = "none";
                 container.innerHTML = scoredResults.map(res => `
@@ -633,10 +601,10 @@
                     </div>
                 `).join('');
             } else {
-                thinkingContainer.classList.remove('hidden');
-                wrapper.classList.remove('visible');
+                // Brak wyników -> przywracamy think.gif z komunikatem o braku dopasowań
                 statusImg.src = "assets/think.gif";
                 statusText.innerText = "No matching answers found. Try searching with different keywords!";
+                wrapper.classList.remove('visible');
                 container.innerHTML = "";
                 noResults.style.display = "none";
             }
