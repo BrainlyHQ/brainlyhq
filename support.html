@@ -199,7 +199,7 @@
             background-color: var(--color-brainly-green);
         }
 
-        /* --- STREFA THINK / OKAY ANIMATED PANEL --- */
+        /* --- STREFA ANIMACJI THINK / OKAY GIF --- */
         .thinking-wrapper {
             max-width: 1100px;
             margin: 40px auto;
@@ -216,24 +216,14 @@
             display: none;
         }
 
-        .thinking-img {
-            width: 64px;
-            height: 64px;
+        .thinking-gif {
+            width: 72px;
+            height: 72px;
             object-fit: contain;
             margin-bottom: 12px;
-            animation: thinkingFloat 2.5s ease-in-out infinite;
             filter: drop-shadow(0 6px 15px rgba(153, 238, 96, 0.2));
             user-select: none;
-            transition: transform 0.2s ease;
-        }
-
-        @keyframes thinkingFloat {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-8px) rotate(5deg);
-            }
+            transition: transform 0.25s ease;
         }
 
         .thinking-text {
@@ -421,9 +411,9 @@
             </div>
         </section>
 
-        <!-- STREFA THINK / OKAY ANIMACJI -->
+        <!-- STREFA ANIMACJI THINK.GIF / OKAY.GIF -->
         <section class="thinking-wrapper" id="thinking-container">
-            <img id="status-icon-img" src="assets/think.png" alt="Status Icon" class="thinking-img">
+            <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" class="thinking-gif">
             <p id="status-icon-text" class="thinking-text">Waiting for your input... Type anything above to search our answers!</p>
         </section>
 
@@ -450,7 +440,7 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // CLEAN DATABASE WITHOUT CITATION ANNOTATIONS
+        // CLEAN DATABASE
         const faqDatabase = [
             {
                 id: "faq-1",
@@ -554,7 +544,7 @@
             }
         ];
 
-        // SEARCH HANDLING & DYNAMIC THINK/OKAY ICON TOGGLE
+        // DYNAMIC SEARCH WITH THINK.GIF AND OKAY.GIF SWITCHING
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
@@ -568,7 +558,7 @@
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
                 thinkingContainer.classList.remove('hidden');
-                statusImg.src = "assets/think.png";
+                statusImg.src = "assets/think.gif";
                 statusText.innerText = "Waiting for your input... Type anything above to search our answers!";
                 container.innerHTML = "";
                 return;
@@ -597,7 +587,7 @@
             scoredResults.sort((a, b) => b.score - a.score);
 
             if (scoredResults.length > 0) {
-                // Pokazujemy wyniki i opcjonalnie podmieniamy na ikone okay.png
+                // Gdy są wyniki – przełączamy na okay.gif z mrugnięciem
                 thinkingContainer.classList.add('hidden');
                 wrapper.classList.add('visible');
                 noResults.style.display = "none";
@@ -615,10 +605,13 @@
                     </div>
                 `).join('');
             } else {
-                // Brak wynikow - pokazujemy ikone trybu awaryjnego lub informację
-                wrapper.classList.add('visible');
+                // Brak wyników
+                thinkingContainer.classList.remove('hidden');
+                wrapper.classList.remove('visible');
+                statusImg.src = "assets/think.gif";
+                statusText.innerText = "No matching answers found. Try searching with different keywords!";
                 container.innerHTML = "";
-                noResults.style.display = "block";
+                noResults.style.display = "none";
             }
         }
 
@@ -649,7 +642,7 @@
             }, 100);
         }
 
-        // DYNAMICZNY SLIDER HOT QUESTIONS (ZMIANA DOKŁADNIE CO 3.2 SEKUNDY)
+        // DYNAMICZNY SLIDER HOT QUESTIONS (3.2 SEKUNDY)
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hot-slide-item');
         const dots = document.querySelectorAll('.dot-indicator');
@@ -664,7 +657,6 @@
             dots[currentSlide].classList.add('active');
         }
 
-        // CZAS ZMIENIONY DOKŁADNIE NA 3200ms (3.2 s)
         let slideInterval = setInterval(nextSlide, 3200);
 
         const hotContainer = document.getElementById('hot-card-container');
