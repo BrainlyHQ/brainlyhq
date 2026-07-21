@@ -66,13 +66,11 @@ main {
     flex: 1;
 }
 
-/* POPRAWKA: Usunięto 'transform: translateY', aby zapobiec psuciu elementów position: fixed */
 @keyframes fadeInPage {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-/* POPRAWKA: Usunięto 'transform: translateY' z fade-out */
 body.fade-out {
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -99,7 +97,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative; /* Pozwala prawidłowo pozycjonować dropdown względem paska */
+    position: relative;
 }
 
 /* Logo */
@@ -587,11 +585,10 @@ html .card code {
    SPÓJNA PODMIANA KOLORU LOGO (INVERT SYSTEM)
    ========================================== */
 #header-logo-img {
-    filter: none; /* Domyślnie w trybie ciemnym logo pozostaje białe */
+    filter: none;
     transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Kiedy nadrzędny dokument ma motyw jasny, zmuszamy obrazek logo do bycia czarnym */
 html[data-theme="light"] #header-logo-img,
 [data-theme="light"] #header-logo-img,
 [data-theme="light"] .logo-img {
@@ -602,42 +599,36 @@ html[data-theme="light"] #header-logo-img,
    RESPONSYWNE MENU MOBILNE (MOBILE ONLY)
    ========================================== */
 
-/* Domyślnie ukrywamy przycisk menu na komputerach */
 .mobile-only-btn {
     display: none !important;
 }
 
 @media (max-width: 768px) {
-    /* Pokazujemy przycisk na telefonach */
     .mobile-only-btn {
         display: flex !important;
     }
 
-    /* Klasa przypisywana przez JS do body, blokująca scrollowanie tła przy otwartym menu */
     body.mobile-menu-open {
         overflow: hidden !important;
     }
 
-    /* Blokujemy poziome rozjeżdżanie się całej strony */
     html, body {
         overflow-x: hidden;
     }
 
-    /* Przebudowa paska nawigacji na NOWOCZESNY PEŁNOEKRANOWY OVERLAY */
     header nav {
-        position: fixed; /* Zablokowany na ekranie */
-        top: 66px;       /* Wysokość nagłówka */
+        position: fixed;
+        top: 66px;
         left: 0;
         width: 100vw;
-        height: calc(100vh - 66px); /* Pełne pokrycie ekranu pod paskiem */
-        background-color: var(--bg-primary); /* Synchronizacja z kolorem tła motywu */
+        height: calc(100vh - 66px);
+        background-color: var(--bg-primary);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         padding: 40px 24px;
         box-sizing: border-box;
-        overflow-y: auto; /* Zabezpieczenie na wypadek małych ekranów */
+        overflow-y: auto;
         
-        /* Ukrywanie i animacja płynnego wysuwania */
         display: none;
         opacity: 0;
         transform: translateY(-20px);
@@ -645,20 +636,18 @@ html[data-theme="light"] #header-logo-img,
         z-index: 999;
     }
 
-    /* Klasa aktywująca menu mobilne */
     header nav.mobile-active {
         display: block !important;
         opacity: 1;
         transform: translateY(0);
     }
 
-    /* Pionowa lista wyśrodkowanych linków */
     nav ul.main-nav-list {
         flex-direction: column;
         background-color: transparent !important;
         border: none !important;
         padding: 0 !important;
-        gap: 20px !important; /* Większy margines dla łatwego klikania kciukiem */
+        gap: 20px !important;
         border-radius: 0 !important;
     }
 
@@ -667,13 +656,12 @@ html[data-theme="light"] #header-logo-img,
         width: 100%;
         text-align: center;
         padding: 14px 20px;
-        font-size: 1.2rem; /* Czytelna, powiększona czcionka mobilna */
+        font-size: 1.2rem;
         font-weight: 700;
         box-sizing: border-box;
         border-radius: 12px;
     }
 
-    /* Przebudowa podmenu (np. Tools, Careers) na zintegrowaną, płaską strukturę */
     .nav-submenu {
         position: static !important;
         transform: none !important;
@@ -697,7 +685,6 @@ html[data-theme="light"] #header-logo-img,
         background-color: rgba(0, 32, 74, 0.04) !important;
     }
 
-    /* Wyśrodkowanie linków wewnątrz rozwijanych podmenu */
     .nav-submenu li a {
         padding: 10px 16px !important;
         font-size: 0.95rem !important;
@@ -706,6 +693,6 @@ html[data-theme="light"] #header-logo-img,
     }
 
     html nav ul.main-nav-list li.dropdown-nav-item ul.nav-submenu li a:hover {
-        padding-left: 16px !important; /* Nadpisanie animacji z wersji desktopowej */
+        padding-left: 16px !important;
     }
 }
