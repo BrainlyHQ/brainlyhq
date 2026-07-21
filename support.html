@@ -10,12 +10,20 @@
         /* --- MAIN SUPPORT HERO GRID LAYOUT --- */
         .support-hero-layout {
             max-width: 1100px;
-            margin: 40px auto 30px auto;
+            margin: 35px auto 20px auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 1.4fr 1fr;
+            grid-template-columns: 1.35fr 1fr;
             gap: 24px;
-            align-items: center;
+            align-items: stretch; /* Wyrównanie obu kolumn do tej samej wysokości */
+        }
+
+        /* Lewa Kolumna: Wyszukiwarka + Tekst pod spodem */
+        .search-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
         }
 
         /* Glowna, duza wyszukiwarka */
@@ -23,13 +31,14 @@
             position: relative;
             display: flex;
             align-items: center;
+            width: 100%;
         }
 
         .main-search-wrapper svg.search-icon {
             position: absolute;
-            left: 22px;
-            width: 26px;
-            height: 26px;
+            left: 20px;
+            width: 24px;
+            height: 24px;
             color: var(--text-secondary);
             pointer-events: none;
             transition: color 0.25s ease, transform 0.25s ease;
@@ -37,22 +46,22 @@
 
         .support-search-input-hero {
             width: 100%;
-            padding: 22px 24px 22px 64px;
-            border-radius: 20px;
+            padding: 18px 20px 18px 58px;
+            border-radius: 16px;
             border: 2px solid var(--border-color);
             background-color: var(--bg-secondary);
             color: var(--text-primary);
             font-family: var(--font-primary);
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 700;
             outline: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .support-search-input-hero:focus {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 35px rgba(153, 238, 96, 0.3);
+            box-shadow: 0 0 30px rgba(153, 238, 96, 0.25);
             background-color: var(--bg-primary);
         }
 
@@ -61,21 +70,35 @@
             transform: scale(1.1);
         }
 
-        /* Dynamiczny Kafelek "Hot Question" z Ognim z Prawostronną Animacją */
+        /* Tekst pod wyszukiwarką wyrównany do dołu kafelka Hot */
+        .search-subtext {
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+            padding: 2px 4px 0 4px;
+        }
+
+        .search-subtext strong {
+            color: var(--color-brainly-green);
+        }
+
+        /* Prawa Kolumna: Dynamiczny Kafelek "Hot Question" o Stałym Rozmiarze */
         .hot-slider-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
+            border-radius: 18px;
+            padding: 20px 22px;
             position: relative;
             overflow: hidden;
             cursor: pointer;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             transition: border-color 0.25s ease, transform 0.25s ease;
-            min-height: 140px;
+            height: 145px; /* STAŁA WYSOKOŚĆ - ZAPOBIEGA SKAKANIU KAFELKA */
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
         }
 
         .hot-slider-card:hover {
@@ -87,17 +110,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .fire-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(255, 74, 74, 0.12);
-            color: #ff5252;
-            border: 1px solid rgba(255, 74, 74, 0.25);
-            font-size: 0.72rem;
+            background: rgba(255, 107, 0, 0.12);
+            color: #ff6b00;
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            font-size: 0.7rem;
             font-weight: 800;
             padding: 4px 10px;
             border-radius: 8px;
@@ -105,20 +128,23 @@
             letter-spacing: 0.5px;
         }
 
+        /* Poprawiona realistyczna ikonka płomienia */
         .fire-icon-svg {
             width: 14px;
             height: 14px;
-            fill: #ff5252;
+            fill: #ff6b00;
         }
 
         .slider-content-container {
             position: relative;
+            height: 75px; /* Sztywna wysokość dla slajdów */
+            overflow: hidden;
         }
 
         .hot-slide-item {
             opacity: 0;
-            transform: translateY(12px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(10px);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             position: absolute;
             top: 0;
             left: 0;
@@ -129,31 +155,35 @@
         .hot-slide-item.active {
             opacity: 1;
             transform: translateY(0);
-            position: relative;
             pointer-events: auto;
         }
 
         .hot-slide-item h4 {
-            font-size: 1.05rem;
+            font-size: 0.98rem;
             font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .hot-slide-item p {
-            font-size: 0.84rem;
+            font-size: 0.82rem;
             color: var(--text-secondary);
             line-height: 1.4;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 2; /* Sztywne przycięcie do 2 linijek */
             -webkit-box-orient: vertical;
             overflow: hidden;
+            margin: 0;
         }
 
         .slider-dots {
             display: flex;
             gap: 6px;
+            align-items: center;
         }
 
         .dot-indicator {
@@ -165,12 +195,12 @@
         }
 
         .dot-indicator.active {
-            width: 18px;
-            border-radius: 10px;
+            width: 16px;
+            border-radius: 8px;
             background-color: var(--color-brainly-green);
         }
 
-        /* --- LOGICZNIE POUŁOŻONA BAZA FAQA --- */
+        /* --- BAZA WIEDZY I FAQ --- */
         .faq-section-wrapper {
             max-width: 1100px;
             margin: 10px auto 80px auto;
@@ -178,10 +208,10 @@
         }
 
         .faq-group-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             color: var(--color-brainly-green);
-            margin: 30px 0 14px 0;
+            margin: 28px 0 12px 0;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -203,7 +233,7 @@
         }
 
         .faq-header {
-            padding: 18px 22px;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -212,7 +242,7 @@
         }
 
         .faq-question-text {
-            font-size: 0.98rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-primary);
         }
@@ -230,13 +260,13 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
-            padding: 0 22px;
+            padding: 0 20px;
             background-color: rgba(0, 0, 0, 0.12);
         }
 
         .faq-item.active .faq-content {
             max-height: 800px;
-            padding: 16px 22px 22px 22px;
+            padding: 16px 20px 20px 20px;
             border-top: 1px solid var(--border-color);
         }
 
@@ -246,7 +276,7 @@
         }
 
         .faq-answer-text {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-secondary);
             line-height: 1.65;
         }
@@ -267,7 +297,7 @@
             text-align: center;
             padding: 50px;
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 0.95rem;
             display: none;
         }
 
@@ -275,6 +305,10 @@
             .support-hero-layout {
                 grid-template-columns: 1fr;
                 margin-top: 20px;
+            }
+            .hot-slider-card {
+                height: auto;
+                min-height: 135px;
             }
         }
     </style>
@@ -286,23 +320,29 @@
     <header id="header-placeholder"></header>
 
     <main>
-        <!-- WYSZUKIWARKA & GORĄCY KAFELEK -->
+        <!-- HERO GRID: WYSZUKIWARKA + DYNAMICZNY HOT QUESTION SLIDER -->
         <section class="support-hero-layout">
-            <!-- Glowna Wyszukiwarka -->
-            <div class="main-search-wrapper">
-                <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets, or economy...">
-                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+            <!-- Lewa strona: Wyszukiwarka + Podpis równy do dołu kafelka -->
+            <div class="search-column">
+                <div class="main-search-wrapper">
+                    <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets, or economy...">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <p class="search-subtext">
+                    Type any keywords to query our live ecosystem database. Search algorithms cover <strong>server regulations</strong>, <strong>chest odds</strong>, <strong>economy formulas</strong>, and <strong>pet traits</strong>.
+                </p>
             </div>
 
-            <!-- Kafelek Hot Question z Ognikiem i Sliderem -->
+            <!-- Prawa strona: Stały Kafelek Hot Question z Ikonką Płomienia -->
             <div class="hot-slider-card" id="hot-card-container">
                 <div class="hot-card-header">
                     <div class="fire-badge">
+                        <!-- Poprawione, realistyczne SVG Ognia -->
                         <svg class="fire-icon-svg" viewBox="0 0 24 24">
-                            <path d="M12 23c-4.97 0-9-3.58-9-8 0-4.19 3.02-9.5 7.88-12.67a1 1 0 0 1 1.48 1.05c-.32 1.62.1 3.1 1.08 4.07 1.35 1.35 2.56 1.03 3.56.5a1 1 0 0 1 1.42 1.07c-.46 2.38.16 4.1 1.28 5.22 1.32 1.32 2.3 1.05 3.3.62a1 1 0 0 1 1.38 1.11C23.23 20.31 18.23 23 12 23z"/>
+                            <path d="M12 22c4.97 0 9-3.58 9-8 0-4.19-3.02-9.5-7.88-12.67a1 1 0 0 0-1.48 1.05c.32 1.62-.1 3.1-1.08 4.07-1.35 1.35-2.56 1.03-3.56.5a1 1 0 0 0-1.42 1.07c.46 2.38-.16 4.1-1.28 5.22C3.98 14.56 3 14.83 2 15.26a1 1 0 0 0 0 1.83C3.77 20.31 8.23 22 12 22z"/>
                         </svg>
                         <span>HOT QUESTION</span>
                     </div>
@@ -335,14 +375,14 @@
             </div>
         </section>
 
-        <!-- ODPOWIEDZI BEZPOŚREDNIO POD SPODEM (SPÓJNA STRUKTURA KATEGORII) -->
+        <!-- ODPOWIEDZI BEZPOŚREDNIO POD SPODEM (POGRUPOWANE KATEGORIAMI) -->
         <section class="faq-section-wrapper">
             <div id="faq-groups-container">
-                <!-- FAQ CONTENT GENERATED AUTOMATICALLY -->
+                <!-- TREŚĆ FAQ GENEROWANA AUTOMATYCZNIE METODĄ WORD-MATCHING -->
             </div>
 
             <div id="no-results" class="no-results-msg">
-                No matching articles found. Try using different search keywords.
+                No matching articles found. Try searching with individual words like "loot", "coins", or "rules".
             </div>
         </section>
     </main>
@@ -350,7 +390,7 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // PEŁNA, LOGICZNIE POGRUPOWANA BAZA WIEDZY (35 ZAAWANSOWANYCH PYTAŃ)
+        // PEŁNA BAZA WIEDZY (35 POGRUPOWANYCH PYTAŃ)
         const faqGroups = [
             {
                 groupTitle: "Crates & Drop Chances",
@@ -504,21 +544,26 @@
             }
         ];
 
-        // RENDER LOGICZNIE POGRUPOWANEGO FAQ
+        // RENDER FAQ Z INTELIGENTNYM DOPASOWANIEM KAŻDEGO SŁOWA (WORD-MATCHING)
         function renderFaqGroups(filterQuery = "") {
             const container = document.getElementById('faq-groups-container');
             const noResults = document.getElementById('no-results');
-            const query = filterQuery.toLowerCase().trim();
+            
+            // Rozbicie wpisanej frazy na pojedyncze słowa (np. "how", "loot")
+            const searchWords = filterQuery.toLowerCase().trim().split(/\s+/).filter(w => w.length > 0);
             
             let totalMatches = 0;
             let htmlContent = "";
 
             faqGroups.forEach(group => {
-                const matchingItems = group.items.filter(item => 
-                    query === "" || 
-                    item.question.toLowerCase().includes(query) || 
-                    item.answer.toLowerCase().includes(query)
-                );
+                const matchingItems = group.items.filter(item => {
+                    if (searchWords.length === 0) return true;
+                    
+                    const itemFullText = `${item.question} ${item.answer} ${group.groupTitle}`.toLowerCase();
+                    
+                    // Każde pojedyncze słowo z wyszukiwarki musi znajdować się w tekście
+                    return searchWords.every(word => itemFullText.includes(word));
+                });
 
                 if (matchingItems.length > 0) {
                     totalMatches += matchingItems.length;
@@ -567,7 +612,7 @@
             if (!isActive) target.classList.add('active');
         }
 
-        // AKCJA KLIKNIĘCIA Z SLIDERA
+        // AKCJA KLIKNIĘCIA W SLIDER HOT QUESTION
         function openFaqById(id) {
             document.getElementById('support-search').value = '';
             renderFaqGroups("");
@@ -598,17 +643,17 @@
 
         let slideInterval = setInterval(nextSlide, 4500);
 
-        // Zatrzymanie slajdu po najechaniu myszką
+        // Zatrzymanie slajdu przy najechaniu myszą
         const hotContainer = document.getElementById('hot-card-container');
         hotContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
         hotContainer.addEventListener('mouseleave', () => slideInterval = setInterval(nextSlide, 4500));
 
-        // OBSŁUGA WYSZUKIWANIA
+        // NASŁUCHIVANIE PRACY WYSZUKIWARKI
         document.getElementById('support-search').addEventListener('input', (e) => {
             renderFaqGroups(e.target.value);
         });
 
-        // PIERWSZE RENDEROWANIE
+        // PIERWSZY RENDER
         document.addEventListener('DOMContentLoaded', () => {
             renderFaqGroups();
         });
