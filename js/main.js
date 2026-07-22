@@ -1,6 +1,6 @@
 /**
  * BrainlyHQ - Central System Core Engine
- * Handled features: i18n dynamic loading, navigation highlights, profile, dynamic notifications (cards) & theme loggers
+ * Handled features: i18n dynamic loading, navigation highlights, profile, dynamic notifications (cards), theme loggers & PWA registration
  */
 
 let domObserver = null;
@@ -8,6 +8,9 @@ let domObserver = null;
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Inicjalizacja komponentów strukturalnych (Header i Footer)
     initHeaderAndFooter();
+
+    // 2. Inicjalizacja PWA (Service Worker & Powiadomienia Push)
+    initPwaServiceWorker();
 });
 
 /**
@@ -34,7 +37,7 @@ function initHeaderAndFooter() {
                 initLanguageSystem(); 
                 initNavigationHighlight(); 
                 
-                // NOWOŚĆ: Inicjalizacja obsługi hamburger menu dla urządzeń mobilnych
+                // Inicjalizacja obsługi hamburger menu dla urządzeń mobilnych
                 initMobileMenu();
             })
             .catch(err => console.error("Error loading header:", err));
@@ -48,6 +51,37 @@ function initHeaderAndFooter() {
                 footerPlaceholder.innerHTML = data;
             })
             .catch(err => console.error("Error loading footer:", err));
+    }
+}
+
+/**
+ * --- INICJALIZACJA PWA & SERVICE WORKERA ---
+ */
+function initPwaServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('BrainlyHQ Service Worker registered successfully:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        });
+    }
+}
+
+/**
+ * Funkcja pomocnicza do zapytania o zgodę na powiadomienia Push
+ */
+function requestNotificationPermission() {
+    if ('Notification' in window && 'serviceWorker' in navigator) {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                console.log('Notification permission granted!');
+                createNotification("Notifications enabled", "You will now receive BrainlyHQ updates.");
+            }
+        });
     }
 }
 
@@ -305,11 +339,10 @@ function initMobileMenu() {
         }
     });
 
-    // Zamknięcie menu po kliknięciu w link wewnętrzny (chyba że otwiera podmenu na mobilkach)
+    // Zamknięcie menu po kliknięciu w link wewnętrzny
     navMenu.querySelectorAll("a").forEach(link => {
         link.addEventListener("click", () => {
             if (window.innerWidth <= 768) {
-                // Jeśli link nie ma podmenu (nav-submenu), zamykamy overlay
                 if (!link.nextElementSibling || !link.nextElementSibling.classList.contains("nav-submenu")) {
                     navMenu.classList.remove("mobile-active");
                     document.body.classList.remove("mobile-menu-open");
