@@ -72,17 +72,24 @@ function initPwaServiceWorker() {
 }
 
 /**
- * Funkcja pomocnicza do zapytania o zgodę na powiadomienia Push
+ * --- PODPIĘCIE PROŚBY O POWIADOMIENIA PUSH POD ONESIGNAL SDK ---
+ * Wywołuj tę funkcję na dowolnym przycisku (np. w profilu / ustawieniach)
  */
 function requestNotificationPermission() {
-    if ('Notification' in window && 'serviceWorker' in navigator) {
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-                console.log('Notification permission granted!');
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+        try {
+            // Prośba o zgodę z poziomu SDK OneSignal
+            await OneSignal.Notifications.requestPermission();
+            
+            if (OneSignal.Notifications.permission) {
+                console.log('Notification permission granted via OneSignal!');
                 createNotification("Notifications enabled", "You will now receive BrainlyHQ updates.");
             }
-        });
-    }
+        } catch (err) {
+            console.error("Error requesting OneSignal permission:", err);
+        }
+    });
 }
 
 /**
