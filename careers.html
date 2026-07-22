@@ -351,20 +351,17 @@
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 
-    <!-- OneSignal Push Notifications -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
-          safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
-          notifyButton: {
-            enable: true,
-          },
-        });
-      });
-    </script>
+ <!-- OneSignal Push Notifications (Typical Site) -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
+      safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
+    });
+  });
+</script>
 </head>
 <body>
 
