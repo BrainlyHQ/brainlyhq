@@ -21,7 +21,7 @@
             padding-bottom: 60px;
         }
 
-        /* --- KONTENER HERO (PERFEKCYJNE DOPASOWANIE WYSKOŚCI TELEFONU DO CAŁEGO KAFELKA) --- */
+        /* --- KONTENER HERO --- */
         .install-hero-container {
             max-width: 1100px;
             margin: 30px auto 0 auto;
@@ -119,7 +119,7 @@
             box-shadow: 0 4px 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* --- GŁÓWNY KAFELEK INSTRUKCJI Z JEDNAKOWYM UKŁADEM SPACINGU --- */
+        /* --- GŁÓWNY KAFELEK INSTRUKCJI --- */
         .platform-instructions-panel {
             display: none;
             background-color: var(--bg-secondary);
@@ -145,6 +145,7 @@
             justify-content: space-between;
         }
 
+        /* ZMIANA: ZAMIAST WYŚRODKOWANIA, LISTA JEST WYRÓWNANA DO GÓRY (JUSTIFY-CONTENT: FLEX-START) */
         .instructions-list {
             list-style: none;
             padding: 0;
@@ -153,7 +154,7 @@
             flex-direction: column;
             gap: 12px;
             min-height: 160px;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         .instructions-list li {
@@ -179,15 +180,15 @@
             flex-shrink: 0;
         }
 
-        /* --- KAFELKI BENEFITÓW WNĘTRZA Z IDEALNIE RÓWNYMI MARGINESAMI GÓRA / DÓŁ --- */
+        /* --- KAFELKI BENEFITÓW WNĘTRZA --- */
         .inner-benefits-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 14px;
             margin-top: 18px;
-            margin-bottom: 18px; /* Równy odstęp do dolnego paska z przyciskami */
+            margin-bottom: 18px;
             border-top: 1px solid var(--border-color);
-            padding-top: 18px;  /* Równy odstęp od linii podziału */
+            padding-top: 18px;
         }
 
         .inner-benefit-card {
@@ -240,7 +241,7 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            margin-top: 0; /* Wyeliminowanie nakładania się marginesów */
+            margin-top: 0;
         }
 
         .inline-rewards-badge {
@@ -381,7 +382,7 @@
                             </ul>
                         </div>
 
-                        <!-- KAFELKI BENEFITÓW Z SIMETRYCZNYMI ODSTĘPAMI -->
+                        <!-- KAFELKI BENEFITÓW WNĘTRZA -->
                         <div class="inner-benefits-grid">
                             <div class="inner-benefit-card">
                                 <div class="inner-benefit-header">
