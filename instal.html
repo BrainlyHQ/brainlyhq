@@ -21,14 +21,14 @@
             padding-bottom: 60px;
         }
 
-        /* --- KONTENER HERO: DOPASOWANA PROPORCJA GRIDU (1.85fr auto 1fr) --- */
+        /* --- KONTENER HERO (PERFEKCYJNIE DWUKOLUMNOWY GRID) --- */
         .install-hero-container {
             max-width: 1100px;
             margin: 30px auto 0 auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 1.85fr auto 1fr; /* Rozszerzenie lewej kolumny instrukcji */
-            gap: 20px;
+            grid-template-columns: 1fr 280px; /* Precyzyjny podział: lewa strona pełna elastytczność, prawa strona telefon */
+            gap: 32px;
             align-items: stretch;
             box-sizing: border-box;
         }
@@ -41,41 +41,7 @@
             height: 100%;
         }
 
-        /* ŚRODKOWY SEPARATOR & ELEGANCKO PRZESUNIĘTY I DOPASOWANY */
-        .column-divider-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 0 6px;
-        }
-
-        .column-divider-line {
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(180deg, transparent 0%, var(--border-color) 30%, var(--border-color) 70%, transparent 100%);
-            position: absolute;
-        }
-
-        .column-divider-badge {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--color-brainly-green);
-            font-family: var(--font-primary);
-            font-weight: 900;
-            font-size: 1.1rem;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        /* PRAWA KOLUMNA: MOCKUP TELEFONU */
+        /* PRAWA KOLUMNA: MOCKUP TELEFONU Z JEDNAKOWĄ WYSOKOŚCIĄ */
         .mockup-preview-wrapper {
             display: flex;
             justify-content: flex-end;
@@ -85,7 +51,7 @@
 
         .phone-frame-container {
             width: 100%;
-            max-width: 290px;
+            max-width: 280px;
             background-color: #0d1117;
             border: 8px solid #1a202c;
             border-radius: 40px;
@@ -151,13 +117,13 @@
             box-shadow: 0 4px 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* --- KAFELEK INSTRUKCJI - WYPEŁNIAJĄCY ROZSZERZONY OBSZAR --- */
+        /* --- GŁÓWNY KAFELEK INSTRUKCJI Z ZINTEGROWANYM PASEKIEM NAGRÓD --- */
         .platform-instructions-panel {
             display: none;
             background-color: var(--bg-secondary);
             border: 2px solid var(--color-brainly-green);
             border-radius: 20px;
-            padding: 30px 32px;
+            padding: 28px 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             flex: 1;
             box-sizing: border-box;
@@ -173,28 +139,28 @@
         .instructions-list {
             list-style: none;
             padding: 0;
-            margin: 0;
+            margin: 0 0 20px 0;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
         }
 
         .instructions-list li {
             display: flex;
             align-items: center;
-            gap: 16px;
-            font-size: 1.05rem;
+            gap: 14px;
+            font-size: 1rem;
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.45;
         }
 
         .step-number-badge {
             background-color: var(--color-brainly-green);
             color: #000000;
             font-weight: 900;
-            font-size: 0.95rem;
-            width: 32px;
-            height: 32px;
+            font-size: 0.9rem;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -202,26 +168,26 @@
             flex-shrink: 0;
         }
 
-        /* BANER REWARDS & NOTIFICATIONS */
-        .rewards-banner {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #000000;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-weight: 900;
-            font-size: 1.05rem;
+        /* --- ZINTEGROWANY PASEK REWARDS & NOTIFICATIONS W SPÓJNEJ KOLORYSTYCE --- */
+        .inline-rewards-badge {
+            background: rgba(153, 238, 96, 0.08);
+            border: 1px solid rgba(153, 238, 96, 0.3);
+            color: var(--color-brainly-green);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.82rem;
             text-align: center;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            box-shadow: 0 8px 20px rgba(255, 165, 0, 0.25);
-            margin-top: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            margin-top: auto;
         }
 
-        /* --- SEKCJA BENEFITÓW (RÓWNA KRAWĘDŹ DOLNA Z KROKAMI DLA OBU KRAŃCÓW) --- */
+        /* --- SEKCJA BENEFITÓW I NAGRÓD (ZWIĘKSZONY ODSTĘP) --- */
         .benefits-grid {
             max-width: 1100px;
             margin: 50px auto 0 auto;
@@ -276,9 +242,6 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-            .column-divider-wrapper {
-                display: none;
-            }
             .mockup-preview-wrapper {
                 justify-content: center;
                 order: -1;
@@ -316,7 +279,7 @@
 
         <!-- MAIN INTERACTIVE INSTALLATION HERO -->
         <section class="install-hero-container">
-            <!-- LEWA STRONA: ROZSZERZONA KOLUMNA DLA IDEALNEGO WYPEŁNIENIA -->
+            <!-- LEWA STRONA: GŁÓWNA KARTA INSTRUKCJI -->
             <div class="left-content-column">
                 <!-- Przełącznik Zakładek -->
                 <div class="platform-tabs-container">
@@ -334,7 +297,7 @@
                 <!-- INSTRUKCJA ANDROID -->
                 <div id="panel-android" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 20px; color: var(--text-primary);">Android Installation</h3>
+                        <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">Android Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -354,15 +317,25 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 16px;">
-                        <span>Install Directly Now</span>
-                    </button>
+
+                    <!-- ZINTEGROWANY BANER NAGRÓD I POWIADOMIEŃ W DOWOLNYM KAFELKU -->
+                    <div class="inline-rewards-badge">
+                        <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path>
+                        </svg>
+                        <span>Rewards &amp; Push Notifications Included</span>
+                    </div>
                 </div>
 
                 <!-- INSTRUKCJA IOS -->
                 <div id="panel-ios" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 20px; color: var(--text-primary);">iOS Installation</h3>
+                        <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">iOS Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -382,12 +355,24 @@
                             </li>
                         </ul>
                     </div>
+
+                    <div class="inline-rewards-badge">
+                        <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path>
+                        </svg>
+                        <span>Rewards &amp; Push Notifications Included</span>
+                    </div>
                 </div>
 
                 <!-- INSTRUKCJA DESKTOP -->
                 <div id="panel-desktop" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 20px; color: var(--text-primary);">Desktop / PC Installation</h3>
+                        <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">Desktop / PC Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -403,32 +388,22 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 16px;">
-                        <span>Install Desktop App</span>
-                    </button>
-                </div>
 
-                <!-- BANER REWARDS & NOTIFICATIONS -->
-                <div class="rewards-banner">
-                    <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-                        <path d="M4 22h16"></path>
-                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
-                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
-                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path>
-                    </svg>
-                    <span>REWARDS & NOTIFICATIONS!</span>
+                    <div class="inline-rewards-badge">
+                        <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path>
+                        </svg>
+                        <span>Rewards &amp; Push Notifications Included</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- ŚRODKOWY SEPARATOR (&) -->
-            <div class="column-divider-wrapper">
-                <div class="column-divider-line"></div>
-                <div class="column-divider-badge">&amp;</div>
-            </div>
-
-            <!-- PRAWA STRONA: OBUDOWA TELEFONU -->
+            <!-- PRAWA STRONA: MOCKUP TELEFONU WOBEC DOKŁADNEJ SZEROKOŚCI 280PX -->
             <div class="mockup-preview-wrapper">
                 <div class="phone-frame-container">
                     <div class="phone-notch-bar"></div>
