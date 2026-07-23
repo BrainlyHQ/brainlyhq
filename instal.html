@@ -15,126 +15,48 @@
     <link rel="apple-touch-icon" href="assets/icon-192.png">
 
     <style>
-        /* --- DEDYKOWANE STYLE DLA BARKERA HERO & INTERAKCJI --- */
+        /* --- ODSTĘPY OD NAGŁÓWKA I STOPKI (WYRÓWNANE) --- */
+        .install-page-main {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+
         .install-hero-container {
             max-width: 1100px;
-            margin: 40px auto 20px auto;
+            margin: 40px auto 30px auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 1fr 1.1fr;
+            grid-template-columns: 1.15fr 0.85fr;
             gap: 36px;
             align-items: center;
         }
 
-        /* Sekcja Mockup Telefonu z powiadomieniem */
+        /* Sekcja Obrazu Telefonu IMG_0752.jpg */
         .mockup-preview-wrapper {
-            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .phone-frame {
-            width: 280px;
-            height: 540px;
-            background-color: #0d1117;
-            border: 10px solid #2d3748;
-            border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(153, 238, 96, 0.15);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px 16px;
-            box-sizing: border-box;
+        .phone-image-graphic {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            display: block;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35), 0 0 25px rgba(153, 238, 96, 0.15);
+            transition: transform 0.3s ease;
         }
 
-        .phone-notch {
-            width: 120px;
-            height: 18px;
-            background-color: #2d3748;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
-
-        .phone-screen-content {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .phone-time {
-            font-size: 3.2rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-
-        .phone-date {
-            font-size: 0.85rem;
-            color: var(--color-brainly-green);
-            font-weight: 700;
-            margin-bottom: 30px;
-        }
-
-        /* Stylizacja karty powiadomienia na ekranie blokady */
-        .phone-notification-card {
-            background: rgba(30, 37, 48, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 12px 14px;
-            text-align: left;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            animation: pulseNotif 3s infinite ease-in-out;
-        }
-
-        @keyframes pulseNotif {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        .notif-app-icon {
-            width: 36px;
-            height: 36px;
-            background-color: #000;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            color: var(--color-brainly-green);
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .notif-text-title {
-            font-size: 0.78rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin: 0;
-        }
-
-        .notif-text-body {
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            margin: 2px 0 0 0;
-            line-height: 1.3;
+        .phone-image-graphic:hover {
+            transform: scale(1.02);
         }
 
         /* --- KARTY ZAKŁADEK DLA PLATFORM --- */
         .platform-tabs-container {
             display: flex;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             background-color: var(--bg-secondary);
             padding: 6px;
             border-radius: 14px;
@@ -143,20 +65,20 @@
 
         .tab-btn {
             flex: 1;
-            padding: 10px 14px;
+            padding: 10px 12px;
             border: none;
             background: transparent;
             color: var(--text-secondary);
             font-family: var(--font-primary);
             font-weight: 800;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .tab-btn.active {
@@ -165,45 +87,51 @@
             box-shadow: 0 4px 12px rgba(153, 238, 96, 0.25);
         }
 
+        /* BLOKADA ROZMIARU KAFELKA INSTRUKCJI (NIEZMIENNA WYSOKOŚĆ) */
         .platform-instructions-panel {
             display: none;
             background-color: var(--bg-secondary);
             border: 2px solid var(--color-brainly-green);
             border-radius: 20px;
-            padding: 28px;
+            padding: 24px 28px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            height: 380px; /* Sztywny wymiar blokujący zmianę rozmiaru */
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
         }
 
         .platform-instructions-panel.active {
-            display: block;
+            display: flex;
             animation: fadeInPage 0.3s ease-out forwards;
         }
 
         .instructions-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 24px 0;
+            margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .instructions-list li {
             display: flex;
             align-items: flex-start;
-            gap: 14px;
-            font-size: 0.98rem;
+            gap: 12px;
+            font-size: 0.92rem;
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.45;
         }
 
         .step-number-badge {
             background-color: var(--color-brainly-green);
             color: #000000;
             font-weight: 900;
-            font-size: 0.9rem;
-            width: 28px;
-            height: 28px;
+            font-size: 0.85rem;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -211,19 +139,19 @@
             flex-shrink: 0;
         }
 
-        /* BANER BENEFITÓW (Wzorowany na REWARDS & NOTIFICATIONS z grafiki) */
+        /* BANER BENEFITÓW */
         .rewards-banner {
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: #000000;
             padding: 16px 24px;
             border-radius: 16px;
             font-weight: 900;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             text-align: center;
             letter-spacing: 1px;
             text-transform: uppercase;
             box-shadow: 0 8px 20px rgba(255, 165, 0, 0.25);
-            margin-top: 20px;
+            margin-top: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -233,7 +161,7 @@
         /* SEKCJA KAFELKÓW BENEFITÓW */
         .benefits-grid {
             max-width: 1100px;
-            margin: 40px auto 60px auto;
+            margin: 40px auto 0 auto;
             padding: 0 24px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -278,6 +206,10 @@
             .install-hero-container {
                 grid-template-columns: 1fr;
             }
+            .platform-instructions-panel {
+                height: auto;
+                min-height: 380px;
+            }
             .mockup-preview-wrapper {
                 order: -1;
             }
@@ -303,15 +235,15 @@
 
     <header id="header-placeholder"></header>
 
-    <main>
-        <section class="content-section" style="margin-bottom: 10px;">
+    <main class="install-page-main">
+        <section class="content-section" style="margin: 0 auto 10px auto;">
             <h1 class="content-title">GET BRAINLYHQ APP TODAY!</h1>
             <p class="content-lead">Install our official application for direct access, instant push alerts, and exclusive event rewards.</p>
         </section>
 
         <!-- MAIN INTERACTIVE INSTALLATION HERO -->
         <section class="install-hero-container">
-            <!-- LEWA STRONA: INTERAKTYWNA INSTRUKCJA Z ZAKŁADKAMI -->
+            <!-- LEWA STRONA: INSTRUKCJA Z ZAKŁADKAMI I BLOKADĄ ROZMIARU -->
             <div>
                 <!-- Przełącznik Zakładek -->
                 <div class="platform-tabs-container">
@@ -319,87 +251,93 @@
                         <span>Android</span>
                     </button>
                     <button class="tab-btn" onclick="switchPlatformTab('ios')">
-                        <span>iOS (Safari)</span>
+                        <span>iOS (Safari/Chrome)</span>
                     </button>
                     <button class="tab-btn" onclick="switchPlatformTab('desktop')">
-                        <span>Desktop</span>
+                        <span>Desktop / PC</span>
                     </button>
                 </div>
 
                 <!-- INSTRUKCJA ANDROID -->
                 <div id="panel-android" class="platform-instructions-panel active">
-                    <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">ANDROID INSTALLATION</h3>
-                    <ul class="instructions-list">
-                        <li>
-                            <span class="step-number-badge">1</span>
-                            <span>Open the website in <strong>Chrome</strong> browser on your device.</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">2</span>
-                            <span>Tap the <strong>three dots menu</strong> in the top-right corner.</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">3</span>
-                            <span>Select <strong>"Add to Home screen"</strong> (or "Install app").</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">4</span>
-                            <span>Tap <strong>Add</strong> to confirm installation.</span>
-                        </li>
-                    </ul>
-                    <button class="install-action-btn trigger-pwa-install" style="display: none;">
+                    <div>
+                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">ANDROID INSTALLATION</h3>
+                        <ul class="instructions-list">
+                            <li>
+                                <span class="step-number-badge">1</span>
+                                <span>Open the website in <strong>Chrome</strong>, <strong>Opera</strong>, <strong>Brave</strong>, or <strong>Samsung Internet</strong>.</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">2</span>
+                                <span>Tap the <strong>three dots menu</strong> in the top-right corner.</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">3</span>
+                                <span>Select <strong>"Add to Home screen"</strong> (or "Install app").</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">4</span>
+                                <span>Tap <strong>Add</strong> to confirm installation.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 14px;">
                         <span>Install Directly Now</span>
                     </button>
                 </div>
 
                 <!-- INSTRUKCJA IOS -->
                 <div id="panel-ios" class="platform-instructions-panel">
-                    <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">iOS INSTALLATION</h3>
-                    <ul class="instructions-list">
-                        <li>
-                            <span class="step-number-badge">1</span>
-                            <span>Open the website in <strong>Safari</strong> (or Chrome) on your iPhone / iPad.</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">2</span>
-                            <span>Tap the <strong>Share button</strong> (the square with an arrow pointing up at the bottom).</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">3</span>
-                            <span>Scroll down and tap <strong>"Add to Home Screen"</strong>.</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">4</span>
-                            <span>Tap <strong>Add</strong> in the top-right corner to confirm.</span>
-                        </li>
-                    </ul>
+                    <div>
+                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">iOS INSTALLATION</h3>
+                        <ul class="instructions-list">
+                            <li>
+                                <span class="step-number-badge">1</span>
+                                <span>Open the website in <strong>Safari</strong> or <strong>Chrome</strong> on your iPhone / iPad.</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">2</span>
+                                <span>Tap the <strong>Share button</strong> (the square with an arrow pointing up at the bottom).</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">3</span>
+                                <span>Scroll down and tap <strong>"Add to Home Screen"</strong>.</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">4</span>
+                                <span>Tap <strong>Add</strong> in the top-right corner to confirm.</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- INSTRUKCJA DESKTOP -->
                 <div id="panel-desktop" class="platform-instructions-panel">
-                    <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">DESKTOP / PC INSTALLATION</h3>
-                    <ul class="instructions-list">
-                        <li>
-                            <span class="step-number-badge">1</span>
-                            <span>Open the platform in <strong>Chrome</strong>, <strong>Edge</strong>, or <strong>Brave</strong>.</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">2</span>
-                            <span>Look at the address bar in the top-right corner for the <strong>Install icon</strong>.</span>
-                        </li>
-                        <li>
-                            <span class="step-number-badge">3</span>
-                            <span>Click <strong>"Install BrainlyHQ"</strong> when prompted by the browser.</span>
-                        </li>
-                    </ul>
-                    <button class="install-action-btn trigger-pwa-install" style="display: none;">
+                    <div>
+                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">DESKTOP / PC INSTALLATION</h3>
+                        <ul class="instructions-list">
+                            <li>
+                                <span class="step-number-badge">1</span>
+                                <span>Open the platform in <strong>Chrome</strong>, <strong>Edge</strong>, <strong>Brave</strong>, or <strong>Opera</strong>.</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">2</span>
+                                <span>Look at the right side of the address bar for the <strong>Install Icon</strong>.</span>
+                            </li>
+                            <li>
+                                <span class="step-number-badge">3</span>
+                                <span>Click <strong>"Install BrainlyHQ"</strong> when prompted by the browser.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 14px;">
                         <span>Install Desktop App</span>
                     </button>
                 </div>
 
-                <!-- BANER WYRÓŻNIONY: REWARDS & NOTIFICATIONS -->
+                <!-- BANER REWARDS & NOTIFICATIONS -->
                 <div class="rewards-banner">
-                    <svg style="width: 24px; height: 24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                         <path d="M4 22h16"></path>
@@ -411,28 +349,9 @@
                 </div>
             </div>
 
-            <!-- PRAWA STRONA: PODGLĄD MOCKUPU TELEFONU -->
+            <!-- PRAWA STRONA: PODGLĄD GRAFIKI IMG_0752.jpg -->
             <div class="mockup-preview-wrapper">
-                <div class="phone-frame">
-                    <div class="phone-notch"></div>
-                    <div class="phone-screen-content">
-                        <div class="phone-time" id="mockup-clock">16:23</div>
-                        <div class="phone-date">BrainlyHQ Ecosystem</div>
-                    </div>
-                    
-                    <!-- Powiadomienie Push na ekranie blokady -->
-                    <div class="phone-notification-card">
-                        <div class="notif-app-icon">B</div>
-                        <div>
-                            <div class="notif-text-title">Welcome to BrainlyHQ!</div>
-                            <div class="notif-text-body">Learn, play and earn virtual coins! Welcome to the BrainlyHQ ecosystem! 🔥</div>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; font-size: 0.72rem; color: var(--text-secondary); opacity: 0.6; padding-bottom: 10px;">
-                        Installed App Preview
-                    </div>
-                </div>
+                <img src="assets/IMG_0752.jpg" alt="BrainlyHQ App Mockup" class="phone-image-graphic">
             </div>
         </section>
 
@@ -470,28 +389,14 @@
     <script>
         // FUNKCJA DLA PRZEŁĄCZANIA ZAKŁADEK INSTRUKCJI
         function switchPlatformTab(platform) {
-            // Ukryj wszystkie panele i usuń aktywne klasy z przycisków
             document.querySelectorAll('.platform-instructions-panel').forEach(panel => panel.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-            // Aktywuj wybrany panel oraz przycisk
             const selectedPanel = document.getElementById(`panel-${platform}`);
             if (selectedPanel) selectedPanel.classList.add('active');
 
             event.currentTarget.classList.add('active');
         }
-
-        // ZEGAREK NA MOCKUPIE TELEFONU
-        function updateMockupClock() {
-            const clockEl = document.getElementById('mockup-clock');
-            if (!clockEl) return;
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            clockEl.textContent = `${hours}:${minutes}`;
-        }
-        setInterval(updateMockupClock, 1000);
-        updateMockupClock();
     </script>
 </body>
 </html>
