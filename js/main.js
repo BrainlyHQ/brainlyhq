@@ -4,6 +4,7 @@
  */
 
 let domObserver = null;
+let deferredInstallPrompt = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Inicjalizacja komponentów strukturalnych (Header i Footer)
@@ -11,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Inicjalizacja PWA (Service Worker & Powiadomienia Push)
     initPwaServiceWorker();
+
+    // 3. Obsługa zdarzenia instalacji PWA dla przycisków na stronie instal.html
+    initInstallPrompt();
 });
 
 /**
@@ -72,14 +76,37 @@ function initPwaServiceWorker() {
 }
 
 /**
+ * --- OBSŁUGA PRZYCISKU INSTALACJI APLIKACJI (PWA) ---
+ */
+function initInstallPrompt() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Zapobieganie automatycznemu wyświetlaniu banera przez przeglądarkę
+        e.preventDefault();
+        deferredInstallPrompt = e;
+
+        // Aktywuj przyciski instalacyjne na stronie instal.html, jeśli istnieją
+        const installBtns = document.querySelectorAll('.trigger-pwa-install');
+        installBtns.forEach(btn => {
+            btn.style.display = 'inline-flex';
+            btn.addEventListener('click', async () => {
+                if (deferredInstallPrompt) {
+                    deferredInstallPrompt.prompt();
+                    const { outcome } = await deferredInstallPrompt.userChoice;
+                    console.log(`User response to install prompt: ${outcome}`);
+                    deferredInstallPrompt = null;
+                }
+            });
+        });
+    });
+}
+
+/**
  * --- PODPIĘCIE PROŚBY O POWIADOMIENIA PUSH POD ONESIGNAL SDK ---
- * Wywołuj tę funkcję na dowolnym przycisku (np. w profilu / ustawieniach)
  */
 function requestNotificationPermission() {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
         try {
-            // Prośba o zgodę z poziomu SDK OneSignal
             await OneSignal.Notifications.requestPermission();
             
             if (OneSignal.Notifications.permission) {
@@ -115,9 +142,9 @@ function initLanguageSystem() {
     if (!domObserver) {
         domObserver = new MutationObserver(() => {
             if (window.__cachedTranslations) {
-                domObserver.disconnect(); // Chwilowe odłączenie blokuje powstawanie pętli
+                domObserver.disconnect();
                 applyTranslations(window.__cachedTranslations);
-                startObserving(); // Ponowne bezpieczne uruchomienie nasłuchiwania
+                startObserving();
             }
         });
         startObserving();
@@ -132,7 +159,6 @@ function startObserving() {
 
 async function loadLanguage(lang) {
     try {
-        // Pobieranie dedykowanego pliku JSON z katalogu /lang/
         const response = await fetch(`lang/${lang}.json`);
         if (!response.ok) throw new Error(`Could not load translation file: lang/${lang}.json`);
 
@@ -172,6 +198,7 @@ function applyTranslations(translations) {
 function initNavigationHighlight() {
     let path = window.location.pathname.split("/").pop() || "index.html";
 
+    // Mapowanie podstron nadrzędnych dla menu kontekstowego
     if (path === "benefits.html" || path === "tracks.html") {
         path = "careers.html";
     }
@@ -263,17 +290,14 @@ function initThemeToggle() {
     const toggleBtn = document.getElementById("theme-toggle-btn");
     if (!toggleBtn) return;
 
-    // Pobierz aktualny stan i wymuś synchronizację wyglądu ikony oraz logo
     const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
     if (typeof updateThemeIcon === "function") updateThemeIcon(currentTheme);
     if (typeof updateLogo === "function") updateLogo(currentTheme);
 
     toggleBtn.addEventListener("click", () => {
-        // Wywołaj główną funkcję przełączającą z pliku theme.js
         if (typeof toggleTheme === "function") {
             toggleTheme();
             
-            // Rejestracja powiadomienia na podstawie zaktualizowanego stanu
             const newTheme = document.documentElement.getAttribute("data-theme");
             const formattedThemeName = newTheme.charAt(0).toUpperCase() + newTheme.slice(1);
             createNotification("Theme updated", `Switched to ${formattedThemeName} mode`);
@@ -318,7 +342,7 @@ function initProfileDropdown() {
 }
 
 /**
- * --- OBSŁUGA HAMBURGER MENU DLA TELEFONÓW (FULL-SCREEN OVERLAY) ---
+ * --- OBSŁUGA HAMBURGER MENU DLA TELEFONÓW ---
  */
 function initMobileMenu() {
     const menuBtn = document.getElementById("mobile-menu-btn");
@@ -330,7 +354,6 @@ function initMobileMenu() {
         e.stopPropagation();
         const isActive = navMenu.classList.toggle("mobile-active");
         
-        // Blokada/odblokowanie przewijania strony w tle
         if (isActive) {
             document.body.classList.add("mobile-menu-open");
         } else {
@@ -338,7 +361,6 @@ function initMobileMenu() {
         }
     });
 
-    // Zamknij menu mobilne i odblokuj scroll, gdy użytkownik kliknie poza obszar menu
     document.addEventListener("click", (e) => {
         if (!navMenu.contains(e.target) && e.target !== menuBtn) {
             navMenu.classList.remove("mobile-active");
@@ -346,7 +368,6 @@ function initMobileMenu() {
         }
     });
 
-    // Zamknięcie menu po kliknięciu w link wewnętrzny
     navMenu.querySelectorAll("a").forEach(link => {
         link.addEventListener("click", () => {
             if (window.innerWidth <= 768) {
