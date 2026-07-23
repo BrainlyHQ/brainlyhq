@@ -582,6 +582,150 @@ html .card code {
 }
 
 /* ==========================================
+   STYLE DEDYKOWANE DLA INSTALACJI (instal.html)
+   ========================================== */
+.install-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.install-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.install-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-brainly-green);
+    box-shadow: 0 8px 24px rgba(153, 238, 96, 0.08);
+}
+
+.install-platform-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.install-platform-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--color-brainly-green);
+    flex-shrink: 0;
+}
+
+.install-platform-header h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.install-steps {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.install-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.install-step-num {
+    background-color: rgba(153, 238, 96, 0.15);
+    color: var(--color-brainly-green);
+    font-weight: 800;
+    font-size: 0.82rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.install-action-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--color-brainly-green);
+    color: #000000;
+    font-family: var(--font-primary);
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.install-action-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+    box-shadow: 0 4px 14px rgba(153, 238, 96, 0.3);
+}
+
+.install-banner-info {
+    margin-top: 40px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.install-banner-icon {
+    width: 36px;
+    height: 36px;
+    color: var(--color-brainly-green);
+    flex-shrink: 0;
+}
+
+.install-banner-text h4 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.install-banner-text p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .install-banner-info {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ==========================================
    SPÓJNA PODMIANA KOLORU LOGO (INVERT SYSTEM)
    ========================================== */
 #header-logo-img {
