@@ -15,48 +15,67 @@
     <link rel="apple-touch-icon" href="assets/icon-192.png">
 
     <style>
-        /* --- ODSTĘPY OD NAGŁÓWKA I STOPKI (WYRÓWNANE) --- */
+        /* --- ODSTĘPY OD NAGŁÓWKA I STOPKI --- */
         .install-page-main {
-            padding-top: 60px;
+            padding-top: 50px;
             padding-bottom: 60px;
         }
 
         .install-hero-container {
             max-width: 1100px;
-            margin: 40px auto 30px auto;
+            margin: 30px auto 30px auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 36px;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 32px;
             align-items: center;
         }
 
-        /* Sekcja Obrazu Telefonu IMG_0752.jpg */
+        /* --- RAMKA TELEFONU WOKÓŁ PLIKU GRAFICZNEGO --- */
         .mockup-preview-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .phone-image-graphic {
+        .phone-frame-container {
             width: 100%;
-            max-width: 320px;
-            height: auto;
-            display: block;
-            border-radius: 24px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35), 0 0 25px rgba(153, 238, 96, 0.15);
-            transition: transform 0.3s ease;
+            max-width: 250px;
+            background-color: #0d1117;
+            border: 8px solid #1a202c;
+            border-radius: 36px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(153, 238, 96, 0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
         }
 
-        .phone-image-graphic:hover {
-            transform: scale(1.02);
+        .phone-notch-bar {
+            width: 90px;
+            height: 14px;
+            background-color: #1a202c;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            z-index: 2;
+        }
+
+        .phone-image-graphic {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
         }
 
         /* --- KARTY ZAKŁADEK DLA PLATFORM --- */
         .platform-tabs-container {
             display: flex;
             gap: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             background-color: var(--bg-secondary);
             padding: 6px;
             border-radius: 14px;
@@ -87,19 +106,18 @@
             box-shadow: 0 4px 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* BLOKADA ROZMIARU KAFELKA INSTRUKCJI (NIEZMIENNA WYSOKOŚĆ) */
+        /* --- KAFELEK INSTRUKCJI DOPASOWANY BEZ PUSTYCH ODSTĘPÓW --- */
         .platform-instructions-panel {
             display: none;
             background-color: var(--bg-secondary);
             border: 2px solid var(--color-brainly-green);
             border-radius: 20px;
-            padding: 24px 28px;
+            padding: 22px 24px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            height: 380px; /* Sztywny wymiar blokujący zmianę rozmiaru */
+            min-height: 270px;
             box-sizing: border-box;
             flex-direction: column;
             justify-content: space-between;
-            overflow-y: auto;
         }
 
         .platform-instructions-panel.active {
@@ -113,25 +131,25 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .instructions-list li {
             display: flex;
             align-items: flex-start;
             gap: 12px;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             color: var(--text-primary);
-            line-height: 1.45;
+            line-height: 1.4;
         }
 
         .step-number-badge {
             background-color: var(--color-brainly-green);
             color: #000000;
             font-weight: 900;
-            font-size: 0.85rem;
-            width: 26px;
-            height: 26px;
+            font-size: 0.82rem;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -139,29 +157,29 @@
             flex-shrink: 0;
         }
 
-        /* BANER BENEFITÓW */
+        /* BANER REWARDS & NOTIFICATIONS */
         .rewards-banner {
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: #000000;
-            padding: 16px 24px;
-            border-radius: 16px;
+            padding: 14px 20px;
+            border-radius: 14px;
             font-weight: 900;
-            font-size: 1.05rem;
+            font-size: 0.98rem;
             text-align: center;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
             box-shadow: 0 8px 20px rgba(255, 165, 0, 0.25);
-            margin-top: 18px;
+            margin-top: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
 
-        /* SEKCJA KAFELKÓW BENEFITÓW */
+        /* SEKCJA BENEFITÓW I NAGRÓD */
         .benefits-grid {
             max-width: 1100px;
-            margin: 40px auto 0 auto;
+            margin: 30px auto 0 auto;
             padding: 0 24px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -189,26 +207,27 @@
         }
 
         .benefit-card h3 {
-            font-size: 1.15rem;
+            font-size: 1.12rem;
             font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 8px;
         }
 
         .benefit-card p {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-secondary);
             line-height: 1.5;
             margin: 0;
         }
 
+        /* NADPISANIE TEXT-TRANSFORM DLA NAGŁÓWKA GŁÓWNEGO */
+        .normal-case-title {
+            text-transform: none !important;
+        }
+
         @media (max-width: 850px) {
             .install-hero-container {
                 grid-template-columns: 1fr;
-            }
-            .platform-instructions-panel {
-                height: auto;
-                min-height: 380px;
             }
             .mockup-preview-wrapper {
                 order: -1;
@@ -237,31 +256,31 @@
 
     <main class="install-page-main">
         <section class="content-section" style="margin: 0 auto 10px auto;">
-            <h1 class="content-title">GET BRAINLYHQ APP TODAY!</h1>
+            <h1 class="content-title normal-case-title">Get BrainlyHQ App Today!</h1>
             <p class="content-lead">Install our official application for direct access, instant push alerts, and exclusive event rewards.</p>
         </section>
 
         <!-- MAIN INTERACTIVE INSTALLATION HERO -->
         <section class="install-hero-container">
-            <!-- LEWA STRONA: INSTRUKCJA Z ZAKŁADKAMI I BLOKADĄ ROZMIARU -->
+            <!-- LEWA STRONA: INSTRUKCJA Z ZAKŁADKAMI -->
             <div>
                 <!-- Przełącznik Zakładek -->
                 <div class="platform-tabs-container">
-                    <button class="tab-btn active" onclick="switchPlatformTab('android')">
+                    <button id="btn-tab-android" class="tab-btn" onclick="switchPlatformTab('android')">
                         <span>Android</span>
                     </button>
-                    <button class="tab-btn" onclick="switchPlatformTab('ios')">
+                    <button id="btn-tab-ios" class="tab-btn" onclick="switchPlatformTab('ios')">
                         <span>iOS (Safari/Chrome)</span>
                     </button>
-                    <button class="tab-btn" onclick="switchPlatformTab('desktop')">
+                    <button id="btn-tab-desktop" class="tab-btn" onclick="switchPlatformTab('desktop')">
                         <span>Desktop / PC</span>
                     </button>
                 </div>
 
                 <!-- INSTRUKCJA ANDROID -->
-                <div id="panel-android" class="platform-instructions-panel active">
+                <div id="panel-android" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">ANDROID INSTALLATION</h3>
+                        <h3 style="font-size: 1.2rem; font-weight: 900; margin-bottom: 14px; color: var(--text-primary);">Android Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -281,7 +300,7 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 14px;">
+                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 12px;">
                         <span>Install Directly Now</span>
                     </button>
                 </div>
@@ -289,7 +308,7 @@
                 <!-- INSTRUKCJA IOS -->
                 <div id="panel-ios" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">iOS INSTALLATION</h3>
+                        <h3 style="font-size: 1.2rem; font-weight: 900; margin-bottom: 14px; color: var(--text-primary);">iOS Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -314,7 +333,7 @@
                 <!-- INSTRUKCJA DESKTOP -->
                 <div id="panel-desktop" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">DESKTOP / PC INSTALLATION</h3>
+                        <h3 style="font-size: 1.2rem; font-weight: 900; margin-bottom: 14px; color: var(--text-primary);">Desktop / PC Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -330,14 +349,14 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 14px;">
+                    <button class="install-action-btn trigger-pwa-install" style="display: none; margin-top: 12px;">
                         <span>Install Desktop App</span>
                     </button>
                 </div>
 
                 <!-- BANER REWARDS & NOTIFICATIONS -->
                 <div class="rewards-banner">
-                    <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                         <path d="M4 22h16"></path>
@@ -349,9 +368,12 @@
                 </div>
             </div>
 
-            <!-- PRAWA STRONA: PODGLĄD GRAFIKI IMG_0752.jpg -->
+            <!-- PRAWA STRONA: OBUDOWA TELEFONU Z OBRAZEM IMG_0752.jpg -->
             <div class="mockup-preview-wrapper">
-                <img src="assets/IMG_0752.jpg" alt="BrainlyHQ App Mockup" class="phone-image-graphic">
+                <div class="phone-frame-container">
+                    <div class="phone-notch-bar"></div>
+                    <img src="assets/IMG_0752.jpg" alt="BrainlyHQ App Mockup" class="phone-image-graphic">
+                </div>
             </div>
         </section>
 
@@ -387,16 +409,30 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // FUNKCJA DLA PRZEŁĄCZANIA ZAKŁADEK INSTRUKCJI
+        // PRZEŁĄCZANIE ZAKŁADEK INSTRUKCJI
         function switchPlatformTab(platform) {
             document.querySelectorAll('.platform-instructions-panel').forEach(panel => panel.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
             const selectedPanel = document.getElementById(`panel-${platform}`);
-            if (selectedPanel) selectedPanel.classList.add('active');
+            const selectedBtn = document.getElementById(`btn-tab-${platform}`);
 
-            event.currentTarget.classList.add('active');
+            if (selectedPanel) selectedPanel.classList.add('active');
+            if (selectedBtn) selectedBtn.classList.add('active');
         }
+
+        // AUTOMATYCZNA DETEKCJA URZĄDZENIA UŻYTKOWNIKA
+        document.addEventListener("DOMContentLoaded", () => {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                switchPlatformTab('android');
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                switchPlatformTab('ios');
+            } else {
+                switchPlatformTab('desktop');
+            }
+        });
     </script>
 </body>
 </html>
