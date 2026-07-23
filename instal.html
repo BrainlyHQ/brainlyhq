@@ -123,7 +123,7 @@
             background-color: var(--bg-secondary);
             border: 2px solid var(--color-brainly-green);
             border-radius: 20px;
-            padding: 24px 28px;
+            padding: 28px 32px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             flex: 1;
             box-sizing: border-box;
@@ -139,28 +139,28 @@
         .instructions-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 20px 0;
+            margin: 0 0 22px 0;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .instructions-list li {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
+            gap: 14px;
+            font-size: 1.02rem;
             color: var(--text-primary);
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
         .step-number-badge {
             background-color: var(--color-brainly-green);
             color: #000000;
             font-weight: 900;
-            font-size: 0.85rem;
-            width: 26px;
-            height: 26px;
+            font-size: 0.9rem;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -168,62 +168,66 @@
             flex-shrink: 0;
         }
 
-        /* --- MINI-KAFELKI BENEFITÓW PRZENIESIONE DO ŚRODKA KAFELKA GŁÓWNEGO --- */
+        /* --- POWIĘKSZONE KAFELKI BENEFITÓW WNĘTRZA (BEZ PUSTEGO MIEJSCA) --- */
         .inner-benefits-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 16px 0 20px 0;
+            gap: 14px;
+            margin: 20px 0 24px 0;
             border-top: 1px solid var(--border-color);
-            padding-top: 16px;
+            padding-top: 20px;
         }
 
         .inner-benefit-card {
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 14px;
+            border-radius: 14px;
+            padding: 16px 18px;
             text-align: left;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .inner-benefit-card:hover {
             border-color: var(--color-brainly-green);
+            transform: translateY(-2px);
         }
 
         .inner-benefit-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
         .inner-benefit-icon {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             color: var(--color-brainly-green);
             flex-shrink: 0;
         }
 
         .inner-benefit-card h4 {
-            font-size: 0.85rem;
+            font-size: 0.98rem;
             font-weight: 800;
             color: var(--text-primary);
             margin: 0;
         }
 
         .inner-benefit-card p {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            line-height: 1.35;
+            line-height: 1.45;
             margin: 0;
         }
 
-        /* --- DOLNY PASEK: REWARDS & INSTALL BUTTON (OBOK SIEBIE) --- */
+        /* --- DOLNY PASEK AKCJI --- */
         .bottom-actions-row {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             margin-top: auto;
         }
 
@@ -232,10 +236,10 @@
             background: rgba(153, 238, 96, 0.08);
             border: 1px solid rgba(153, 238, 96, 0.3);
             color: var(--color-brainly-green);
-            padding: 10px 16px;
+            padding: 12px 18px;
             border-radius: 12px;
             font-weight: 800;
-            font-size: 0.82rem;
+            font-size: 0.88rem;
             text-align: center;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -243,7 +247,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            height: 42px;
+            height: 46px;
             box-sizing: border-box;
         }
 
@@ -251,17 +255,17 @@
             background-color: var(--color-brainly-green);
             color: #000000;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 12px;
             font-family: var(--font-primary);
             font-weight: 900;
-            font-size: 0.85rem;
+            font-size: 0.92rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            height: 42px;
+            height: 46px;
             white-space: nowrap;
             transition: opacity 0.2s ease, transform 0.2s ease;
             box-shadow: 0 4px 12px rgba(153, 238, 96, 0.2);
@@ -343,7 +347,7 @@
                 <!-- INSTRUKCJA ANDROID -->
                 <div id="panel-android" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">Android Installation</h3>
+                        <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">Android Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -363,7 +367,7 @@
                             </li>
                         </ul>
 
-                        <!-- BENEFITY PRZENIESIONE DO WNĘTRZA KAFELKA GŁÓWNEGO -->
+                        <!-- POWIĘKSZONE KAFELKI BENEFITÓW WNĘTRZA -->
                         <div class="inner-benefits-grid">
                             <div class="inner-benefit-card">
                                 <div class="inner-benefit-header">
@@ -373,7 +377,7 @@
                                     </svg>
                                     <h4>Instant Alerts</h4>
                                 </div>
-                                <p>Real-time notifications on drops &amp; events.</p>
+                                <p>Get real-time notification alerts on drop events &amp; server news.</p>
                             </div>
 
                             <div class="inner-benefit-card">
@@ -383,7 +387,7 @@
                                     </svg>
                                     <h4>App Rewards</h4>
                                 </div>
-                                <p>Bonus Brainly Coins &amp; XP boosters.</p>
+                                <p>Unlock exclusive bonus Brainly Coins &amp; XP multipliers.</p>
                             </div>
 
                             <div class="inner-benefit-card">
@@ -393,15 +397,15 @@
                                     </svg>
                                     <h4>Fast Engine</h4>
                                 </div>
-                                <p>Smoother navigation &amp; offline caching.</p>
+                                <p>Enjoy lightning-fast navigation with offline caching.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DOLNY PASEK: REWARDS + PRZYCISK INSTALL APP -->
+                    <!-- DOLNY PASEK AKCJI -->
                     <div class="bottom-actions-row">
                         <div class="inline-rewards-badge">
-                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                 <path d="M4 22h16"></path>
@@ -412,7 +416,7 @@
                             <span>Rewards &amp; Notifications Included</span>
                         </div>
                         <button class="inline-install-btn trigger-pwa-install">
-                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -425,7 +429,7 @@
                 <!-- INSTRUKCJA IOS -->
                 <div id="panel-ios" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">iOS Installation</h3>
+                        <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">iOS Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -454,7 +458,7 @@
                                     </svg>
                                     <h4>Instant Alerts</h4>
                                 </div>
-                                <p>Real-time notifications on drops &amp; events.</p>
+                                <p>Get real-time notification alerts on drop events &amp; server news.</p>
                             </div>
 
                             <div class="inner-benefit-card">
@@ -464,7 +468,7 @@
                                     </svg>
                                     <h4>App Rewards</h4>
                                 </div>
-                                <p>Bonus Brainly Coins &amp; XP boosters.</p>
+                                <p>Unlock exclusive bonus Brainly Coins &amp; XP multipliers.</p>
                             </div>
 
                             <div class="inner-benefit-card">
@@ -474,14 +478,14 @@
                                     </svg>
                                     <h4>Fast Engine</h4>
                                 </div>
-                                <p>Smoother navigation &amp; offline caching.</p>
+                                <p>Enjoy lightning-fast navigation with offline caching.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="bottom-actions-row">
                         <div class="inline-rewards-badge">
-                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                 <path d="M4 22h16"></path>
@@ -492,7 +496,7 @@
                             <span>Rewards &amp; Notifications Included</span>
                         </div>
                         <button class="inline-install-btn trigger-pwa-install">
-                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -505,7 +509,7 @@
                 <!-- INSTRUKCJA DESKTOP -->
                 <div id="panel-desktop" class="platform-instructions-panel">
                     <div>
-                        <h3 style="font-size: 1.25rem; font-weight: 900; margin-bottom: 16px; color: var(--text-primary);">Desktop / PC Installation</h3>
+                        <h3 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 18px; color: var(--text-primary);">Desktop / PC Installation</h3>
                         <ul class="instructions-list">
                             <li>
                                 <span class="step-number-badge">1</span>
@@ -530,7 +534,7 @@
                                     </svg>
                                     <h4>Instant Alerts</h4>
                                 </div>
-                                <p>Real-time notifications on drops &amp; events.</p>
+                                <p>Get real-time notification alerts on drop events &amp; server news.</p>
                             </div>
 
                             <div class="inner-benefit-card">
@@ -540,7 +544,7 @@
                                     </svg>
                                     <h4>App Rewards</h4>
                                 </div>
-                                <p>Bonus Brainly Coins &amp; XP boosters.</p>
+                                <p>Unlock exclusive bonus Brainly Coins &amp; XP multipliers.</p>
                             </div>
 
                             <div class="inner-benefit-card">
@@ -550,14 +554,14 @@
                                     </svg>
                                     <h4>Fast Engine</h4>
                                 </div>
-                                <p>Smoother navigation &amp; offline caching.</p>
+                                <p>Enjoy lightning-fast navigation with offline caching.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="bottom-actions-row">
                         <div class="inline-rewards-badge">
-                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                 <path d="M4 22h16"></path>
@@ -568,7 +572,7 @@
                             <span>Rewards &amp; Notifications Included</span>
                         </div>
                         <button class="inline-install-btn trigger-pwa-install">
-                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
