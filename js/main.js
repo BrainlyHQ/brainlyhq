@@ -205,6 +205,10 @@ function initNavigationHighlight() {
     if (path === "status.html") {
         path = "products.html";
     }
+    // Wskazanie, że instal.html należy do sekcji Support
+    if (path === "instal.html") {
+        path = "support.html";
+    }
 
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
     if (activeLink) {
