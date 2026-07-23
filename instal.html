@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,17 +21,19 @@
             padding-bottom: 60px;
         }
 
+        /* --- KONTENER HERO: SPÓJNY MAX-WIDTH I PADDING --- */
         .install-hero-container {
             max-width: 1100px;
-            margin: 30px auto 30px auto;
+            margin: 30px auto 0 auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 36px;
-            align-items: stretch; /* Rozciągnięcie obu kolumn do dokładnie tej samej wysokości */
+            grid-template-columns: 1.15fr auto 0.85fr; /* Dedykowana kolumna środkowa dla separatora & */
+            gap: 24px;
+            align-items: stretch;
+            box-sizing: border-box;
         }
 
-        /* LEWA KOLUMNA - KONTENER ELASTYCZNY DOPASOWANY DO WYSKOŚCI TELEFONU */
+        /* LEWA KOLUMNA - KONTENER ELASTYCZNY */
         .left-content-column {
             display: flex;
             flex-direction: column;
@@ -39,17 +41,51 @@
             height: 100%;
         }
 
-        /* --- RAMKA TELEFONU WOKÓŁ PLIKU GRAFICZNEGO --- */
+        /* SRODKOWY SEPARATOR & POMIĘDZY KAFELKIEM A TELEFONEM */
+        .column-divider-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 0 4px;
+        }
+
+        .column-divider-line {
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, var(--border-color) 30%, var(--border-color) 70%, transparent 100%);
+            position: absolute;
+        }
+
+        .column-divider-badge {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--color-brainly-green);
+            font-family: var(--font-primary);
+            font-weight: 900;
+            font-size: 1.1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* PRAWA KOLUMNA: MOCKUP TELEFONU Z WYRÓWNANIEM DO PRAWEJ */
         .mockup-preview-wrapper {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end; /* Wyrównanie do prawej krawędzi */
             align-items: center;
             height: 100%;
         }
 
         .phone-frame-container {
             width: 100%;
-            max-width: 280px;
+            max-width: 275px;
             background-color: #0d1117;
             border: 8px solid #1a202c;
             border-radius: 40px;
@@ -115,7 +151,7 @@
             box-shadow: 0 4px 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* --- KAFELEK INSTRUKCJI - ELASTYCZNIE WYPEŁNIAJĄCY WYSOKOŚĆ (FLEX: 1) --- */
+        /* --- KAFELEK INSTRUKCJI --- */
         .platform-instructions-panel {
             display: none;
             background-color: var(--bg-secondary);
@@ -123,7 +159,7 @@
             border-radius: 20px;
             padding: 30px 32px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            flex: 1; /* Automatyczne rozciąganie kafelka do wysokości telefonu */
+            flex: 1;
             box-sizing: border-box;
             flex-direction: column;
             justify-content: space-between;
@@ -140,14 +176,14 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 20px; /* Zwiększony odstęp między krokami */
+            gap: 20px;
         }
 
         .instructions-list li {
             display: flex;
             align-items: center;
             gap: 16px;
-            font-size: 1.02rem; /* Powiększony, czytelniejszy tekst */
+            font-size: 1.02rem;
             color: var(--text-primary);
             line-height: 1.5;
         }
@@ -157,7 +193,7 @@
             color: #000000;
             font-weight: 900;
             font-size: 0.95rem;
-            width: 32px; /* Zwiększony, ładny badge z numerem */
+            width: 32px;
             height: 32px;
             border-radius: 50%;
             display: flex;
@@ -185,14 +221,15 @@
             gap: 10px;
         }
 
-        /* SEKCJA BENEFITÓW I NAGRÓD */
+        /* --- SEKCJA BENEFITÓW (ZWIĘKSZONY ODSTĘP OD GÓRY O 20px) --- */
         .benefits-grid {
             max-width: 1100px;
-            margin: 40px auto 0 auto;
+            margin: 50px auto 0 auto; /* Zwiększono z 30px do 50px */
             padding: 0 24px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+            box-sizing: border-box;
         }
 
         .benefit-card {
@@ -201,6 +238,7 @@
             border-radius: 16px;
             padding: 24px;
             transition: transform 0.25s ease, border-color 0.25s ease;
+            box-sizing: border-box;
         }
 
         .benefit-card:hover {
@@ -233,12 +271,20 @@
             text-transform: none !important;
         }
 
-        @media (max-width: 850px) {
+        @media (max-width: 900px) {
             .install-hero-container {
                 grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .column-divider-wrapper {
+                display: none;
             }
             .mockup-preview-wrapper {
+                justify-content: center;
                 order: -1;
+            }
+            .benefits-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -376,7 +422,13 @@
                 </div>
             </div>
 
-            <!-- PRAWA STRONA: OBUDOWA TELEFONU Z OBRAZEM IMG_0752.jpg -->
+            <!-- ŚRODKOWY SEPARATOR AKCENTUJĄCY (&) -->
+            <div class="column-divider-wrapper">
+                <div class="column-divider-line"></div>
+                <div class="column-divider-badge">&amp;</div>
+            </div>
+
+            <!-- PRAWA STRONA: OBUDOWA TELEFONU Z WYRÓWNANIEM DO PRAWEJ -->
             <div class="mockup-preview-wrapper">
                 <div class="phone-frame-container">
                     <div class="phone-notch-bar"></div>
@@ -385,7 +437,7 @@
             </div>
         </section>
 
-        <!-- SEKCJA BENEFITÓW I NAGRÓD -->
+        <!-- SEKCJA BENEFITÓW I NAGRÓD (ZWIĘKSZONY O 20PX MARGINES GÓRNY) -->
         <section class="benefits-grid">
             <div class="benefit-card">
                 <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
