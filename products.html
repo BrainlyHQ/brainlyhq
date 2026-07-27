@@ -51,7 +51,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 30px;
-            margin-bottom: 50px; /* POPRAWKA: Taki sam mniejszy odstęp na dole */
+            margin-bottom: 50px;
         }
 
         /* Nowoczesna karta produktu */
@@ -148,6 +148,12 @@
             color: var(--color-brainly-green);
         }
 
+        .status-restricted {
+            background-color: rgba(153, 238, 96, 0.15);
+            color: var(--color-brainly-green);
+            border: 1px solid rgba(153, 238, 96, 0.3);
+        }
+
         .status-pending {
             background-color: rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
@@ -235,7 +241,6 @@
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <!-- POPRAWKA: Przywrócony dawny odstęp od góry strony -->
     <main class="content-section" style="margin-top: 50px;">
         
         <div style="text-align: center; margin-bottom: 40px;">
@@ -263,6 +268,18 @@
                     <p class="product-desc">Our flagship administration utility. Engineered to secure operations, manage automated moderation logs, and maintain user safety parameters across public community networks.</p>
                 </div>
                 <a href="https://discord.gg/brainlyhq" target="_blank" class="product-action-btn">Join Discord to check</a>
+            </div>
+
+            <div class="product-card" data-status="active">
+                <div class="product-top-flow">
+                    <div class="product-img-wrapper">
+                        <img src="assets/BRAINLY SPEECH.png" alt="Brainly Speech" class="product-png">
+                    </div>
+                    <span class="product-status-tag status-restricted">Active • Moderators Only</span>
+                    <h3 class="product-title">Brainly Speech</h3>
+                    <p class="product-desc">An internal translation application for Slack powered by the Brainly Synapse 1.0 model. Designed for instant multilingual text conversion to streamline communication across international moderation teams.</p>
+                </div>
+                <button class="product-action-btn" style="cursor: default; opacity: 0.9;" disabled>Exclusive Moderator Access</button>
             </div>
 
             <div class="product-card" data-status="active">
