@@ -128,7 +128,7 @@
 
         <h1 class="redirect-title">External Status Page</h1>
         <p class="redirect-desc">
-            You are being redirected to our official status monitor hosted on UptimeRobot in <strong id="countdown-timer">3</strong> seconds.
+            You are being redirected to our official status monitor hosted on UptimeRobot in <strong id="countdown-timer">5</strong> seconds.
         </p>
 
         <div class="actions-row">
@@ -145,7 +145,7 @@
 
     <script>
         const targetUrl = "https://stats.uptimerobot.com/c3s43Jfv8U";
-        let seconds = 3;
+        let seconds = 5;
         const timerElement = document.getElementById("countdown-timer");
 
         const interval = setInterval(() => {
@@ -159,6 +159,13 @@
                 window.location.href = targetUrl;
             }
         }, 1000);
+
+        // Obsługa powrotu strzałką w lewo z pamięci podręcznej (bfcache)
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                window.location.href = "index.html";
+            }
+        });
 
         // Motyw
         function syncTheme() {
