@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance & System Announcements - BrainlyHQ</title>
+    <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#99EE60">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+    <style>
+        .maintenance-page-main {
+            margin-top: 50px;
+            margin-bottom: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        /* BANERY STATUSU */
+        .status-hero-card {
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Stan: Wszystko OK (Zielony) */
+        .status-hero-card.status-ok {
+            background-color: rgba(35, 165, 90, 0.1);
+            border: 2px solid #23a55a;
+            color: #f5f7fa;
+        }
+
+        [data-theme="light"] .status-hero-card.status-ok {
+            color: #0f172a;
+        }
+
+        /* Stan: Konserwacja (Czerwono-Pomarańczowy) */
+        .status-hero-card.status-active {
+            background-color: rgba(255, 74, 74, 0.12);
+            border: 2px solid #ff4a4a;
+            color: #f5f7fa;
+        }
+
+        [data-theme="light"] .status-hero-card.status-active {
+            color: #0f172a;
+        }
+
+        .status-header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .status-title-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .status-ok .pulse-dot {
+            background-color: #23a55a;
+            box-shadow: 0 0 0 0 rgba(35, 165, 90, 0.7);
+            animation: pulse-green 1.6s infinite;
+        }
+
+        .status-active .pulse-dot {
+            background-color: #ff4a4a;
+            box-shadow: 0 0 0 0 rgba(255, 74, 74, 0.7);
+            animation: pulse-red 1.6s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 165, 90, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(35, 165, 90, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 165, 90, 0); }
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 74, 74, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 74, 74, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 74, 74, 0); }
+        }
+
+        .status-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        /* SEKCJA HISTORII PRZERW */
+        .history-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .history-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            margin-top: 0;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .history-item {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 18px 20px;
+            text-align: left;
+            transition: border-color 0.2s ease;
+        }
+
+        .history-item:hover {
+            border-color: var(--color-brainly-green);
+        }
+
+        .history-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+
+        .history-service {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--color-brainly-green);
+        }
+
+        .history-date {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .history-details {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Wskaźnik ładowania */
+        .loading-spinner-wrapper {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--color-brainly-green);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .status-header-flex {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .history-meta-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+    <script src="js/theme.js"></script>
+    <script src="js/main.js" defer></script>
+
+    <!-- OneSignal Push Notifications -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
+          safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
+        });
+      });
+    </script>
+</head>
+<body>
+
+    <div id="google_translate_element"></div>
+    <header id="header-placeholder"></header>
+
+    <main class="maintenance-page-main">
+        
+        <div style="text-align: center; margin-bottom: 36px;">
+            <h1 class="content-title">System Maintenance</h1>
+            <p class="content-lead" style="max-width: 650px; margin: 12px auto 0 auto;">
+                Real-time operational status, scheduled maintenance windows, and incident logs.
+            </p>
+        </div>
+
+        <!-- DYNAMICZNY KAFEL HERO (LADOWANY Z GOOGLE APPS SCRIPT) -->
+        <div id="status-hero-container">
+            <div class="loading-spinner-wrapper">
+                <div class="spinner"></div>
+                <p>Fetching real-time status from Google Sheets...</p>
+            </div>
+        </div>
+
+        <!-- SEKCJA HISTORII PRZERW -->
+        <div class="history-section">
+            <h3 class="history-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Maintenance History &amp; Logs</span>
+            </h3>
+
+            <div id="history-container">
+                <div class="loading-spinner-wrapper">
+                    <p style="font-size: 0.85rem;">Loading archive logs...</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbz9LDO-L1Zgtg_3aVhFPRA2XLRqJWAgB-DatXsxLeCWQhjw0wsaJmf-u7Y4mojwDsH5IA/exec";
+
+        async function fetchMaintenanceData() {
+            const heroContainer = document.getElementById("status-hero-container");
+            const historyContainer = document.getElementById("history-container");
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("Network response was not ok");
+
+                const data = await response.json();
+
+                // 1. RENDEROWANIE GŁÓWNEGO STATUSU
+                if (data.isMaintenance) {
+                    heroContainer.innerHTML = `
+                        <div class="status-hero-card status-active">
+                            <div class="status-header-flex">
+                                <div class="status-title-badge">
+                                    <span class="pulse-dot"></span>
+                                    <span>Maintenance in Progress</span>
+                                </div>
+                            </div>
+                            <p class="status-description">${data.message || "Scheduled system maintenance is currently ongoing. Please check back shortly."}</p>
+                        </div>
+                    `;
+                } else {
+                    heroContainer.innerHTML = `
+                        <div class="status-hero-card status-ok">
+                            <div class="status-header-flex">
+                                <div class="status-title-badge">
+                                    <span class="pulse-dot"></span>
+                                    <span>All Systems Operational</span>
+                                </div>
+                            </div>
+                            <p class="status-description">${data.message || "No ongoing maintenance or disruptions reported at this time."}</p>
+                        </div>
+                    `;
+                }
+
+                // 2. RENDEROWANIE HISTORII PRZERW
+                if (data.history && data.history.length > 0) {
+                    historyContainer.innerHTML = `
+                        <div class="history-list">
+                            ${data.history.map(item => `
+                                <div class="history-item">
+                                    <div class="history-meta-row">
+                                        <span class="history-service">${item.service || "General Infrastructure"}</span>
+                                        <span class="history-date">${item.date || "N/A"}</span>
+                                    </div>
+                                    <p class="history-details">${item.details || "Routine maintenance completed."}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    historyContainer.innerHTML = `
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); font-style: italic; margin: 0;">
+                            No past maintenance records found.
+                        </p>
+                    `;
+                }
+
+            } catch (error) {
+                console.error("Error fetching maintenance status:", error);
+                heroContainer.innerHTML = `
+                    <div class="status-hero-card status-ok" style="border-color: var(--border-color);">
+                        <div class="status-header-flex">
+                            <div class="status-title-badge">
+                                <span class="pulse-dot" style="background-color: var(--text-secondary); box-shadow: none;"></span>
+                                <span>Status Unknown</span>
+                            </div>
+                        </div>
+                        <p class="status-description">Unable to load live status details. Please refresh the page or try again later.</p>
+                    </div>
+                `;
+                historyContainer.innerHTML = `
+                    <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">
+                        Failed to retrieve history logs.
+                    </p>
+                `;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchMaintenanceData);
+    </script>
+</body>
+</html>
