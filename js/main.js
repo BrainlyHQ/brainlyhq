@@ -202,11 +202,8 @@ function initNavigationHighlight() {
     if (path === "benefits.html" || path === "tracks.html") {
         path = "careers.html";
     }
-    if (path === "status.html") {
-        path = "products.html";
-    }
-    // Wskazanie, że instal.html należy do sekcji Support
-    if (path === "instal.html") {
+    // Wskazanie, że status.html, instal.html i maintenance.html należą do sekcji Support
+    if (path === "status.html" || path === "instal.html" || path === "maintenance.html") {
         path = "support.html";
     }
 
