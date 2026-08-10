@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BrainlyHQ - Decap CMS</title>
   <link rel="icon" type="image/png" href="../assets/BRAINLYHQ LOGO.png">
-  
-  <!-- Kluczowe: Jawne wskazanie bezwzględnej ścieżki do config.yml -->
   <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
 </head>
 <body>
   <!-- Ładowanie Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Wymuszenie czystego logowania tokenem osobistym
+    window.CMS_MANUAL_INIT = true;
+    document.addEventListener('DOMContentLoaded', () => {
+      window.CMS.init();
+    });
+  </script>
 </body>
 </html>
