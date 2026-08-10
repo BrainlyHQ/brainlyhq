@@ -178,77 +178,82 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        const REPO_OWNER = "Ksperix";
-        const REPO_NAME = "brainlyhq";
-        let allPosts = [];
+    const REPO_OWNER = "Ksperix";
+    const REPO_NAME = "brainlyhq";
+    let allPosts = [];
 
-        async function fetchPosts() {
-            const grid = document.getElementById("blog-grid");
-            try {
-                const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/content/blog`);
-                if (!res.ok) throw new Error("No posts folder found yet.");
-
-                const files = await res.json();
-                const jsonFiles = files.filter(f => f.name.endsWith('.json'));
-
-                if (jsonFiles.length === 0) {
-                    grid.innerHTML = `<p class="loading-wrapper">No articles published yet.</p>`;
-                    return;
-                }
-
-                allPosts = await Promise.all(jsonFiles.map(async file => {
-                    const contentRes = await fetch(file.download_url);
-                    const data = await contentRes.json();
-                    return { ...data, slug: file.name.replace('.json', '') };
-                }));
-
-                // Sortowanie po dacie (najnowsze pierwsze)
-                allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-                renderPosts(allPosts);
-
-            } catch (err) {
-                console.error(err);
-                grid.innerHTML = `<p class="loading-wrapper">No blog articles published yet. Check back soon!</p>`;
+    async function fetchPosts() {
+        const grid = document.getElementById("blog-grid");
+        try {
+            // Poprawny pełny adres API GitHuba
+            const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/content/blog?t=${Date.now()}`;
+            const res = await fetch(apiUrl);
+            
+            if (!res.ok) {
+                throw new Error(`GitHub API returned status ${res.status}`);
             }
-        }
 
-        function renderPosts(posts) {
-            const grid = document.getElementById("blog-grid");
-            if (posts.length === 0) {
-                grid.innerHTML = `<p class="loading-wrapper">No articles found in this category.</p>`;
+            const files = await res.json();
+            const jsonFiles = files.filter(f => f.name && f.name.endsWith('.json'));
+
+            if (jsonFiles.length === 0) {
+                grid.innerHTML = `<p class="loading-wrapper">No articles published yet.</p>`;
                 return;
             }
 
-            grid.innerHTML = posts.map(post => `
-                <a href="post.html?slug=${post.slug}" class="blog-card">
-                    ${post.image ? `<img src="${post.image}" alt="${post.title}" class="blog-card-cover">` : ''}
-                    <div class="blog-card-body">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-tag">${post.category || 'General'}</span>
-                            <span class="blog-card-date">${post.date ? new Date(post.date).toLocaleDateString() : ''}</span>
-                        </div>
-                        <h3 class="blog-card-title">${post.title}</h3>
-                        <p class="blog-card-excerpt">${post.excerpt || ''}</p>
-                    </div>
-                </a>
-            `).join('');
+            // Pobieranie zawartości każdego posta z raw.githubusercontent.com
+            allPosts = await Promise.all(jsonFiles.map(async file => {
+                const rawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/content/blog/${file.name}?t=${Date.now()}`;
+                const contentRes = await fetch(rawUrl);
+                const data = await contentRes.json();
+                return { ...data, slug: file.name.replace('.json', '') };
+            }));
+
+            // Sortowanie od najnowszych
+            allPosts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+            renderPosts(allPosts);
+
+        } catch (err) {
+            console.error("Blog Engine Error:", err);
+            grid.innerHTML = `<p class="loading-wrapper">No articles found in this category.</p>`;
+        }
+    }
+
+    function renderPosts(posts) {
+        const grid = document.getElementById("blog-grid");
+        if (!posts || posts.length === 0) {
+            grid.innerHTML = `<p class="loading-wrapper">No articles found in this category.</p>`;
+            return;
         }
 
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                
-                const filter = e.target.getAttribute('data-filter');
-                if (filter === 'all') {
-                    renderPosts(allPosts);
-                } else {
-                    renderPosts(allPosts.filter(p => p.category === filter));
-                }
-            });
-        });
+        grid.innerHTML = posts.map(post => `
+            <a href="post.html?slug=${post.slug}" class="blog-card">
+                ${post.image ? `<img src="${post.image}" alt="${post.title || ''}" class="blog-card-cover">` : ''}
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">
+                        <span class="blog-card-tag">${post.category || 'General'}</span>
+                        <span class="blog-card-date">${post.date ? new Date(post.date).toLocaleDateString() : ''}</span>
+                    </div>
+                    <h3 class="blog-card-title">${post.title || 'Untitled Post'}</h3>
+                    <p class="blog-card-excerpt">${post.excerpt || ''}</p>
+                </div>
+            </a>
+        `).join('');
+    }
 
-        document.addEventListener("DOMContentLoaded", fetchPosts);
-    </script>
-</body>
-</html>
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const filter = e.target.getAttribute('data-filter');
+            if (filter === 'all') {
+                renderPosts(allPosts);
+            } else {
+                renderPosts(allPosts.filter(p => p.category === filter));
+            }
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", fetchPosts);
+</script>
