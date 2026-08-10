@@ -23,21 +23,7 @@
 
         .blog-header-section {
             text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .blog-header-section::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(153, 238, 96, 0.12) 0%, rgba(0,0,0,0) 70%);
-            pointer-events: none;
-            z-index: 0;
+            margin-bottom: 32px;
         }
 
         /* Wyszukiwarka i filtry */
@@ -45,48 +31,47 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
             margin-bottom: 40px;
         }
 
         .search-box {
             position: relative;
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
         }
 
         .search-input {
             width: 100%;
-            padding: 12px 20px 12px 45px;
-            border-radius: 30px;
+            padding: 10px 18px 10px 42px;
+            border-radius: 24px;
             border: 1px solid var(--border-color);
             background-color: var(--bg-secondary);
             color: var(--text-primary);
             font-family: var(--font-primary);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             outline: none;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: border-color 0.2s ease;
         }
 
         .search-input:focus {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 15px rgba(153, 238, 96, 0.2);
         }
 
         .search-icon {
             position: absolute;
-            left: 16px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             color: var(--text-secondary);
         }
 
         .blog-filter-bar {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
@@ -94,7 +79,7 @@
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 20px;
             font-family: var(--font-primary);
             font-weight: 700;
@@ -107,121 +92,49 @@
             background-color: var(--color-brainly-green);
             color: #000000;
             border-color: var(--color-brainly-green);
-            box-shadow: 0 4px 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* Wyróżniony wpis (Featured) */
-        .featured-post-container {
-            margin-bottom: 48px;
-        }
-
-        .featured-card {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            overflow: hidden;
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .featured-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--color-brainly-green);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-        }
-
-        .featured-cover {
-            width: 100%;
-            height: 100%;
-            min-height: 280px;
-            object-fit: cover;
-            background-color: var(--bg-primary);
-        }
-
-        .featured-body {
-            padding: 36px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .featured-badge {
-            align-self: flex-start;
-            background-color: var(--color-brainly-green);
-            color: #000000;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-        }
-
-        .featured-title {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            line-height: 1.25;
-            margin-bottom: 14px;
-        }
-
-        .featured-excerpt {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        /* Siatka tradycyjna */
+        /* Jednolita siatka artykułów */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 28px;
+            gap: 24px;
         }
 
         .blog-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 18px;
+            border-radius: 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
             text-decoration: none;
             color: inherit;
         }
 
         .blog-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--color-brainly-green);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .blog-card-cover-wrap {
             width: 100%;
-            height: 200px;
+            height: 190px;
             overflow: hidden;
             background-color: var(--bg-primary);
-            position: relative;
         }
 
         .blog-card-cover {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .blog-card:hover .blog-card-cover {
-            transform: scale(1.04);
+            display: block;
         }
 
         .blog-card-body {
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -239,7 +152,7 @@
             background-color: rgba(153, 238, 96, 0.15);
             color: var(--color-brainly-green);
             padding: 4px 10px;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -251,10 +164,10 @@
         }
 
         .blog-card-title {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.35;
         }
 
@@ -263,7 +176,7 @@
             font-size: 0.88rem;
             line-height: 1.5;
             flex: 1;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .blog-card-footer {
@@ -273,6 +186,7 @@
             font-size: 0.82rem;
             font-weight: 700;
             color: var(--color-brainly-green);
+            margin-top: auto;
         }
 
         .loading-wrapper {
@@ -283,8 +197,8 @@
         }
 
         .spinner {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border: 3px solid var(--border-color);
             border-top-color: var(--color-brainly-green);
             border-radius: 50%;
@@ -293,18 +207,6 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        @media (max-width: 868px) {
-            .featured-card {
-                grid-template-columns: 1fr;
-            }
-            .featured-cover {
-                height: 220px;
-            }
-            .featured-body {
-                padding: 24px;
-            }
-        }
     </style>
 
     <script src="js/theme.js"></script>
@@ -317,7 +219,7 @@
     <main class="blog-page-main">
         <div class="blog-header-section">
             <h1 class="content-title">Blog & System Updates</h1>
-            <p class="content-lead" style="max-width: 650px; margin: 10px auto 0 auto;">
+            <p class="content-lead" style="max-width: 600px; margin: 8px auto 0 auto;">
                 Latest announcements, development progress, and operational news from BrainlyHQ.
             </p>
         </div>
@@ -340,10 +242,7 @@
             </div>
         </div>
 
-        <!-- Sekcja wyróżnionego wpisu -->
-        <div id="featured-post-container" class="featured-post-container"></div>
-
-        <!-- Siatka wpisów -->
+        <!-- Siatka wszystkich wpisów -->
         <div id="blog-grid" class="blog-grid">
             <div class="loading-wrapper">
                 <div class="spinner"></div>
@@ -362,7 +261,6 @@
 
         async function fetchPosts() {
             const grid = document.getElementById("blog-grid");
-            const featuredContainer = document.getElementById("featured-post-container");
 
             try {
                 const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/content/blog?t=${Date.now()}`;
@@ -401,8 +299,6 @@
 
         function applyFiltersAndRender() {
             const searchQuery = document.getElementById("blog-search-input").value.toLowerCase().trim();
-            const featuredContainer = document.getElementById("featured-post-container");
-            const grid = document.getElementById("blog-grid");
 
             let filtered = allPosts.filter(post => {
                 const matchesFilter = activeFilter === 'all' || post.category === activeFilter;
@@ -414,50 +310,23 @@
                 return matchesFilter && matchesSearch;
             });
 
-            if (filtered.length === 0) {
-                featuredContainer.innerHTML = '';
-                grid.innerHTML = `<p class="loading-wrapper">No articles found matching your criteria.</p>`;
-                return;
-            }
-
-            // Jeśli nie ma aktywnej frazy szukania i jestemy w "All Posts", wyciągamy pierwszy wpis jako Featured
-            if (!searchQuery && activeFilter === 'all' && filtered.length > 0) {
-                const featuredPost = filtered[0];
-                const gridPosts = filtered.slice(1);
-
-                featuredContainer.innerHTML = `
-                    <a href="post.html?slug=${featuredPost.slug}" class="featured-card">
-                        ${featuredPost.image ? `<img src="${featuredPost.image}" alt="${featuredPost.title}" class="featured-cover">` : '<div class="featured-cover"></div>'}
-                        <div class="featured-body">
-                            <span class="featured-badge">FEATURED ${featuredPost.category ? `• ${featuredPost.category}` : ''}</span>
-                            <h2 class="featured-title">${featuredPost.title || 'Untitled'}</h2>
-                            <p class="featured-excerpt">${featuredPost.excerpt || ''}</p>
-                            <div class="blog-card-footer">
-                                <span>Read Full Article</span> &#8594;
-                            </div>
-                        </div>
-                    </a>
-                `;
-
-                renderGrid(gridPosts);
-            } else {
-                featuredContainer.innerHTML = '';
-                renderGrid(filtered);
-            }
+            renderGrid(filtered);
         }
 
         function renderGrid(posts) {
             const grid = document.getElementById("blog-grid");
-            if (posts.length === 0) {
-                grid.innerHTML = `<p class="loading-wrapper" style="grid-column: 1/-1;">No more articles in this section.</p>`;
+            if (!posts || posts.length === 0) {
+                grid.innerHTML = `<p class="loading-wrapper">No articles found matching your criteria.</p>`;
                 return;
             }
 
             grid.innerHTML = posts.map(post => `
                 <a href="post.html?slug=${post.slug}" class="blog-card">
-                    <div class="blog-card-cover-wrap">
-                        ${post.image ? `<img src="${post.image}" alt="${post.title || ''}" class="blog-card-cover">` : ''}
-                    </div>
+                    ${post.image ? `
+                        <div class="blog-card-cover-wrap">
+                            <img src="${post.image}" alt="${post.title || ''}" class="blog-card-cover">
+                        </div>
+                    ` : ''}
                     <div class="blog-card-body">
                         <div class="blog-card-meta">
                             <span class="blog-card-tag">${post.category || 'General'}</span>
