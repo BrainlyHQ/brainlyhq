@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: ksperix/brainlyhq
+  repo: Ksperix/brainlyhq
   branch: main
 
 media_folder: "assets/images/blog"
