@@ -1,0 +1,22 @@
+backend:
+  name: github
+  repo: TWOJ_USERNAME_GITHUB/NAZWA_REPOZYTORIUM # Zmień na swój username i nazwę repo na GitHubie
+  branch: main # Lub master, w zależności od nazwy głównej gałęzi
+
+media_folder: "assets/images/blog" # Gdzie mają zapisywać się zdjęcia z posta
+public_folder: "assets/images/blog" # Ścieżka do zdjęć używana przez HTML
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog" # Folder w repozytorium, gdzie lądują pliki JSON z wpisami
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    format: "json" # Przechowujemy dane w czytelnym dla JavaScriptu formacie JSON
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Category", name: "category", widget: "select", options: ["Announcements", "Dev Updates", "Guides", "General"] }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Short Excerpt", name: "excerpt", widget: "text" }
+      - { label: "Body", name: "body", widget: "markdown" }
