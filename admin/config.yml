@@ -1,18 +1,18 @@
 backend:
   name: github
-  repo: TWOJ_USERNAME_GITHUB/NAZWA_REPOZYTORIUM # Zmień na swój username i nazwę repo na GitHubie
-  branch: main # Lub master, w zależności od nazwy głównej gałęzi
+  repo: TWOJ_USERNAME_GITHUB/NAZWA_REPOZYTORIUM # Np. brainlyhq/website
+  branch: main
 
-media_folder: "assets/images/blog" # Gdzie mają zapisywać się zdjęcia z posta
-public_folder: "assets/images/blog" # Ścieżka do zdjęć używana przez HTML
+media_folder: "assets/images/blog"
+public_folder: "assets/images/blog"
 
 collections:
   - name: "blog"
     label: "Blog Posts"
-    folder: "content/blog" # Folder w repozytorium, gdzie lądują pliki JSON z wpisami
+    folder: "content/blog"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    format: "json" # Przechowujemy dane w czytelnym dla JavaScriptu formacie JSON
+    format: "json"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
