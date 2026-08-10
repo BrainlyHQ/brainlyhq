@@ -206,6 +206,10 @@ function initNavigationHighlight() {
     if (path === "status.html" || path === "instal.html" || path === "maintenance.html") {
         path = "support.html";
     }
+    // Wskazanie, że widok artykułu podglądu post.html należy do sekcji Blog
+    if (path === "post.html") {
+        path = "blog.html";
+    }
 
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
     if (activeLink) {
