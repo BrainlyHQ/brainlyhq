@@ -160,7 +160,10 @@ function startObserving() {
 async function loadLanguage(lang) {
     try {
         const response = await fetch(`lang/${lang}.json`);
-        if (!response.ok) throw new Error(`Could not load translation file: lang/${lang}.json`);
+        if (!response.ok) {
+            // Ciche obsłużenie braku pliku językowego bez wywoływania błędów w konsoli
+            return;
+        }
 
         const translations = await response.json();
         window.__cachedTranslations = translations;
@@ -171,11 +174,12 @@ async function loadLanguage(lang) {
         
         localStorage.setItem("selectedLanguage", lang);
     } catch (error) {
-        console.error("i18n Engine Error:", error);
+        console.warn("i18n Engine Fallback:", error.message);
     }
 }
 
 function applyTranslations(translations) {
+    if (!translations) return;
     document.querySelectorAll("[data-translate]").forEach(element => {
         const key = element.getAttribute("data-translate");
         if (translations[key]) {
@@ -206,7 +210,7 @@ function initNavigationHighlight() {
     if (path === "status.html" || path === "instal.html" || path === "maintenance.html") {
         path = "support.html";
     }
-    // Wskazanie, że widok artykułu podglądu post.html należy do sekcji Blog
+    // Wskazanie, że podgląd artykułu post.html należy do sekcji Blog
     if (path === "post.html") {
         path = "blog.html";
     }
@@ -342,8 +346,6 @@ function initProfileDropdown() {
             renderNotifications();
         });
     }
-
-    renderNotifications();
 }
 
 /**
