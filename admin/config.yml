@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: TWOJ_USERNAME_GITHUB/NAZWA_REPOZYTORIUM # Np. brainlyhq/website
+  repo: ksperix/brainlyhq
   branch: main
 
 media_folder: "assets/images/blog"
