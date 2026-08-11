@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Get Changed Blog Files
         id: changed-files
@@ -22,7 +24,6 @@ jobs:
             content/blog/*.json
 
       - name: Send Rich Discord Embed
-        if: steps.changed-files.outputs.any_changed == 'true'
         shell: bash
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
@@ -35,8 +36,13 @@ jobs:
             exit 1
           fi
 
+          if [ -z "$ALL_CHANGED_FILES" ]; then
+            echo "Brak nowych lub zmodyfikowanych plików JSON."
+            exit 0
+          fi
+
           for FILE in $ALL_CHANGED_FILES; do
-            echo "=== Wyryto plik: $FILE ==="
+            echo "=== Przetwarzanie pliku: $FILE ==="
 
             TITLE=$(jq -r '.title // "Nowy wpis na blogu"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
@@ -45,7 +51,6 @@ jobs:
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
-            # Konstrukcja payloadu JSON
             PAYLOAD=$(jq -n \
               --arg title "$TITLE" \
               --arg desc "$EXCERPT" \
@@ -82,8 +87,7 @@ jobs:
 
             if [ "$RESPONSE" -ne 200 ] && [ "$RESPONSE" -ne 204 ]; then
               echo "BŁĄD WYSYŁANIA! Kod odpowiedzi Discorda: $RESPONSE"
-              echo "Treść ładunku JSON:"
-              echo "$PAYLOAD"
+              echo "Payload: $PAYLOAD"
               exit 1
             else
               echo "Sukces! Wiadomość wysłana (HTTP $RESPONSE)."
