@@ -16,7 +16,7 @@ jobs:
 
       - name: Get Changed Blog Files
         id: changed-files
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v45
         with:
           files: |
             content/blog/*.json
@@ -28,10 +28,11 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          for FILE in $ALL_CHANGED_FILES; do
-            echo "Przetwarzanie nowego/zaktualizowanego wpisu: $FILE"
+          LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/BRAINLYHQ%20LOGO.png"
 
-            # Odczyt danych z JSON
+          for FILE in $ALL_CHANGED_FILES; do
+            echo "Przetwarzanie wpisu: $FILE"
+
             TITLE=$(jq -r '.title // "Nowy wpis na blogu"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
             CATEGORY=$(jq -r '.category // "Ogólne"' "$FILE")
@@ -39,16 +40,16 @@ jobs:
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
-            # Konstrukcja ładunku JSON dla Discorda
             PAYLOAD=$(jq -n \
               --arg title "$TITLE" \
               --arg desc "$EXCERPT" \
               --arg url "$POST_URL" \
               --arg category "$CATEGORY" \
               --arg image "$IMAGE" \
+              --arg logo "$LOGO_URL" \
               '{
                 username: "BrainlyHQ Blog",
-                avatar_url: "https://discord.brainly.com/assets/BRAINLYHQ%20LOGO.png",
+                avatar_url: $logo,
                 embeds: [{
                   title: $title,
                   description: $desc,
@@ -64,11 +65,10 @@ jobs:
                   image: (if $image != "" then {url: $image} else null end),
                   footer: {
                     text: "BrainlyHQ News • discord.brainly.com",
-                    icon_url: "https://discord.brainly.com/assets/BRAINLYHQ%20LOGO.png"
+                    icon_url: $logo
                   }
                 }]
               }')
 
-            # Wysyłanie powiadomienia
             curl -H "Content-Type: application/json" -X POST -d "$PAYLOAD" "$WEBHOOK_URL"
           done
