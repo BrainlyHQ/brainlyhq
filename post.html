@@ -80,7 +80,7 @@
             margin-bottom: 0;
         }
 
-        /* NAGŁÓWKI H1 - H6 W ZIELONYM KOLORZE BRAINLY */
+        /* NAGŁÓWKI H1 - H6 */
         .post-body h1, 
         .post-body h2, 
         .post-body h3, 
@@ -94,49 +94,29 @@
             margin-bottom: 0.5em;
         }
 
-        .post-body h1 {
-            font-size: 1.8rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 6px;
-        }
-
+        .post-body h1 { font-size: 1.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
         .post-body h2 { font-size: 1.5rem; }
         .post-body h3 { font-size: 1.3rem; }
         .post-body h4 { font-size: 1.15rem; }
         .post-body h5 { font-size: 1.05rem; }
         .post-body h6 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* LINKI ORAZ POGRUBIENIA */
-        .post-body strong {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
+        .post-body strong { color: var(--text-primary); font-weight: 700; }
+        .post-body a { color: var(--color-brainly-green); text-decoration: underline; text-underline-offset: 3px; }
+        .post-body a:hover { opacity: 0.85; }
 
-        .post-body a {
-            color: var(--color-brainly-green);
-            text-decoration: underline;
-            text-underline-offset: 3px;
-        }
-
-        .post-body a:hover {
-            opacity: 0.85;
-        }
-
-        /* LISTY */
         .post-body ul, .post-body ol {
             margin-top: 0;
             margin-bottom: 0.8em;
             padding-left: 24px;
         }
+        .post-body li { margin-bottom: 4px; }
 
-        .post-body li {
-            margin-bottom: 4px;
-        }
-
-        /* CYTATY (MALEJĄCE ODSTĘPY) */
+        /* BLOK CYTATU (ŚCISŁY ALIGNMENT BEZ DZIWNYCH PRZERW) */
         .post-body blockquote {
-            margin: 0.5em 0;
-            padding: 10px 16px;
+            margin-top: 0.4em;
+            margin-bottom: 0.8em;
+            padding: 6px 14px;
             background-color: var(--bg-secondary);
             border-left: 4px solid var(--color-brainly-green);
             border-radius: 0 8px 8px 0;
@@ -144,14 +124,21 @@
             color: var(--text-secondary);
         }
 
-        .post-body blockquote p {
-            margin-bottom: 0;
+        /* Usunięcie zbędnych nakładających się marginesów */
+        .post-body p + blockquote {
+            margin-top: -0.3em;
         }
 
-        /* KOD JEDNOLINIOWY (INLINE CODE) */
+        .post-body blockquote p {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            line-height: 1.4;
+        }
+
+        /* INLINE CODE (JEDNOLINIOWY) */
         .post-body code {
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             background-color: var(--bg-secondary);
             padding: 2px 6px;
             border-radius: 4px;
@@ -159,17 +146,15 @@
             color: var(--color-brainly-green);
         }
 
-        /* DUŻY PROSTOKĄTNY BLOK KODU (W STYLU DISCORDA / IDE) */
+        /* BLOK KODU (PROSTOKĄTNY W STYLU DISCORDA) */
         .post-body pre {
-            background-color: #1e1e1e !important;
+            background-color: #1e1e1e;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 14px 18px;
             overflow-x: auto;
             margin: 0.8em 0;
             display: block;
-            width: 100%;
-            box-sizing: border-box;
         }
 
         .post-body pre code {
@@ -177,8 +162,8 @@
             padding: 0 !important;
             border: none !important;
             color: #d4d4d4 !important;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.88rem;
+            line-height: 1.45;
             white-space: pre;
             display: block;
         }
@@ -188,7 +173,7 @@
             max-width: 100%;
             height: auto;
             border-radius: 12px;
-            margin: 1.2em 0;
+            margin: 1em 0;
             border: 1px solid var(--border-color);
             display: block;
         }
@@ -197,7 +182,7 @@
             border: 0;
             height: 1px;
             background: var(--border-color);
-            margin: 1.8em 0;
+            margin: 1.5em 0;
         }
 
         .back-link {
@@ -237,7 +222,7 @@
 
         function calculateReadTime(text) {
             if (!text) return '1 min read';
-            const wordsPerMinute = 80;
+            const wordsPerMinute = 100;
             const words = text.trim().split(/\s+/).length;
             const minutes = Math.ceil(words / wordsPerMinute);
             return `${minutes} min read`;
