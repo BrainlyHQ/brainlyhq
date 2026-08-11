@@ -100,36 +100,143 @@
             border-color: var(--color-brainly-green);
         }
 
-        /* Jednolita siatka artykułów */
+        /* WEWNĘTRZNA SEKCJA FEATURED POST (SZEROKI BANER) */
+        .featured-post-container {
+            margin-bottom: 48px;
+        }
+
+        .featured-card {
+            background-color: #161a20;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        }
+
+        .featured-card:hover {
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .featured-cover-wrap {
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+            background-color: #0d0f12;
+            overflow: hidden;
+        }
+
+        .featured-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .featured-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--color-brainly-green);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 18px;
+        }
+
+        .featured-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .featured-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+
+        .featured-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .featured-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #a78bfa; /* Fioletowy akcent przycisku ze zrzutu ekranu */
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .featured-card:hover .featured-action-btn {
+            color: var(--color-brainly-green);
+        }
+
+        /* NAGŁÓWEK SIATKI RECENT UPDATES */
+        .section-subtitle {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--color-brainly-green);
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        /* SIATKA KART W STYLU "RECENT UPDATES" */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
+            gap: 28px;
         }
 
         .blog-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
+            background-color: transparent;
+            border: none;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
             text-decoration: none;
             color: inherit;
+            transition: transform 0.25s ease;
         }
 
         .blog-card:hover {
             transform: translateY(-4px);
-            border-color: var(--color-brainly-green);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .blog-card-cover-wrap {
             width: 100%;
-            height: 190px;
+            height: 200px;
+            border-radius: 16px;
             overflow: hidden;
-            background-color: var(--bg-primary);
+            background-color: #12161c;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .blog-card:hover .blog-card-cover-wrap {
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.12);
         }
 
         .blog-card-cover {
@@ -139,54 +246,41 @@
             display: block;
         }
 
-        .blog-card-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .blog-card-meta {
+        .blog-card-meta-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 0.78rem;
-        }
-
-        .blog-card-tag {
-            background-color: rgba(153, 238, 96, 0.15);
-            color: var(--color-brainly-green);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .blog-card-info-top {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
+            gap: 12px;
             font-size: 0.75rem;
-            font-family: var(--font-primary);
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 12px;
+        }
+
+        .blog-card-category {
+            color: var(--text-secondary);
         }
 
         .blog-card-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 8px;
             line-height: 1.35;
+            margin-bottom: 12px;
+            transition: color 0.2s ease;
+        }
+
+        .blog-card:hover .blog-card-title {
+            color: var(--color-brainly-green);
         }
 
         .blog-card-excerpt {
             color: var(--text-secondary);
             font-size: 0.88rem;
-            line-height: 1.5;
+            line-height: 1.55;
             flex: 1;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .blog-card-footer {
@@ -194,20 +288,21 @@
             align-items: center;
             justify-content: space-between;
             font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--color-brainly-green);
+            font-weight: 600;
+            color: var(--text-secondary);
             margin-top: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 12px;
+            padding-top: 8px;
         }
 
-        .blog-card-author {
+        .blog-card-arrow {
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.78rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .blog-card:hover .blog-card-arrow {
+            transform: translateX(4px);
+            color: var(--color-brainly-green);
         }
 
         .loading-wrapper {
@@ -228,6 +323,22 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 860px) {
+            .featured-card {
+                grid-template-columns: 1fr;
+            }
+            .featured-cover-wrap {
+                height: 240px;
+                min-height: auto;
+            }
+            .featured-content {
+                padding: 24px;
+            }
+            .featured-title {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 
     <script src="js/theme.js"></script>
@@ -263,7 +374,13 @@
             </div>
         </div>
 
-        <!-- Siatka wszystkich wpisów -->
+        <!-- Wyróżniony artykuł na samej górze (Featured Post) -->
+        <div id="featured-post-wrapper" class="featured-post-container"></div>
+
+        <!-- Tytuł listy -->
+        <h2 id="grid-section-title" class="section-subtitle">Recent Updates</h2>
+
+        <!-- Siatka pozostałych artykułów -->
         <div id="blog-grid" class="blog-grid">
             <div class="loading-wrapper">
                 <div class="spinner"></div>
@@ -281,19 +398,27 @@
         let activeFilter = 'all';
 
         function calculateReadTime(text) {
-            if (!text) return '1 min read';
-            const wordsPerMinute = 90; // Dostosowane do realistycznego czytania długich publikacji
+            if (!text) return '1 MIN READ';
+            const wordsPerMinute = 90;
             const words = text.trim().split(/\s+/).length;
             const minutes = Math.ceil(words / wordsPerMinute);
-            return `${minutes} min read`;
+            return `${minutes} MIN READ`;
+        }
+
+        function formatImageUrl(path) {
+            if (!path) return '';
+            if (path.startsWith('http://') || path.startsWith('https://')) return path;
+            const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+            return encodeURI(cleanPath);
         }
 
         async function fetchPosts() {
             const grid = document.getElementById("blog-grid");
+            const featuredWrapper = document.getElementById("featured-post-wrapper");
 
             try {
                 const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/content/blog?t=${Date.now()}`;
-                const res = await fetch(apiUrl);
+                const res = await fetch(apiUrl, { cache: 'no-store' });
                 
                 if (res.status === 404) {
                     grid.innerHTML = `<p class="loading-wrapper">No articles published yet.</p>`;
@@ -312,7 +437,7 @@
 
                 allPosts = await Promise.all(jsonFiles.map(async file => {
                     const rawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/content/blog/${file.name}?t=${Date.now()}`;
-                    const contentRes = await fetch(rawUrl);
+                    const contentRes = await fetch(rawUrl, { cache: 'no-store' });
                     const data = await contentRes.json();
                     return { ...data, slug: file.name.replace('.json', '') };
                 }));
@@ -339,44 +464,87 @@
                 return matchesFilter && matchesSearch;
             });
 
-            renderGrid(filtered);
+            renderLayout(filtered, searchQuery !== '' || activeFilter !== 'all');
+        }
+
+        function renderLayout(posts, isFiltered) {
+            const featuredWrapper = document.getElementById("featured-post-wrapper");
+            const grid = document.getElementById("blog-grid");
+
+            if (!posts || posts.length === 0) {
+                featuredWrapper.innerHTML = '';
+                grid.innerHTML = `<p class="loading-wrapper">No articles found matching your criteria.</p>`;
+                return;
+            }
+
+            // Jeśli nie ma filtrów/szukania, pierwszy najnowszy wpis staje się FEATURED
+            if (!isFiltered && posts.length > 0) {
+                const featured = posts[0];
+                const gridPosts = posts.slice(1);
+
+                featuredWrapper.innerHTML = `
+                    <a href="post.html?slug=${featured.slug}" class="featured-card">
+                        <div class="featured-cover-wrap">
+                            <img src="${formatImageUrl(featured.image)}" alt="${featured.title || ''}" class="featured-cover-img">
+                        </div>
+                        <div class="featured-content">
+                            <div class="featured-meta">
+                                <div class="featured-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                    <span>${featured.date ? new Date(featured.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}</span>
+                                </div>
+                                <span>•</span>
+                                <div class="featured-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>${calculateReadTime(featured.body)}</span>
+                                </div>
+                            </div>
+                            <h2 class="featured-title">${featured.title || 'Untitled Post'}</h2>
+                            <p class="featured-excerpt">${featured.excerpt || ''}</p>
+                            <div class="featured-action-btn">
+                                <span>READ THE FULL ARTICLE</span>
+                                <span>&#8594;</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+
+                renderGrid(gridPosts);
+            } else {
+                // Gdy używane są filtry, cała zawartość renderuje się w siatce
+                featuredWrapper.innerHTML = '';
+                renderGrid(posts);
+            }
         }
 
         function renderGrid(posts) {
             const grid = document.getElementById("blog-grid");
+
             if (!posts || posts.length === 0) {
-                grid.innerHTML = `<p class="loading-wrapper">No articles found matching your criteria.</p>`;
+                grid.innerHTML = `<p class="loading-wrapper" style="grid-column: 1/-1;">No more articles in this section.</p>`;
                 return;
             }
 
             grid.innerHTML = posts.map(post => `
                 <a href="post.html?slug=${post.slug}" class="blog-card">
-                    ${post.image ? `
-                        <div class="blog-card-cover-wrap">
-                            <img src="${post.image}" alt="${post.title || ''}" class="blog-card-cover">
-                        </div>
-                    ` : ''}
-                    <div class="blog-card-body">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-tag">${post.category || 'General'}</span>
-                            <div class="blog-card-info-top">
-                                <span>${calculateReadTime(post.body)}</span>
-                                <span>•</span>
-                                <span>${post.date ? new Date(post.date).toLocaleDateString() : ''}</span>
-                            </div>
-                        </div>
-                        <h3 class="blog-card-title">${post.title || 'Untitled Post'}</h3>
-                        <p class="blog-card-excerpt">${post.excerpt || ''}</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-author">By ${post.author || 'BrainlyHQ Team'}</span>
-                            <span>Read Article &#8594;</span>
-                        </div>
+                    <div class="blog-card-cover-wrap">
+                        <img src="${formatImageUrl(post.image)}" alt="${post.title || ''}" class="blog-card-cover">
+                    </div>
+                    <div class="blog-card-meta-row">
+                        <span class="blog-card-category">${post.category || 'General'}</span>
+                        <span>${calculateReadTime(post.body)}</span>
+                    </div>
+                    <h3 class="blog-card-title">${post.title || 'Untitled Post'}</h3>
+                    <p class="blog-card-excerpt">${post.excerpt || ''}</p>
+                    <div class="blog-card-footer">
+                        <span>${post.date ? new Date(post.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}</span>
+                        <span class="blog-card-arrow">&#8594;</span>
                     </div>
                 </a>
             `).join('');
         }
 
-        // Filtrowanie kategorii
+        // Eventy filtrowania kategorii
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
