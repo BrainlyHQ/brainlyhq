@@ -33,17 +33,20 @@
             align-items: center;
             gap: 16px;
             margin-bottom: 40px;
+            width: fit-content;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .search-box {
             position: relative;
             width: 100%;
-            max-width: 420px;
         }
 
         .search-input {
             width: 100%;
-            padding: 10px 18px 10px 42px;
+            padding: 12px 18px 12px 42px;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             background-color: var(--bg-secondary);
@@ -51,11 +54,13 @@
             font-family: var(--font-primary);
             font-size: 0.88rem;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
         }
 
         .search-input:focus {
             border-color: var(--color-brainly-green);
+            box-shadow: 0 0 10px rgba(153, 238, 96, 0.15);
         }
 
         .search-icon {
@@ -73,6 +78,7 @@
             justify-content: center;
             gap: 8px;
             flex-wrap: wrap;
+            width: 100%;
         }
 
         .filter-btn {
@@ -158,9 +164,13 @@
             letter-spacing: 0.5px;
         }
 
-        .blog-card-date {
+        .blog-card-info-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             color: var(--text-secondary);
-            font-family: monospace;
+            font-size: 0.75rem;
+            font-family: var(--font-primary);
         }
 
         .blog-card-title {
@@ -182,11 +192,22 @@
         .blog-card-footer {
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: space-between;
             font-size: 0.82rem;
             font-weight: 700;
             color: var(--color-brainly-green);
             margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 12px;
+        }
+
+        .blog-card-author {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .loading-wrapper {
@@ -259,6 +280,14 @@
         let allPosts = [];
         let activeFilter = 'all';
 
+        function calculateReadTime(text) {
+            if (!text) return '1 min read';
+            const wordsPerMinute = 200;
+            const words = text.trim().split(/\s+/).length;
+            const minutes = Math.ceil(words / wordsPerMinute);
+            return `${minutes} min read`;
+        }
+
         async function fetchPosts() {
             const grid = document.getElementById("blog-grid");
 
@@ -330,12 +359,17 @@
                     <div class="blog-card-body">
                         <div class="blog-card-meta">
                             <span class="blog-card-tag">${post.category || 'General'}</span>
-                            <span class="blog-card-date">${post.date ? new Date(post.date).toLocaleDateString() : ''}</span>
+                            <div class="blog-card-info-top">
+                                <span>${calculateReadTime(post.body)}</span>
+                                <span>•</span>
+                                <span>${post.date ? new Date(post.date).toLocaleDateString() : ''}</span>
+                            </div>
                         </div>
                         <h3 class="blog-card-title">${post.title || 'Untitled Post'}</h3>
                         <p class="blog-card-excerpt">${post.excerpt || ''}</p>
                         <div class="blog-card-footer">
-                            <span>Read Article</span> &#8594;
+                            <span class="blog-card-author">By ${post.author || 'BrainlyHQ Team'}</span>
+                            <span>Read Article &#8594;</span>
                         </div>
                     </div>
                 </a>
