@@ -55,12 +55,13 @@
             font-weight: 700;
         }
 
+        /* PKT 1: Zmniejszony odstęp pod obrazkiem o ~40% (z 32px na 20px) */
         .post-cover-img {
             width: 100%;
             max-height: 420px;
             object-fit: cover;
             border-radius: 16px;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
             border: 1px solid var(--border-color);
         }
 
@@ -80,7 +81,7 @@
             margin-bottom: 0;
         }
 
-        /* NAGŁÓWKI H1 - H6 Z WYRAŹNYMI RÓŻNICAMI WIELKOŚCI */
+        /* PKT 2: Zmniejszony odstęp poniżej nagłówków (margin-bottom z 0.6em na 0.25em) */
         .post-body h1, 
         .post-body h2, 
         .post-body h3, 
@@ -90,8 +91,8 @@
             color: var(--color-brainly-green);
             font-weight: 800;
             line-height: 1.25;
-            margin-top: 1.6em;
-            margin-bottom: 0.6em;
+            margin-top: 1.5em;
+            margin-bottom: 0.25em;
         }
 
         .post-body h1 { font-size: 2.3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
@@ -121,7 +122,7 @@
             box-sizing: border-box;
         }
 
-        /* RESET PRZESKOKÓW MARGINESU PO LISTACH I AKAPITACH */
+        /* RESET PRZESKOKÓW MARGINESU PO LISTACH, AKAPITACH I NAGŁÓWKACH */
         .post-body ul + blockquote,
         .post-body ol + blockquote,
         .post-body p + blockquote,
@@ -253,7 +254,6 @@
             }
 
             try {
-                // cache: 'no-store' pozwala omijać buforowanie przeglądarki po zmianach w Sveltia CMS
                 const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/content/blog/${slug}.json?t=${Date.now()}`, {
                     cache: 'no-store'
                 });
