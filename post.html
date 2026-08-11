@@ -112,26 +112,36 @@
         }
         .post-body li { margin-bottom: 4px; }
 
-        /* PROSTA KRESKA W QUOTE ORAZ MINIMALNY ODSTĘP */
+        /* ZAWSZE JEDNOLITY ODSTĘP CYTATU */
         .post-body blockquote {
-            margin: 0.4em 0;
-            padding: 4px 12px;
+            margin-top: 0.8em !important;
+            margin-bottom: 0.8em !important;
+            padding: 6px 14px;
             background-color: var(--bg-secondary);
             border-left: 4px solid var(--color-brainly-green);
-            border-radius: 0; /* PROSTA KRESKA BEZ ZAGIĘĆ */
+            border-radius: 0; /* PROSTA KRESKA */
             font-style: italic;
             color: var(--text-secondary);
             box-sizing: border-box;
         }
 
-        /* ELIMINACJA SZYBKICH PRZESKOKÓW MARGINESÓW STYKOWYCH */
+        /* ZEROWANIE NAKŁADAJĄCYCH SIĘ MARGINESÓW PRZED CYTATEM */
         .post-body p + blockquote,
         .post-body ul + blockquote,
         .post-body ol + blockquote,
         .post-body h1 + blockquote,
         .post-body h2 + blockquote,
-        .post-body h3 + blockquote {
-            margin-top: 0.1em;
+        .post-body h3 + blockquote,
+        .post-body h4 + blockquote,
+        .post-body h5 + blockquote,
+        .post-body h6 + blockquote {
+            margin-top: 0.8em !important;
+        }
+
+        .post-body p:has(+ blockquote),
+        .post-body ul:has(+ blockquote),
+        .post-body ol:has(+ blockquote) {
+            margin-bottom: 0 !important;
         }
 
         .post-body blockquote p {
