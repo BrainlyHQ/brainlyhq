@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get Changed Blog Files
+      - name: Get Added Blog Files
         id: changed-files
         uses: tj-actions/changed-files@v45
         with:
@@ -27,7 +27,8 @@ jobs:
         shell: bash
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          # ZMIANA: Przekazujemy tylko NOWO DODANE pliki (ignoruje edycje istniejących)
+          ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
         run: |
           LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/brainlycorewhite.png"
 
@@ -36,13 +37,13 @@ jobs:
             exit 1
           fi
 
-          if [ -z "$ALL_CHANGED_FILES" ]; then
-            echo "Brak nowych lub zmodyfikowanych plików JSON."
+          if [ -z "$ADDED_FILES" ]; then
+            echo "Brak nowo dodanych artykułów JSON (pomijanie powiadomienia o edycji)."
             exit 0
           fi
 
-          for FILE in $ALL_CHANGED_FILES; do
-            echo "=== Przetwarzanie pliku: $FILE ==="
+          for FILE in $ADDED_FILES; do
+            echo "=== Przetwarzanie nowego artykułu: $FILE ==="
 
             TITLE=$(jq -r '.title // "New Blog Post"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
@@ -50,7 +51,7 @@ jobs:
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
-            # Konwersja ścieżki obrazka na pełny adres URL i kodowanie znaków specjalnych (spacje, nawiasy)
+            # Konwersja ścieżki obrazka na pełny adres URL i kodowanie znaków specjalnych
             IMAGE_URL=""
             if [ -n "$IMAGE_RAW" ] && [ "$IMAGE_RAW" != "null" ]; then
               if [[ "$IMAGE_RAW" =~ ^https?:// ]]; then
