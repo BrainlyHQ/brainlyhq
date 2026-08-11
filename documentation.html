@@ -133,76 +133,33 @@
             color: #000000;
             border-color: var(--color-brainly-green);
         }
-        .discord-info-box {
-            background-color: rgba(153, 238, 96, 0.05);
-            border: 1px solid rgba(153, 238, 96, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 40px;
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 0;
-        }
-        .discord-info-icon {
-            color: var(--color-brainly-green);
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-        }
-        .discord-info-text h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            margin-top: 0;
-        }
-        .discord-info-text p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin: 0;
-        }
-        .discord-info-text a {
-            color: var(--color-brainly-green);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .discord-info-text a:hover {
-            text-decoration: underline;
-        }
         @media (max-width: 600px) {
             .support-page-wrapper {
                 padding-top: 40px !important;
                 padding-bottom: 40px !important;
-            }
-            .discord-info-box {
-                flex-direction: column;
-                gap: 12px;
             }
         }
     </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 
-   <!-- OneSignal Push Notifications (Typical Site) -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
-      safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
-    });
-  });
-</script>
+    <!-- OneSignal Push Notifications (Typical Site) -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
+          safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
+        });
+      });
+    </script>
 </head>
 <body>
 
     <div id="google_translate_element"></div>
     <header id="header-placeholder"></header>
 
-    <!-- Usunąłem stąd style margin, przerzuciłem kontrolę na sztywne i równe padding-top i padding-bottom kontenera -->
     <main class="support-page-wrapper">
         <div class="support-header">
             <h1 class="content-title">Documentation & Archives</h1>
@@ -225,6 +182,18 @@
             <div class="document-category">
                 <h4>Rules & System Design</h4>
                 <ul class="file-list">
+                    <li>
+                        <a href="assets/BRAINLYHQ ECOSYSTEM REGULATIONS.pdf" class="file-item" download>
+                            <div class="file-info">
+                                <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                                <span class="file-name">BRAINLYHQ ECOSYSTEM REGULATIONS.pdf</span>
+                            </div>
+                            <span class="download-badge">PDF</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="assets/LIST OF CHANCES & RULES.pdf" class="file-item" download>
                             <div class="file-info">
@@ -316,21 +285,6 @@
                         </a>
                     </li>
                 </ul>
-            </div>
-
-            <div class="discord-info-box">
-                <svg class="discord-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-                <div class="discord-info-text">
-                    <h4>Looking for the server rules?</h4>
-                    <p>
-                        Our complete and up-to-date Community Rules & Guidelines are published directly on the Discord server in the dedicated channel. 
-                        Join our <a href="https://discord.com/invite/PDMDnYDaG5" target="_blank">Discord Server</a> to review them.
-                    </p>
-                </div>
             </div>
 
         </div>
