@@ -30,8 +30,13 @@ jobs:
         run: |
           LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/BRAINLYHQ%20LOGO.png"
 
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "CRITICAL ERROR: Secret DISCORD_BLOG_WEBHOOK jest pusty!"
+            exit 1
+          fi
+
           for FILE in $ALL_CHANGED_FILES; do
-            echo "Przetwarzanie wpisu: $FILE"
+            echo "=== Wyryto plik: $FILE ==="
 
             TITLE=$(jq -r '.title // "Nowy wpis na blogu"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
@@ -40,6 +45,7 @@ jobs:
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
+            # Konstrukcja payloadu JSON
             PAYLOAD=$(jq -n \
               --arg title "$TITLE" \
               --arg desc "$EXCERPT" \
@@ -62,7 +68,7 @@ jobs:
                       inline: true
                     }
                   ],
-                  image: (if $image != "" then {url: $image} else null end),
+                  image: (if $image != "" and $image != null then {url: $image} else null end),
                   footer: {
                     text: "BrainlyHQ News • discord.brainly.com",
                     icon_url: $logo
@@ -70,5 +76,16 @@ jobs:
                 }]
               }')
 
-            curl -H "Content-Type: application/json" -X POST -d "$PAYLOAD" "$WEBHOOK_URL"
+            echo "Wysyłanie danych do Discorda..."
+            RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Content-Type: application/json" -X POST -d "$PAYLOAD" "$WEBHOOK_URL")
+            echo "Discord API Response Code: $RESPONSE"
+
+            if [ "$RESPONSE" -ne 200 ] && [ "$RESPONSE" -ne 204 ]; then
+              echo "BŁĄD WYSYŁANIA! Kod odpowiedzi Discorda: $RESPONSE"
+              echo "Treść ładunku JSON:"
+              echo "$PAYLOAD"
+              exit 1
+            else
+              echo "Sukces! Wiadomość wysłana (HTTP $RESPONSE)."
+            fi
           done
