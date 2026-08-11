@@ -44,9 +44,9 @@ jobs:
           for FILE in $ALL_CHANGED_FILES; do
             echo "=== Przetwarzanie pliku: $FILE ==="
 
-            TITLE=$(jq -r '.title // "Nowy wpis na blogu"' "$FILE")
+            TITLE=$(jq -r '.title // "New Blog Post"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
-            CATEGORY=$(jq -r '.category // "Ogólne"' "$FILE")
+            CATEGORY=$(jq -r '.category // "General"' "$FILE")
             IMAGE=$(jq -r '.image // ""' "$FILE")
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
@@ -59,6 +59,7 @@ jobs:
               --arg image "$IMAGE" \
               --arg logo "$LOGO_URL" \
               '{
+                content: "<@&1536718339207077959>",
                 username: "BrainlyHQ Blog",
                 avatar_url: $logo,
                 embeds: [{
@@ -68,15 +69,14 @@ jobs:
                   color: 10088032,
                   fields: [
                     {
-                      name: "Kategoria",
+                      name: "Category",
                       value: $category,
                       inline: true
                     }
                   ],
                   image: (if $image != "" and $image != null then {url: $image} else null end),
                   footer: {
-                    text: "BrainlyHQ News • discord.brainly.com",
-                    icon_url: $logo
+                    text: "BrainlyHQ News • discord.brainly.com"
                   }
                 }]
               }')
