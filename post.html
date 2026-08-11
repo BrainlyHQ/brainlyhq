@@ -112,20 +112,36 @@
         }
         .post-body li { margin-bottom: 4px; }
 
-        /* BLOK CYTATU (JEDNOLITY ODSTĘP GÓRA/DÓŁ) */
-        .post-body blockquote {
+        /* UJEDNOLICENIE BLOKÓW: CYTAT (BLOCKQUOTE) I KOD (PRE) */
+        .post-body blockquote,
+        .post-body pre {
             margin: 1.2em 0;
-            padding: 12px 18px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        /* RESET PRZESKOKÓW MARGINESU PO LISTACH I AKAPITACH */
+        .post-body ul + blockquote,
+        .post-body ol + blockquote,
+        .post-body p + blockquote,
+        .post-body ul + pre,
+        .post-body ol + pre,
+        .post-body p + pre {
+            margin-top: 0.4em;
+        }
+
+        /* DEDYKOWANA STYLIZACJA BLOKU CYTATU */
+        .post-body blockquote {
             background-color: var(--bg-secondary);
             border-left: 4px solid var(--color-brainly-green);
-            border-radius: 0 8px 8px 0;
             font-style: italic;
             color: var(--text-secondary);
         }
 
         .post-body blockquote p {
-            margin-top: 0;
-            margin-bottom: 0;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
             line-height: 1.5;
         }
 
@@ -140,14 +156,11 @@
             color: var(--color-brainly-green);
         }
 
-        /* BLOK KODU (IDENTYCZNY MARGINES JAK QUOTE: 1.2em 0) */
+        /* DEDYKOWANA STYLIZACJA BLOKU KODU */
         .post-body pre {
             background-color: #1e1e1e;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 14px 18px;
             overflow-x: auto;
-            margin: 1.2em 0;
             display: block;
         }
 
