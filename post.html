@@ -42,10 +42,17 @@
             margin-bottom: 14px;
         }
 
-        .post-date {
-            font-family: monospace;
+        .post-meta-details {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             color: var(--text-secondary);
             font-size: 0.88rem;
+        }
+
+        .post-author {
+            color: var(--text-primary);
+            font-weight: 700;
         }
 
         .post-cover-img {
@@ -107,6 +114,14 @@
         const REPO_OWNER = "Ksperix";
         const REPO_NAME = "brainlyhq";
 
+        function calculateReadTime(text) {
+            if (!text) return '1 min read';
+            const wordsPerMinute = 200;
+            const words = text.trim().split(/\s+/).length;
+            const minutes = Math.ceil(words / wordsPerMinute);
+            return `${minutes} min read`;
+        }
+
         async function loadSinglePost() {
             const params = new URLSearchParams(window.location.search);
             const slug = params.get("slug");
@@ -118,7 +133,7 @@
             }
 
             try {
-                const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/content/blog/${slug}.json`);
+                const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/content/blog/${slug}.json?t=${Date.now()}`);
                 if (!res.ok) throw new Error("Post not found");
 
                 const post = await res.json();
@@ -128,7 +143,13 @@
                     <div class="post-header">
                         <span class="post-tag">${post.category || 'General'}</span>
                         <h1 class="post-title">${post.title}</h1>
-                        <div class="post-date">${post.date ? new Date(post.date).toLocaleDateString() : ''}</div>
+                        <div class="post-meta-details">
+                            <span class="post-author">By ${post.author || 'BrainlyHQ Team'}</span>
+                            <span>•</span>
+                            <span>${post.date ? new Date(post.date).toLocaleDateString() : ''}</span>
+                            <span>•</span>
+                            <span>${calculateReadTime(post.body)}</span>
+                        </div>
                     </div>
                     ${post.image ? `<img src="${post.image}" class="post-cover-img" alt="${post.title}">` : ''}
                     <div class="post-body">
