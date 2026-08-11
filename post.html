@@ -184,14 +184,35 @@
             display: block;
         }
 
-        /* OBRAZKI I SEPARATORY */
+        /* OBRAZKI W TREŚCI (JEDNOLITY ZBIEG MARGINESÓW GÓRA / DÓŁ) */
         .post-body img {
             max-width: 100%;
             height: auto;
             border-radius: 12px;
-            margin: 1.2em 0;
+            margin: 0.8em 0 !important;
             border: 1px solid var(--border-color);
             display: block;
+        }
+
+        .post-body ul + img,
+        .post-body ol + img,
+        .post-body p + img {
+            margin-top: 0.8em !important;
+        }
+
+        .post-body ul:has(+ img),
+        .post-body ol:has(+ img),
+        .post-body p:has(+ img) {
+            margin-bottom: 0 !important;
+        }
+
+        .post-body img + h1,
+        .post-body img + h2,
+        .post-body img + h3,
+        .post-body img + h4,
+        .post-body img + h5,
+        .post-body img + h6 {
+            margin-top: 0.8em !important;
         }
 
         .post-body hr {
