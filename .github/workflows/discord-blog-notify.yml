@@ -50,15 +50,17 @@ jobs:
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
-            # Konwersja ścieżki obrazka na pełny adres URL
+            # Konwersja ścieżki obrazka na pełny adres URL i kodowanie znaków specjalnych (spacje, nawiasy)
             IMAGE_URL=""
             if [ -n "$IMAGE_RAW" ] && [ "$IMAGE_RAW" != "null" ]; then
               if [[ "$IMAGE_RAW" =~ ^https?:// ]]; then
-                IMAGE_URL="$IMAGE_RAW"
+                FULL_PATH="$IMAGE_RAW"
               else
                 CLEAN_PATH=$(echo "$IMAGE_RAW" | sed 's/^\///')
-                IMAGE_URL="https://discord.brainly.com/$CLEAN_PATH"
+                FULL_PATH="https://discord.brainly.com/$CLEAN_PATH"
               fi
+              # Bezpieczne kodowanie znaków specjalnych w URL
+              IMAGE_URL=$(jq -nr --arg url "$FULL_PATH" '$url | @uri' | sed 's/%3A/:/g; s/%2F/\//g')
             fi
 
             PAYLOAD=$(jq -n \
