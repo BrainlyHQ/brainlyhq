@@ -55,7 +55,6 @@
             font-weight: 700;
         }
 
-        /* PKT 1: Zmniejszony odstęp pod obrazkiem o ~40% (z 32px na 20px) */
         .post-cover-img {
             width: 100%;
             max-height: 420px;
@@ -81,7 +80,7 @@
             margin-bottom: 0;
         }
 
-        /* PKT 2: Zmniejszony odstęp poniżej nagłówków (margin-bottom z 0.6em na 0.25em) */
+        /* NAGŁÓWKI H1 - H6 */
         .post-body h1, 
         .post-body h2, 
         .post-body h3, 
@@ -113,37 +112,32 @@
         }
         .post-body li { margin-bottom: 4px; }
 
-        /* UJEDNOLICENIE BLOKÓW: CYTAT (BLOCKQUOTE) I KOD (PRE) */
-        .post-body blockquote,
-        .post-body pre {
-            margin: 1.2em 0;
-            padding: 14px 18px;
-            border-radius: 8px;
+        /* PROSTA KRESKA W QUOTE ORAZ MINIMALNY ODSTĘP */
+        .post-body blockquote {
+            margin: 0.4em 0;
+            padding: 4px 12px;
+            background-color: var(--bg-secondary);
+            border-left: 4px solid var(--color-brainly-green);
+            border-radius: 0; /* PROSTA KRESKA BEZ ZAGIĘĆ */
+            font-style: italic;
+            color: var(--text-secondary);
             box-sizing: border-box;
         }
 
-        /* RESET PRZESKOKÓW MARGINESU PO LISTACH, AKAPITACH I NAGŁÓWKACH */
+        /* ELIMINACJA SZYBKICH PRZESKOKÓW MARGINESÓW STYKOWYCH */
+        .post-body p + blockquote,
         .post-body ul + blockquote,
         .post-body ol + blockquote,
-        .post-body p + blockquote,
-        .post-body ul + pre,
-        .post-body ol + pre,
-        .post-body p + pre {
-            margin-top: 0.4em;
-        }
-
-        /* DEDYKOWANA STYLIZACJA BLOKU CYTATU */
-        .post-body blockquote {
-            background-color: var(--bg-secondary);
-            border-left: 4px solid var(--color-brainly-green);
-            font-style: italic;
-            color: var(--text-secondary);
+        .post-body h1 + blockquote,
+        .post-body h2 + blockquote,
+        .post-body h3 + blockquote {
+            margin-top: 0.1em;
         }
 
         .post-body blockquote p {
             margin-top: 0 !important;
             margin-bottom: 0 !important;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         /* INLINE CODE (JEDNOLINIOWY) */
@@ -161,8 +155,12 @@
         .post-body pre {
             background-color: #1e1e1e;
             border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin: 0.8em 0;
             overflow-x: auto;
             display: block;
+            box-sizing: border-box;
         }
 
         .post-body pre code {
