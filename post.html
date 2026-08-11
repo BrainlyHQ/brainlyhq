@@ -235,6 +235,13 @@
             return `${minutes} min read`;
         }
 
+        function formatImageUrl(path) {
+            if (!path) return '';
+            if (path.startsWith('http://') || path.startsWith('https://')) return path;
+            const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+            return encodeURI(cleanPath);
+        }
+
         async function loadSinglePost() {
             const params = new URLSearchParams(window.location.search);
             const slug = params.get("slug");
@@ -246,7 +253,10 @@
             }
 
             try {
-                const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/content/blog/${slug}.json?t=${Date.now()}`);
+                // cache: 'no-store' pozwala omijać buforowanie przeglądarki po zmianach w Sveltia CMS
+                const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/content/blog/${slug}.json?t=${Date.now()}`, {
+                    cache: 'no-store'
+                });
                 if (!res.ok) throw new Error("Post not found");
 
                 const post = await res.json();
@@ -264,7 +274,7 @@
                             <span>${calculateReadTime(post.body)}</span>
                         </div>
                     </div>
-                    ${post.image ? `<img src="${post.image}" class="post-cover-img" alt="${post.title}">` : ''}
+                    ${post.image ? `<img src="${formatImageUrl(post.image)}" class="post-cover-img" alt="${post.title}">` : ''}
                     <div class="post-body">
                         ${marked.parse(post.body || '')}
                     </div>
