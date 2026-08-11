@@ -29,7 +29,7 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/BRAINLYHQ%20LOGO.png"
+          LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/brainlycorewhite.png"
 
           if [ -z "$WEBHOOK_URL" ]; then
             echo "CRITICAL ERROR: Secret DISCORD_BLOG_WEBHOOK jest pusty!"
@@ -46,18 +46,16 @@ jobs:
 
             TITLE=$(jq -r '.title // "New Blog Post"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
-            CATEGORY=$(jq -r '.category // "General"' "$FILE")
             IMAGE_RAW=$(jq -r '.image // ""' "$FILE")
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
-            # Konwersja ścieżki obrazka na pełny adres URL (jeśli jest relatywna)
+            # Konwersja ścieżki obrazka na pełny adres URL
             IMAGE_URL=""
             if [ -n "$IMAGE_RAW" ] && [ "$IMAGE_RAW" != "null" ]; then
               if [[ "$IMAGE_RAW" =~ ^https?:// ]]; then
                 IMAGE_URL="$IMAGE_RAW"
               else
-                # Usuwamy ewentualny ukośnik z początku ścieżki
                 CLEAN_PATH=$(echo "$IMAGE_RAW" | sed 's/^\///')
                 IMAGE_URL="https://discord.brainly.com/$CLEAN_PATH"
               fi
@@ -67,7 +65,6 @@ jobs:
               --arg title "$TITLE" \
               --arg desc "$EXCERPT" \
               --arg url "$POST_URL" \
-              --arg category "$CATEGORY" \
               --arg image "$IMAGE_URL" \
               --arg logo "$LOGO_URL" \
               '{
@@ -79,17 +76,7 @@ jobs:
                   description: $desc,
                   url: $url,
                   color: 10088032,
-                  fields: [
-                    {
-                      name: "Category",
-                      value: $category,
-                      inline: true
-                    }
-                  ],
-                  image: (if $image != "" and $image != null then {url: $image} else null end),
-                  footer: {
-                    text: "BrainlyHQ News • discord.brainly.com"
-                  }
+                  image: (if $image != "" and $image != null then {url: $image} else null end)
                 }]
               }')
 
