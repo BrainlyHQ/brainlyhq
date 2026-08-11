@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'content/blog/*.json' # Uruchamia się TYLKO gdy zmieni/doda się plik posta
+      - 'content/blog/*.json'
 
 jobs:
   notify:
@@ -13,26 +13,25 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Get Changed Blog Files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
         with:
-          fetch-depth: 2 # Pobiera 2 ostatnie commity do porównania różnic
+          files: |
+            content/blog/*.json
 
       - name: Send Rich Discord Embed
+        if: steps.changed-files.outputs.any_changed == 'true'
         shell: bash
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          # Znajdź nowo dodane lub zmodyfikowane pliki JSON w katalogu bloga
-          ADDED_FILES=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD | grep '^content/blog/.*\.json$' || true)
+          for FILE in $ALL_CHANGED_FILES; do
+            echo "Przetwarzanie nowego/zaktualizowanego wpisu: $FILE"
 
-          if [ -z "$ADDED_FILES" ]; then
-            echo "Brak nowych lub zmodyfikowanych postów."
-            exit 0
-          fi
-
-          for FILE in $ADDED_FILES; do
-            echo "Przetwarzanie pliku: $FILE"
-
-            # Odczyt danych z pliku JSON za pomocą jq
+            # Odczyt danych z JSON
             TITLE=$(jq -r '.title // "Nowy wpis na blogu"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
             CATEGORY=$(jq -r '.category // "Ogólne"' "$FILE")
@@ -40,7 +39,7 @@ jobs:
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
-            # Przygotowanie payloadu JSON dla Discord Embed
+            # Konstrukcja ładunku JSON dla Discorda
             PAYLOAD=$(jq -n \
               --arg title "$TITLE" \
               --arg desc "$EXCERPT" \
@@ -70,6 +69,6 @@ jobs:
                 }]
               }')
 
-            # Wysyłanie powiadomienia na Discorda
+            # Wysyłanie powiadomienia
             curl -H "Content-Type: application/json" -X POST -d "$PAYLOAD" "$WEBHOOK_URL"
           done
