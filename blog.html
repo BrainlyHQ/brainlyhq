@@ -282,7 +282,7 @@
 
         function calculateReadTime(text) {
             if (!text) return '1 min read';
-            const wordsPerMinute = 100; // Dostosowane do realistycznego czytania długich publikacji
+            const wordsPerMinute = 90; // Dostosowane do realistycznego czytania długich publikacji
             const words = text.trim().split(/\s+/).length;
             const minutes = Math.ceil(words / wordsPerMinute);
             return `${minutes} min read`;
