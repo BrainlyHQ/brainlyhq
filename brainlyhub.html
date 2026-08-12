@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainlyHub Database - BrainlyHQ</title>
+
+    <!-- WERYFIKACJA DOKŁADNIE PRZED ZAŁADOWANIEM TREŚCI STRONY -->
+    <script>
+        (function() {
+            const sessionUser = sessionStorage.getItem("brainly_hub_user");
+            if (!sessionUser) {
+                // Jeśli brak wpisu o sesji, natychmiast przekieruj do bramki logowania
+                window.location.replace("hub.html");
+            }
+        })();
+    </script>
+
+    <link rel="icon" type="image/png" href="assets/Brainly Hub.png">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Dalszy kod Twojej strony... -->
