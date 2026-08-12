@@ -49,7 +49,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. DELIKATNIEJSZA SIATKA W TLE (POWIĘKSZONA I MOCNIEJ WYTŁUMIONA) */
+        /* 1. DELIKATNA SIATKA W TLE */
         body::before {
             content: "";
             position: fixed;
@@ -65,7 +65,7 @@
             z-index: 0;
         }
 
-        /* 2. WIELOWARSTWOWE ZIELONE NEONY W TLE (GLOW EFFECTS) */
+        /* 2. ZIELONE NEONY WYŁĄCZNIE W TLE (BACKGROUND NEON GLOW) */
         .ambient-glow-top {
             position: fixed;
             top: -200px;
@@ -215,7 +215,7 @@
             margin-bottom: 36px;
         }
 
-        /* WYSZUKIWARKA Z MOCNIEJSZYM NEONEM */
+        /* WYSZUKIWARKA (BEZ GLOW NA LUPIE) */
         .ai-search-box {
             position: relative;
             max-width: 800px;
@@ -224,7 +224,7 @@
             border: 1px solid var(--border-color);
             border-radius: 22px;
             padding: 8px 16px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25), 0 0 15px rgba(153, 238, 96, 0.05);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             align-items: center;
@@ -232,17 +232,17 @@
 
         .ai-search-box:focus-within {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 30px var(--neon-glow-strong), 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 0 25px var(--neon-glow-primary), 0 10px 30px rgba(0,0,0,0.3);
             transform: translateY(-2px);
         }
 
+        /* LUPA BEZ EFEKTU DROPSHADOW/NEONU */
         .search-icon-svg {
             width: 24px;
             height: 24px;
-            color: var(--color-brainly-green);
+            color: var(--text-secondary);
             margin-left: 8px;
             flex-shrink: 0;
-            filter: drop-shadow(0 0 6px var(--color-brainly-green));
         }
 
         .ai-search-input {
@@ -276,7 +276,7 @@
             color: #fff;
         }
 
-        /* PANELE FILTRÓW Z NEONOWYM PODŚWIETLENIEM */
+        /* PANELE FILTRÓW */
         .filters-wrapper {
             max-width: 800px;
             margin: 20px auto 0 auto;
@@ -322,10 +322,9 @@
 
         .filter-select:focus {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 18px var(--neon-glow-primary);
         }
 
-        /* PASEK METRYK Z ZIELONYM WSKAŹNIKIEM LIVE (PULSUJĄCĄ KROPKĄ) */
+        /* PASEK METRYK */
         .engine-metrics-bar {
             display: flex;
             justify-content: center;
@@ -349,13 +348,6 @@
             height: 8px;
             background-color: var(--color-brainly-green);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--color-brainly-green);
-            animation: dotBlink 1.8s infinite ease-in-out;
-        }
-
-        @keyframes dotBlink {
-            0%, 100% { opacity: 0.4; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.2); }
         }
 
         .metric-item {
@@ -367,11 +359,11 @@
             font-weight: 600;
         }
 
+        /* NUMERKI BEZ EFEKTU TEXT-SHADOW / NEONU */
         .metric-item strong {
             color: var(--color-brainly-green);
             font-size: 0.92rem;
             font-weight: 900;
-            text-shadow: 0 0 8px rgba(153, 238, 96, 0.4);
         }
 
         .metric-divider {
@@ -431,26 +423,10 @@
             overflow: hidden;
         }
 
-        .package-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: transparent;
-            transition: background 0.25s ease;
-        }
-
         .package-card:hover {
             transform: translateY(-4px);
             border-color: rgba(153, 238, 96, 0.5);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(153, 238, 96, 0.15);
-        }
-
-        .package-card:hover::before {
-            background: var(--color-brainly-green);
-            box-shadow: 0 0 10px var(--color-brainly-green);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
         }
 
         .package-badges {
@@ -494,12 +470,11 @@
             font-weight: 800;
             font-size: 0.85rem;
             border-radius: 10px;
-            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
         .btn-open-package:hover {
             opacity: 0.95;
-            box-shadow: 0 0 15px var(--neon-glow-primary);
             transform: scale(0.99);
         }
 
@@ -516,10 +491,9 @@
         .placeholder-icon {
             width: 48px;
             height: 48px;
-            color: var(--color-brainly-green);
+            color: var(--text-secondary);
             margin-bottom: 12px;
             opacity: 0.85;
-            filter: drop-shadow(0 0 8px var(--color-brainly-green));
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -529,7 +503,7 @@
 </head>
 <body>
 
-    <!-- 3 NEONOWE PUNKTY ŚWIATŁA W TLE -->
+    <!-- NEONOWE PUNKTY ŚWIATŁA W TLE -->
     <div class="ambient-glow-top"></div>
     <div class="ambient-glow-left"></div>
     <div class="ambient-glow-right"></div>
@@ -558,7 +532,7 @@
             <p class="hero-subtitle">Access global task resources, regional exams, and topic packages</p>
 
             <div class="ai-search-box">
-                <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
@@ -566,7 +540,7 @@
                 <button id="clear-search-btn" class="clear-search-btn" title="Clear search">&times;</button>
             </div>
 
-            <!-- FILTRY DANYCH (LISTY WYBORU) -->
+            <!-- FILTRY DANYCH -->
             <div class="filters-wrapper">
                 <div class="filter-group">
                     <label class="filter-label" for="filter-market">Market / Region</label>
@@ -590,7 +564,7 @@
                 </div>
             </div>
 
-            <!-- PASEK METRYK Z AKTYWNYM WSKAŹNIKIEM -->
+            <!-- PASEK METRYK -->
             <div class="engine-metrics-bar">
                 <div class="live-dot" title="Database connection active"></div>
                 <div class="metric-item">
