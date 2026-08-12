@@ -160,41 +160,6 @@
             text-align: left;
         }
 
-        /* WIDOK DLA ZALOGOWANEGO UŻYTKOWNIKA (DASHBOARD HUB) */
-        .hub-dashboard {
-            max-width: 1140px;
-            margin: 50px auto 80px auto;
-            padding: 0 24px;
-            display: none;
-        }
-
-        .hub-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logout-btn {
-            background-color: transparent;
-            border: 1px solid #ff4a4a;
-            color: #ff4a4a;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-family: var(--font-primary);
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #ff4a4a;
-            color: #ffffff;
-        }
-
         .btn-spinner {
             width: 16px;
             height: 16px;
@@ -218,7 +183,7 @@
     <!-- FORMULARZ LOGOWANIA (PEŁEN EKRAN) -->
     <div id="login-overlay" class="login-overlay">
         <div class="login-card">
-            <img src="assets/Brainly Hub.png" alt="Brainly Hub Logo" class="login-logo">
+            <img id="hub-login-logo" src="assets/Brainly Hub White.png" alt="Brainly Hub Logo" class="login-logo">
             <h1 class="login-title">BrainlyHub</h1>
             <p class="login-subtitle">Access to internal task database &amp; resources</p>
 
@@ -251,74 +216,62 @@
         </div>
     </div>
 
-    <!-- ZAWARTOŚĆ BRAINLY HUB (WIDOCZNA PO ZALOGOWANIU) -->
-    <main id="hub-dashboard" class="hub-dashboard">
-        <div class="hub-header">
-            <div>
-                <h1 class="content-title" style="text-align: left; margin: 0;">BrainlyHub Database</h1>
-                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.9rem;">
-                    Logged in as: <strong id="logged-user-name" style="color: var(--color-brainly-green);">--</strong>
-                </p>
-            </div>
-            <button id="logout-btn" class="logout-btn">Log Out</button>
-        </div>
-
-        <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; text-align: center;">
-            <h3 style="color: var(--text-primary); margin-bottom: 12px;">Welcome to BrainlyHub!</h3>
-            <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
-                This is where the new task database search engine will be built. Your access has been successfully verified via Google Sheets.
-            </p>
-        </div>
-    </main>
-
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // PODMIEŃ PONIŻSZY URL NA TWÓJ ADRES WDROŻENIA GOOGLE APPS SCRIPT
         const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzI83mBJeaMjYz1ye1gJ2MGsJH3MTJhQJ9aCZCn56bihdnau0AkjI-lKR3LL9LhBgGHiA/exec";
 
         const loginForm = document.getElementById("login-form");
         const loginOverlay = document.getElementById("login-overlay");
-        const hubDashboard = document.getElementById("hub-dashboard");
         const loginError = document.getElementById("login-error");
         const submitBtn = document.getElementById("submit-btn");
         const btnText = document.getElementById("btn-text");
         const btnSpinner = document.getElementById("btn-spinner");
         const togglePasswordBtn = document.getElementById("toggle-password");
         const passwordInput = document.getElementById("password");
-        const logoutBtn = document.getElementById("logout-btn");
-        const loggedUserName = document.getElementById("logged-user-name");
+        const hubLogoImg = document.getElementById("hub-login-logo");
 
-        // Sprawdzanie czy użytkownik ma aktywną sesję
-        function checkSession() {
-            const sessionUser = sessionStorage.getItem("brainly_hub_user");
-            if (sessionUser) {
-                showDashboard(sessionUser);
-            } else {
-                showLoginForm();
+        // Funkcja do dynamicznej zmiany ikony logotypu na podstawie motywu
+        function updateLogoTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+            if (hubLogoImg) {
+                if (currentTheme === "light") {
+                    hubLogoImg.src = "assets/Brainly Hub.png";
+                } else {
+                    hubLogoImg.src = "assets/Brainly Hub White.png";
+                }
             }
         }
 
-        function showLoginForm() {
-            document.body.classList.add("login-mode");
-            loginOverlay.style.display = "flex";
-            hubDashboard.style.display = "none";
+        // Obserwowanie zmian atrybutu data-theme na elemencie HTML
+        const themeObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
+                    updateLogoTheme();
+                }
+            });
+        });
+        themeObserver.observe(document.documentElement, { attributes: true });
+
+        // Sprawdzanie aktywnej sesji przy wejściu
+        function checkSession() {
+            const sessionUser = sessionStorage.getItem("brainly_hub_user");
+            if (sessionUser) {
+                // Jeśli użytkownik jest już zalogowany, przejdź bezpośrednio do brainlyhub.html
+                window.location.href = "brainlyhub.html";
+            } else {
+                document.body.classList.add("login-mode");
+                loginOverlay.style.display = "flex";
+            }
         }
 
-        function showDashboard(username) {
-            document.body.classList.remove("login-mode");
-            loginOverlay.style.display = "none";
-            hubDashboard.style.display = "block";
-            loggedUserName.textContent = username;
-        }
-
-        // Obsługa pokazywania/ukrywania hasła
+        // Pokazywanie/ukrywanie hasła
         togglePasswordBtn.addEventListener("click", () => {
             const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
             passwordInput.setAttribute("type", type);
         });
 
-        // Obsługa formularza logowania
+        // Obsługa wysyłania formularza
         loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             loginError.style.display = "none";
@@ -328,7 +281,6 @@
 
             if (!username || !password) return;
 
-            // Stan ładowania
             submitBtn.disabled = true;
             btnText.textContent = "Verifying...";
             btnSpinner.style.display = "block";
@@ -339,7 +291,8 @@
 
                 if (data.success) {
                     sessionStorage.setItem("brainly_hub_user", username);
-                    showDashboard(username);
+                    // PRZEKIEROWANIE NA STRONĘ BRAINLYHUB.HTML
+                    window.location.href = "brainlyhub.html";
                 } else {
                     loginError.textContent = data.message || "Invalid credentials provided.";
                     loginError.style.display = "block";
@@ -355,15 +308,10 @@
             }
         });
 
-        // Obsługa wylogowania
-        logoutBtn.addEventListener("click", () => {
-            sessionStorage.removeItem("brainly_hub_user");
-            document.getElementById("username").value = "";
-            passwordInput.value = "";
-            showLoginForm();
+        document.addEventListener("DOMContentLoaded", () => {
+            updateLogoTheme();
+            checkSession();
         });
-
-        document.addEventListener("DOMContentLoaded", checkSession);
     </script>
 </body>
 </html>
