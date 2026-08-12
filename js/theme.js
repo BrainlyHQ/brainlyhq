@@ -11,8 +11,8 @@ function initTheme() {
     if (savedTheme) {
         currentTheme = savedTheme;
     } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        currentTheme = prefersDark ? 'dark' : 'light';
+        // Domyślnie zawsze motyw ciemny dla nowych użytkowników
+        currentTheme = 'dark';
     }
     
     document.documentElement.setAttribute('data-theme', currentTheme);
@@ -62,7 +62,7 @@ function updateThemeIcon(theme) {
     const themeBtn = document.getElementById('theme-toggle-btn');
     if (!themeBtn) return;
     
-    // Sinc: Jeśli aktywny jest motyw ciemny, przycisk pokazuje SŁOŃCE (sugerując kliknięcie na tryb jasny).
+    // Jeśli aktywny jest motyw ciemny, przycisk pokazuje SŁOŃCE (sugerując kliknięcie na tryb jasny).
     // Jeśli aktywny jest motyw jasny, przycisk wyświetla KSIĘŻYC (sugerując przejście na ciemny).
     if (theme === 'dark') {
         themeBtn.innerHTML = `
