@@ -220,6 +220,7 @@
 
     <script>
         const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzI83mBJeaMjYz1ye1gJ2MGsJH3MTJhQJ9aCZCn56bihdnau0AkjI-lKR3LL9LhBgGHiA/exec";
+        const TARGET_HUB_URL = "https://discord.brainly.com/brainlyhub.html";
 
         const loginForm = document.getElementById("login-form");
         const loginOverlay = document.getElementById("login-overlay");
@@ -231,7 +232,7 @@
         const passwordInput = document.getElementById("password");
         const hubLogoImg = document.getElementById("hub-login-logo");
 
-        // Funkcja do dynamicznej zmiany ikony logotypu na podstawie motywu
+        // Dynamiczna zmiana ikony logotypu na podstawie motywu
         function updateLogoTheme() {
             const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
             if (hubLogoImg) {
@@ -243,7 +244,6 @@
             }
         }
 
-        // Obserwowanie zmian atrybutu data-theme na elemencie HTML
         const themeObserver = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
@@ -257,7 +257,7 @@
         function checkSession() {
             const sessionUser = sessionStorage.getItem("brainly_hub_user");
             if (sessionUser) {
-                window.location.href = "brainlyhub.html";
+                window.location.href = TARGET_HUB_URL;
             } else {
                 document.body.classList.add("login-mode");
                 loginOverlay.style.display = "flex";
@@ -296,7 +296,7 @@
 
                 if (data.success) {
                     sessionStorage.setItem("brainly_hub_user", username);
-                    window.location.href = "brainlyhub.html";
+                    window.location.href = TARGET_HUB_URL;
                 } else {
                     loginError.textContent = data.message || "Invalid credentials provided.";
                     loginError.style.display = "block";
