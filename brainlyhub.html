@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrainlyHub Database - BrainlyHQ</title>
+    <title>BrainlyHub - Search Engine & Database</title>
 
-    <!-- WERYFIKACJA DOKŁADNIE PRZED ZAŁADOWANIEM TREŚCI STRONY -->
+    <!-- 1. NATYCHMIASTOWA WERYFIKACJA SESJI LOGOWANIA (PRZED WYRENDEROWANIEM STRONY) -->
     <script>
         (function() {
             const sessionUser = sessionStorage.getItem("brainly_hub_user");
@@ -18,5 +18,677 @@
 
     <link rel="icon" type="image/png" href="assets/Brainly Hub.png">
     <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Dalszy kod Twojej strony... -->
+
+    <style>
+        /* UKRYCIE GLOBALNEGO HEADEREM I FOOTEREM NA TEJ STRONIE */
+        #header-placeholder, #footer-placeholder {
+            display: none !important;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-primary, sans-serif);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* GÓRNY PASEK NAWIGACYJNY BRAINLY HUB */
+        .hub-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 32px;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .hub-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .hub-brand img {
+            height: 32px;
+            width: auto;
+        }
+
+        .hub-brand-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .hub-user-panel {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-badge {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-badge strong {
+            color: var(--color-brainly-green);
+        }
+
+        .btn-hub-logout {
+            background: transparent;
+            border: 1px solid #ff4a4a;
+            color: #ff4a4a;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-hub-logout:hover {
+            background: #ff4a4a;
+            color: #ffffff;
+        }
+
+        /* GŁÓWNY KONTENER STRONY */
+        .hub-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px 80px 24px;
+            width: 100%;
+            box-sizing: border-box;
+            flex-grow: 1;
+        }
+
+        /* SEKCJA NAGŁÓWKA I WYSZUKIWARKI AI */
+        .hero-search-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-size: 2.4rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.8px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        /* DEDYKOWANY BOX WYSZUKIWARKI W STYLU AI */
+        .ai-search-box {
+            position: relative;
+            max-width: 760px;
+            margin: 0 auto;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 6px 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .ai-search-box:focus-within {
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 0 20px rgba(153, 238, 96, 0.2);
+        }
+
+        .search-icon-svg {
+            width: 22px;
+            height: 22px;
+            color: var(--text-secondary);
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .ai-search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 14px 16px;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            outline: none;
+        }
+
+        .clear-search-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 6px;
+            display: none;
+        }
+
+        /* SEKCJA FILTRÓW */
+        .filters-wrapper {
+            max-width: 900px;
+            margin: 24px auto 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            text-align: left;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        .filter-select, .filter-input {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-family: var(--font-primary);
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            border-color: var(--color-brainly-green);
+        }
+
+        /* STATYSTYKI DASHBOARDU */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin: 48px 0;
+        }
+
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--color-brainly-green);
+            margin-bottom: 4px;
+        }
+
+        .stat-desc {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* LISTA ZADAŃ I WYNIKÓW */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .results-count {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .package-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-brainly-green);
+        }
+
+        .package-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .badge-market { background: rgba(153, 238, 96, 0.15); color: var(--color-brainly-green); }
+        .badge-level { background: rgba(255, 255, 255, 0.08); color: var(--text-primary); }
+        .badge-subject { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+        .package-topic {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .btn-open-package {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 16px;
+            background-color: var(--color-brainly-green);
+            color: #000000;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-open-package:hover {
+            opacity: 0.9;
+        }
+
+        .no-results-box {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--bg-secondary);
+            border: 1px dashed var(--border-color);
+            border-radius: 16px;
+            grid-column: 1 / -1;
+            color: var(--text-secondary);
+        }
+
+        .loading-spinner-container {
+            text-align: center;
+            padding: 60px;
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--color-brainly-green);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px auto;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+
+    <script src="js/theme.js"></script>
+</head>
+<body>
+
+    <!-- GÓRNY PASEK APLIKACJI -->
+    <header class="hub-navbar">
+        <a href="#" class="hub-brand">
+            <img id="hub-nav-logo" src="assets/Brainly Hub White.png" alt="BrainlyHub Logo">
+            <span class="hub-brand-title">BrainlyHub Engine</span>
+        </a>
+
+        <div class="hub-user-panel">
+            <div class="user-badge">
+                User: <strong id="hub-username-display">--</strong>
+            </div>
+            <button id="hub-logout-btn" class="btn-hub-logout">Log Out</button>
+        </div>
+    </header>
+
+    <!-- GŁÓWNA TREŚĆ STRONY -->
+    <main class="hub-container">
+        
+        <!-- NAGŁÓWEK I WYSZUKIWARKA AI -->
+        <section class="hero-search-section">
+            <h1 class="hero-title">Search Question Packages</h1>
+            <p class="hero-subtitle">Access global task resources, regional exams, and topic packages</p>
+
+            <div class="ai-search-box">
+                <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Type topic or phrase (e.g. 'Funkcja liniowa', 'Algebra')..." autocomplete="off">
+                <button id="clear-search-btn" class="clear-search-btn" title="Clear search">&times;</button>
+            </div>
+
+            <!-- FILTRY DANYCH -->
+            <div class="filters-wrapper">
+                <div class="filter-group">
+                    <label class="filter-label" for="filter-market">Market / Region</label>
+                    <select id="filter-market" class="filter-select">
+                        <option value="">All Markets</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label" for="filter-level">Education Level</label>
+                    <select id="filter-level" class="filter-select">
+                        <option value="">All Levels</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label" for="filter-subject">Subject Search</label>
+                    <input type="text" id="filter-subject" class="filter-input" placeholder="Filter subject (e.g. Matematyka)">
+                </div>
+            </div>
+        </section>
+
+        <!-- KARTY STATYSTYK DASHBOARDU -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div id="stat-packages-count" class="stat-value">0</div>
+                <div class="stat-desc">Task Packages</div>
+            </div>
+            <div class="stat-card">
+                <div id="stat-markets-count" class="stat-value">0</div>
+                <div class="stat-desc">Active Markets</div>
+            </div>
+            <div class="stat-card">
+                <div id="stat-subjects-count" class="stat-value">0</div>
+                <div class="stat-desc">Subjects</div>
+            </div>
+            <div class="stat-card">
+                <div id="stat-levels-count" class="stat-value">0</div>
+                <div class="stat-desc">Education Levels</div>
+            </div>
+        </section>
+
+        <!-- SEKCJA WYNIKÓW -->
+        <section>
+            <div class="results-header">
+                <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800;">Question Database</h3>
+                <span id="results-count-text" class="results-count">Loading database...</span>
+            </div>
+
+            <div id="packages-container" class="packages-grid">
+                <div class="loading-spinner-container">
+                    <div class="spinner"></div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Fetching data from Google Sheets...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ADRES API BAZY DANYCH
+        const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
+
+        let fullDatabase = [];
+
+        // Elementy DOM
+        const usernameDisplay = document.getElementById("hub-username-display");
+        const logoutBtn = document.getElementById("hub-logout-btn");
+        const navLogoImg = document.getElementById("hub-nav-logo");
+
+        const searchInput = document.getElementById("ai-search-input");
+        const clearSearchBtn = document.getElementById("clear-search-btn");
+        const filterMarket = document.getElementById("filter-market");
+        const filterLevel = document.getElementById("filter-level");
+        const filterSubject = document.getElementById("filter-subject");
+
+        const packagesContainer = document.getElementById("packages-container");
+        const resultsCountText = document.getElementById("results-count-text");
+
+        const statPackages = document.getElementById("stat-packages-count");
+        const statMarkets = document.getElementById("stat-markets-count");
+        const statSubjects = document.getElementById("stat-subjects-count");
+        const statLevels = document.getElementById("stat-levels-count");
+
+        // Dynamika ikony logo wg motywu
+        function updateLogoTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+            if (navLogoImg) {
+                navLogoImg.src = currentTheme === "light" ? "assets/Brainly Hub.png" : "assets/Brainly Hub White.png";
+            }
+        }
+
+        const themeObserver = new MutationObserver(() => updateLogoTheme());
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+        // Ustawienie nazwy użytkownika
+        const sessionUser = sessionStorage.getItem("brainly_hub_user");
+        if (usernameDisplay) usernameDisplay.textContent = sessionUser || "User";
+
+        // Wylogowanie
+        logoutBtn.addEventListener("click", () => {
+            sessionStorage.removeItem("brainly_hub_user");
+            window.location.replace("hub.html");
+        });
+
+        // POBIERANIE BAZY DANYCH (JSONP)
+        function fetchDatabaseJSONP() {
+            return new Promise((resolve, reject) => {
+                const callbackName = 'jsonp_db_' + Math.round(100000 * Math.random());
+                const script = document.createElement('script');
+
+                window[callbackName] = function(data) {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    resolve(data);
+                };
+
+                script.onerror = function() {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    reject(new Error('JSONP Database fetch failed'));
+                };
+
+                script.src = `${DATABASE_API_URL}?callback=${callbackName}`;
+                document.body.appendChild(script);
+            });
+        }
+
+        async function loadDatabase() {
+            try {
+                const response = await fetchDatabaseJSONP();
+                
+                if (response && response.success && response.data) {
+                    fullDatabase = response.data;
+                    populateFilterDropdowns(fullDatabase);
+                    updateDashboardStats(fullDatabase);
+                    renderPackages(fullDatabase);
+                } else {
+                    showErrorState(response.message || "No data returned from Google Sheets.");
+                }
+            } catch (err) {
+                console.error("Database fetch error:", err);
+                showErrorState("Failed to connect to Question Database.");
+            }
+        }
+
+        // WYPEŁNIANIE DYNAMICZNYCH FILTRÓW
+        function populateFilterDropdowns(data) {
+            const markets = new Set();
+            const levels = new Set();
+
+            data.forEach(item => {
+                if (item.market) markets.add(item.market.trim());
+                if (item.level) levels.add(item.level.trim());
+            });
+
+            markets.forEach(m => {
+                const opt = document.createElement("option");
+                opt.value = m;
+                opt.textContent = m;
+                filterMarket.appendChild(opt);
+            });
+
+            levels.forEach(l => {
+                const opt = document.createElement("option");
+                opt.value = l;
+                opt.textContent = l;
+                filterLevel.appendChild(opt);
+            });
+        }
+
+        // AKTUAKIZACJA STATYSTYK
+        function updateDashboardStats(data) {
+            const markets = new Set(data.map(i => i.market ? i.market.trim() : "").filter(Boolean));
+            const subjects = new Set(data.map(i => i.subject ? i.subject.trim().toLowerCase() : "").filter(Boolean));
+            const levels = new Set(data.map(i => i.level ? i.level.trim() : "").filter(Boolean));
+
+            statPackages.textContent = data.length;
+            statMarkets.textContent = markets.size;
+            statSubjects.textContent = subjects.size;
+            statLevels.textContent = levels.size;
+        }
+
+        // RENDEROWANIE KART PACZEK
+        function renderPackages(data) {
+            packagesContainer.innerHTML = "";
+            resultsCountText.textContent = `Showing ${data.length} packages`;
+
+            if (data.length === 0) {
+                packagesContainer.innerHTML = `
+                    <div class="no-results-box">
+                        <h4>No matching task packages found</h4>
+                        <p>Try adjusting your search query or filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            data.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "package-card";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="package-badges">
+                            ${item.market ? `<span class="badge badge-market">${escapeHtml(item.market)}</span>` : ''}
+                            ${item.level ? `<span class="badge badge-level">${escapeHtml(item.level)}</span>` : ''}
+                            ${item.subject ? `<span class="badge badge-subject">${escapeHtml(item.subject)}</span>` : ''}
+                        </div>
+                        <div class="package-topic">${escapeHtml(item.topic || 'Untitled Package')}</div>
+                    </div>
+                    <div>
+                        ${item.link ? `
+                            <a href="${escapeHtml(item.link)}" target="_blank" class="btn-open-package">
+                                <span>Open Task Package</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                        ` : '<span style="font-size:0.8rem; color:var(--text-secondary);">No link available</span>'}
+                    </div>
+                `;
+
+                packagesContainer.appendChild(card);
+            });
+        }
+
+        // INTELIGENTNE FILTROWANIE
+        function filterData() {
+            const query = searchInput.value.trim().toLowerCase();
+            const selectedMarket = filterMarket.value.toLowerCase();
+            const selectedLevel = filterLevel.value.toLowerCase();
+            const subjectQuery = filterSubject.value.trim().toLowerCase();
+
+            clearSearchBtn.style.display = query ? "block" : "none";
+
+            const filtered = fullDatabase.filter(item => {
+                const topic = (item.topic || "").toLowerCase();
+                const market = (item.market || "").toLowerCase();
+                const level = (item.level || "").toLowerCase();
+                const subject = (item.subject || "").toLowerCase();
+
+                const matchesQuery = !query || topic.includes(query) || subject.includes(query);
+                const matchesMarket = !selectedMarket || market === selectedMarket;
+                const matchesLevel = !selectedLevel || level === selectedLevel;
+                const matchesSubject = !subjectQuery || subject.includes(subjectQuery);
+
+                return matchesQuery && matchesMarket && matchesLevel && matchesSubject;
+            });
+
+            renderPackages(filtered);
+        }
+
+        searchInput.addEventListener("input", filterData);
+        filterMarket.addEventListener("change", filterData);
+        filterLevel.addEventListener("change", filterData);
+        filterSubject.addEventListener("input", filterData);
+
+        clearSearchBtn.addEventListener("click", () => {
+            searchInput.value = "";
+            filterData();
+            searchInput.focus();
+        });
+
+        function showErrorState(msg) {
+            packagesContainer.innerHTML = `
+                <div class="no-results-box" style="border-color: #ff4a4a; color: #ff4a4a;">
+                    <h4>Database Connection Error</h4>
+                    <p>${msg}</p>
+                </div>
+            `;
+            resultsCountText.textContent = "Error loading data";
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateLogoTheme();
+            loadDatabase();
+        });
+    </script>
+</body>
+</html>
