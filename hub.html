@@ -257,7 +257,6 @@
         function checkSession() {
             const sessionUser = sessionStorage.getItem("brainly_hub_user");
             if (sessionUser) {
-                // Jeśli użytkownik jest już zalogowany, przejdź bezpośrednio do brainlyhub.html
                 window.location.href = "brainlyhub.html";
             } else {
                 document.body.classList.add("login-mode");
@@ -277,7 +276,7 @@
             loginError.style.display = "none";
             
             const username = document.getElementById("username").value.trim();
-            const password = passwordInput.value.trim();
+            const password = passwordInput.value;
 
             if (!username || !password) return;
 
@@ -286,12 +285,17 @@
             btnSpinner.style.display = "block";
 
             try {
-                const response = await fetch(`${AUTH_API_URL}?action=login&login=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+                const reqUrl = `${AUTH_API_URL}?action=login&login=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+                const response = await fetch(reqUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error status: ${response.status}`);
+                }
+
                 const data = await response.json();
 
                 if (data.success) {
                     sessionStorage.setItem("brainly_hub_user", username);
-                    // PRZEKIEROWANIE NA STRONĘ BRAINLYHUB.HTML
                     window.location.href = "brainlyhub.html";
                 } else {
                     loginError.textContent = data.message || "Invalid credentials provided.";
