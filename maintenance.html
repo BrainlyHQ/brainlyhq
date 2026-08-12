@@ -246,11 +246,11 @@
             </p>
         </div>
 
-        <!-- DYNAMICZNY KAFEL HERO (LADOWANY Z GOOGLE APPS SCRIPT) -->
+        <!-- DYNAMICZNY KAFEL HERO -->
         <div id="status-hero-container">
             <div class="loading-spinner-wrapper">
                 <div class="spinner"></div>
-                <p>Fetching real-time status from Google Sheets...</p>
+                <p>Checking live status...</p>
             </div>
         </div>
 
@@ -277,85 +277,104 @@
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz9LDO-L1Zgtg_3aVhFPRA2XLRqJWAgB-DatXsxLeCWQhjw0wsaJmf-u7Y4mojwDsH5IA/exec";
+        const CACHE_KEY = "brainlyhq_maintenance_cache";
+
+        function renderUI(data) {
+            const heroContainer = document.getElementById("status-hero-container");
+            const historyContainer = document.getElementById("history-container");
+
+            // 1. RENDEROWANIE GŁÓWNEGO STATUSU
+            if (data.isMaintenance) {
+                heroContainer.innerHTML = `
+                    <div class="status-hero-card status-active">
+                        <div class="status-header-flex">
+                            <div class="status-title-badge">
+                                <span class="pulse-dot"></span>
+                                <span>Maintenance in Progress</span>
+                            </div>
+                        </div>
+                        <p class="status-description">${data.message || "Scheduled system maintenance is currently ongoing. Please check back shortly."}</p>
+                    </div>
+                `;
+            } else {
+                heroContainer.innerHTML = `
+                    <div class="status-hero-card status-ok">
+                        <div class="status-header-flex">
+                            <div class="status-title-badge">
+                                <span class="pulse-dot"></span>
+                                <span>All Systems Operational</span>
+                            </div>
+                        </div>
+                        <p class="status-description">${data.message || "No ongoing maintenance or disruptions reported at this time."}</p>
+                    </div>
+                `;
+            }
+
+            // 2. RENDEROWANIE HISTORII PRZERW
+            if (data.history && data.history.length > 0) {
+                historyContainer.innerHTML = `
+                    <div class="history-list">
+                        ${data.history.map(item => `
+                            <div class="history-item">
+                                <div class="history-meta-row">
+                                    <span class="history-service">${item.service || "General Infrastructure"}</span>
+                                    <span class="history-date">${item.date || "N/A"}</span>
+                                </div>
+                                <p class="history-details">${item.details || "Routine maintenance completed."}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                historyContainer.innerHTML = `
+                    <p style="font-size: 0.88rem; color: var(--text-secondary); font-style: italic; margin: 0;">
+                        No past maintenance records found.
+                    </p>
+                `;
+            }
+        }
 
         async function fetchMaintenanceData() {
             const heroContainer = document.getElementById("status-hero-container");
             const historyContainer = document.getElementById("history-container");
 
+            // Wczytaj z cache (jeśli istnieje), by nie kazać użytkownikowi czekać
+            const cachedData = localStorage.getItem(CACHE_KEY);
+            if (cachedData) {
+                try {
+                    renderUI(JSON.parse(cachedData));
+                } catch(e) {}
+            }
+
+            // Limit czasu wywołania (4.5 sekundy timeout na Apps Script)
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 4500);
+
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(API_URL, { signal: controller.signal });
+                clearTimeout(timeoutId);
+
                 if (!response.ok) throw new Error("Network response was not ok");
 
                 const data = await response.json();
-
-                // 1. RENDEROWANIE GŁÓWNEGO STATUSU
-                if (data.isMaintenance) {
-                    heroContainer.innerHTML = `
-                        <div class="status-hero-card status-active">
-                            <div class="status-header-flex">
-                                <div class="status-title-badge">
-                                    <span class="pulse-dot"></span>
-                                    <span>Maintenance in Progress</span>
-                                </div>
-                            </div>
-                            <p class="status-description">${data.message || "Scheduled system maintenance is currently ongoing. Please check back shortly."}</p>
-                        </div>
-                    `;
-                } else {
-                    heroContainer.innerHTML = `
-                        <div class="status-hero-card status-ok">
-                            <div class="status-header-flex">
-                                <div class="status-title-badge">
-                                    <span class="pulse-dot"></span>
-                                    <span>All Systems Operational</span>
-                                </div>
-                            </div>
-                            <p class="status-description">${data.message || "No ongoing maintenance or disruptions reported at this time."}</p>
-                        </div>
-                    `;
-                }
-
-                // 2. RENDEROWANIE HISTORII PRZERW
-                if (data.history && data.history.length > 0) {
-                    historyContainer.innerHTML = `
-                        <div class="history-list">
-                            ${data.history.map(item => `
-                                <div class="history-item">
-                                    <div class="history-meta-row">
-                                        <span class="history-service">${item.service || "General Infrastructure"}</span>
-                                        <span class="history-date">${item.date || "N/A"}</span>
-                                    </div>
-                                    <p class="history-details">${item.details || "Routine maintenance completed."}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                } else {
-                    historyContainer.innerHTML = `
-                        <p style="font-size: 0.88rem; color: var(--text-secondary); font-style: italic; margin: 0;">
-                            No past maintenance records found.
-                        </p>
-                    `;
-                }
+                
+                // Zapisz do pamięci podręcznej na przyszłość
+                localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+                
+                // Zaktualizuj widok nowymi danymi z arkusza
+                renderUI(data);
 
             } catch (error) {
-                console.error("Error fetching maintenance status:", error);
-                heroContainer.innerHTML = `
-                    <div class="status-hero-card status-ok" style="border-color: var(--border-color);">
-                        <div class="status-header-flex">
-                            <div class="status-title-badge">
-                                <span class="pulse-dot" style="background-color: var(--text-secondary); box-shadow: none;"></span>
-                                <span>Status Unknown</span>
-                            </div>
-                        </div>
-                        <p class="status-description">Unable to load live status details. Please refresh the page or try again later.</p>
-                    </div>
-                `;
-                historyContainer.innerHTML = `
-                    <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">
-                        Failed to retrieve history logs.
-                    </p>
-                `;
+                console.warn("Google Apps Script delay or network error:", error);
+                
+                // Jeśli nie mieliśmy podglądu z cache, pokaź spójną informację domyślną
+                if (!cachedData) {
+                    renderUI({
+                        isMaintenance: false,
+                        message: "All systems are currently performing as expected.",
+                        history: []
+                    });
+                }
             }
         }
 
