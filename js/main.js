@@ -214,6 +214,10 @@ function initNavigationHighlight() {
     if (path === "post.html") {
         path = "blog.html";
     }
+    // Obsługa starego adresu dokumentacji
+    if (path === "documentation.html") {
+        path = "docs.html";
+    }
 
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
     if (activeLink) {
