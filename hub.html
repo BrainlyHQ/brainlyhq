@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainlyHub - BrainlyHQ</title>
+    <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* UKRYWANIE ELEMENTÓW GLOBALNYCH NA CZAS LOGOWANIA */
+        body.login-mode #header-placeholder,
+        body.login-mode #footer-placeholder {
+            display: none !important;
+        }
+
+        /* EKRAN LOGOWANIA - ZORIENTOWANY NA ŚRODKU */
+        .login-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            background-color: var(--bg-primary);
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .login-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .login-logo {
+            width: 64px;
+            height: auto;
+            margin-bottom: 16px;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 0 12px rgba(153, 238, 96, 0.15);
+        }
+
+        .toggle-password-btn {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password-btn:hover {
+            color: var(--color-brainly-green);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--color-brainly-green);
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-primary);
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+            box-shadow: 0 6px 20px rgba(153, 238, 96, 0.25);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-error-msg {
+            background-color: rgba(255, 74, 74, 0.12);
+            border: 1px solid #ff4a4a;
+            color: #ff4a4a;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+            text-align: left;
+        }
+
+        /* WIDOK DLA ZALOGOWANEGO UŻYTKOWNIKA (DASHBOARD HUB) */
+        .hub-dashboard {
+            max-width: 1140px;
+            margin: 50px auto 80px auto;
+            padding: 0 24px;
+            display: none;
+        }
+
+        .hub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid #ff4a4a;
+            color: #ff4a4a;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff4a4a;
+            color: #ffffff;
+        }
+
+        .btn-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #000000;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+
+    <script src="js/theme.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body class="login-mode">
+
+    <header id="header-placeholder"></header>
+
+    <!-- FORMULARZ LOGOWANIA (PEŁEN EKRAN) -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-card">
+            <img src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo" class="login-logo">
+            <h1 class="login-title">BrainlyHub</h1>
+            <p class="login-subtitle">Access to internal task database &amp; resources</p>
+
+            <div id="login-error" class="login-error-msg"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="username">Username / Login</label>
+                    <input type="text" id="username" class="form-input" placeholder="Enter your username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="form-input" placeholder="Enter password" required autocomplete="current-password">
+                        <button type="button" id="toggle-password" class="toggle-password-btn" aria-label="Show/Hide password">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="login-btn">
+                    <span id="btn-text">Sign In</span>
+                    <div id="btn-spinner" class="btn-spinner" style="display: none;"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ZAWARTOŚĆ BRAINLY HUB (WIDOCZNA PO ZALOGOWANIU) -->
+    <main id="hub-dashboard" class="hub-dashboard">
+        <div class="hub-header">
+            <div>
+                <h1 class="content-title" style="text-align: left; margin: 0;">BrainlyHub Database</h1>
+                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.9rem;">
+                    Logged in as: <strong id="logged-user-name" style="color: var(--color-brainly-green);">--</strong>
+                </p>
+            </div>
+            <button id="logout-btn" class="logout-btn">Log Out</button>
+        </div>
+
+        <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; text-align: center;">
+            <h3 style="color: var(--text-primary); margin-bottom: 12px;">Welcome to BrainlyHub!</h3>
+            <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
+                This is where the new task database search engine will be built. Your access has been successfully verified via Google Sheets.
+            </p>
+        </div>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script>
+        // PODMIEŃ PONIŻSZY URL NA TWÓJ ADRES WDROŻENIA GOOGLE APPS SCRIPT
+        const AUTH_API_URL = "https://script.google.com/macros/s/AKfycbzI83mBJeaMjYz1ye1gJ2MGsJH3MTJhQJ9aCZCn56bihdnau0AkjI-lKR3LL9LhBgGHiA/exec";
+
+        const loginForm = document.getElementById("login-form");
+        const loginOverlay = document.getElementById("login-overlay");
+        const hubDashboard = document.getElementById("hub-dashboard");
+        const loginError = document.getElementById("login-error");
+        const submitBtn = document.getElementById("submit-btn");
+        const btnText = document.getElementById("btn-text");
+        const btnSpinner = document.getElementById("btn-spinner");
+        const togglePasswordBtn = document.getElementById("toggle-password");
+        const passwordInput = document.getElementById("password");
+        const logoutBtn = document.getElementById("logout-btn");
+        const loggedUserName = document.getElementById("logged-user-name");
+
+        // Sprawdzanie czy użytkownik ma aktywną sesję
+        function checkSession() {
+            const sessionUser = sessionStorage.getItem("brainly_hub_user");
+            if (sessionUser) {
+                showDashboard(sessionUser);
+            } else {
+                showLoginForm();
+            }
+        }
+
+        function showLoginForm() {
+            document.body.classList.add("login-mode");
+            loginOverlay.style.display = "flex";
+            hubDashboard.style.display = "none";
+        }
+
+        function showDashboard(username) {
+            document.body.classList.remove("login-mode");
+            loginOverlay.style.display = "none";
+            hubDashboard.style.display = "block";
+            loggedUserName.textContent = username;
+        }
+
+        // Obsługa pokazywania/ukrywania hasła
+        togglePasswordBtn.addEventListener("click", () => {
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+        });
+
+        // Obsługa formularza logowania
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            loginError.style.display = "none";
+            
+            const username = document.getElementById("username").value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) return;
+
+            // Stan ładowania
+            submitBtn.disabled = true;
+            btnText.textContent = "Verifying...";
+            btnSpinner.style.display = "block";
+
+            try {
+                const response = await fetch(`${AUTH_API_URL}?action=login&login=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    sessionStorage.setItem("brainly_hub_user", username);
+                    showDashboard(username);
+                } else {
+                    loginError.textContent = data.message || "Invalid credentials provided.";
+                    loginError.style.display = "block";
+                }
+            } catch (err) {
+                console.error("Auth error:", err);
+                loginError.textContent = "Authentication server connection error. Please try again.";
+                loginError.style.display = "block";
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = "Sign In";
+                btnSpinner.style.display = "none";
+            }
+        });
+
+        // Obsługa wylogowania
+        logoutBtn.addEventListener("click", () => {
+            sessionStorage.removeItem("brainly_hub_user");
+            document.getElementById("username").value = "";
+            passwordInput.value = "";
+            showLoginForm();
+        });
+
+        document.addEventListener("DOMContentLoaded", checkSession);
+    </script>
+</body>
+</html>
