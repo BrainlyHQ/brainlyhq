@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrainlyHub - Search Engine & Database</title>
 
-    <!-- 1. NATYCHMIASTOWA WERYFIKACJA SESJI LOGOWANIA (PRZED WYRENDEROWANIEM STRONY) -->
+    <!-- NATYCHMIASTOWA WERYFIKACJA SESJI LOGOWANIA -->
     <script>
         (function() {
             const sessionUser = sessionStorage.getItem("brainly_hub_user");
             if (!sessionUser) {
-                // Jeśli brak wpisu o sesji, natychmiast przekieruj do bramki logowania
                 window.location.replace("hub.html");
             }
         })();
@@ -20,9 +19,19 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* UKRYCIE GLOBALNEGO HEADEREM I FOOTEREM NA TEJ STRONIE */
+        /* UKRYCIE GLOBALNEGO HEADEREM I FOOTEREM */
         #header-placeholder, #footer-placeholder {
             display: none !important;
+        }
+
+        :root {
+            --neon-glow: rgba(153, 238, 96, 0.18);
+            --grid-line-color: rgba(255, 255, 255, 0.04);
+        }
+
+        [data-theme="light"] {
+            --grid-line-color: rgba(0, 0, 0, 0.04);
+            --neon-glow: rgba(153, 238, 96, 0.25);
         }
 
         body {
@@ -34,9 +43,41 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* GÓRNY PASEK NAWIGACYJNY BRAINLY HUB */
+        /* TŁO ZE ŚWIETLISTĄ SIATKĄ I NEONOWYM AKCENTEM */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(var(--grid-line-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-glow {
+            position: fixed;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(circle, var(--color-brainly-green) 0%, transparent 70%);
+            opacity: 0.12;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* GÓRNY PASEK NAWIGACYJNY */
         .hub-navbar {
             display: flex;
             justify-content: space-between;
@@ -47,6 +88,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
         .hub-brand {
@@ -104,60 +146,66 @@
             color: #ffffff;
         }
 
-        /* GŁÓWNY KONTENER STRONY */
+        /* KONTENER STRONY */
         .hub-container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 24px 80px 24px;
+            padding: 60px 24px 80px 24px;
             width: 100%;
             box-sizing: border-box;
             flex-grow: 1;
+            position: relative;
+            z-index: 1;
         }
 
-        /* SEKCJA NAGŁÓWKA I WYSZUKIWARKI AI */
+        /* NAGŁÓWEK I SEARCH BOX AI */
         .hero-search-section {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .hero-title {
-            font-size: 2.4rem;
+            font-size: 2.8rem;
             font-weight: 900;
-            margin-bottom: 8px;
-            letter-spacing: -0.8px;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-subtitle {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            margin-bottom: 32px;
+            margin-bottom: 36px;
         }
 
-        /* DEDYKOWANY BOX WYSZUKIWARKI W STYLU AI */
+        /* NOWOCZESNY WYSZUKIWARKA NEONOWA */
         .ai-search-box {
             position: relative;
-            max-width: 760px;
+            max-width: 800px;
             margin: 0 auto;
             background-color: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 18px;
-            padding: 6px 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 8px 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             align-items: center;
         }
 
         .ai-search-box:focus-within {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 20px rgba(153, 238, 96, 0.2);
+            box-shadow: 0 0 25px var(--neon-glow), 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
         }
 
         .search-icon-svg {
-            width: 22px;
-            height: 22px;
-            color: var(--text-secondary);
-            margin-left: 10px;
+            width: 24px;
+            height: 24px;
+            color: var(--color-brainly-green);
+            margin-left: 8px;
             flex-shrink: 0;
         }
 
@@ -165,31 +213,45 @@
             width: 100%;
             border: none;
             background: transparent;
-            padding: 14px 16px;
-            font-size: 1.05rem;
+            padding: 16px 18px;
+            font-size: 1.1rem;
             color: var(--text-primary);
             font-family: var(--font-primary);
             outline: none;
         }
 
         .clear-search-btn {
-            background: none;
+            background: rgba(255,255,255,0.08);
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 6px;
+            font-size: 1rem;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
         }
 
-        /* SEKCJA FILTRÓW */
+        .clear-search-btn:hover {
+            background: #ff4a4a;
+            color: #fff;
+        }
+
+        /* PANELE FILTRÓW (ROZWIJANE LISTY) */
         .filters-wrapper {
-            max-width: 900px;
-            margin: 24px auto 0 auto;
+            max-width: 800px;
+            margin: 20px auto 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
             text-align: left;
+        }
+
+        @media (max-width: 650px) {
+            .filters-wrapper { grid-template-columns: 1fr; }
         }
 
         .filter-group {
@@ -199,74 +261,100 @@
         }
 
         .filter-label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
             color: var(--text-secondary);
+            margin-left: 4px;
         }
 
-        .filter-select, .filter-input {
+        .filter-select {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 12px 14px;
+            border-radius: 12px;
             font-family: var(--font-primary);
             font-size: 0.88rem;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
             box-sizing: border-box;
+            cursor: pointer;
         }
 
-        .filter-select:focus, .filter-input:focus {
+        .filter-select:focus {
             border-color: var(--color-brainly-green);
+            box-shadow: 0 0 10px var(--neon-glow);
         }
 
-        /* STATYSTYKI DASHBOARDU */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin: 48px 0;
-        }
-
-        .stat-card {
-            background-color: var(--bg-secondary);
+        /* PASEK METRYK I STATYSTYK W TLE ENGINE'U */
+        .engine-metrics-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-top: 32px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 20px;
-            text-align: center;
+            border-radius: 30px;
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            flex-wrap: wrap;
         }
 
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--color-brainly-green);
-            margin-bottom: 4px;
-        }
-
-        .stat-desc {
-            font-size: 0.78rem;
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
-        /* LISTA ZADAŃ I WYNIKÓW */
+        .metric-item strong {
+            color: var(--color-brainly-green);
+            font-size: 0.9rem;
+            font-weight: 900;
+        }
+
+        .metric-divider {
+            width: 4px;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 50%;
+        }
+
+        /* WYNIKI BAZY DANYCH */
+        .results-section {
+            margin-top: 40px;
+            display: none; /* Domyślnie ukryte, pokazywane przy aktywnym wyszukiwaniu */
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
         .results-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
         }
 
+        .results-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .results-count {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             font-weight: 600;
         }
@@ -280,24 +368,42 @@
         .package-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
+            border-radius: 16px;
             padding: 24px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .package-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            transition: background 0.25s ease;
         }
 
         .package-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--color-brainly-green);
+            transform: translateY(-4px);
+            border-color: rgba(153, 238, 96, 0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .package-card:hover::before {
+            background: var(--color-brainly-green);
         }
 
         .package-badges {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .badge {
@@ -316,7 +422,7 @@
         .package-topic {
             font-size: 1.15rem;
             font-weight: 800;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             line-height: 1.4;
             color: var(--text-primary);
         }
@@ -327,52 +433,47 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            padding: 10px 16px;
+            padding: 12px 16px;
             background-color: var(--color-brainly-green);
             color: #000000;
             text-decoration: none;
             font-weight: 800;
             font-size: 0.85rem;
             border-radius: 10px;
-            transition: opacity 0.2s ease;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
         .btn-open-package:hover {
-            opacity: 0.9;
+            opacity: 0.92;
+            transform: scale(0.99);
         }
 
-        .no-results-box {
+        .placeholder-search-state {
             text-align: center;
             padding: 60px 20px;
-            background-color: var(--bg-secondary);
-            border: 1px dashed var(--border-color);
-            border-radius: 16px;
-            grid-column: 1 / -1;
             color: var(--text-secondary);
+            border: 1px dashed var(--border-color);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.01);
+            margin-top: 40px;
         }
 
-        .loading-spinner-container {
-            text-align: center;
-            padding: 60px;
-            grid-column: 1 / -1;
+        .placeholder-icon {
+            width: 48px;
+            height: 48px;
+            color: var(--color-brainly-green);
+            margin-bottom: 12px;
+            opacity: 0.8;
         }
 
-        .spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid var(--border-color);
-            border-top-color: var(--color-brainly-green);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 16px auto;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 
     <script src="js/theme.js"></script>
 </head>
 <body>
+
+    <div class="ambient-glow"></div>
 
     <!-- GÓRNY PASEK APLIKACJI -->
     <header class="hub-navbar">
@@ -398,15 +499,15 @@
             <p class="hero-subtitle">Access global task resources, regional exams, and topic packages</p>
 
             <div class="ai-search-box">
-                <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Type topic or phrase (e.g. 'Funkcja liniowa', 'Algebra')..." autocomplete="off">
+                <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Search by phrase (e.g. 'Funkcja liniowa', 'Algebra')..." autocomplete="off">
                 <button id="clear-search-btn" class="clear-search-btn" title="Clear search">&times;</button>
             </div>
 
-            <!-- FILTRY DANYCH -->
+            <!-- FILTRY DANYCH (WSZYSTKIE LISTY WYBORU) -->
             <div class="filters-wrapper">
                 <div class="filter-group">
                     <label class="filter-label" for="filter-market">Market / Region</label>
@@ -423,51 +524,61 @@
                 </div>
 
                 <div class="filter-group">
-                    <label class="filter-label" for="filter-subject">Subject Search</label>
-                    <input type="text" id="filter-subject" class="filter-input" placeholder="Filter subject (e.g. Matematyka)">
+                    <label class="filter-label" for="filter-subject">Subject</label>
+                    <select id="filter-subject" class="filter-select">
+                        <option value="">All Subjects</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- STATYSTYKI ENGINE'U PRZENIESIONE POD WYSZUKIWARKĘ -->
+            <div class="engine-metrics-bar">
+                <div class="metric-item">
+                    <span>Packages:</span>
+                    <strong id="stat-packages-count">0</strong>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric-item">
+                    <span>Markets:</span>
+                    <strong id="stat-markets-count">0</strong>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric-item">
+                    <span>Subjects:</span>
+                    <strong id="stat-subjects-count">0</strong>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric-item">
+                    <span>Levels:</span>
+                    <strong id="stat-levels-count">0</strong>
                 </div>
             </div>
         </section>
 
-        <!-- KARTY STATYSTYK DASHBOARDU -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div id="stat-packages-count" class="stat-value">0</div>
-                <div class="stat-desc">Task Packages</div>
-            </div>
-            <div class="stat-card">
-                <div id="stat-markets-count" class="stat-value">0</div>
-                <div class="stat-desc">Active Markets</div>
-            </div>
-            <div class="stat-card">
-                <div id="stat-subjects-count" class="stat-value">0</div>
-                <div class="stat-desc">Subjects</div>
-            </div>
-            <div class="stat-card">
-                <div id="stat-levels-count" class="stat-value">0</div>
-                <div class="stat-desc">Education Levels</div>
-            </div>
-        </section>
+        <!-- EKRAN ZACHĘCAJĄCY PRZED WYSZUKANIEM -->
+        <div id="initial-placeholder" class="placeholder-search-state">
+            <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <h3 style="margin: 0 0 6px 0; font-size: 1.1rem; color: var(--text-primary);">Ready to Search</h3>
+            <p style="margin: 0; font-size: 0.88rem;">Type a query or select filters above to search the database.</p>
+        </div>
 
-        <!-- SEKCJA WYNIKÓW -->
-        <section>
+        <!-- SEKCJA WYNIKÓW (UKRYTA PRZED WYSZUKANIEM) -->
+        <section id="results-section" class="results-section">
             <div class="results-header">
-                <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800;">Question Database</h3>
-                <span id="results-count-text" class="results-count">Loading database...</span>
+                <h3 class="results-title">
+                    <span>Question Database</span>
+                </h3>
+                <span id="results-count-text" class="results-count">0 packages found</span>
             </div>
 
-            <div id="packages-container" class="packages-grid">
-                <div class="loading-spinner-container">
-                    <div class="spinner"></div>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Fetching data from Google Sheets...</p>
-                </div>
-            </div>
+            <div id="packages-container" class="packages-grid"></div>
         </section>
 
     </main>
 
     <script>
-        // ADRES API BAZY DANYCH
         const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
 
         let fullDatabase = [];
@@ -483,6 +594,8 @@
         const filterLevel = document.getElementById("filter-level");
         const filterSubject = document.getElementById("filter-subject");
 
+        const initialPlaceholder = document.getElementById("initial-placeholder");
+        const resultsSection = document.getElementById("results-section");
         const packagesContainer = document.getElementById("packages-container");
         const resultsCountText = document.getElementById("results-count-text");
 
@@ -491,7 +604,7 @@
         const statSubjects = document.getElementById("stat-subjects-count");
         const statLevels = document.getElementById("stat-levels-count");
 
-        // Dynamika ikony logo wg motywu
+        // Motyw Logo
         function updateLogoTheme() {
             const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
             if (navLogoImg) {
@@ -502,7 +615,7 @@
         const themeObserver = new MutationObserver(() => updateLogoTheme());
         themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
-        // Ustawienie nazwy użytkownika
+        // Użytkownik
         const sessionUser = sessionStorage.getItem("brainly_hub_user");
         if (usernameDisplay) usernameDisplay.textContent = sessionUser || "User";
 
@@ -512,7 +625,7 @@
             window.location.replace("hub.html");
         });
 
-        // POBIERANIE BAZY DANYCH (JSONP)
+        // ŁADOWANIE DANYCH Z GOOGLE APPS SCRIPT (JSONP)
         function fetchDatabaseJSONP() {
             return new Promise((resolve, reject) => {
                 const callbackName = 'jsonp_db_' + Math.round(100000 * Math.random());
@@ -538,29 +651,26 @@
         async function loadDatabase() {
             try {
                 const response = await fetchDatabaseJSONP();
-                
                 if (response && response.success && response.data) {
                     fullDatabase = response.data;
-                    populateFilterDropdowns(fullDatabase);
-                    updateDashboardStats(fullDatabase);
-                    renderPackages(fullDatabase);
-                } else {
-                    showErrorState(response.message || "No data returned from Google Sheets.");
+                    populateAllFilterDropdowns(fullDatabase);
+                    updateEngineMetrics(fullDatabase);
                 }
             } catch (err) {
-                console.error("Database fetch error:", err);
-                showErrorState("Failed to connect to Question Database.");
+                console.error("Database error:", err);
             }
         }
 
-        // WYPEŁNIANIE DYNAMICZNYCH FILTRÓW
-        function populateFilterDropdowns(data) {
+        // AUTO-UZUPEŁNIANIE LIST WYBORU (MARKET, LEVEL, SUBJECT)
+        function populateAllFilterDropdowns(data) {
             const markets = new Set();
             const levels = new Set();
+            const subjects = new Set();
 
             data.forEach(item => {
                 if (item.market) markets.add(item.market.trim());
                 if (item.level) levels.add(item.level.trim());
+                if (item.subject) subjects.add(item.subject.trim());
             });
 
             markets.forEach(m => {
@@ -576,10 +686,17 @@
                 opt.textContent = l;
                 filterLevel.appendChild(opt);
             });
+
+            subjects.forEach(s => {
+                const opt = document.createElement("option");
+                opt.value = s;
+                opt.textContent = s;
+                filterSubject.appendChild(opt);
+            });
         }
 
-        // AKTUAKIZACJA STATYSTYK
-        function updateDashboardStats(data) {
+        // PRZELICZANIE METRYK
+        function updateEngineMetrics(data) {
             const markets = new Set(data.map(i => i.market ? i.market.trim() : "").filter(Boolean));
             const subjects = new Set(data.map(i => i.subject ? i.subject.trim().toLowerCase() : "").filter(Boolean));
             const levels = new Set(data.map(i => i.level ? i.level.trim() : "").filter(Boolean));
@@ -590,16 +707,51 @@
             statLevels.textContent = levels.size;
         }
 
-        // RENDEROWANIE KART PACZEK
+        // INTELIGENTNE FILTROWANIE
+        function filterData() {
+            const query = searchInput.value.trim().toLowerCase();
+            const selectedMarket = filterMarket.value.toLowerCase();
+            const selectedLevel = filterLevel.value.toLowerCase();
+            const selectedSubject = filterSubject.value.toLowerCase();
+
+            clearSearchBtn.style.display = query ? "flex" : "none";
+
+            // Jeśli nie ma wpisanej frazy ani żadnego wybranego filtra -> Ukryj sekcję wyników
+            if (!query && !selectedMarket && !selectedLevel && !selectedSubject) {
+                initialPlaceholder.style.display = "block";
+                resultsSection.style.display = "none";
+                return;
+            }
+
+            initialPlaceholder.style.display = "none";
+            resultsSection.style.display = "block";
+
+            const filtered = fullDatabase.filter(item => {
+                const topic = (item.topic || "").toLowerCase();
+                const market = (item.market || "").toLowerCase();
+                const level = (item.level || "").toLowerCase();
+                const subject = (item.subject || "").toLowerCase();
+
+                const matchesQuery = !query || topic.includes(query) || subject.includes(query);
+                const matchesMarket = !selectedMarket || market === selectedMarket;
+                const matchesLevel = !selectedLevel || level === selectedLevel;
+                const matchesSubject = !selectedSubject || subject === selectedSubject;
+
+                return matchesQuery && matchesMarket && matchesLevel && matchesSubject;
+            });
+
+            renderPackages(filtered);
+        }
+
         function renderPackages(data) {
             packagesContainer.innerHTML = "";
-            resultsCountText.textContent = `Showing ${data.length} packages`;
+            resultsCountText.textContent = `${data.length} packages found`;
 
             if (data.length === 0) {
                 packagesContainer.innerHTML = `
-                    <div class="no-results-box">
-                        <h4>No matching task packages found</h4>
-                        <p>Try adjusting your search query or filters.</p>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: var(--text-secondary);">
+                        <h4>No packages match your search criteria</h4>
+                        <p style="font-size: 0.85rem;">Try changing your keywords or resetting filters.</p>
                     </div>
                 `;
                 return;
@@ -621,7 +773,7 @@
                     <div>
                         ${item.link ? `
                             <a href="${escapeHtml(item.link)}" target="_blank" class="btn-open-package">
-                                <span>Open Task Package</span>
+                                <span>Open Package</span>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                             </a>
                         ` : '<span style="font-size:0.8rem; color:var(--text-secondary);">No link available</span>'}
@@ -632,52 +784,17 @@
             });
         }
 
-        // INTELIGENTNE FILTROWANIE
-        function filterData() {
-            const query = searchInput.value.trim().toLowerCase();
-            const selectedMarket = filterMarket.value.toLowerCase();
-            const selectedLevel = filterLevel.value.toLowerCase();
-            const subjectQuery = filterSubject.value.trim().toLowerCase();
-
-            clearSearchBtn.style.display = query ? "block" : "none";
-
-            const filtered = fullDatabase.filter(item => {
-                const topic = (item.topic || "").toLowerCase();
-                const market = (item.market || "").toLowerCase();
-                const level = (item.level || "").toLowerCase();
-                const subject = (item.subject || "").toLowerCase();
-
-                const matchesQuery = !query || topic.includes(query) || subject.includes(query);
-                const matchesMarket = !selectedMarket || market === selectedMarket;
-                const matchesLevel = !selectedLevel || level === selectedLevel;
-                const matchesSubject = !subjectQuery || subject.includes(subjectQuery);
-
-                return matchesQuery && matchesMarket && matchesLevel && matchesSubject;
-            });
-
-            renderPackages(filtered);
-        }
-
+        // EVENT LISTENERY
         searchInput.addEventListener("input", filterData);
         filterMarket.addEventListener("change", filterData);
         filterLevel.addEventListener("change", filterData);
-        filterSubject.addEventListener("input", filterData);
+        filterSubject.addEventListener("change", filterData);
 
         clearSearchBtn.addEventListener("click", () => {
             searchInput.value = "";
             filterData();
             searchInput.focus();
         });
-
-        function showErrorState(msg) {
-            packagesContainer.innerHTML = `
-                <div class="no-results-box" style="border-color: #ff4a4a; color: #ff4a4a;">
-                    <h4>Database Connection Error</h4>
-                    <p>${msg}</p>
-                </div>
-            `;
-            resultsCountText.textContent = "Error loading data";
-        }
 
         function escapeHtml(str) {
             return String(str).replace(/[&<>"']/g, function(m) {
