@@ -26,14 +26,12 @@
 
         :root {
             --neon-glow-primary: rgba(153, 238, 96, 0.22);
-            --neon-glow-strong: rgba(153, 238, 96, 0.45);
             --grid-line-color: rgba(255, 255, 255, 0.025);
         }
 
         [data-theme="light"] {
             --grid-line-color: rgba(0, 0, 0, 0.025);
             --neon-glow-primary: rgba(153, 238, 96, 0.35);
-            --neon-glow-strong: rgba(153, 238, 96, 0.6);
         }
 
         body {
@@ -49,7 +47,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. DELIKATNA SIATKA W TLE */
+        /* SIATKA W TLE */
         body::before {
             content: "";
             position: fixed;
@@ -65,7 +63,7 @@
             z-index: 0;
         }
 
-        /* 2. ZIELONE NEONY WYŁĄCZNIE W TLE */
+        /* ZIELONE NEONY W TLE */
         .ambient-glow-top {
             position: fixed;
             top: -200px;
@@ -112,7 +110,7 @@
             100% { opacity: 0.20; transform: translateX(-50%) scale(1.05); }
         }
 
-        /* GÓRNY PASEK NAWIGACYJNY */
+        /* NAWIGACJA */
         .hub-navbar {
             display: flex;
             justify-content: space-between;
@@ -181,7 +179,6 @@
             color: #ffffff;
         }
 
-        /* KONTENER STRONY */
         .hub-container {
             max-width: 1100px;
             margin: 0 auto;
@@ -193,7 +190,6 @@
             z-index: 1;
         }
 
-        /* NAGŁÓWEK I SEARCH BOX */
         .hero-search-section {
             text-align: center;
             margin-bottom: 30px;
@@ -254,27 +250,33 @@
             outline: none;
         }
 
+        /* IDEALNIE OKRĄGŁY PRZYCISK CZYSZCZENIA */
         .clear-search-btn {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            line-height: 1;
             width: 28px;
             height: 28px;
+            min-width: 28px;
+            min-height: 28px;
             border-radius: 50%;
             display: none;
             align-items: center;
             justify-content: center;
+            padding: 0;
+            box-sizing: border-box;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .clear-search-btn:hover {
             background: #ff4a4a;
-            color: #fff;
+            color: #ffffff;
         }
 
-        /* PANELE FILTRÓW */
         .filters-wrapper {
             max-width: 800px;
             margin: 20px auto 0 auto;
@@ -328,7 +330,7 @@
             border-color: var(--color-brainly-green);
         }
 
-        /* PASEK METRYK */
+        /* PASEK METRYK - ZEZ BEZPOŚREDNIEJ ZIELONEJ KROPTKI OBOX NUMERÓW */
         .engine-metrics-bar {
             display: flex;
             justify-content: center;
@@ -345,13 +347,6 @@
             flex-wrap: wrap;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(8px);
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--color-brainly-green);
-            border-radius: 50%;
         }
 
         .metric-item {
@@ -376,7 +371,6 @@
             border-radius: 50%;
         }
 
-        /* WYNIKI BAZY DANYCH */
         .results-section {
             margin-top: 40px;
             display: none;
@@ -461,7 +455,6 @@
             color: var(--text-primary);
         }
 
-        /* SEKCJACH MULTI-LINKÓW W KARTACH */
         .package-links-container {
             display: flex;
             flex-direction: column;
@@ -512,6 +505,8 @@
     </style>
 
     <script src="js/theme.js"></script>
+    <!-- PODŁĄCZENIE ZEWNĘTRZNEGO PLIKU SILNIKA RENDEROWANIA -->
+    <script src="js/hub-render.js"></script>
 </head>
 <body>
 
@@ -519,7 +514,6 @@
     <div class="ambient-glow-left"></div>
     <div class="ambient-glow-right"></div>
 
-    <!-- GÓRNY PASEK APLIKACJI -->
     <header class="hub-navbar">
         <a href="#" class="hub-brand">
             <img id="hub-nav-logo" src="assets/Brainly Hub White.png" alt="BrainlyHub Logo">
@@ -534,10 +528,7 @@
         </div>
     </header>
 
-    <!-- GŁÓWNA TREŚĆ STRONY -->
     <main class="hub-container">
-        
-        <!-- NAGŁÓWEK I WYSZUKIWARKA AI -->
         <section class="hero-search-section">
             <h1 class="hero-title">Search Question Packages</h1>
             <p class="hero-subtitle">Access global task resources, regional exams, and topic packages</p>
@@ -551,7 +542,6 @@
                 <button id="clear-search-btn" class="clear-search-btn" title="Clear search">&times;</button>
             </div>
 
-            <!-- FILTRY DANYCH -->
             <div class="filters-wrapper">
                 <div class="filter-group">
                     <label class="filter-label" for="filter-market">Market / Region</label>
@@ -575,9 +565,8 @@
                 </div>
             </div>
 
-            <!-- PASEK METRYK -->
+            <!-- USUNIĘTO ZIELONĄ KROPKĘ (LIVE-DOT) -->
             <div class="engine-metrics-bar">
-                <div class="live-dot" title="Database connection active"></div>
                 <div class="metric-item">
                     <span>Packages:</span>
                     <strong id="stat-packages-count">0</strong>
@@ -600,7 +589,6 @@
             </div>
         </section>
 
-        <!-- EKRAN ZACHĘCAJĄCY PRZED WYSZUKANIEM -->
         <div id="initial-placeholder" class="placeholder-search-state">
             <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -609,7 +597,6 @@
             <p style="margin: 0; font-size: 0.88rem;">Type a query or select filters above to search the database.</p>
         </div>
 
-        <!-- SEKCJA WYNIKÓW (UKRYTA PRZED WYSZUKANIEM) -->
         <section id="results-section" class="results-section">
             <div class="results-header">
                 <h3 class="results-title">
@@ -620,37 +607,14 @@
 
             <div id="packages-container" class="packages-grid"></div>
         </section>
-
     </main>
 
     <script>
         const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
 
-        // MOPOWANIE SLOWNIKOW DANYCH (KLUCZ W SHEETS -> CZYTELNA NAZWA INTERFEJSU)
-        const MARKET_MAP = {
-            "IN": "Indie",
-            "ID": "Indonesia",
-            "PL": "Polska",
-            "LAT": "Ameryka Łacińska",
-            "RU": "Znanija",
-            "FR": "Nosdevoirs",
-            "US": "Brainly.com (USA)",
-            "RO": "Rumunia",
-            "BR": "Brazylia",
-            "PH": "Filipiny",
-            "TU": "Turcja"
-        };
-
-        const LEVEL_MAP = {
-            "EASY": "Łatwy (nauczyciel)",
-            "MID": "Średni (student)",
-            "HARD": "Trudny (nauczyciel)",
-            "SUPER HARD": "Bardzo trudny (profesor)"
-        };
-
         let fullDatabase = [];
 
-        // Elementy DOM
+        // DOM
         const usernameDisplay = document.getElementById("hub-username-display");
         const logoutBtn = document.getElementById("hub-logout-btn");
         const navLogoImg = document.getElementById("hub-nav-logo");
@@ -682,17 +646,16 @@
         const themeObserver = new MutationObserver(() => updateLogoTheme());
         themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
-        // Użytkownik
+        // Użytkownik i wylogowanie
         const sessionUser = sessionStorage.getItem("brainly_hub_user");
         if (usernameDisplay) usernameDisplay.textContent = sessionUser || "User";
 
-        // Wylogowanie
         logoutBtn.addEventListener("click", () => {
             sessionStorage.removeItem("brainly_hub_user");
             window.location.replace("hub.html");
         });
 
-        // ŁADOWANIE DANYCH Z GOOGLE APPS SCRIPT (JSONP)
+        // Ładowanie JSONP
         function fetchDatabaseJSONP() {
             return new Promise((resolve, reject) => {
                 const callbackName = 'jsonp_db_' + Math.round(100000 * Math.random());
@@ -728,7 +691,7 @@
             }
         }
 
-        // POPULACJA FILTRÓW
+        // Wypełnianie listy rozwijanej opcjami pochodzącymi z danych
         function populateAllFilterDropdowns(data) {
             const markets = new Set();
             const levels = new Set();
@@ -740,7 +703,6 @@
                 if (item.subject) subjects.add(item.subject.trim());
             });
 
-            // Markets
             markets.forEach(mKey => {
                 const opt = document.createElement("option");
                 opt.value = mKey;
@@ -748,7 +710,6 @@
                 filterMarket.appendChild(opt);
             });
 
-            // Education Levels
             levels.forEach(lKey => {
                 const opt = document.createElement("option");
                 opt.value = lKey;
@@ -756,7 +717,6 @@
                 filterLevel.appendChild(opt);
             });
 
-            // Subjects (posortowane alfabetycznie)
             Array.from(subjects).sort((a,b) => a.localeCompare(b)).forEach(s => {
                 const opt = document.createElement("option");
                 opt.value = s;
@@ -765,19 +725,18 @@
             });
         }
 
-        // PRZELICZANIE METRYK BAZY
         function updateEngineMetrics(data) {
+            const grouped = groupDatabaseIntoPackages(data);
             const markets = new Set(data.map(i => i.market ? i.market.trim().toUpperCase() : "").filter(Boolean));
             const subjects = new Set(data.map(i => i.subject ? i.subject.trim().toLowerCase() : "").filter(Boolean));
             const levels = new Set(data.map(i => i.level ? i.level.trim().toUpperCase() : "").filter(Boolean));
 
-            statPackages.textContent = data.length;
+            statPackages.textContent = grouped.length;
             statMarkets.textContent = markets.size;
             statSubjects.textContent = subjects.size;
             statLevels.textContent = levels.size;
         }
 
-        // LOGIKA DLA SEKCJI EXAM ORAZ DYNAMICZNEGO FILTROWANIA
         function handleSubjectChange() {
             const isExam = filterSubject.value.trim().toLowerCase() === "exam";
 
@@ -793,7 +752,7 @@
             filterData();
         }
 
-        // INTELIGENTNE FILTROWANIE DANYCH
+        // Główny silnik wyszukiwania i przefiltrowywania
         function filterData() {
             const query = searchInput.value.trim().toLowerCase();
             const selectedMarket = filterMarket.value.toUpperCase();
@@ -803,7 +762,7 @@
 
             clearSearchBtn.style.display = query ? "flex" : "none";
 
-            // Ukrycie wyników, gdy brak zapytania i brak aktywnych filtrów
+            // Jeśli nie ma zapytania ani wybranych filtrów -> ukryj sekcję wyników
             if (!query && !selectedMarket && !selectedLevel && !selectedSubject) {
                 initialPlaceholder.style.display = "block";
                 resultsSection.style.display = "none";
@@ -813,108 +772,30 @@
             initialPlaceholder.style.display = "none";
             resultsSection.style.display = "block";
 
-            const filtered = fullDatabase.filter(item => {
+            // 1. Przefiltrowanie pojedynczych rekordów z Arkusza
+            const filteredRawRows = fullDatabase.filter(item => {
                 const topic = (item.topic || "").toLowerCase();
                 const market = (item.market || "").toUpperCase();
                 const level = (item.level || "").toUpperCase();
                 const subject = (item.subject || "");
 
+                // Wyszukiwanie po słowie kluczowym w polu TOPIC lub SUBJECT
                 const matchesQuery = !query || topic.includes(query) || subject.toLowerCase().includes(query);
                 const matchesMarket = !selectedMarket || market === selectedMarket;
                 const matchesSubject = !selectedSubject || subject.toLowerCase() === selectedSubject.toLowerCase();
-                
-                // Dla przedmiotu Exam poziom trudności jest ignorowany
                 const matchesLevel = isExamSelected || !selectedLevel || level === selectedLevel;
 
                 return matchesQuery && matchesMarket && matchesLevel && matchesSubject;
             });
 
-            renderPackages(filtered);
+            // 2. Zagrupowanie przefiltrowanych wierszy w paczki z tematem
+            const groupedPackages = groupDatabaseIntoPackages(filteredRawRows);
+
+            // 3. Wywołanie renderowania z zewnętrznego modułu js/hub-render.js
+            renderPackagesGrid(packagesContainer, resultsCountText, groupedPackages);
         }
 
-        // PARSER WIELU LINKÓW W POLE LINK (NP. ROZDZIELANYCH PRZECINKAMI, ŚREDNIKAMI LUB NOWĄ LINIA)
-        function parseLinks(rawLinkString) {
-            if (!rawLinkString) return [];
-            return rawLinkString
-                .split(/[\n,;]+/)
-                .map(l => l.trim())
-                .filter(l => l.length > 0 && (l.startsWith("http://") || l.startsWith("https://")));
-        }
-
-        function renderPackages(data) {
-            packagesContainer.innerHTML = "";
-            resultsCountText.textContent = `${data.length} packages found`;
-
-            if (data.length === 0) {
-                packagesContainer.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: var(--text-secondary);">
-                        <h4>No packages match your search criteria</h4>
-                        <p style="font-size: 0.85rem;">Try changing your keywords or resetting filters.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            data.forEach(item => {
-                const card = document.createElement("div");
-                card.className = "package-card";
-
-                const marketKey = (item.market || "").trim().toUpperCase();
-                const levelKey = (item.level || "").trim().toUpperCase();
-                const rawSubject = (item.subject || "").trim();
-                const isExam = rawSubject.toLowerCase() === "exam";
-
-                const marketDisplay = MARKET_MAP[marketKey] ? `${marketKey} (${MARKET_MAP[marketKey]})` : marketKey;
-                const levelDisplay = LEVEL_MAP[levelKey] || levelKey;
-
-                const linkList = parseLinks(item.link);
-
-                let linksHtml = "";
-                if (linkList.length === 0) {
-                    linksHtml = `<span style="font-size:0.8rem; color:var(--text-secondary);">No active link available</span>`;
-                } else if (linkList.length === 1) {
-                    linksHtml = `
-                        <a href="${escapeHtml(linkList[0])}" target="_blank" class="btn-open-package">
-                            <span>Open Package</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                        </a>
-                    `;
-                } else {
-                    // Generowanie przycisków dla wielu linków w paczce
-                    linksHtml = `<div class="package-links-container">`;
-                    linkList.forEach((linkUrl, index) => {
-                        linksHtml += `
-                            <a href="${escapeHtml(linkUrl)}" target="_blank" class="btn-open-package">
-                                <span>Task Link #${index + 1}</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                            </a>
-                        `;
-                    });
-                    linksHtml += `</div>`;
-                }
-
-                card.innerHTML = `
-                    <div>
-                        <div class="package-badges">
-                            ${marketKey ? `<span class="badge badge-market">${escapeHtml(marketDisplay)}</span>` : ''}
-                            ${isExam 
-                                ? `<span class="badge badge-exam">EXAM RESOURCE</span>` 
-                                : (levelKey ? `<span class="badge badge-level">${escapeHtml(levelDisplay)}</span>` : '')
-                            }
-                            ${rawSubject ? `<span class="badge badge-subject">${escapeHtml(rawSubject)}</span>` : ''}
-                        </div>
-                        <div class="package-topic">${escapeHtml(item.topic || 'Untitled Package')}</div>
-                    </div>
-                    <div>
-                        ${linksHtml}
-                    </div>
-                `;
-
-                packagesContainer.appendChild(card);
-            });
-        }
-
-        // EVENT LISTENERY
+        // Event Listenery
         searchInput.addEventListener("input", filterData);
         filterMarket.addEventListener("change", filterData);
         filterLevel.addEventListener("change", filterData);
@@ -925,12 +806,6 @@
             filterData();
             searchInput.focus();
         });
-
-        function escapeHtml(str) {
-            return String(str).replace(/[&<>"']/g, function(m) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
-            });
-        }
 
         document.addEventListener("DOMContentLoaded", () => {
             updateLogoTheme();
