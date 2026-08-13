@@ -180,7 +180,7 @@
             outline: none;
         }
 
-        /* NAPRAWIONY PRZYCISK CZYSZCZENIA FRAZY (IDEALNIE OKRĄGŁY) */
+        /* IDEALNIE OKRĄGŁY PRZYCISK CZYSZCZENIA FRAZY */
         .clear-search-btn {
             background: rgba(255, 255, 255, 0.08);
             border: none;
@@ -500,7 +500,6 @@
         }
 
         function populateAllFilterDropdowns(data) {
-            // Czyszczenie starych opcji przy zachowaniu pierwszej opcji zbiorczej
             filterMarket.innerHTML = '<option value="">All Markets</option>';
             filterLevel.innerHTML = '<option value="">All Levels</option>';
             filterSubject.innerHTML = '<option value="">All Subjects</option>';
@@ -510,29 +509,30 @@
             const subjects = new Set();
 
             data.forEach(item => {
-                if (item.market) markets.add(String(item.market).trim().toUpperCase());
-                if (item.level) levels.add(String(item.level).trim().toUpperCase());
-                if (item.subject) subjects.add(String(item.subject).trim());
+                const m = item.market ? String(item.market).trim().toUpperCase() : "";
+                const l = item.level ? String(item.level).trim().toUpperCase() : "";
+                const s = item.subject ? String(item.subject).trim() : "";
+
+                if (m && m !== "NULL" && m !== "UNDEFINED") markets.add(m);
+                if (l && l !== "NULL" && l !== "UNDEFINED") levels.add(l);
+                if (s && s !== "NULL" && s !== "UNDEFINED") subjects.add(s);
             });
 
-            markets.forEach(mKey => {
-                if(!mKey) return;
+            Array.from(markets).sort().forEach(mKey => {
                 const opt = document.createElement("option");
                 opt.value = mKey;
-                opt.textContent = MARKET_MAP[mKey] ? `${mKey} - ${MARKET_MAP[mKey]}` : mKey;
+                opt.textContent = (typeof MARKET_MAP !== 'undefined' && MARKET_MAP[mKey]) ? `${mKey} - ${MARKET_MAP[mKey]}` : mKey;
                 filterMarket.appendChild(opt);
             });
 
-            levels.forEach(lKey => {
-                if(!lKey) return;
+            Array.from(levels).sort().forEach(lKey => {
                 const opt = document.createElement("option");
                 opt.value = lKey;
-                opt.textContent = LEVEL_MAP[lKey] || lKey;
+                opt.textContent = (typeof LEVEL_MAP !== 'undefined' && LEVEL_MAP[lKey]) ? LEVEL_MAP[lKey] : lKey;
                 filterLevel.appendChild(opt);
             });
 
-            Array.from(subjects).sort((a,b) => a.localeCompare(b)).forEach(s => {
-                if(!s) return;
+            Array.from(subjects).sort((a, b) => a.localeCompare(b)).forEach(s => {
                 const opt = document.createElement("option");
                 opt.value = s;
                 opt.textContent = s;
@@ -541,10 +541,10 @@
         }
 
         function updateEngineMetrics(data) {
-            const grouped = groupDatabaseIntoPackages(data);
-            const markets = new Set(data.map(i => i.market ? i.market.trim().toUpperCase() : "").filter(Boolean));
-            const subjects = new Set(data.map(i => i.subject ? i.subject.trim().toLowerCase() : "").filter(Boolean));
-            const levels = new Set(data.map(i => i.level ? i.level.trim().toUpperCase() : "").filter(Boolean));
+            const grouped = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(data) : [];
+            const markets = new Set(data.map(i => i.market ? String(i.market).trim().toUpperCase() : "").filter(Boolean));
+            const subjects = new Set(data.map(i => i.subject ? String(i.subject).trim().toLowerCase() : "").filter(Boolean));
+            const levels = new Set(data.map(i => i.level ? String(i.level).trim().toUpperCase() : "").filter(Boolean));
 
             statPackages.textContent = grouped.length;
             statMarkets.textContent = markets.size;
@@ -599,8 +599,10 @@
                 return matchesQuery && matchesMarket && matchesLevel && matchesSubject;
             });
 
-            const groupedPackages = groupDatabaseIntoPackages(filteredRawRows);
-            renderPackagesGrid(packagesContainer, resultsCountText, groupedPackages);
+            const groupedPackages = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(filteredRawRows) : [];
+            if (typeof renderPackagesGrid === 'function') {
+                renderPackagesGrid(packagesContainer, resultsCountText, groupedPackages);
+            }
         }
 
         searchInput.addEventListener("input", filterData);
