@@ -180,7 +180,7 @@
             outline: none;
         }
 
-        /* PERFEKCYJNIE WYCYRKOWANY KRZYŻYK USUWANIA TEXTU */
+        /* SYMETRYCZNY I IDEALNY KRZYŻYK USUWANIA TEXTU */
         .clear-search-btn {
             background: rgba(255, 255, 255, 0.08);
             border: none;
@@ -437,11 +437,14 @@
     <script>
         const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
 
-        // DOMYŚLNA STATYCZNA LISTA PRZEDMIOTÓW (Zawsze widoczna w dropdownie)
-        const DEFAULT_SUBJECTS = [
-            "Maths", "Physics", "Chemistry", "Biology", "Geography", 
-            "History", "English", "Polish", "Computer Science", "Spanish", 
-            "German", "French", "Social Studies", "Economics", "Exam"
+        // KOMPLETNA LISTA PRZEDMIOTÓW DLA ARCHITEKTURY BRAINLYHUB
+        const COMPLETE_SUBJECTS_LIST = [
+            "Arts", "Biology", "Business", "Chemistry", "Chinese", 
+            "Computers and Technology", "Engineering", "English", "Exam", "French", 
+            "Geography", "German", "Health", "Hindi", "History", 
+            "India Languages", "Italian", "Law", "Mathematics", "Music", 
+            "Nature", "Other Languages", "Physics", "Polish", "Psychology", 
+            "Religion", "Russian", "Safety Education", "Social Studies", "Spanish"
         ];
 
         let fullDatabase = [];
@@ -507,7 +510,6 @@
             });
         }
 
-        // BŁYSKAWICZNE ŁADOWANIE MENTORÓW: PRZYWRACA OSTATNIE ZAPAMIĘTANE METRYKI I STAN
         function initCachedData() {
             try {
                 const cachedRaw = localStorage.getItem("brainly_db_cache");
@@ -530,8 +532,6 @@
                     fullDatabase = response.data;
                     try { localStorage.setItem("brainly_db_cache", JSON.stringify(fullDatabase)); } catch(e){}
                     
-                    // Odświeżenie list przedmiotów w przypadku nowych wpisów
-                    populateAllStaticFilterDropdowns(fullDatabase);
                     updateEngineMetrics(fullDatabase);
                     
                     if (searchInput.value.trim().length > 0 || filterMarket.value || filterLevel.value || filterSubject.value) {
@@ -543,23 +543,23 @@
             }
         }
 
-        // ZAWSZE KOMPLETNE FILTRY STATYCZNE (11 Rynków, 4 Leveli, Przedmioty)
-        function populateAllStaticFilterDropdowns(data) {
+        // STATYCZNE DROPDOWNY Z PEŁNĄ LISTĄ (11 RYNKÓW, 4 POZIOMY, 31 PRZEDMIOTÓW)
+        function populateAllStaticFilterDropdowns() {
             filterMarket.innerHTML = '<option value="">All Markets</option>';
             filterLevel.innerHTML = '<option value="">All Levels</option>';
             filterSubject.innerHTML = '<option value="">All Subjects</option>';
 
-            // 1. ZAWSZE POPULUJ WYSZYSTKIE 11 RYNKÓW
+            // 1. ZAWSZE POPULUJ WSZYSTKIE 11 RYNKÓW W POSTACI ADRESÓW BRAINLY
             if (typeof MARKET_MAP !== 'undefined') {
                 Object.keys(MARKET_MAP).sort().forEach(mKey => {
                     const opt = document.createElement("option");
                     opt.value = mKey;
-                    opt.textContent = `${mKey} - ${MARKET_MAP[mKey]}`;
+                    opt.textContent = MARKET_MAP[mKey];
                     filterMarket.appendChild(opt);
                 });
             }
 
-            // 2. ZAWSZE POPULUJ WSZYSTKIE 4 POZIOMY (z przyjaznymi nazwami dla użytkowników)
+            // 2. ZAWSZE POPULUJ WSZYSTKIE 4 POZIOMY (Po angielsku)
             if (typeof LEVEL_MAP !== 'undefined') {
                 Object.keys(LEVEL_MAP).forEach(lKey => {
                     const opt = document.createElement("option");
@@ -569,18 +569,8 @@
                 });
             }
 
-            // 3. PRZEDMIOTY (Domyślne statyczne + ewentualne nowe wykryte w bazie)
-            const subjectSet = new Set(DEFAULT_SUBJECTS);
-            if (Array.isArray(data)) {
-                data.forEach(item => {
-                    if (item.subject) {
-                        const cleanS = String(item.subject).trim();
-                        if (cleanS) subjectSet.add(cleanS);
-                    }
-                });
-            }
-
-            Array.from(subjectSet).sort((a, b) => a.localeCompare(b)).forEach(s => {
+            // 3. WSZYSTKIE PRZEDMIOTY Z PRZESŁANEJ LISTY
+            COMPLETE_SUBJECTS_LIST.sort((a, b) => a.localeCompare(b)).forEach(s => {
                 const opt = document.createElement("option");
                 opt.value = s;
                 opt.textContent = s;
@@ -591,11 +581,16 @@
         function updateEngineMetrics(data) {
             const grouped = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(data) : [];
             
-            // Liczba wszystkich pobranych linków/wierszy
+            // Łączna liczba pojedynczych linków
             const totalLinks = data.filter(i => i.link && String(i.link).trim().length > 0).length;
 
-            // Przedmioty faktycznie aktywne w bazie
-            const activeSubjects = new Set(data.map(i => i.subject ? String(i.subject).trim().toLowerCase() : "").filter(Boolean));
+            // Zliczanie unikanych przedmiotów aktywnie występujących w arkuszu
+            const activeSubjects = new Set();
+            data.forEach(i => {
+                if (i.subject && String(i.subject).trim()) {
+                    activeSubjects.add(String(i.subject).trim().toLowerCase());
+                }
+            });
 
             statPackages.textContent = grouped.length;
             if (statLinks) statLinks.textContent = totalLinks;
@@ -619,15 +614,12 @@
             filterData();
         }
 
-        // INTELIGENTNE AUTODOPASOWANIE PRZEDMIOTU PRZY PISANIU
+        // AUTODOPASOWANIE MATHEMATICS DLA SŁÓW KLUCZOWYCH MATEMATYCZNYCH
         function handleInputQuery() {
             const query = searchInput.value.trim().toLowerCase();
 
-            // Słownik automatycznego dopasowania słów kluczowych do przedmiotu
-            if (query.includes("trigonometr") || query.includes("algebra") || query.includes("geometry") || query.includes("matura")) {
-                if (filterSubject.value === "") {
-                    filterSubject.value = "Maths";
-                }
+            if (query.includes("trygonometria") || query.includes("trigonometr") || query.includes("algebra") || query.includes("geometry") || query.includes("matura")) {
+                filterSubject.value = "Mathematics";
             }
 
             filterData();
@@ -657,10 +649,8 @@
                 const level = String(item.level || "").toUpperCase();
                 const subject = String(item.subject || "");
 
-                // Wyszukiwanie natychmiastowe od 1 znaku
                 const matchesQuery = !query || topic.includes(query) || subject.toLowerCase().includes(query);
                 
-                // Filtry (przepuszczają jeśli opcja "All" jest zaznaczona)
                 const matchesMarket = !selectedMarket || market === selectedMarket;
                 const matchesSubject = !selectedSubject || subject.toLowerCase() === selectedSubject.toLowerCase();
                 const matchesLevel = isExamSelected || !selectedLevel || level === selectedLevel;
@@ -681,15 +671,16 @@
 
         clearSearchBtn.addEventListener("click", () => {
             searchInput.value = "";
+            filterSubject.value = "";
             filterData();
             searchInput.focus();
         });
 
         document.addEventListener("DOMContentLoaded", () => {
             updateLogoTheme();
-            populateAllStaticFilterDropdowns([]); // Ładuje pełne listy filtrów natychmiast po wejściu
-            initCachedData();                     // Przywraca liczby metryk z cache
-            loadDatabase();                       // Aktualizuje dane po sieci
+            populateAllStaticFilterDropdowns(); // Zawsze wypełnia kompletne filtry przy starcie
+            initCachedData();                  // Ładuje metryki z pamięci podręcznej
+            loadDatabase();                    // Aktualizuje dane po sieci
         });
     </script>
 </body>
