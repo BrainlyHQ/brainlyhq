@@ -180,28 +180,35 @@
             outline: none;
         }
 
+        /* POPRAWIONY I IDEALNIE WYCYRKOWANY KRZYŻYK USUWANIA TEXTU */
         .clear-search-btn {
             background: rgba(255, 255, 255, 0.08);
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            font-size: 1.2rem;
-            line-height: 1;
-            width: 28px;
-            height: 28px;
-            min-width: 28px;
-            min-height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 0 0 2px 0;
+            padding: 0;
             box-sizing: border-box;
             transition: all 0.2s ease;
             flex-shrink: 0;
+            margin-right: 4px;
         }
 
-        .clear-search-btn:hover { background: #ff4a4a; color: #ffffff; }
+        .clear-search-btn:hover { 
+            background: #ff4a4a; 
+            color: #ffffff; 
+        }
+
+        .clear-search-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke-width: 2.5;
+        }
 
         .filters-wrapper {
             max-width: 800px; margin: 20px auto 0 auto;
@@ -351,7 +358,9 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Search by phrase (e.g. 'Matura 2026', 'Trigonometry')..." autocomplete="off">
-                <button id="clear-search-btn" class="clear-search-btn" title="Clear search">&times;</button>
+                <button id="clear-search-btn" class="clear-search-btn" title="Clear search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
 
             <div class="filters-wrapper">
@@ -485,21 +494,49 @@
             });
         }
 
+        // BŁYSKAWICZNE ŁADOWANIE: POBIERA DANE Z CACHE, PASTE-O-MAT
+        function initCachedData() {
+            try {
+                const cachedRaw = localStorage.getItem("brainly_db_cache");
+                if (cachedRaw) {
+                    const parsed = JSON.parse(cachedRaw);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        fullDatabase = parsed;
+                        populateAllFilterDropdowns(fullDatabase);
+                        updateEngineMetrics(fullDatabase);
+                    }
+                }
+            } catch(e) {
+                console.warn("Cache read failed", e);
+            }
+        }
+
         async function loadDatabase() {
             try {
                 const response = await fetchDatabaseJSONP();
                 if (response && response.success && Array.isArray(response.data)) {
                     fullDatabase = response.data;
+                    // Zapisujemy nową wersję w pamięci przeglądarki na przyszłość
+                    try { localStorage.setItem("brainly_db_cache", JSON.stringify(fullDatabase)); } catch(e){}
+                    
                     populateAllFilterDropdowns(fullDatabase);
                     updateEngineMetrics(fullDatabase);
+                    
+                    // Jeśli użytkownik zaczął już coś pisać przed pobraniem
+                    if (searchInput.value.trim().length > 0 || filterMarket.value || filterLevel.value || filterSubject.value) {
+                        filterData();
+                    }
                 }
             } catch (err) {
                 console.error("Database error:", err);
             }
         }
 
-        // KROK 1: POBIERANIE ORAZ POPRAWNE WYCIĄGANIE DANYCH Z GOOGLE SHEETS
         function populateAllFilterDropdowns(data) {
+            const currentMarket = filterMarket.value;
+            const currentLevel = filterLevel.value;
+            const currentSubject = filterSubject.value;
+
             filterMarket.innerHTML = '<option value="">All Markets</option>';
             filterLevel.innerHTML = '<option value="">All Levels</option>';
             filterSubject.innerHTML = '<option value="">All Subjects</option>';
@@ -509,7 +546,6 @@
             const subjects = new Set();
 
             data.forEach(item => {
-                // Czyścimy wartości z niewidocznych spacji i cudzysłowów
                 const cleanMarket = String(item.market || '').replace(/['"]/g, '').trim().toUpperCase();
                 const cleanLevel = String(item.level || '').replace(/['"]/g, '').trim().toUpperCase();
                 const cleanSubject = String(item.subject || '').replace(/['"]/g, '').trim();
@@ -527,7 +563,7 @@
                 filterMarket.appendChild(opt);
             });
 
-            // Wypełnianie listy rozwijanej Poziomów
+            // Wypełnianie listy rozwijanej Poziomów (Z POKAZYWANIEM ŁADNYCH NAZW NA STRONIE)
             Array.from(levels).sort().forEach(lKey => {
                 const opt = document.createElement("option");
                 opt.value = lKey;
@@ -542,6 +578,11 @@
                 opt.textContent = s;
                 filterSubject.appendChild(opt);
             });
+
+            // Przywróć poprzednio zaznaczone opcje jeśli istnieją
+            if (currentMarket) filterMarket.value = currentMarket;
+            if (currentLevel) filterLevel.value = currentLevel;
+            if (currentSubject) filterSubject.value = currentSubject;
         }
 
         function updateEngineMetrics(data) {
@@ -551,9 +592,9 @@
             const levels = new Set();
 
             data.forEach(i => {
-                if (i.market) markets.add(String(i.market).trim().toUpperCase());
-                if (i.subject) subjects.add(String(i.subject).trim().toLowerCase());
-                if (i.level) levels.add(String(i.level).trim().toUpperCase());
+                if (i.market && String(i.market).trim()) markets.add(String(i.market).trim().toUpperCase());
+                if (i.subject && String(i.subject).trim()) subjects.add(String(i.subject).trim().toLowerCase());
+                if (i.level && String(i.level).trim()) levels.add(String(i.level).trim().toUpperCase());
             });
 
             statPackages.textContent = grouped.length;
@@ -577,7 +618,6 @@
             filterData();
         }
 
-        // KROK 2: NATYCHMIASTOWE FILTROWANIE (OD 1 ZNAKU / NAWET DLACZEGO "T")
         function filterData() {
             const query = searchInput.value.trim().toLowerCase();
             const selectedMarket = filterMarket.value.trim().toUpperCase();
@@ -587,7 +627,6 @@
 
             clearSearchBtn.style.display = query.length > 0 ? "flex" : "none";
 
-            // Brak zapytania ORAZ brak wybranych filtrów -> pokazuje stan początkowy
             if (!query && !selectedMarket && !selectedLevel && !selectedSubject) {
                 initialPlaceholder.style.display = "block";
                 resultsSection.style.display = "none";
@@ -603,10 +642,9 @@
                 const level = String(item.level || "").toUpperCase();
                 const subject = String(item.subject || "");
 
-                // Wyszukiwanie natychmiastowe nawet od 1 litery
+                // Wyszukiwanie natychmiastowe od pierwszej litery (np. "t")
                 const matchesQuery = !query || topic.includes(query) || subject.toLowerCase().includes(query);
                 
-                // Filtry pomocnicze
                 const matchesMarket = !selectedMarket || market === selectedMarket;
                 const matchesSubject = !selectedSubject || subject.toLowerCase() === selectedSubject.toLowerCase();
                 const matchesLevel = isExamSelected || !selectedLevel || level === selectedLevel;
@@ -633,7 +671,8 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             updateLogoTheme();
-            loadDatabase();
+            initCachedData(); // Ładuje zapamiętane dane błyskawicznie
+            loadDatabase();   // W tle pobiera aktualny stan z Google Apps Script
         });
     </script>
 </body>
