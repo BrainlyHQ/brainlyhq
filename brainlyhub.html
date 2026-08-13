@@ -225,14 +225,17 @@
             letter-spacing: 0.6px; color: var(--text-secondary); margin-left: 4px;
         }
 
+        /* DODANE PADDING-RIGHT DLA ELEGANCKIEGO ODSTĘPU STRZAŁKI OD KRAWĘDZI */
         .filter-select {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            padding: 12px 14px; border-radius: 12px;
+            padding: 12px 36px 12px 14px; 
+            border-radius: 12px;
             font-family: var(--font-primary); font-size: 0.88rem;
             outline: none; transition: all 0.25s ease;
             width: 100%; box-sizing: border-box; cursor: pointer;
+            appearance: auto;
         }
 
         .filter-select:disabled {
@@ -404,7 +407,7 @@
                 <div class="metric-divider"></div>
                 <div class="metric-item">
                     <span>Subjects:</span>
-                    <strong id="stat-subjects-count">0</strong>
+                    <strong id="stat-subjects-count">30</strong>
                 </div>
                 <div class="metric-divider"></div>
                 <div class="metric-item">
@@ -543,13 +546,11 @@
             }
         }
 
-        // STATYCZNE DROPDOWNY Z PEŁNĄ LISTĄ (11 RYNKÓW, 4 POZIOMY, 31 PRZEDMIOTÓW)
         function populateAllStaticFilterDropdowns() {
             filterMarket.innerHTML = '<option value="">All Markets</option>';
             filterLevel.innerHTML = '<option value="">All Levels</option>';
             filterSubject.innerHTML = '<option value="">All Subjects</option>';
 
-            // 1. ZAWSZE POPULUJ WSZYSTKIE 11 RYNKÓW W POSTACI ADRESÓW BRAINLY
             if (typeof MARKET_MAP !== 'undefined') {
                 Object.keys(MARKET_MAP).sort().forEach(mKey => {
                     const opt = document.createElement("option");
@@ -559,7 +560,6 @@
                 });
             }
 
-            // 2. ZAWSZE POPULUJ WSZYSTKIE 4 POZIOMY (Po angielsku)
             if (typeof LEVEL_MAP !== 'undefined') {
                 Object.keys(LEVEL_MAP).forEach(lKey => {
                     const opt = document.createElement("option");
@@ -569,7 +569,6 @@
                 });
             }
 
-            // 3. WSZYSTKIE PRZEDMIOTY Z PRZESŁANEJ LISTY
             COMPLETE_SUBJECTS_LIST.sort((a, b) => a.localeCompare(b)).forEach(s => {
                 const opt = document.createElement("option");
                 opt.value = s;
@@ -580,22 +579,12 @@
 
         function updateEngineMetrics(data) {
             const grouped = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(data) : [];
-            
-            // Łączna liczba pojedynczych linków
             const totalLinks = data.filter(i => i.link && String(i.link).trim().length > 0).length;
-
-            // Zliczanie unikanych przedmiotów aktywnie występujących w arkuszu
-            const activeSubjects = new Set();
-            data.forEach(i => {
-                if (i.subject && String(i.subject).trim()) {
-                    activeSubjects.add(String(i.subject).trim().toLowerCase());
-                }
-            });
 
             statPackages.textContent = grouped.length;
             if (statLinks) statLinks.textContent = totalLinks;
             statMarkets.textContent = typeof MARKET_MAP !== 'undefined' ? Object.keys(MARKET_MAP).length : 11;
-            statSubjects.textContent = activeSubjects.size;
+            statSubjects.textContent = COMPLETE_SUBJECTS_LIST.length;
             statLevels.textContent = typeof LEVEL_MAP !== 'undefined' ? Object.keys(LEVEL_MAP).length : 4;
         }
 
@@ -614,7 +603,6 @@
             filterData();
         }
 
-        // AUTODOPASOWANIE MATHEMATICS DLA SŁÓW KLUCZOWYCH MATEMATYCZNYCH
         function handleInputQuery() {
             const query = searchInput.value.trim().toLowerCase();
 
@@ -678,9 +666,9 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             updateLogoTheme();
-            populateAllStaticFilterDropdowns(); // Zawsze wypełnia kompletne filtry przy starcie
-            initCachedData();                  // Ładuje metryki z pamięci podręcznej
-            loadDatabase();                    // Aktualizuje dane po sieci
+            populateAllStaticFilterDropdowns();
+            initCachedData();
+            loadDatabase();
         });
     </script>
 </body>
