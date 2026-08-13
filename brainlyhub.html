@@ -180,7 +180,6 @@
             outline: none;
         }
 
-        /* IDEALNIE OKRĄGŁY PRZYCISK CZYSZCZENIA FRAZY */
         .clear-search-btn {
             background: rgba(255, 255, 255, 0.08);
             border: none;
@@ -489,7 +488,7 @@
         async function loadDatabase() {
             try {
                 const response = await fetchDatabaseJSONP();
-                if (response && response.success && response.data) {
+                if (response && response.success && Array.isArray(response.data)) {
                     fullDatabase = response.data;
                     populateAllFilterDropdowns(fullDatabase);
                     updateEngineMetrics(fullDatabase);
@@ -499,6 +498,7 @@
             }
         }
 
+        // KROK 1: POBIERANIE ORAZ POPRAWNE WYCIĄGANIE DANYCH Z GOOGLE SHEETS
         function populateAllFilterDropdowns(data) {
             filterMarket.innerHTML = '<option value="">All Markets</option>';
             filterLevel.innerHTML = '<option value="">All Levels</option>';
@@ -509,15 +509,17 @@
             const subjects = new Set();
 
             data.forEach(item => {
-                const m = item.market ? String(item.market).trim().toUpperCase() : "";
-                const l = item.level ? String(item.level).trim().toUpperCase() : "";
-                const s = item.subject ? String(item.subject).trim() : "";
+                // Czyścimy wartości z niewidocznych spacji i cudzysłowów
+                const cleanMarket = String(item.market || '').replace(/['"]/g, '').trim().toUpperCase();
+                const cleanLevel = String(item.level || '').replace(/['"]/g, '').trim().toUpperCase();
+                const cleanSubject = String(item.subject || '').replace(/['"]/g, '').trim();
 
-                if (m && m !== "NULL" && m !== "UNDEFINED") markets.add(m);
-                if (l && l !== "NULL" && l !== "UNDEFINED") levels.add(l);
-                if (s && s !== "NULL" && s !== "UNDEFINED") subjects.add(s);
+                if (cleanMarket) markets.add(cleanMarket);
+                if (cleanLevel) levels.add(cleanLevel);
+                if (cleanSubject) subjects.add(cleanSubject);
             });
 
+            // Wypełnianie listy rozwijanej Rynków
             Array.from(markets).sort().forEach(mKey => {
                 const opt = document.createElement("option");
                 opt.value = mKey;
@@ -525,6 +527,7 @@
                 filterMarket.appendChild(opt);
             });
 
+            // Wypełnianie listy rozwijanej Poziomów
             Array.from(levels).sort().forEach(lKey => {
                 const opt = document.createElement("option");
                 opt.value = lKey;
@@ -532,6 +535,7 @@
                 filterLevel.appendChild(opt);
             });
 
+            // Wypełnianie listy rozwijanej Przedmiotów
             Array.from(subjects).sort((a, b) => a.localeCompare(b)).forEach(s => {
                 const opt = document.createElement("option");
                 opt.value = s;
@@ -542,9 +546,15 @@
 
         function updateEngineMetrics(data) {
             const grouped = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(data) : [];
-            const markets = new Set(data.map(i => i.market ? String(i.market).trim().toUpperCase() : "").filter(Boolean));
-            const subjects = new Set(data.map(i => i.subject ? String(i.subject).trim().toLowerCase() : "").filter(Boolean));
-            const levels = new Set(data.map(i => i.level ? String(i.level).trim().toUpperCase() : "").filter(Boolean));
+            const markets = new Set();
+            const subjects = new Set();
+            const levels = new Set();
+
+            data.forEach(i => {
+                if (i.market) markets.add(String(i.market).trim().toUpperCase());
+                if (i.subject) subjects.add(String(i.subject).trim().toLowerCase());
+                if (i.level) levels.add(String(i.level).trim().toUpperCase());
+            });
 
             statPackages.textContent = grouped.length;
             statMarkets.textContent = markets.size;
@@ -567,15 +577,17 @@
             filterData();
         }
 
+        // KROK 2: NATYCHMIASTOWE FILTROWANIE (OD 1 ZNAKU / NAWET DLACZEGO "T")
         function filterData() {
             const query = searchInput.value.trim().toLowerCase();
-            const selectedMarket = filterMarket.value.toUpperCase();
-            const selectedLevel = filterLevel.value.toUpperCase();
-            const selectedSubject = filterSubject.value;
-            const isExamSelected = selectedSubject.trim().toLowerCase() === "exam";
+            const selectedMarket = filterMarket.value.trim().toUpperCase();
+            const selectedLevel = filterLevel.value.trim().toUpperCase();
+            const selectedSubject = filterSubject.value.trim();
+            const isExamSelected = selectedSubject.toLowerCase() === "exam";
 
-            clearSearchBtn.style.display = query ? "flex" : "none";
+            clearSearchBtn.style.display = query.length > 0 ? "flex" : "none";
 
+            // Brak zapytania ORAZ brak wybranych filtrów -> pokazuje stan początkowy
             if (!query && !selectedMarket && !selectedLevel && !selectedSubject) {
                 initialPlaceholder.style.display = "block";
                 resultsSection.style.display = "none";
@@ -591,7 +603,10 @@
                 const level = String(item.level || "").toUpperCase();
                 const subject = String(item.subject || "");
 
+                // Wyszukiwanie natychmiastowe nawet od 1 litery
                 const matchesQuery = !query || topic.includes(query) || subject.toLowerCase().includes(query);
+                
+                // Filtry pomocnicze
                 const matchesMarket = !selectedMarket || market === selectedMarket;
                 const matchesSubject = !selectedSubject || subject.toLowerCase() === selectedSubject.toLowerCase();
                 const matchesLevel = isExamSelected || !selectedLevel || level === selectedLevel;
