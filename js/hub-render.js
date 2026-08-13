@@ -1,24 +1,24 @@
 // js/hub-render.js - Silnik grupowania i renderowania paczek zadań BrainlyHub
 
 const MARKET_MAP = {
-    "IN": "Indie",
-    "ID": "Indonesia",
-    "PL": "Polska",
-    "LAT": "Ameryka Łacińska",
-    "RU": "Znanija",
-    "FR": "Nosdevoirs",
-    "US": "Brainly.com (USA)",
-    "RO": "Rumunia",
-    "BR": "Brazylia",
-    "PH": "Filipiny",
-    "TU": "Turcja"
+    "US": "Brainly.com",
+    "LAT": "Brainly.lat",
+    "FR": "Nosdevoirs.fr",
+    "IN": "Brainly.in",
+    "ID": "Brainly.co.id",
+    "RO": "Brainly.ro",
+    "BR": "Brainly.com.br",
+    "RU": "Znanija.com",
+    "PH": "Brainly.ph",
+    "TU": "Eodev.com",
+    "PL": "Brainly.pl"
 };
 
 const LEVEL_MAP = {
-    "EASY": "Łatwy (nauczyciel)",
-    "MID": "Średni (student)",
-    "HARD": "Trudny (nauczyciel)",
-    "SUPER HARD": "Bardzo trudny (profesor)"
+    "EASY": "Easy (beginner)",
+    "MID": "Mid (student)",
+    "HARD": "Hard (teacher)",
+    "SUPER HARD": "Super Hard (professor)"
 };
 
 function parseLinks(rawLinkString) {
@@ -36,29 +36,31 @@ function escapeHtml(str) {
 }
 
 /**
- * Grupuje surowe wiersze z Arkusza po temacie (Topic).
- * Jeśli 10 wierszy ma ten sam Topic -> powstaje 1 PACZKA z zebranymi wszystkimi linkami i tagami.
+ * Grupuje surowe wiersze z Arkusza po unikalnej kombinacji TOPIC + MARKET.
+ * Przykład: "Trigonometry" w "PL" i "Trigonometry" w "ID" stanowią DWIE osobne paczki.
  */
 function groupDatabaseIntoPackages(rawData) {
     const packagesMap = new Map();
 
     rawData.forEach(item => {
         const rawTopic = (item.topic || 'Untitled Package').trim();
-        const topicKey = rawTopic.toLowerCase();
+        const rawMarket = (item.market || 'GLOBAL').trim().toUpperCase();
+        
+        // KLUCZ PACZKI = TOPIC + MARKET
+        const packageKey = `${rawTopic.toLowerCase()}___${rawMarket}`;
 
-        if (!packagesMap.has(topicKey)) {
-            packagesMap.set(topicKey, {
+        if (!packagesMap.has(packageKey)) {
+            packagesMap.set(packageKey, {
                 displayTopic: rawTopic,
-                markets: new Set(),
+                marketKey: rawMarket,
                 levels: new Set(),
                 subjects: new Set(),
                 links: new Set()
             });
         }
 
-        const pkg = packagesMap.get(topicKey);
+        const pkg = packagesMap.get(packageKey);
 
-        if (item.market) pkg.markets.add(item.market.trim().toUpperCase());
         if (item.level) pkg.levels.add(item.level.trim().toUpperCase());
         if (item.subject) pkg.subjects.add(item.subject.trim());
 
@@ -92,14 +94,11 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
 
         const isExam = Array.from(pkg.subjects).some(s => s.toLowerCase() === 'exam');
 
-        // Badge dla Rynków
-        let marketsHtml = "";
-        pkg.markets.forEach(mKey => {
-            const mLabel = MARKET_MAP[mKey] ? `${mKey} (${MARKET_MAP[mKey]})` : mKey;
-            marketsHtml += `<span class="badge badge-market">${escapeHtml(mLabel)}</span>`;
-        });
+        // Badge dla Rynku (Adresy domenowe Brainly)
+        const marketLabel = MARKET_MAP[pkg.marketKey] || pkg.marketKey;
+        const marketsHtml = `<span class="badge badge-market">${escapeHtml(marketLabel)}</span>`;
 
-        // Badge dla Poziomów Trudności
+        // Badge dla Poziomów Trudności (Po angielsku z dużej litery)
         let levelsHtml = "";
         if (isExam) {
             levelsHtml = `<span class="badge badge-exam">EXAM RESOURCE</span>`;
@@ -116,7 +115,7 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
             subjectsHtml += `<span class="badge badge-subject">${escapeHtml(subj)}</span>`;
         });
 
-        // Generowanie wielokrotnych przycisków linków
+        // Linki wewnątrz paczki
         const linkList = Array.from(pkg.links);
         let linksHtml = "";
 
@@ -125,7 +124,7 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
         } else if (linkList.length === 1) {
             linksHtml = `
                 <a href="${escapeHtml(linkList[0])}" target="_blank" class="btn-open-package">
-                    <span>Open Package</span>
+                    <span>Open Task</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 </a>
             `;
