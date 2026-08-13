@@ -65,7 +65,7 @@
             z-index: 0;
         }
 
-        /* 2. ZIELONE NEONY WYŁĄCZNIE W TLE (BACKGROUND NEON GLOW) */
+        /* 2. ZIELONE NEONY WYŁĄCZNIE W TLE */
         .ambient-glow-top {
             position: fixed;
             top: -200px;
@@ -193,7 +193,7 @@
             z-index: 1;
         }
 
-        /* NAGŁÓWEK I SEARCH BOX AI */
+        /* NAGŁÓWEK I SEARCH BOX */
         .hero-search-section {
             text-align: center;
             margin-bottom: 30px;
@@ -215,7 +215,6 @@
             margin-bottom: 36px;
         }
 
-        /* WYSZUKIWARKA (BEZ GLOW NA LUPIE) */
         .ai-search-box {
             position: relative;
             max-width: 800px;
@@ -236,7 +235,6 @@
             transform: translateY(-2px);
         }
 
-        /* LUPA BEZ EFEKTU DROPSHADOW/NEONU */
         .search-icon-svg {
             width: 24px;
             height: 24px;
@@ -320,7 +318,13 @@
             cursor: pointer;
         }
 
-        .filter-select:focus {
+        .filter-select:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            border-style: dashed;
+        }
+
+        .filter-select:focus:not(:disabled) {
             border-color: var(--color-brainly-green);
         }
 
@@ -359,7 +363,6 @@
             font-weight: 600;
         }
 
-        /* NUMERKI BEZ EFEKTU TEXT-SHADOW / NEONU */
         .metric-item strong {
             color: var(--color-brainly-green);
             font-size: 0.92rem;
@@ -448,6 +451,7 @@
         .badge-market { background: rgba(153, 238, 96, 0.15); color: var(--color-brainly-green); }
         .badge-level { background: rgba(255, 255, 255, 0.08); color: var(--text-primary); }
         .badge-subject { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        .badge-exam { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
 
         .package-topic {
             font-size: 1.15rem;
@@ -457,24 +461,32 @@
             color: var(--text-primary);
         }
 
+        /* SEKCJACH MULTI-LINKÓW W KARTACH */
+        .package-links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
         .btn-open-package {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             background-color: var(--color-brainly-green);
             color: #000000;
             text-decoration: none;
             font-weight: 800;
-            font-size: 0.85rem;
-            border-radius: 10px;
+            font-size: 0.82rem;
+            border-radius: 8px;
             transition: transform 0.2s ease, opacity 0.2s ease;
+            box-sizing: border-box;
         }
 
         .btn-open-package:hover {
-            opacity: 0.95;
+            opacity: 0.92;
             transform: scale(0.99);
         }
 
@@ -503,7 +515,6 @@
 </head>
 <body>
 
-    <!-- NEONOWE PUNKTY ŚWIATŁA W TLE -->
     <div class="ambient-glow-top"></div>
     <div class="ambient-glow-left"></div>
     <div class="ambient-glow-right"></div>
@@ -536,7 +547,7 @@
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Search by phrase (e.g. 'Funkcja liniowa', 'Algebra')..." autocomplete="off">
+                <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Search by phrase (e.g. 'Matura 2026', 'Trigonometry')..." autocomplete="off">
                 <button id="clear-search-btn" class="clear-search-btn" title="Clear search">&times;</button>
             </div>
 
@@ -614,6 +625,28 @@
 
     <script>
         const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
+
+        // MOPOWANIE SLOWNIKOW DANYCH (KLUCZ W SHEETS -> CZYTELNA NAZWA INTERFEJSU)
+        const MARKET_MAP = {
+            "IN": "Indie",
+            "ID": "Indonesia",
+            "PL": "Polska",
+            "LAT": "Ameryka Łacińska",
+            "RU": "Znanija",
+            "FR": "Nosdevoirs",
+            "US": "Brainly.com (USA)",
+            "RO": "Rumunia",
+            "BR": "Brazylia",
+            "PH": "Filipiny",
+            "TU": "Turcja"
+        };
+
+        const LEVEL_MAP = {
+            "EASY": "Łatwy (nauczyciel)",
+            "MID": "Średni (student)",
+            "HARD": "Trudny (nauczyciel)",
+            "SUPER HARD": "Bardzo trudny (profesor)"
+        };
 
         let fullDatabase = [];
 
@@ -695,33 +728,36 @@
             }
         }
 
-        // AUTO-UZUPEŁNIANIE LIST WYBORU (MARKET, LEVEL, SUBJECT)
+        // POPULACJA FILTRÓW
         function populateAllFilterDropdowns(data) {
             const markets = new Set();
             const levels = new Set();
             const subjects = new Set();
 
             data.forEach(item => {
-                if (item.market) markets.add(item.market.trim());
-                if (item.level) levels.add(item.level.trim());
+                if (item.market) markets.add(item.market.trim().toUpperCase());
+                if (item.level) levels.add(item.level.trim().toUpperCase());
                 if (item.subject) subjects.add(item.subject.trim());
             });
 
-            markets.forEach(m => {
+            // Markets
+            markets.forEach(mKey => {
                 const opt = document.createElement("option");
-                opt.value = m;
-                opt.textContent = m;
+                opt.value = mKey;
+                opt.textContent = MARKET_MAP[mKey] ? `${mKey} - ${MARKET_MAP[mKey]}` : mKey;
                 filterMarket.appendChild(opt);
             });
 
-            levels.forEach(l => {
+            // Education Levels
+            levels.forEach(lKey => {
                 const opt = document.createElement("option");
-                opt.value = l;
-                opt.textContent = l;
+                opt.value = lKey;
+                opt.textContent = LEVEL_MAP[lKey] || lKey;
                 filterLevel.appendChild(opt);
             });
 
-            subjects.forEach(s => {
+            // Subjects (posortowane alfabetycznie)
+            Array.from(subjects).sort((a,b) => a.localeCompare(b)).forEach(s => {
                 const opt = document.createElement("option");
                 opt.value = s;
                 opt.textContent = s;
@@ -729,11 +765,11 @@
             });
         }
 
-        // PRZELICZANIE METRYK
+        // PRZELICZANIE METRYK BAZY
         function updateEngineMetrics(data) {
-            const markets = new Set(data.map(i => i.market ? i.market.trim() : "").filter(Boolean));
+            const markets = new Set(data.map(i => i.market ? i.market.trim().toUpperCase() : "").filter(Boolean));
             const subjects = new Set(data.map(i => i.subject ? i.subject.trim().toLowerCase() : "").filter(Boolean));
-            const levels = new Set(data.map(i => i.level ? i.level.trim() : "").filter(Boolean));
+            const levels = new Set(data.map(i => i.level ? i.level.trim().toUpperCase() : "").filter(Boolean));
 
             statPackages.textContent = data.length;
             statMarkets.textContent = markets.size;
@@ -741,15 +777,33 @@
             statLevels.textContent = levels.size;
         }
 
-        // INTELIGENTNE FILTROWANIE
+        // LOGIKA DLA SEKCJI EXAM ORAZ DYNAMICZNEGO FILTROWANIA
+        function handleSubjectChange() {
+            const isExam = filterSubject.value.trim().toLowerCase() === "exam";
+
+            if (isExam) {
+                filterLevel.value = "";
+                filterLevel.disabled = true;
+                filterLevel.options[0].textContent = "N/A (Exam Level)";
+            } else {
+                filterLevel.disabled = false;
+                filterLevel.options[0].textContent = "All Levels";
+            }
+
+            filterData();
+        }
+
+        // INTELIGENTNE FILTROWANIE DANYCH
         function filterData() {
             const query = searchInput.value.trim().toLowerCase();
-            const selectedMarket = filterMarket.value.toLowerCase();
-            const selectedLevel = filterLevel.value.toLowerCase();
-            const selectedSubject = filterSubject.value.toLowerCase();
+            const selectedMarket = filterMarket.value.toUpperCase();
+            const selectedLevel = filterLevel.value.toUpperCase();
+            const selectedSubject = filterSubject.value;
+            const isExamSelected = selectedSubject.trim().toLowerCase() === "exam";
 
             clearSearchBtn.style.display = query ? "flex" : "none";
 
+            // Ukrycie wyników, gdy brak zapytania i brak aktywnych filtrów
             if (!query && !selectedMarket && !selectedLevel && !selectedSubject) {
                 initialPlaceholder.style.display = "block";
                 resultsSection.style.display = "none";
@@ -761,19 +815,30 @@
 
             const filtered = fullDatabase.filter(item => {
                 const topic = (item.topic || "").toLowerCase();
-                const market = (item.market || "").toLowerCase();
-                const level = (item.level || "").toLowerCase();
-                const subject = (item.subject || "").toLowerCase();
+                const market = (item.market || "").toUpperCase();
+                const level = (item.level || "").toUpperCase();
+                const subject = (item.subject || "");
 
-                const matchesQuery = !query || topic.includes(query) || subject.includes(query);
+                const matchesQuery = !query || topic.includes(query) || subject.toLowerCase().includes(query);
                 const matchesMarket = !selectedMarket || market === selectedMarket;
-                const matchesLevel = !selectedLevel || level === selectedLevel;
-                const matchesSubject = !selectedSubject || subject === selectedSubject;
+                const matchesSubject = !selectedSubject || subject.toLowerCase() === selectedSubject.toLowerCase();
+                
+                // Dla przedmiotu Exam poziom trudności jest ignorowany
+                const matchesLevel = isExamSelected || !selectedLevel || level === selectedLevel;
 
                 return matchesQuery && matchesMarket && matchesLevel && matchesSubject;
             });
 
             renderPackages(filtered);
+        }
+
+        // PARSER WIELU LINKÓW W POLE LINK (NP. ROZDZIELANYCH PRZECINKAMI, ŚREDNIKAMI LUB NOWĄ LINIA)
+        function parseLinks(rawLinkString) {
+            if (!rawLinkString) return [];
+            return rawLinkString
+                .split(/[\n,;]+/)
+                .map(l => l.trim())
+                .filter(l => l.length > 0 && (l.startsWith("http://") || l.startsWith("https://")));
         }
 
         function renderPackages(data) {
@@ -794,22 +859,54 @@
                 const card = document.createElement("div");
                 card.className = "package-card";
 
+                const marketKey = (item.market || "").trim().toUpperCase();
+                const levelKey = (item.level || "").trim().toUpperCase();
+                const rawSubject = (item.subject || "").trim();
+                const isExam = rawSubject.toLowerCase() === "exam";
+
+                const marketDisplay = MARKET_MAP[marketKey] ? `${marketKey} (${MARKET_MAP[marketKey]})` : marketKey;
+                const levelDisplay = LEVEL_MAP[levelKey] || levelKey;
+
+                const linkList = parseLinks(item.link);
+
+                let linksHtml = "";
+                if (linkList.length === 0) {
+                    linksHtml = `<span style="font-size:0.8rem; color:var(--text-secondary);">No active link available</span>`;
+                } else if (linkList.length === 1) {
+                    linksHtml = `
+                        <a href="${escapeHtml(linkList[0])}" target="_blank" class="btn-open-package">
+                            <span>Open Package</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </a>
+                    `;
+                } else {
+                    // Generowanie przycisków dla wielu linków w paczce
+                    linksHtml = `<div class="package-links-container">`;
+                    linkList.forEach((linkUrl, index) => {
+                        linksHtml += `
+                            <a href="${escapeHtml(linkUrl)}" target="_blank" class="btn-open-package">
+                                <span>Task Link #${index + 1}</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                        `;
+                    });
+                    linksHtml += `</div>`;
+                }
+
                 card.innerHTML = `
                     <div>
                         <div class="package-badges">
-                            ${item.market ? `<span class="badge badge-market">${escapeHtml(item.market)}</span>` : ''}
-                            ${item.level ? `<span class="badge badge-level">${escapeHtml(item.level)}</span>` : ''}
-                            ${item.subject ? `<span class="badge badge-subject">${escapeHtml(item.subject)}</span>` : ''}
+                            ${marketKey ? `<span class="badge badge-market">${escapeHtml(marketDisplay)}</span>` : ''}
+                            ${isExam 
+                                ? `<span class="badge badge-exam">EXAM RESOURCE</span>` 
+                                : (levelKey ? `<span class="badge badge-level">${escapeHtml(levelDisplay)}</span>` : '')
+                            }
+                            ${rawSubject ? `<span class="badge badge-subject">${escapeHtml(rawSubject)}</span>` : ''}
                         </div>
                         <div class="package-topic">${escapeHtml(item.topic || 'Untitled Package')}</div>
                     </div>
                     <div>
-                        ${item.link ? `
-                            <a href="${escapeHtml(item.link)}" target="_blank" class="btn-open-package">
-                                <span>Open Package</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                            </a>
-                        ` : '<span style="font-size:0.8rem; color:var(--text-secondary);">No link available</span>'}
+                        ${linksHtml}
                     </div>
                 `;
 
@@ -821,7 +918,7 @@
         searchInput.addEventListener("input", filterData);
         filterMarket.addEventListener("change", filterData);
         filterLevel.addEventListener("change", filterData);
-        filterSubject.addEventListener("change", filterData);
+        filterSubject.addEventListener("change", handleSubjectChange);
 
         clearSearchBtn.addEventListener("click", () => {
             searchInput.value = "";
