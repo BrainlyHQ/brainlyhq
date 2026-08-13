@@ -1,4 +1,4 @@
-// js/hub-render.js - Silnik renderowania i grupowania paczek zadań BrainlyHub
+// js/hub-render.js - Silnik grupowania i renderowania paczek zadań BrainlyHub
 
 const MARKET_MAP = {
     "IN": "Indie",
@@ -21,7 +21,6 @@ const LEVEL_MAP = {
     "SUPER HARD": "Bardzo trudny (profesor)"
 };
 
-// Pomocnicza funkcja bezpiecznego parsowania linków
 function parseLinks(rawLinkString) {
     if (!rawLinkString) return [];
     return String(rawLinkString)
@@ -30,7 +29,6 @@ function parseLinks(rawLinkString) {
         .filter(l => l.length > 0 && (l.startsWith("http://") || l.startsWith("https://")));
 }
 
-// Funkcja pomocnicza do bezpiecznego wprowadzania tekstu w HTML
 function escapeHtml(str) {
     return String(str || '').replace(/[&<>"']/g, function(m) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
@@ -38,7 +36,8 @@ function escapeHtml(str) {
 }
 
 /**
- * Grupuje surowe wiersze z Arkusza Google w zintegrowane Paczki (Topic Packages)
+ * Grupuje surowe wiersze z Arkusza po temacie (Topic).
+ * Jeśli 10 wierszy ma ten sam Topic -> powstaje 1 PACZKA z zebranymi wszystkimi linkami i tagami.
  */
 function groupDatabaseIntoPackages(rawData) {
     const packagesMap = new Map();
@@ -71,7 +70,7 @@ function groupDatabaseIntoPackages(rawData) {
 }
 
 /**
- * Renderuje kafelki paczek w podanym kontenerze DOM
+ * Generuje kafelki HTML paczek w kontenerze
  */
 function renderPackagesGrid(containerElement, countDisplayElement, groupedPackages) {
     containerElement.innerHTML = "";
@@ -93,14 +92,14 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
 
         const isExam = Array.from(pkg.subjects).some(s => s.toLowerCase() === 'exam');
 
-        // Renderowanie Badge'y Rynków
+        // Badge dla Rynków
         let marketsHtml = "";
         pkg.markets.forEach(mKey => {
             const mLabel = MARKET_MAP[mKey] ? `${mKey} (${MARKET_MAP[mKey]})` : mKey;
             marketsHtml += `<span class="badge badge-market">${escapeHtml(mLabel)}</span>`;
         });
 
-        // Renderowanie Badge'y Poziomów
+        // Badge dla Poziomów Trudności
         let levelsHtml = "";
         if (isExam) {
             levelsHtml = `<span class="badge badge-exam">EXAM RESOURCE</span>`;
@@ -111,13 +110,13 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
             });
         }
 
-        // Renderowanie Badge'y Przedmiotów
+        // Badge dla Przedmiotów
         let subjectsHtml = "";
         pkg.subjects.forEach(subj => {
             subjectsHtml += `<span class="badge badge-subject">${escapeHtml(subj)}</span>`;
         });
 
-        // Generowanie Linków Zadań
+        // Generowanie wielokrotnych przycisków linków
         const linkList = Array.from(pkg.links);
         let linksHtml = "";
 
