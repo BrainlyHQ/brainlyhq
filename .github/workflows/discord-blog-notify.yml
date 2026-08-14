@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get Added Blog Files
+      - name: Get Changed Blog Files
         id: changed-files
         uses: tj-actions/changed-files@v45
         with:
@@ -27,8 +27,8 @@ jobs:
         shell: bash
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
-          # ZMIANA: Przekazujemy tylko NOWO DODANE pliki (ignoruje edycje istniejących)
           ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
+          MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
         run: |
           LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/brainlycorewhite.png"
 
@@ -37,13 +37,40 @@ jobs:
             exit 1
           fi
 
-          if [ -z "$ADDED_FILES" ]; then
-            echo "Brak nowo dodanych artykułów JSON (pomijanie powiadomienia o edycji)."
+          FILES_TO_NOTIFY=""
+
+          # 1. Zawsze dodawaj nowo utworzone pliki
+          for FILE in $ADDED_FILES; do
+            FILES_TO_NOTIFY="$FILES_TO_NOTIFY $FILE"
+          done
+
+          # 2. Dla edytowanych plików sprawdź, czy zmienił się tytuł lub data
+          for FILE in $MODIFIED_FILES; do
+            echo "Sprawdzanie zmian w edytowanym pliku: $FILE"
+            
+            # Pobieramy stary plik z poprzedniego commita
+            OLD_TITLE=$(git show HEAD~1:"$FILE" 2>/dev/null | jq -r '.title // ""')
+            NEW_TITLE=$(jq -r '.title // ""' "$FILE")
+
+            OLD_DATE=$(git show HEAD~1:"$FILE" 2>/dev/null | jq -r '.date // ""')
+            NEW_DATE=$(jq -r '.date // ""' "$FILE")
+
+            if [ "$OLD_TITLE" != "$NEW_TITLE" ] || [ "$OLD_DATE" != "$NEW_DATE" ]; then
+              echo "Wykryto zmianę tytułu lub daty w $FILE! Wysyłam powiadomienie."
+              FILES_TO_NOTIFY="$FILES_TO_NOTIFY $FILE"
+            else
+              echo "Edycja $FILE nie dotyczyła tytułu ani daty - pomijam Discorda."
+            fi
+          done
+
+          if [ -z "$FILES_TO_NOTIFY" ]; then
+            echo "Brak nowych postów oraz brak zmian w tytułach/datach. Pomijam Discorda."
             exit 0
           fi
 
-          for FILE in $ADDED_FILES; do
-            echo "=== Przetwarzanie nowego artykułu: $FILE ==="
+          # Wysyłanie powiadomień
+          for FILE in $FILES_TO_NOTIFY; do
+            echo "=== Przetwarzanie artykułu: $FILE ==="
 
             TITLE=$(jq -r '.title // "New Blog Post"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
@@ -60,7 +87,6 @@ jobs:
                 CLEAN_PATH=$(echo "$IMAGE_RAW" | sed 's/^\///')
                 FULL_PATH="https://discord.brainly.com/$CLEAN_PATH"
               fi
-              # Bezpieczne kodowanie znaków specjalnych w URL
               IMAGE_URL=$(jq -nr --arg url "$FULL_PATH" '$url | @uri' | sed 's/%3A/:/g; s/%2F/\//g')
             fi
 
