@@ -29,6 +29,7 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
           ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
           MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
+          BEFORE_SHA: ${{ github.event.before }}
         run: |
           LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/brainlycorewhite.png"
 
@@ -44,15 +45,22 @@ jobs:
             FILES_TO_NOTIFY="$FILES_TO_NOTIFY $FILE"
           done
 
-          # 2. Dla edytowanych plików sprawdź, czy zmienił się tytuł lub data
+          # 2. Dla edytowanych plików sprawdź zmianę tytułu lub daty względem stanu sprzed commita/PR
           for FILE in $MODIFIED_FILES; do
             echo "Sprawdzanie zmian w edytowanym pliku: $FILE"
             
-            # Pobieramy stary plik z poprzedniego commita
-            OLD_TITLE=$(git show HEAD~1:"$FILE" 2>/dev/null | jq -r '.title // ""')
+            # Pobranie poprzedniej wersji pliku sprzed zmiany na main
+            OLD_JSON=""
+            if [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
+              OLD_JSON=$(git show "$BEFORE_SHA:$FILE" 2>/dev/null || echo "{}")
+            else
+              OLD_JSON=$(git show HEAD^1:"$FILE" 2>/dev/null || echo "{}")
+            fi
+            
+            OLD_TITLE=$(echo "$OLD_JSON" | jq -r '.title // ""')
             NEW_TITLE=$(jq -r '.title // ""' "$FILE")
 
-            OLD_DATE=$(git show HEAD~1:"$FILE" 2>/dev/null | jq -r '.date // ""')
+            OLD_DATE=$(echo "$OLD_JSON" | jq -r '.date // ""')
             NEW_DATE=$(jq -r '.date // ""' "$FILE")
 
             if [ "$OLD_TITLE" != "$NEW_TITLE" ] || [ "$OLD_DATE" != "$NEW_DATE" ]; then
