@@ -29,7 +29,6 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DISCORD_BLOG_WEBHOOK }}
           ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
           MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
-          BEFORE_SHA: ${{ github.event.before }}
         run: |
           LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/brainlycorewhite.png"
 
@@ -45,17 +44,11 @@ jobs:
             FILES_TO_NOTIFY="$FILES_TO_NOTIFY $FILE"
           done
 
-          # 2. Dla edytowanych plików sprawdź zmianę tytułu lub daty względem stanu sprzed commita/PR
+          # 2. Dla edytowanych plików sprawdź zmianę tytułu lub daty
           for FILE in $MODIFIED_FILES; do
             echo "Sprawdzanie zmian w edytowanym pliku: $FILE"
             
-            # Pobranie poprzedniej wersji pliku sprzed zmiany na main
-            OLD_JSON=""
-            if [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
-              OLD_JSON=$(git show "$BEFORE_SHA:$FILE" 2>/dev/null || echo "{}")
-            else
-              OLD_JSON=$(git show HEAD^1:"$FILE" 2>/dev/null || echo "{}")
-            fi
+            OLD_JSON=$(git show HEAD^1:"$FILE" 2>/dev/null || echo "{}")
             
             OLD_TITLE=$(echo "$OLD_JSON" | jq -r '.title // ""')
             NEW_TITLE=$(jq -r '.title // ""' "$FILE")
@@ -80,13 +73,24 @@ jobs:
           for FILE in $FILES_TO_NOTIFY; do
             echo "=== Przetwarzanie artykułu: $FILE ==="
 
+            # Sprawdzenie daty publikacji – pomijaj Discorda, jeśli post jest zaplanowany na przyszłość
+            POST_DATE=$(jq -r '.date // ""' "$FILE")
+            NOW_TIMESTAMP=$(date +%s)
+            if [ -n "$POST_DATE" ]; then
+              POST_TIMESTAMP=$(date -d "$POST_DATE" +%s 2>/dev/null || echo 0)
+              if [ "$POST_TIMESTAMP" -gt "$NOW_TIMESTAMP" ]; then
+                echo "Post $FILE jest zaplanowany na przyszłość ($POST_DATE). Pomijam wysyłanie na Discord."
+                continue
+              fi
+            fi
+
             TITLE=$(jq -r '.title // "New Blog Post"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
             IMAGE_RAW=$(jq -r '.image // ""' "$FILE")
             SLUG=$(basename "$FILE" .json)
             POST_URL="https://discord.brainly.com/post.html?slug=$SLUG"
 
-            # Konwersja ścieżki obrazka na pełny adres URL i kodowanie znaków specjalnych
+            # Konwersja ścieżki obrazka na pełny adres URL
             IMAGE_URL=""
             if [ -n "$IMAGE_RAW" ] && [ "$IMAGE_RAW" != "null" ]; then
               if [[ "$IMAGE_RAW" =~ ^https?:// ]]; then
@@ -98,24 +102,44 @@ jobs:
               IMAGE_URL=$(jq -nr --arg url "$FULL_PATH" '$url | @uri' | sed 's/%3A/:/g; s/%2F/\//g')
             fi
 
-            PAYLOAD=$(jq -n \
-              --arg title "$TITLE" \
-              --arg desc "$EXCERPT" \
-              --arg url "$POST_URL" \
-              --arg image "$IMAGE_URL" \
-              --arg logo "$LOGO_URL" \
-              '{
-                content: "<@&1536718339207077959>",
-                username: "BrainlyHQ Blog",
-                avatar_url: $logo,
-                embeds: [{
-                  title: $title,
-                  description: $desc,
-                  url: $url,
-                  color: 10088032,
-                  image: (if $image != "" and $image != null then {url: $image} else null end)
-                }]
-              }')
+            # Budowanie bezpiecznego payloadu JSON bez błędów strukturalnych
+            if [ -n "$IMAGE_URL" ]; then
+              PAYLOAD=$(jq -n \
+                --arg title "$TITLE" \
+                --arg desc "$EXCERPT" \
+                --arg url "$POST_URL" \
+                --arg image "$IMAGE_URL" \
+                --arg logo "$LOGO_URL" \
+                '{
+                  content: "<@&1536718339207077959>",
+                  username: "BrainlyHQ Blog",
+                  avatar_url: $logo,
+                  embeds: [{
+                    title: $title,
+                    description: $desc,
+                    url: $url,
+                    color: 10088032,
+                    image: { url: $image }
+                  }]
+                }')
+            else
+              PAYLOAD=$(jq -n \
+                --arg title "$TITLE" \
+                --arg desc "$EXCERPT" \
+                --arg url "$POST_URL" \
+                --arg logo "$LOGO_URL" \
+                '{
+                  content: "<@&1536718339207077959>",
+                  username: "BrainlyHQ Blog",
+                  avatar_url: $logo,
+                  embeds: [{
+                    title: $title,
+                    description: $desc,
+                    url: $url,
+                    color: 10088032
+                  }]
+                }')
+            fi
 
             echo "Wysyłanie danych do Discorda..."
             RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Content-Type: application/json" -X POST -d "$PAYLOAD" "$WEBHOOK_URL")
