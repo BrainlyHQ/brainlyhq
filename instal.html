@@ -652,6 +652,35 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
+        // OBSŁUGA OBSZARU INSTALACJI PWA
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Zapobiegnij automatycznemu wyświetleniu domyślnego bannera przeglądarki
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        async function handlePwaInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted the PWA install prompt');
+                }
+                deferredPrompt = null;
+            } else {
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    alert('To install on iOS: tap the Share icon at the bottom of Safari, then select "Add to Home Screen".');
+                } else if (window.matchMedia('(display-mode: standalone)').matches) {
+                    alert('BrainlyHQ App is already installed on your device!');
+                } else {
+                    alert('To install the app, please use the "Add to Home Screen" or "Install" option in your browser menu.');
+                }
+            }
+        }
+
         // PRZEŁĄCZANIE ZAKŁADEK INSTRUKCJI
         function switchPlatformTab(platform) {
             document.querySelectorAll('.platform-instructions-panel').forEach(panel => panel.classList.remove('active'));
@@ -664,7 +693,7 @@
             if (selectedBtn) selectedBtn.classList.add('active');
         }
 
-        // AUTOMATYCZNA DETEKCJA URZĄDZENIA UŻYTKOWNIKA
+        // AUTOMATYCZNA DETEKCJA URZĄDZENIA UŻYTKOWNIKA I REJESTRACJA PRZYCISKÓW
         document.addEventListener("DOMContentLoaded", () => {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
@@ -675,6 +704,11 @@
             } else {
                 switchPlatformTab('desktop');
             }
+
+            // Podepnij wywołanie instalacji pod wszystkie przyciski .trigger-pwa-install
+            document.querySelectorAll('.trigger-pwa-install').forEach(btn => {
+                btn.addEventListener('click', handlePwaInstall);
+            });
         });
     </script>
 </body>
