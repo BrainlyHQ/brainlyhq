@@ -205,6 +205,17 @@
             to { transform: rotate(360deg); }
         }
 
+        .retry-btn {
+            background-color: var(--color-brainly-green);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
         @media (max-width: 600px) {
             .status-header-flex {
                 flex-direction: column;
@@ -338,7 +349,7 @@
             const heroContainer = document.getElementById("status-hero-container");
             const historyContainer = document.getElementById("history-container");
 
-            // Wczytaj z cache (jeśli istnieje), by nie kazać użytkownikowi czekać
+            // Wczytaj z cache (jeśli istnieje), by przyspieszyć ładowanie dla powracających użytkowników
             const cachedData = localStorage.getItem(CACHE_KEY);
             if (cachedData) {
                 try {
@@ -346,13 +357,9 @@
                 } catch(e) {}
             }
 
-            // Limit czasu wywołania (4.5 sekundy timeout na Apps Script)
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 4500);
-
             try {
-                const response = await fetch(API_URL, { signal: controller.signal });
-                clearTimeout(timeoutId);
+                // Bez limitu czasu (czeka aż Google Apps Script wygeneruje całą odpowiedź)
+                const response = await fetch(API_URL);
 
                 if (!response.ok) throw new Error("Network response was not ok");
 
@@ -361,19 +368,25 @@
                 // Zapisz do pamięci podręcznej na przyszłość
                 localStorage.setItem(CACHE_KEY, JSON.stringify(data));
                 
-                // Zaktualizuj widok nowymi danymi z arkusza
+                // Zaktualizuj widok realnymi danymi z arkusza
                 renderUI(data);
 
             } catch (error) {
-                console.warn("Google Apps Script delay or network error:", error);
+                console.warn("Error fetching status from Apps Script:", error);
                 
-                // Jeśli nie mieliśmy podglądu z cache, pokaź spójną informację domyślną
+                // Jeśli nie było danych z cache i sieć zawiodła, pokaż jasny błąd z opcją ponowienia
                 if (!cachedData) {
-                    renderUI({
-                        isMaintenance: false,
-                        message: "All systems are currently performing as expected.",
-                        history: []
-                    });
+                    heroContainer.innerHTML = `
+                        <div class="status-hero-card" style="border: 1px solid var(--border-color); background: var(--bg-secondary);">
+                            <p class="status-description">Unable to load live status from server.</p>
+                            <button class="retry-btn" onclick="fetchMaintenanceData()">Try again</button>
+                        </div>
+                    `;
+                    historyContainer.innerHTML = `
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); font-style: italic; margin: 0;">
+                            Failed to load history logs.
+                        </p>
+                    `;
                 }
             }
         }
