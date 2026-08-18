@@ -461,8 +461,17 @@
 
         function applyFiltersAndRender() {
             const searchQuery = document.getElementById("blog-search-input").value.toLowerCase().trim();
+            const now = new Date();
 
             let filtered = allPosts.filter(post => {
+                // Sprawdzanie czy data publikacji nie wybiega w przyszłość
+                if (post.date) {
+                    const postDate = new Date(post.date);
+                    if (postDate > now) {
+                        return false;
+                    }
+                }
+
                 const matchesFilter = activeFilter === 'all' || post.category === activeFilter;
                 const matchesSearch = !searchQuery || 
                     (post.title && post.title.toLowerCase().includes(searchQuery)) ||
