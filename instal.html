@@ -111,6 +111,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            text-align: center;
         }
 
         .tab-btn.active {
@@ -145,7 +146,6 @@
             justify-content: space-between;
         }
 
-        /* ZMIANA: ZAMIAST WYŚRODKOWANIA, LISTA JEST WYRÓWNANA DO GÓRY (JUSTIFY-CONTENT: FLEX-START) */
         .instructions-list {
             list-style: none;
             padding: 0;
@@ -294,23 +294,60 @@
             text-transform: none !important;
         }
 
+        /* --- STYLE RESPONSYWNE DLA TELEFONÓW I TABLETÓW --- */
         @media (max-width: 900px) {
             .install-hero-container {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 24px;
+                padding: 0 16px;
             }
+
+            .platform-tabs-container {
+                flex-direction: column;
+                gap: 6px;
+                padding: 6px;
+            }
+
+            .tab-btn {
+                padding: 10px 12px;
+                font-size: 0.88rem;
+                width: 100%;
+            }
+
+            .platform-instructions-panel {
+                padding: 20px 18px;
+            }
+
+            .instructions-list {
+                min-height: auto;
+            }
+
+            .instructions-list li {
+                font-size: 0.92rem;
+            }
+
             .inner-benefits-grid {
                 grid-template-columns: 1fr;
+                gap: 10px;
             }
+
             .bottom-actions-row {
                 flex-direction: column;
+                gap: 10px;
             }
+
             .inline-rewards-badge, .inline-install-btn {
                 width: 100%;
             }
+
             .mockup-preview-wrapper {
                 justify-content: center;
                 order: -1;
+                height: 480px;
+            }
+
+            .phone-frame-container {
+                max-width: 240px;
             }
         }
     </style>
