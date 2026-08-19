@@ -73,17 +73,6 @@ jobs:
           for FILE in $FILES_TO_NOTIFY; do
             echo "=== Przetwarzanie artykułu: $FILE ==="
 
-            # Sprawdzenie daty publikacji – poprawiona obsługa stref czasowych i margines bezpieczeństwa (5 minut)
-            POST_DATE=$(jq -r '.date // ""' "$FILE")
-            NOW_TIMESTAMP=$(date +%s)
-            if [ -n "$POST_DATE" ]; then
-              POST_TIMESTAMP=$(date -d "$POST_DATE UTC" +%s 2>/dev/null || date -d "$POST_DATE" +%s 2>/dev/null || echo 0)
-              if [ "$POST_TIMESTAMP" -gt $((NOW_TIMESTAMP + 300)) ]; then
-                echo "Post $FILE jest zaplanowany na przyszłość ($POST_DATE). Pomijam wysyłanie na Discord."
-                continue
-              fi
-            fi
-
             TITLE=$(jq -r '.title // "New Blog Post"' "$FILE")
             EXCERPT=$(jq -r '.excerpt // ""' "$FILE")
             IMAGE_RAW=$(jq -r '.image // ""' "$FILE")
