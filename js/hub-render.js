@@ -75,9 +75,11 @@ function groupDatabaseIntoPackages(rawData) {
     });
 
     const allPackages = Array.from(packagesMap.values());
-    const sortedByLatest = [...allPackages].sort((a, b) => b.maxRowId - a.maxRowId);
     
-    // Identyfikatory 3 najnowszych paczek dla domyślnego widoku
+    // Sortowanie malejąco po maxRowId (najnowsze dodane ID na samym początku tablicy)
+    const sortedByLatest = [...allPackages].sort((a, b) => Number(b.maxRowId) - Number(a.maxRowId));
+    
+    // Pobieramy dokładnie 3 najnowsze paczki
     const top3LatestIds = new Set(sortedByLatest.slice(0, 3).map(p => p.maxRowId));
 
     allPackages.forEach(pkg => {
