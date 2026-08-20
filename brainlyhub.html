@@ -248,10 +248,16 @@
 
         .featured-section { margin-top: 40px; }
         
-        /* WYŚRODKOWANY TYTUŁ BEZ EMOTEK / IKON */
         .featured-title {
             font-size: 1.1rem; font-weight: 900; color: #ff6e00; margin-bottom: 20px;
-            text-align: center; text-transform: uppercase; letter-spacing: 0.8px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-transform: uppercase; letter-spacing: 0.8px;
+        }
+
+        .featured-title img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
         }
 
         .packages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
@@ -402,9 +408,11 @@
             </div>
         </section>
 
-        <!-- WIDOK POCZĄTKOWY: 3 NAJNOWSZE KAFELKI Z SAMYM TEXTEM W H3 -->
+        <!-- WIDOK POCZĄTKOWY: 3 NAJNOWSZE KAFELKI Z IKONĄ FIRE.PNG W NAGŁÓWKU H3 -->
         <div id="initial-placeholder" class="featured-section">
-            <h3 class="featured-title">Popular &amp; Latest Additions</h3>
+            <h3 class="featured-title">
+                <img src="assets/fire.png" alt="Popular"> Popular &amp; Latest Additions
+            </h3>
             <div id="featured-packages-grid" class="packages-grid"></div>
         </div>
 
