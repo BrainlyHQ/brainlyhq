@@ -72,11 +72,12 @@ function groupDatabaseIntoPackages(rawData) {
         if (item.subject) pkg.subjects.add(item.subject.trim());
 
         const extractedLinks = parseLinks(item.link);
-        const extractedGroups = parseLinkGroups(item.linkGroup);
+        
+        // Bezpieczne odczytanie nazwy z kolumny LINK GROUP niezależnie od wielkości liter w kluczu
+        const rawGroupVal = item.linkgroup !== undefined ? item.linkgroup : (item.linkGroup !== undefined ? item.linkGroup : '');
+        const extractedGroups = parseLinkGroups(rawGroupVal);
 
         extractedLinks.forEach((l, idx) => {
-            // Jeśli w kolumnie F podano nazwę dla tego konkretnego indeksu, użyj jej.
-            // Jeśli podano tylko 1 tytuł w F dla wielu linków, użyj go jako bazowego z numeracją.
             let title = "";
             if (extractedGroups[idx]) {
                 title = extractedGroups[idx];
