@@ -183,7 +183,8 @@
     <!-- FORMULARZ LOGOWANIA (PEŁEN EKRAN) -->
     <div id="login-overlay" class="login-overlay">
         <div class="login-card">
-            <img id="hub-login-logo" src="assets/Brainly Hub White.png" alt="Brainly Hub Logo" class="login-logo">
+            <!-- Zawsze stałe jedno logo Brainly Hub.png -->
+            <img id="hub-login-logo" src="assets/Brainly Hub.png" alt="Brainly Hub Logo" class="login-logo">
             <h1 class="login-title">BrainlyHub</h1>
             <p class="login-subtitle">Access to internal task database &amp; resources</p>
 
@@ -230,28 +231,6 @@
         const btnSpinner = document.getElementById("btn-spinner");
         const togglePasswordBtn = document.getElementById("toggle-password");
         const passwordInput = document.getElementById("password");
-        const hubLogoImg = document.getElementById("hub-login-logo");
-
-        // Dynamiczna zmiana ikony logotypu na podstawie motywu
-        function updateLogoTheme() {
-            const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-            if (hubLogoImg) {
-                if (currentTheme === "light") {
-                    hubLogoImg.src = "assets/Brainly Hub.png";
-                } else {
-                    hubLogoImg.src = "assets/Brainly Hub White.png";
-                }
-            }
-        }
-
-        const themeObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
-                    updateLogoTheme();
-                }
-            });
-        });
-        themeObserver.observe(document.documentElement, { attributes: true });
 
         // Sprawdzanie aktywnej sesji przy wejściu
         function checkSession() {
@@ -313,7 +292,6 @@
         });
 
         document.addEventListener("DOMContentLoaded", () => {
-            updateLogoTheme();
             checkSession();
         });
     </script>
