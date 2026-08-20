@@ -131,21 +131,11 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
             subjectsHtml += `<span class="badge badge-subject">${escapeHtml(subj)}</span>`;
         });
 
-        let linksHtml = "";
-        if (pkg.structuredLinks.length === 0) {
-            linksHtml = `<span style="font-size:0.8rem; color:var(--text-secondary);">No active link available</span>`;
-        } else {
-            linksHtml = `<div class="package-links-container" style="display:flex; flex-direction:column; gap:8px;">`;
-            pkg.structuredLinks.forEach(linkObj => {
-                linksHtml += `
-                    <a href="${escapeHtml(linkObj.url)}" target="_blank" class="btn-open-package">
-                        <span>${escapeHtml(linkObj.title)}</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    </a>
-                `;
-            });
-            linksHtml += `</div>`;
-        }
+        const taskCount = pkg.structuredLinks.length;
+        const taskCountText = `${taskCount} ${taskCount === 1 ? 'Task' : 'Tasks'}`;
+
+        // Link przekierowujący do hub-package.html
+        const packageUrl = `hub-package.html?topic=${encodeURIComponent(pkg.displayTopic)}&market=${encodeURIComponent(pkg.marketKey)}`;
 
         card.innerHTML = `
             <div>
@@ -157,7 +147,14 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
                 <div class="package-topic">${escapeHtml(pkg.displayTopic)}</div>
             </div>
             <div>
-                ${linksHtml}
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.82rem; color: var(--text-secondary); font-weight: 700;">
+                    <span>Contains:</span>
+                    <span style="color: var(--color-brainly-green); font-weight: 800;">${taskCountText}</span>
+                </div>
+                <a href="${packageUrl}" class="btn-open-package">
+                    <span>Open Package</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                </a>
             </div>
         `;
 
