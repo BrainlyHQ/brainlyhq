@@ -43,7 +43,7 @@ function initCachedData() {
             if (Array.isArray(parsed) && parsed.length > 0) {
                 fullDatabase = parsed;
                 updateEngineMetrics(fullDatabase);
-                renderFeaturedFour();
+                renderFeaturedThree();
             }
         }
     } catch(e) {
@@ -59,7 +59,7 @@ async function loadDatabase() {
             try { localStorage.setItem("brainly_db_cache", JSON.stringify(fullDatabase)); } catch(e){}
             
             updateEngineMetrics(fullDatabase);
-            renderFeaturedFour();
+            renderFeaturedThree();
 
             const searchInput = document.getElementById("ai-search-input");
             const filterMarket = document.getElementById("filter-market");
@@ -127,20 +127,19 @@ function updateEngineMetrics(data) {
     if (statLevels) statLevels.textContent = typeof LEVEL_MAP !== 'undefined' ? Object.keys(LEVEL_MAP).length : 5;
 }
 
-// Renderowanie 4 najnowszych paczek przed wpisaniem czegokolwiek w szukajkę
-function renderFeaturedFour() {
+// Renderowanie dokładnie 3 najnowszych paczek przed wpisaniem zapytania
+function renderFeaturedThree() {
     const featuredContainer = document.getElementById("featured-packages-grid");
     if (!featuredContainer || fullDatabase.length === 0) return;
 
     const grouped = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(fullDatabase) : [];
-    const latestFour = grouped.slice(0, 4);
+    const latestThree = grouped.slice(0, 3);
 
     if (typeof renderPackagesGrid === 'function') {
-        renderPackagesGrid(featuredContainer, null, latestFour, false, true);
+        renderPackagesGrid(featuredContainer, null, latestThree, false, true);
     }
 }
 
-// PŁYNNA LOGIKA EXAM BEZ FIZYCZNEJ BLOKADY POLA
 function handleSubjectChange() {
     const filterSubject = document.getElementById("filter-subject");
     const filterLevel = document.getElementById("filter-level");
