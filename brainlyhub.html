@@ -180,7 +180,6 @@
             outline: none;
         }
 
-        /* SYMETRYCZNY I IDEALNY KRZYŻYK USUWANIA TEXTU */
         .clear-search-btn {
             background: rgba(255, 255, 255, 0.08);
             border: none;
@@ -225,7 +224,6 @@
             letter-spacing: 0.6px; color: var(--text-secondary); margin-left: 4px;
         }
 
-        /* DODANE PADDING-RIGHT DLA ELEGANCKIEGO ODSTĘPU STRZAŁKI OD KRAWĘDZI */
         .filter-select {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -338,7 +336,8 @@
 
     <header class="hub-navbar">
         <a href="#" class="hub-brand">
-            <img id="hub-nav-logo" src="assets/Brainly Hub White.png" alt="BrainlyHub Logo">
+            <!-- Jedno logo w nawigacji niezależnie od motywu -->
+            <img id="hub-nav-logo" src="assets/Brainly Hub.png" alt="BrainlyHub Logo">
             <span class="hub-brand-title">BrainlyHub Engine</span>
         </a>
 
@@ -412,7 +411,7 @@
                 <div class="metric-divider"></div>
                 <div class="metric-item">
                     <span>Levels:</span>
-                    <strong id="stat-levels-count">4</strong>
+                    <strong id="stat-levels-count">5</strong>
                 </div>
             </div>
         </section>
@@ -440,7 +439,6 @@
     <script>
         const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
 
-        // KOMPLETNA LISTA PRZEDMIOTÓW DLA ARCHITEKTURY BRAINLYHUB
         const COMPLETE_SUBJECTS_LIST = [
             "Arts", "Biology", "Business", "Chemistry", "Chinese", 
             "Computers and Technology", "Engineering", "English", "Exam", "French", 
@@ -454,7 +452,6 @@
 
         const usernameDisplay = document.getElementById("hub-username-display");
         const logoutBtn = document.getElementById("hub-logout-btn");
-        const navLogoImg = document.getElementById("hub-nav-logo");
 
         const searchInput = document.getElementById("ai-search-input");
         const clearSearchBtn = document.getElementById("clear-search-btn");
@@ -472,16 +469,6 @@
         const statMarkets = document.getElementById("stat-markets-count");
         const statSubjects = document.getElementById("stat-subjects-count");
         const statLevels = document.getElementById("stat-levels-count");
-
-        function updateLogoTheme() {
-            const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-            if (navLogoImg) {
-                navLogoImg.src = currentTheme === "light" ? "assets/Brainly Hub.png" : "assets/Brainly Hub White.png";
-            }
-        }
-
-        const themeObserver = new MutationObserver(() => updateLogoTheme());
-        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
         const sessionUser = sessionStorage.getItem("brainly_hub_user");
         if (usernameDisplay) usernameDisplay.textContent = sessionUser || "User";
@@ -585,19 +572,32 @@
             if (statLinks) statLinks.textContent = totalLinks;
             statMarkets.textContent = typeof MARKET_MAP !== 'undefined' ? Object.keys(MARKET_MAP).length : 11;
             statSubjects.textContent = COMPLETE_SUBJECTS_LIST.length;
-            statLevels.textContent = typeof LEVEL_MAP !== 'undefined' ? Object.keys(LEVEL_MAP).length : 4;
+            statLevels.textContent = typeof LEVEL_MAP !== 'undefined' ? Object.keys(LEVEL_MAP).length : 5;
         }
 
+        // DWUKIERUNKOWA BLOKADA DLA EXAM
         function handleSubjectChange() {
             const isExam = filterSubject.value.trim().toLowerCase() === "exam";
 
             if (isExam) {
-                filterLevel.value = "";
+                filterLevel.value = "EXAM";
                 filterLevel.disabled = true;
-                filterLevel.options[0].textContent = "N/A (Exam Level)";
             } else {
+                if (filterLevel.value === "EXAM") {
+                    filterLevel.value = "";
+                }
                 filterLevel.disabled = false;
-                filterLevel.options[0].textContent = "All Levels";
+            }
+
+            filterData();
+        }
+
+        function handleLevelChange() {
+            const isExamLevel = filterLevel.value.trim().toUpperCase() === "EXAM";
+
+            if (isExamLevel) {
+                filterSubject.value = "Exam";
+                filterLevel.disabled = true;
             }
 
             filterData();
@@ -606,8 +606,10 @@
         function handleInputQuery() {
             const query = searchInput.value.trim().toLowerCase();
 
-            if (query.includes("trygonometria") || query.includes("trigonometr") || query.includes("algebra") || query.includes("geometry") || query.includes("matura")) {
-                filterSubject.value = "Mathematics";
+            if (query.includes("trygonometria") || query.includes("trigonometr") || query.includes("algebra") || query.includes("geometry")) {
+                if (filterSubject.value !== "Exam") {
+                    filterSubject.value = "Mathematics";
+                }
             }
 
             filterData();
@@ -618,11 +620,12 @@
             const selectedMarket = filterMarket.value.trim().toUpperCase();
             const selectedLevel = filterLevel.value.trim().toUpperCase();
             const selectedSubject = filterSubject.value.trim();
-            const isExamSelected = selectedSubject.toLowerCase() === "exam";
+
+            const isFilterActive = query.length > 0 || selectedMarket !== "" || selectedLevel !== "" || selectedSubject !== "";
 
             clearSearchBtn.style.display = query.length > 0 ? "flex" : "none";
 
-            if (!query && !selectedMarket && !selectedLevel && !selectedSubject) {
+            if (!isFilterActive) {
                 initialPlaceholder.style.display = "block";
                 resultsSection.style.display = "none";
                 return;
@@ -638,34 +641,35 @@
                 const subject = String(item.subject || "");
 
                 const matchesQuery = !query || topic.includes(query) || subject.toLowerCase().includes(query);
-                
                 const matchesMarket = !selectedMarket || market === selectedMarket;
                 const matchesSubject = !selectedSubject || subject.toLowerCase() === selectedSubject.toLowerCase();
-                const matchesLevel = isExamSelected || !selectedLevel || level === selectedLevel;
+                const matchesLevel = !selectedLevel || level === selectedLevel;
 
                 return matchesQuery && matchesMarket && matchesLevel && matchesSubject;
             });
 
             const groupedPackages = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(filteredRawRows) : [];
             if (typeof renderPackagesGrid === 'function') {
-                renderPackagesGrid(packagesContainer, resultsCountText, groupedPackages);
+                // Przekazanie flagi isFilterActive do znikania płomienia przy aktywnym szukaniu/filtrowaniu
+                renderPackagesGrid(packagesContainer, resultsCountText, groupedPackages, isFilterActive);
             }
         }
 
         searchInput.addEventListener("input", handleInputQuery);
         filterMarket.addEventListener("change", filterData);
-        filterLevel.addEventListener("change", filterData);
+        filterLevel.addEventListener("change", handleLevelChange);
         filterSubject.addEventListener("change", handleSubjectChange);
 
         clearSearchBtn.addEventListener("click", () => {
             searchInput.value = "";
             filterSubject.value = "";
+            filterLevel.value = "";
+            filterLevel.disabled = false;
             filterData();
             searchInput.focus();
         });
 
         document.addEventListener("DOMContentLoaded", () => {
-            updateLogoTheme();
             populateAllStaticFilterDropdowns();
             initCachedData();
             loadDatabase();
