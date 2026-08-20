@@ -1,4 +1,4 @@
-// js/hub-render.js - Silnik grupowania i renderowania paczek zadań BrainlyHub
+// js/hub-render.js - Silnik renderowania i szablonów paczek z bazy
 
 const MARKET_MAP = {
     "US": "Brainly.com",
@@ -36,18 +36,12 @@ function escapeHtml(str) {
     });
 }
 
-/**
- * Grupuje surowe wiersze z Arkusza po unikalnej kombinacji TOPIC + MARKET.
- * Dodatkowo przechowuje maksymalny ID wiersza do identyfikacji najnowszych wpisów.
- */
 function groupDatabaseIntoPackages(rawData) {
     const packagesMap = new Map();
 
     rawData.forEach(item => {
         const rawTopic = (item.topic || 'Untitled Package').trim();
         const rawMarket = (item.market || 'GLOBAL').trim().toUpperCase();
-        
-        // KLUCZ PACZKI = TOPIC + MARKET
         const packageKey = `${rawTopic.toLowerCase()}___${rawMarket}`;
 
         if (!packagesMap.has(packageKey)) {
@@ -57,7 +51,7 @@ function groupDatabaseIntoPackages(rawData) {
                 maxRowId: item.id || 0,
                 levels: new Set(),
                 subjects: new Set(),
-                structuredLinks: [] // { url, title }
+                structuredLinks: []
             });
         }
 
@@ -81,8 +75,6 @@ function groupDatabaseIntoPackages(rawData) {
     });
 
     const allPackages = Array.from(packagesMap.values());
-
-    // Wyznaczanie ID dla 4 najnowszych paczek
     const sortedByLatest = [...allPackages].sort((a, b) => b.maxRowId - a.maxRowId);
     const top4LatestIds = new Set(sortedByLatest.slice(0, 4).map(p => p.maxRowId));
 
@@ -90,19 +82,16 @@ function groupDatabaseIntoPackages(rawData) {
         pkg.isHot = top4LatestIds.has(pkg.maxRowId);
     });
 
-    return allPackages;
+    return sortedByLatest;
 }
 
-/**
- * Generuje kafelki HTML paczek w kontenerze
- * @param {HTMLElement} containerElement
- * @param {HTMLElement} countDisplayElement
- * @param {Array} groupedPackages
- * @param {Boolean} isSearchOrFilterActive - jeśli true, płomień znika
- */
-function renderPackagesGrid(containerElement, countDisplayElement, groupedPackages, isSearchOrFilterActive = false) {
+function renderPackagesGrid(containerElement, countDisplayElement, groupedPackages, isSearchOrFilterActive = false, isFeaturedGrid = false) {
+    if (!containerElement) return;
     containerElement.innerHTML = "";
-    countDisplayElement.textContent = `${groupedPackages.length} package${groupedPackages.length === 1 ? '' : 's'} found`;
+
+    if (countDisplayElement) {
+        countDisplayElement.textContent = `${groupedPackages.length} package${groupedPackages.length === 1 ? '' : 's'} found`;
+    }
 
     if (groupedPackages.length === 0) {
         containerElement.innerHTML = `
@@ -116,19 +105,15 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
 
     groupedPackages.forEach(pkg => {
         const card = document.createElement("div");
-        card.className = "package-card";
+        card.className = isFeaturedGrid ? "package-card package-card-featured" : "package-card";
 
         const isExam = Array.from(pkg.subjects).some(s => s.toLowerCase() === 'exam') || pkg.levels.has('EXAM');
-
-        // Płomień (Popular / Latest) - wyświetla się tylko, gdy szukajka/filtr nie są aktywne
         const showFlame = pkg.isHot && !isSearchOrFilterActive;
         const flameHtml = showFlame ? `<span class="badge badge-hot" style="background-color: rgba(255, 110, 0, 0.2); color: #ff6e00; border: 1px solid #ff6e00; font-weight: 900;">🔥 POPULAR</span>` : '';
 
-        // Badge dla Rynku
         const marketLabel = MARKET_MAP[pkg.marketKey] || pkg.marketKey;
         const marketsHtml = `<span class="badge badge-market">${escapeHtml(marketLabel)}</span>`;
 
-        // Badge dla Poziomów Trudności
         let levelsHtml = "";
         if (isExam) {
             levelsHtml = `<span class="badge badge-exam">EXAM RESOURCE</span>`;
@@ -139,13 +124,11 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
             });
         }
 
-        // Badge dla Przedmiotów
         let subjectsHtml = "";
         pkg.subjects.forEach(subj => {
             subjectsHtml += `<span class="badge badge-subject">${escapeHtml(subj)}</span>`;
         });
 
-        // Linki wewnątrz paczki (Kolumna F: Link Group)
         let linksHtml = "";
         if (pkg.structuredLinks.length === 0) {
             linksHtml = `<span style="font-size:0.8rem; color:var(--text-secondary);">No active link available</span>`;
