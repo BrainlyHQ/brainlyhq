@@ -203,7 +203,28 @@
     </main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        const API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
+
+        function fetchFreshDbJSONP() {
+            return new Promise((resolve, reject) => {
+                const cbName = 'jsonp_pkg_db_' + Math.round(100000 * Math.random());
+                const script = document.createElement('script');
+                window[cbName] = function(data) {
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    resolve(data);
+                };
+                script.onerror = function() {
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    reject(new Error("JSONP failed"));
+                };
+                script.src = `${API_URL}?callback=${cbName}`;
+                document.body.appendChild(script);
+            });
+        }
+
+        async function renderPackageView() {
             const urlParams = new URLSearchParams(window.location.search);
             const topicParam = urlParams.get("topic");
             const marketParam = urlParams.get("market");
@@ -211,15 +232,34 @@
             const headerTarget = document.getElementById("package-header-target");
             const tasksTarget = document.getElementById("tasks-list-target");
 
-            const cachedData = localStorage.getItem("brainly_db_cache");
-            if (!cachedData || !topicParam) {
+            if (!topicParam) {
                 headerTarget.innerHTML = `<p>Package not found. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
                 return;
             }
 
-            const parsedDb = JSON.parse(cachedData);
-            const grouped = groupDatabaseIntoPackages(parsedDb);
+            let rawDatabase = [];
+            const cachedData = localStorage.getItem("brainly_db_cache");
+            if (cachedData) {
+                try { rawDatabase = JSON.parse(cachedData); } catch(e){}
+            }
 
+            // POBIERANIE ŚWIEŻYCH DANYCH Z API
+            try {
+                const response = await fetchFreshDbJSONP();
+                if (response && response.success && Array.isArray(response.data)) {
+                    rawDatabase = response.data;
+                    localStorage.setItem("brainly_db_cache", JSON.stringify(rawDatabase));
+                }
+            } catch(e) {
+                console.warn("Using offline cached db for package view", e);
+            }
+
+            if (!Array.isArray(rawDatabase) || rawDatabase.length === 0) {
+                headerTarget.innerHTML = `<p>Unable to load package data. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
+                return;
+            }
+
+            const grouped = groupDatabaseIntoPackages(rawDatabase);
             const foundPackage = grouped.find(p => 
                 p.displayTopic.toLowerCase() === topicParam.toLowerCase() &&
                 (!marketParam || p.marketKey.toUpperCase() === marketParam.toUpperCase())
@@ -247,7 +287,7 @@
                 <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">Total resources: <strong>${foundPackage.structuredLinks.length}</strong></p>
             `;
 
-            // Renderowanie listy zadań z wyczytanym polem title (z LINK GROUP)
+            // Renderowanie listy zadań
             tasksTarget.innerHTML = "";
             foundPackage.structuredLinks.forEach((linkObj) => {
                 const itemDiv = document.createElement("div");
@@ -261,7 +301,9 @@
                 `;
                 tasksTarget.appendChild(itemDiv);
             });
-        });
+        }
+
+        document.addEventListener("DOMContentLoaded", renderPackageView);
     </script>
 </body>
 </html>
