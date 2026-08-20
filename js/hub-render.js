@@ -109,7 +109,13 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
 
         const isExam = Array.from(pkg.subjects).some(s => s.toLowerCase() === 'exam') || pkg.levels.has('EXAM');
         const showFlame = pkg.isHot && !isSearchOrFilterActive;
-        const flameHtml = showFlame ? `<span class="badge badge-hot" style="background-color: rgba(255, 110, 0, 0.2); color: #ff6e00; border: 1px solid #ff6e00; font-weight: 900;">🔥 POPULAR</span>` : '';
+        
+        // Zastąpiono tekst "🔥 POPULAR" samą ikoną fire.png
+        const flameHtml = showFlame ? `
+            <span class="badge badge-hot-icon" style="display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: rgba(255, 110, 0, 0.15); border: 1px solid rgba(255, 110, 0, 0.4); border-radius: 6px;">
+                <img src="assets/fire.png" alt="Popular" style="width: 14px; height: 14px; display: block; object-fit: contain;">
+            </span>
+        ` : '';
 
         const marketLabel = MARKET_MAP[pkg.marketKey] || pkg.marketKey;
         const marketsHtml = `<span class="badge badge-market">${escapeHtml(marketLabel)}</span>`;
