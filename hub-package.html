@@ -224,40 +224,9 @@
             });
         }
 
-        async function renderPackageView() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const topicParam = urlParams.get("topic");
-            const marketParam = urlParams.get("market");
-
+        function renderUIFromData(rawDatabase, topicParam, marketParam) {
             const headerTarget = document.getElementById("package-header-target");
             const tasksTarget = document.getElementById("tasks-list-target");
-
-            if (!topicParam) {
-                headerTarget.innerHTML = `<p>Package not found. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
-                return;
-            }
-
-            let rawDatabase = [];
-            const cachedData = localStorage.getItem("brainly_db_cache");
-            if (cachedData) {
-                try { rawDatabase = JSON.parse(cachedData); } catch(e){}
-            }
-
-            // POBIERANIE ŚWIEŻYCH DANYCH Z API
-            try {
-                const response = await fetchFreshDbJSONP();
-                if (response && response.success && Array.isArray(response.data)) {
-                    rawDatabase = response.data;
-                    localStorage.setItem("brainly_db_cache", JSON.stringify(rawDatabase));
-                }
-            } catch(e) {
-                console.warn("Using offline cached db for package view", e);
-            }
-
-            if (!Array.isArray(rawDatabase) || rawDatabase.length === 0) {
-                headerTarget.innerHTML = `<p>Unable to load package data. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
-                return;
-            }
 
             const grouped = groupDatabaseIntoPackages(rawDatabase);
             const foundPackage = grouped.find(p => 
@@ -267,7 +236,7 @@
 
             if (!foundPackage) {
                 headerTarget.innerHTML = `<p>Package details not found. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
-                return;
+                return false;
             }
 
             // Renderowanie nagłówka
@@ -301,9 +270,50 @@
                 `;
                 tasksTarget.appendChild(itemDiv);
             });
+
+            return true;
         }
 
-        document.addEventListener("DOMContentLoaded", renderPackageView);
+        async function initPackageView() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const topicParam = urlParams.get("topic");
+            const marketParam = urlParams.get("market");
+
+            const headerTarget = document.getElementById("package-header-target");
+
+            if (!topicParam) {
+                headerTarget.innerHTML = `<p>Package not found. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
+                return;
+            }
+
+            let rendered = false;
+            const cachedData = localStorage.getItem("brainly_db_cache");
+            
+            // 1. NATYCHMIASTOWE RENDEROWANIE Z CACHE (0 ms opóźnienia)
+            if (cachedData) {
+                try {
+                    const parsed = JSON.parse(cachedData);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        rendered = renderUIFromData(parsed, topicParam, marketParam);
+                    }
+                } catch(e) {}
+            }
+
+            // 2. JEŚLI CACHE BYŁ PUSTY, DOPIERO WTEDY POBIERAMY Z API
+            if (!rendered) {
+                try {
+                    const response = await fetchFreshDbJSONP();
+                    if (response && response.success && Array.isArray(response.data)) {
+                        localStorage.setItem("brainly_db_cache", JSON.stringify(response.data));
+                        renderUIFromData(response.data, topicParam, marketParam);
+                    }
+                } catch(e) {
+                    headerTarget.innerHTML = `<p>Unable to load package data. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", initPackageView);
     </script>
 </body>
 </html>
