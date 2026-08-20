@@ -36,6 +36,28 @@ function escapeHtml(str) {
     });
 }
 
+// Funkcja bezpiecznie odczytująca pole LINK GROUP niezależnie od nazwy klucza w obiekcie z Apps Script
+function getLinkGroupValue(item) {
+    if (!item || typeof item !== 'object') return '';
+    
+    // Sprawdzamy potencjalne warianty nazewnictwa kluczy generowanych przez GS/JSON
+    const possibleKeys = ['linkGroup', 'linkgroup', 'LINK GROUP', 'link_group', 'Link Group', 'LinkGroup'];
+    for (const key of possibleKeys) {
+        if (item[key] !== undefined && item[key] !== null && String(item[key]).trim() !== '') {
+            return String(item[key]).trim();
+        }
+    }
+    
+    // Szukanie po kluczach bez względu na wielkość liter
+    const itemKeys = Object.keys(item);
+    const foundKey = itemKeys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === 'linkgroup');
+    if (foundKey && item[foundKey] !== undefined && item[foundKey] !== null) {
+        return String(item[foundKey]).trim();
+    }
+
+    return '';
+}
+
 function groupDatabaseIntoPackages(rawData) {
     const packagesMap = new Map();
 
@@ -64,18 +86,15 @@ function groupDatabaseIntoPackages(rawData) {
         if (item.subject) pkg.subjects.add(item.subject.trim());
 
         const extractedLinks = parseLinks(item.link);
-        
-        // Odczytujemy pole linkGroup przesłane z kod.gs (uwzględniamy ewentualne różnice w wielkości liter)
-        const rawGroupVal = String(item.linkGroup || item.linkgroup || '').trim();
+        const rowComment = getLinkGroupValue(item);
 
         extractedLinks.forEach((l, idx) => {
             let taskTitle = "";
 
-            if (rawGroupVal !== "") {
-                // Jeśli w kolumnie F podano komentarz/tytuł, bierzemy go dokładnie tak jak wpisano
-                taskTitle = extractedLinks.length > 1 ? `${rawGroupVal} (#${idx + 1})` : rawGroupVal;
+            if (rowComment !== "") {
+                // Dokładne przypisanie komentarza z kolumny F (np. "Zadanie 1.")
+                taskTitle = extractedLinks.length > 1 ? `${rowComment} (#${idx + 1})` : rowComment;
             } else {
-                // Jeśli kolumna F jest pusta, dajesz awaryjną nazwę
                 taskTitle = extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task";
             }
 
