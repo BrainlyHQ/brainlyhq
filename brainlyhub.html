@@ -246,11 +246,12 @@
         .metric-item strong { color: var(--color-brainly-green); font-size: 0.92rem; font-weight: 900; }
         .metric-divider { width: 4px; height: 4px; background: var(--border-color); border-radius: 50%; }
 
-        /* NOWE: SEKUSJA 4 POWIĘKSZONYCH KAFELKÓW PRZED WYSZUKIWANIEM */
         .featured-section { margin-top: 40px; }
+        
+        /* WYŚRODKOWANY TYTUŁ BEZ EMOTEK / IKON */
         .featured-title {
-            font-size: 1.1rem; font-weight: 900; color: #ff6e00; margin-bottom: 16px;
-            display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+            font-size: 1.1rem; font-weight: 900; color: #ff6e00; margin-bottom: 20px;
+            text-align: center; text-transform: uppercase; letter-spacing: 0.8px;
         }
 
         .packages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
@@ -401,9 +402,9 @@
             </div>
         </section>
 
-        <!-- WIDOK POCZĄTKOWY: 4 NAJNOWSZE KAFELKI Z PŁOMIENIEM -->
+        <!-- WIDOK POCZĄTKOWY: 3 NAJNOWSZE KAFELKI Z SAMYM TEXTEM W H3 -->
         <div id="initial-placeholder" class="featured-section">
-            <h3 class="featured-title">🔥 Popular &amp; Latest Additions</h3>
+            <h3 class="featured-title">Popular &amp; Latest Additions</h3>
             <div id="featured-packages-grid" class="packages-grid"></div>
         </div>
 
