@@ -36,23 +36,23 @@ function escapeHtml(str) {
     });
 }
 
-// Funkcja bezpiecznie odczytująca pole LINK GROUP niezależnie od nazwy klucza w obiekcie z Apps Script
-function getLinkGroupValue(item) {
+// Wykrywanie kolumny F ("LINK GROUP") z obiektu row w dowolnej wariacji nazewnictwa
+function extractLinkGroupComment(item) {
     if (!item || typeof item !== 'object') return '';
     
-    // Sprawdzamy potencjalne warianty nazewnictwa kluczy generowanych przez GS/JSON
-    const possibleKeys = ['linkGroup', 'linkgroup', 'LINK GROUP', 'link_group', 'Link Group', 'LinkGroup'];
-    for (const key of possibleKeys) {
-        if (item[key] !== undefined && item[key] !== null && String(item[key]).trim() !== '') {
-            return String(item[key]).trim();
+    // Lista potencjalnych nazw właściwości dla kolumny F
+    const keys = ['linkGroup', 'linkgroup', 'LINK GROUP', 'link_group', 'Link Group', 'LinkGroup'];
+    for (const k of keys) {
+        if (item[k] !== undefined && item[k] !== null && String(item[k]).trim() !== '') {
+            return String(item[k]).trim();
         }
     }
     
-    // Szukanie po kluczach bez względu na wielkość liter
-    const itemKeys = Object.keys(item);
-    const foundKey = itemKeys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === 'linkgroup');
-    if (foundKey && item[foundKey] !== undefined && item[foundKey] !== null) {
-        return String(item[foundKey]).trim();
+    // Szukanie dowolnego klucza pasującego wzorcem
+    const allKeys = Object.keys(item);
+    const matchedKey = allKeys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === 'linkgroup');
+    if (matchedKey && item[matchedKey] !== undefined && item[matchedKey] !== null) {
+        return String(item[matchedKey]).trim();
     }
 
     return '';
@@ -86,14 +86,13 @@ function groupDatabaseIntoPackages(rawData) {
         if (item.subject) pkg.subjects.add(item.subject.trim());
 
         const extractedLinks = parseLinks(item.link);
-        const rowComment = getLinkGroupValue(item);
+        const commentFromColumnF = extractLinkGroupComment(item);
 
         extractedLinks.forEach((l, idx) => {
             let taskTitle = "";
 
-            if (rowComment !== "") {
-                // Dokładne przypisanie komentarza z kolumny F (np. "Zadanie 1.")
-                taskTitle = extractedLinks.length > 1 ? `${rowComment} (#${idx + 1})` : rowComment;
+            if (commentFromColumnF !== "") {
+                taskTitle = extractedLinks.length > 1 ? `${commentFromColumnF} (#${idx + 1})` : commentFromColumnF;
             } else {
                 taskTitle = extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task";
             }
