@@ -30,6 +30,14 @@ function parseLinks(rawLinkString) {
         .filter(l => l.length > 0 && (l.startsWith("http://") || l.startsWith("https://")));
 }
 
+function parseLinkGroups(rawGroupString) {
+    if (!rawGroupString) return [];
+    return String(rawGroupString)
+        .split(/[\n,;]+/)
+        .map(g => g.trim())
+        .filter(g => g.length > 0);
+}
+
 function escapeHtml(str) {
     return String(str || '').replace(/[&<>"']/g, function(m) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
@@ -64,22 +72,30 @@ function groupDatabaseIntoPackages(rawData) {
         if (item.subject) pkg.subjects.add(item.subject.trim());
 
         const extractedLinks = parseLinks(item.link);
-        const linkGroupTitle = (item.linkGroup || '').trim();
+        const extractedGroups = parseLinkGroups(item.linkGroup);
 
         extractedLinks.forEach((l, idx) => {
+            // Jeśli w kolumnie F podano nazwę dla tego konkretnego indeksu, użyj jej.
+            // Jeśli podano tylko 1 tytuł w F dla wielu linków, użyj go jako bazowego z numeracją.
+            let title = "";
+            if (extractedGroups[idx]) {
+                title = extractedGroups[idx];
+            } else if (extractedGroups.length === 1) {
+                title = extractedLinks.length > 1 ? `${extractedGroups[0]} (#${idx + 1})` : extractedGroups[0];
+            } else {
+                title = extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task";
+            }
+
             pkg.structuredLinks.push({
                 url: l,
-                title: linkGroupTitle !== "" ? linkGroupTitle : (extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task")
+                title: title
             });
         });
     });
 
     const allPackages = Array.from(packagesMap.values());
-    
-    // Sortowanie malejąco po maxRowId (najnowsze dodane ID na samym początku tablicy)
     const sortedByLatest = [...allPackages].sort((a, b) => Number(b.maxRowId) - Number(a.maxRowId));
     
-    // Pobieramy dokładnie 3 najnowsze paczki
     const top3LatestIds = new Set(sortedByLatest.slice(0, 3).map(p => p.maxRowId));
 
     allPackages.forEach(pkg => {
@@ -134,7 +150,6 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
         const taskCount = pkg.structuredLinks.length;
         const taskCountText = `${taskCount} ${taskCount === 1 ? 'Task' : 'Tasks'}`;
 
-        // Link przekierowujący do hub-package.html
         const packageUrl = `hub-package.html?topic=${encodeURIComponent(pkg.displayTopic)}&market=${encodeURIComponent(pkg.marketKey)}`;
 
         card.innerHTML = `
