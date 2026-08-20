@@ -247,9 +247,9 @@
                 <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">Total resources: <strong>${foundPackage.structuredLinks.length}</strong></p>
             `;
 
-            // Renderowanie listy zadań
+            // Renderowanie listy zadań z wyczytanym polem title (z LINK GROUP)
             tasksTarget.innerHTML = "";
-            foundPackage.structuredLinks.forEach((linkObj, index) => {
+            foundPackage.structuredLinks.forEach((linkObj) => {
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "task-item-card";
                 itemDiv.innerHTML = `
