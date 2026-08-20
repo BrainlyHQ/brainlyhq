@@ -76,10 +76,12 @@ function groupDatabaseIntoPackages(rawData) {
 
     const allPackages = Array.from(packagesMap.values());
     const sortedByLatest = [...allPackages].sort((a, b) => b.maxRowId - a.maxRowId);
-    const top4LatestIds = new Set(sortedByLatest.slice(0, 4).map(p => p.maxRowId));
+    
+    // Zapisanie identyfikatorów 3 najnowszych paczek
+    const top3LatestIds = new Set(sortedByLatest.slice(0, 3).map(p => p.maxRowId));
 
     allPackages.forEach(pkg => {
-        pkg.isHot = top4LatestIds.has(pkg.maxRowId);
+        pkg.isHot = top3LatestIds.has(pkg.maxRowId);
     });
 
     return sortedByLatest;
@@ -110,7 +112,7 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
         const isExam = Array.from(pkg.subjects).some(s => s.toLowerCase() === 'exam') || pkg.levels.has('EXAM');
         const showFlame = pkg.isHot && !isSearchOrFilterActive;
         
-        // Zastąpiono tekst "🔥 POPULAR" samą ikoną fire.png
+        // Płomień wyłącznie jako pojedynczy tag obrazkowy assets/fire.png
         const flameHtml = showFlame ? `
             <span class="badge badge-hot-icon" style="display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: rgba(255, 110, 0, 0.15); border: 1px solid rgba(255, 110, 0, 0.4); border-radius: 6px;">
                 <img src="assets/fire.png" alt="Popular" style="width: 14px; height: 14px; display: block; object-fit: contain;">
