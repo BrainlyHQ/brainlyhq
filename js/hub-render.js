@@ -18,7 +18,8 @@ const LEVEL_MAP = {
     "EASY": "Easy (beginner)",
     "MID": "Mid (student)",
     "HARD": "Hard (teacher)",
-    "SUPER HARD": "Super Hard (professor)"
+    "SUPER HARD": "Super Hard (professor)",
+    "EXAM": "Exam Resource"
 };
 
 function parseLinks(rawLinkString) {
@@ -37,7 +38,7 @@ function escapeHtml(str) {
 
 /**
  * Grupuje surowe wiersze z Arkusza po unikalnej kombinacji TOPIC + MARKET.
- * Przykład: "Trigonometry" w "PL" i "Trigonometry" w "ID" stanowią DWIE osobne paczki.
+ * Dodatkowo przechowuje maksymalny ID wiersza do identyfikacji najnowszych wpisów.
  */
 function groupDatabaseIntoPackages(rawData) {
     const packagesMap = new Map();
@@ -53,28 +54,53 @@ function groupDatabaseIntoPackages(rawData) {
             packagesMap.set(packageKey, {
                 displayTopic: rawTopic,
                 marketKey: rawMarket,
+                maxRowId: item.id || 0,
                 levels: new Set(),
                 subjects: new Set(),
-                links: new Set()
+                structuredLinks: [] // { url, title }
             });
         }
 
         const pkg = packagesMap.get(packageKey);
+        if (item.id && item.id > pkg.maxRowId) {
+            pkg.maxRowId = item.id;
+        }
 
         if (item.level) pkg.levels.add(item.level.trim().toUpperCase());
         if (item.subject) pkg.subjects.add(item.subject.trim());
 
         const extractedLinks = parseLinks(item.link);
-        extractedLinks.forEach(l => pkg.links.add(l));
+        const linkGroupTitle = (item.linkGroup || '').trim();
+
+        extractedLinks.forEach((l, idx) => {
+            pkg.structuredLinks.push({
+                url: l,
+                title: linkGroupTitle !== "" ? linkGroupTitle : (extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task")
+            });
+        });
     });
 
-    return Array.from(packagesMap.values());
+    const allPackages = Array.from(packagesMap.values());
+
+    // Wyznaczanie ID dla 4 najnowszych paczek
+    const sortedByLatest = [...allPackages].sort((a, b) => b.maxRowId - a.maxRowId);
+    const top4LatestIds = new Set(sortedByLatest.slice(0, 4).map(p => p.maxRowId));
+
+    allPackages.forEach(pkg => {
+        pkg.isHot = top4LatestIds.has(pkg.maxRowId);
+    });
+
+    return allPackages;
 }
 
 /**
  * Generuje kafelki HTML paczek w kontenerze
+ * @param {HTMLElement} containerElement
+ * @param {HTMLElement} countDisplayElement
+ * @param {Array} groupedPackages
+ * @param {Boolean} isSearchOrFilterActive - jeśli true, płomień znika
  */
-function renderPackagesGrid(containerElement, countDisplayElement, groupedPackages) {
+function renderPackagesGrid(containerElement, countDisplayElement, groupedPackages, isSearchOrFilterActive = false) {
     containerElement.innerHTML = "";
     countDisplayElement.textContent = `${groupedPackages.length} package${groupedPackages.length === 1 ? '' : 's'} found`;
 
@@ -92,13 +118,17 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
         const card = document.createElement("div");
         card.className = "package-card";
 
-        const isExam = Array.from(pkg.subjects).some(s => s.toLowerCase() === 'exam');
+        const isExam = Array.from(pkg.subjects).some(s => s.toLowerCase() === 'exam') || pkg.levels.has('EXAM');
 
-        // Badge dla Rynku (Adresy domenowe Brainly)
+        // Płomień (Popular / Latest) - wyświetla się tylko, gdy szukajka/filtr nie są aktywne
+        const showFlame = pkg.isHot && !isSearchOrFilterActive;
+        const flameHtml = showFlame ? `<span class="badge badge-hot" style="background-color: rgba(255, 110, 0, 0.2); color: #ff6e00; border: 1px solid #ff6e00; font-weight: 900;">🔥 POPULAR</span>` : '';
+
+        // Badge dla Rynku
         const marketLabel = MARKET_MAP[pkg.marketKey] || pkg.marketKey;
         const marketsHtml = `<span class="badge badge-market">${escapeHtml(marketLabel)}</span>`;
 
-        // Badge dla Poziomów Trudności (Po angielsku z dużej litery)
+        // Badge dla Poziomów Trudności
         let levelsHtml = "";
         if (isExam) {
             levelsHtml = `<span class="badge badge-exam">EXAM RESOURCE</span>`;
@@ -115,25 +145,16 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
             subjectsHtml += `<span class="badge badge-subject">${escapeHtml(subj)}</span>`;
         });
 
-        // Linki wewnątrz paczki
-        const linkList = Array.from(pkg.links);
+        // Linki wewnątrz paczki (Kolumna F: Link Group)
         let linksHtml = "";
-
-        if (linkList.length === 0) {
+        if (pkg.structuredLinks.length === 0) {
             linksHtml = `<span style="font-size:0.8rem; color:var(--text-secondary);">No active link available</span>`;
-        } else if (linkList.length === 1) {
-            linksHtml = `
-                <a href="${escapeHtml(linkList[0])}" target="_blank" class="btn-open-package">
-                    <span>Open Task</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-            `;
         } else {
-            linksHtml = `<div class="package-links-container">`;
-            linkList.forEach((linkUrl, idx) => {
+            linksHtml = `<div class="package-links-container" style="display:flex; flex-direction:column; gap:8px;">`;
+            pkg.structuredLinks.forEach(linkObj => {
                 linksHtml += `
-                    <a href="${escapeHtml(linkUrl)}" target="_blank" class="btn-open-package">
-                        <span>Task Link #${idx + 1}</span>
+                    <a href="${escapeHtml(linkObj.url)}" target="_blank" class="btn-open-package">
+                        <span>${escapeHtml(linkObj.title)}</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     </a>
                 `;
@@ -144,6 +165,7 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
         card.innerHTML = `
             <div>
                 <div class="package-badges">
+                    ${flameHtml}
                     ${marketsHtml}
                     ${levelsHtml}
                     ${subjectsHtml}
