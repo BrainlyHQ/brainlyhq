@@ -30,14 +30,6 @@ function parseLinks(rawLinkString) {
         .filter(l => l.length > 0 && (l.startsWith("http://") || l.startsWith("https://")));
 }
 
-function parseLinkGroups(rawGroupString) {
-    if (!rawGroupString) return [];
-    return String(rawGroupString)
-        .split(/[\n,;]+/)
-        .map(g => g.trim())
-        .filter(g => g.length > 0);
-}
-
 function escapeHtml(str) {
     return String(str || '').replace(/[&<>"']/g, function(m) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
@@ -73,23 +65,23 @@ function groupDatabaseIntoPackages(rawData) {
 
         const extractedLinks = parseLinks(item.link);
         
-        // Bezpieczne odczytanie nazwy z kolumny LINK GROUP niezależnie od wielkości liter w kluczu
-        const rawGroupVal = item.linkgroup !== undefined ? item.linkgroup : (item.linkGroup !== undefined ? item.linkGroup : '');
-        const extractedGroups = parseLinkGroups(rawGroupVal);
+        // Odczytujemy pole linkGroup przesłane z kod.gs (uwzględniamy ewentualne różnice w wielkości liter)
+        const rawGroupVal = String(item.linkGroup || item.linkgroup || '').trim();
 
         extractedLinks.forEach((l, idx) => {
-            let title = "";
-            if (extractedGroups[idx]) {
-                title = extractedGroups[idx];
-            } else if (extractedGroups.length === 1) {
-                title = extractedLinks.length > 1 ? `${extractedGroups[0]} (#${idx + 1})` : extractedGroups[0];
+            let taskTitle = "";
+
+            if (rawGroupVal !== "") {
+                // Jeśli w kolumnie F podano komentarz/tytuł, bierzemy go dokładnie tak jak wpisano
+                taskTitle = extractedLinks.length > 1 ? `${rawGroupVal} (#${idx + 1})` : rawGroupVal;
             } else {
-                title = extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task";
+                // Jeśli kolumna F jest pusta, dajesz awaryjną nazwę
+                taskTitle = extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task";
             }
 
             pkg.structuredLinks.push({
                 url: l,
-                title: title
+                title: taskTitle
             });
         });
     });
