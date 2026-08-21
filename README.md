@@ -1,23 +1,46 @@
-# BrainlyHQ Engine & Hub
+# BrainlyHQ
 
-Official platform and resource search engine for the **BrainlyHQ** community ecosystem.
+Official repository for **BrainlyHQ** — an advanced educational community ecosystem.
 
-![BrainlyHQ](assets/Brainly%20Hub.png)
+> **More than a community. A place to belong.**  
+> Meet people. Share ideas. Learn something new every day.
+
+---
 
 ## 📌 Overview
 
-**BrainlyHQ** provides centralized search, filtering, and distribution of learning resource packages across multiple international markets and education levels. 
+**BrainlyHQ** builds a dynamic, educational ecosystem operating within the structures and community initiatives of Brainly. 
 
-* **Live Community Platform**: [discord.brainly.com](https://discord.brainly.com)
-* **Search Engine**: Interaktywne wyszukiwanie i filtrowanie paczek edukacyjnych.
-* **Package Viewer**: Szczegółowy widok zadań z nawigacją i linkami źródłowymi.
+We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand educational communities worldwide.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🔗 Quick Links & Community
 
-* **Frontend**: Native HTML5, CSS3 (Custom Properties & Themes), JavaScript (ES6+).
-* **Database / Backend**: Google Sheets Managed API via Google Apps Script (`JSONP` architecture).
-* **Client-Side Caching**: Fast-rendering pipeline using `localStorage` caching with fallbacks.
+* 🌐 **Discord Community**: [discord.brainly.com](https://discord.brainly.com)
+* 🚀 **Shortlink Invite**: [dsc.gg/brainlyhq](https://dsc.gg/brainlyhq)
+* 📊 **System Status**: [BrainlyHQ Status Page](https://stats.uptimerobot.com/c3s43Jfv8U)
 
 ---
+
+## 🛠️ Architecture & Core Modules
+
+Our ecosystem integrates custom frontend hubs, automated data synchronization pipelines, and community automation tools:
+
+* **Frontend Engine**: Native HTML5, CSS3 (Custom Design Tokens & Themes), Modern Vanilla JS (ES6+).
+* **Backend & Data Pipeline**: Google Apps Script API (`JSONP` architecture) backed by structured Google Sheets databases.
+* **Performance Architecture**: Zero-latency rendering using client-side `localStorage` caching with automatic API fallback arrays.
+* **Community Automation**: Slack & Discord bot integrations, gamification engines, and infrastructure monitor arrays.
+
+---
+
+## 👥 Contributing
+
+1. Create a feature branch (`git checkout -b feature/your-feature-name`).
+2. Commit your changes (`git commit -m 'Add new module/feature'`).
+3. Push to the branch (`git push origin feature/your-feature-name`).
+4. Open a Pull Request for review.
+
+---
+
+© 2026 **BrainlyHQ Team**. All rights reserved.
