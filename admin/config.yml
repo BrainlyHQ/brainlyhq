@@ -20,3 +20,4 @@ collections:
       - { label: "Cover Image", name: "image", widget: "image", required: false }
       - { label: "Short Excerpt", name: "excerpt", widget: "text" }
       - { label: "Body", name: "body", widget: "markdown" }
+
