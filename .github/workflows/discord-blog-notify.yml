@@ -30,7 +30,7 @@ jobs:
           ADDED_FILES: ${{ steps.changed-files.outputs.added_files }}
           MODIFIED_FILES: ${{ steps.changed-files.outputs.modified_files }}
         run: |
-          LOGO_URL="https://raw.githubusercontent.com/Ksperix/brainlyhq/main/assets/brainlycorewhite.png"
+          LOGO_URL="https://raw.githubusercontent.com/BrainlyHQ/brainlyhq/main/assets/brainlycorewhite.png"
 
           if [ -z "$WEBHOOK_URL" ]; then
             echo "CRITICAL ERROR: Secret DISCORD_BLOG_WEBHOOK jest pusty!"
