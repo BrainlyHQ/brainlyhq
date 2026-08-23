@@ -30,7 +30,7 @@ function fetchDatabaseJSONP() {
             reject(new Error('JSONP Database fetch failed'));
         };
 
-        script.src = `${DATABASE_API_URL}?callback=${callbackName}`;
+        script.src = `${DATABASE_API_URL}?callback=${callbackName}&_t=${Date.now()}`;
         document.body.appendChild(script);
     });
 }
@@ -183,7 +183,7 @@ function handleInputQuery() {
     filterData();
 }
 
-// Główna funkcja filtrująca wyszukiwarki – WIDZI KOLUMNĘ F (FA / Kategorię / Tytuł linku)
+// Główna funkcja wyszukiwarki – przeszukuje temat, przedmiot, poziom, rynek ORAZ kolumnę F (Zadanie 1. / LINK GROUP)
 function filterData() {
     const searchInput = document.getElementById("ai-search-input");
     const clearSearchBtn = document.getElementById("clear-search-btn");
@@ -222,12 +222,12 @@ function filterData() {
         const level = String(item.level || "").toUpperCase();
         const subject = String(item.subject || "");
         
-        // Pobranie wartości kolumny F (FA / Link Group / Kategoria / Tytuł)
+        // Pobranie wartości kolumny F (FA / Link Group / Zadanie 1. / Kategoria)
         const linkGroup = (typeof extractLinkGroupComment === 'function' 
             ? extractLinkGroupComment(item) 
             : String(item.fa || item.linkGroup || item.link_group || item.title || "")).toLowerCase();
 
-        // Dopasowanie zapytania: Topic, Subject, Kolumna F (FA / Link Title), Poziom, Rynek
+        // Dopasowanie zapytania: Topic, Subject, Kolumna F (np. Zadanie 1.), Poziom, Rynek
         const matchesQuery = !query || 
             topic.includes(query) || 
             subject.toLowerCase().includes(query) ||
