@@ -197,15 +197,17 @@ nav a.active:hover {
     border: 1px solid rgba(0, 32, 74, 0.05);
 }
 
-.action-btn:hover {
-    transform: translateY(-1px);
-    background-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+@media (hover: hover) {
+    .action-btn:hover {
+        transform: translateY(-1px);
+        background-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 
-[data-theme="light"] .action-btn:hover {
-    background-color: rgba(0, 32, 74, 0.08);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    [data-theme="light"] .action-btn:hover {
+        background-color: rgba(0, 32, 74, 0.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
 }
 
 .user-icon {
@@ -437,8 +439,10 @@ nav a.active:hover {
     transition: transform 0.25s ease;
 }
 
-.action-btn:hover svg {
-    transform: rotate(15deg) scale(1.05);
+@media (hover: hover) {
+    .action-btn:hover svg {
+        transform: rotate(15deg) scale(1.05);
+    }
 }
 
 /* ==========================================
