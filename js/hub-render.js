@@ -1,4 +1,4 @@
-// js/hub-render.js - Silnik renderowania i szablonów paczek z bazy
+// js/hub-render.js - Silnik renderowania, szablonów i ekstrakcji danych z bazy
 
 const MARKET_MAP = {
     "US": "Brainly.com",
@@ -36,21 +36,33 @@ function escapeHtml(str) {
     });
 }
 
-// Wykrywanie kolumny F ("LINK GROUP") z obiektu row w dowolnej wariacji nazewnictwa
+// Precyzyjne wykrywanie kolumny F (FA / Link Group / Tytuł linku / Kategoria)
 function extractLinkGroupComment(item) {
     if (!item || typeof item !== 'object') return '';
     
-    // Lista potencjalnych nazw właściwości dla kolumny F
-    const keys = ['linkGroup', 'linkgroup', 'LINK GROUP', 'link_group', 'Link Group', 'LinkGroup'];
-    for (const k of keys) {
+    // Lista kluczy potencjalnie zwracanych z backendu dla kolumny F
+    const directKeys = [
+        'fa', 'FA', 'Fa', 
+        'linkGroup', 'linkgroup', 'LINK GROUP', 'link_group', 'Link Group', 'LinkGroup',
+        'linkTitle', 'link_title', 'Link Title', 'title', 'Title',
+        'category', 'Category', 'kategoria', 'Kategoria', 'tytul', 'Tytul', 'tytuł', 'Tytuł',
+        'columnF', 'column_f', 'Column F', 'f', 'F'
+    ];
+    
+    for (const k of directKeys) {
         if (item[k] !== undefined && item[k] !== null && String(item[k]).trim() !== '') {
             return String(item[k]).trim();
         }
     }
     
-    // Szukanie dowolnego klucza pasującego wzorcem
+    // Szukanie dowolnego klucza po wzorcu w nagłówkach
     const allKeys = Object.keys(item);
-    const matchedKey = allKeys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === 'linkgroup');
+    const matchedKey = allKeys.find(k => {
+        const cleaned = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+        return cleaned === 'fa' || cleaned === 'linkgroup' || cleaned === 'linktitle' || 
+               cleaned === 'category' || cleaned === 'kategoria' || cleaned === 'tytul';
+    });
+
     if (matchedKey && item[matchedKey] !== undefined && item[matchedKey] !== null) {
         return String(item[matchedKey]).trim();
     }
@@ -64,7 +76,7 @@ function groupDatabaseIntoPackages(rawData) {
     rawData.forEach(item => {
         const rawTopic = (item.topic || 'Untitled Package').trim();
         const rawMarket = (item.market || 'GLOBAL').trim().toUpperCase();
-        const packageKey = `${rawTopic.toLowerCase()}___${rawMarket}`;
+        const packageKey = `${rawTopic.toLowerCase()}____${rawMarket}`;
 
         if (!packagesMap.has(packageKey)) {
             packagesMap.set(packageKey, {
@@ -73,12 +85,13 @@ function groupDatabaseIntoPackages(rawData) {
                 maxRowId: item.id || 0,
                 levels: new Set(),
                 subjects: new Set(),
+                linkGroups: new Set(),
                 structuredLinks: []
             });
         }
 
         const pkg = packagesMap.get(packageKey);
-        if (item.id && item.id > pkg.maxRowId) {
+        if (item.id && Number(item.id) > Number(pkg.maxRowId)) {
             pkg.maxRowId = item.id;
         }
 
@@ -87,6 +100,10 @@ function groupDatabaseIntoPackages(rawData) {
 
         const extractedLinks = parseLinks(item.link);
         const commentFromColumnF = extractLinkGroupComment(item);
+
+        if (commentFromColumnF) {
+            pkg.linkGroups.add(commentFromColumnF);
+        }
 
         extractedLinks.forEach((l, idx) => {
             let taskTitle = "";
@@ -99,7 +116,8 @@ function groupDatabaseIntoPackages(rawData) {
 
             pkg.structuredLinks.push({
                 url: l,
-                title: taskTitle
+                title: taskTitle,
+                category: commentFromColumnF
             });
         });
     });
