@@ -185,17 +185,12 @@
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            width: 26px;
-            height: 26px;
+            width: 26px; height: 26px;
             border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            box-sizing: border-box;
+            display: none; align-items: center; justify-content: center;
+            padding: 0; box-sizing: border-box;
             transition: all 0.2s ease;
-            flex-shrink: 0;
-            margin-right: 4px;
+            flex-shrink: 0; margin-right: 4px;
         }
 
         .clear-search-btn:hover { background: #ff4a4a; color: #ffffff; }
@@ -255,9 +250,7 @@
         }
 
         .featured-title img {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
+            width: 18px; height: 18px; object-fit: contain;
         }
 
         .packages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
@@ -351,7 +344,7 @@
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Search by phrase (e.g. 'Matura 2026', 'Trigonometry')..." autocomplete="off">
+                <input type="text" id="ai-search-input" class="ai-search-input" placeholder="Search by phrase (e.g. 'Matura 2026', 'Zadanie 1', 'Trigonometry')..." autocomplete="off">
                 <button id="clear-search-btn" class="clear-search-btn" title="Clear search">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
@@ -408,7 +401,7 @@
             </div>
         </section>
 
-        <!-- WIDOK POCZĄTKOWY: 3 NAJNOWSZE KAFELKI Z IKONĄ FIRE.PNG W NAGŁÓWKU H3 -->
+        <!-- WIDOK POCZĄTKOWY: 3 NAJNOWSZE KAFELKI Z IKONĄ FIRE.PNG -->
         <div id="initial-placeholder" class="featured-section">
             <h3 class="featured-title">
                 <img src="assets/fire.png" alt="Popular"> Popular &amp; Latest Additions
