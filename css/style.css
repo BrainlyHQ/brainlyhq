@@ -436,13 +436,13 @@ nav a.active:hover {
 .action-btn svg {
     width: 20px;
     height: 20px;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (hover: hover) {
-    .action-btn:hover svg {
-        transform: rotate(15deg) scale(1.05);
-    }
+/* Płynny obrót po otwarciu menu i powrót po zamknięciu */
+#mobile-menu-btn.is-active svg,
+#mobile-menu-btn.active svg {
+    transform: rotate(90deg);
 }
 
 /* ==========================================
