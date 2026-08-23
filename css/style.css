@@ -190,6 +190,8 @@ nav a.active:hover {
     color: var(--text-primary);
     font-size: 1.1rem;
     transition: all 0.2s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 [data-theme="light"] .action-btn {
@@ -436,12 +438,12 @@ nav a.active:hover {
 .action-btn svg {
     width: 20px;
     height: 20px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(0deg);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Płynny obrót po otwarciu menu i powrót po zamknięciu */
-#mobile-menu-btn.is-active svg,
-#mobile-menu-btn.active svg {
+/* Obrót ikony włączony TYLKO gdy menu mobilne ma klasę mobile-active */
+header:has(nav.mobile-active) #mobile-menu-btn svg {
     transform: rotate(90deg);
 }
 
