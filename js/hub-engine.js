@@ -1,4 +1,4 @@
-// js/hub-engine.js - Silnik obsługi bazy i logiki wyszukiwania
+// js/hub-engine.js - Silnik obsługi bazy i zaawansowanej logiki wyszukiwania
 
 const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
 
@@ -20,13 +20,13 @@ function fetchDatabaseJSONP() {
 
         window[callbackName] = function(data) {
             delete window[callbackName];
-            document.body.removeChild(script);
+            if (script.parentNode) script.parentNode.removeChild(script);
             resolve(data);
         };
 
         script.onerror = function() {
             delete window[callbackName];
-            document.body.removeChild(script);
+            if (script.parentNode) script.parentNode.removeChild(script);
             reject(new Error('JSONP Database fetch failed'));
         };
 
@@ -66,7 +66,7 @@ async function loadDatabase() {
             const filterLevel = document.getElementById("filter-level");
             const filterSubject = document.getElementById("filter-subject");
             
-            if (searchInput.value.trim().length > 0 || filterMarket.value || filterLevel.value || filterSubject.value) {
+            if (searchInput && (searchInput.value.trim().length > 0 || filterMarket.value || filterLevel.value || filterSubject.value)) {
                 filterData();
             }
         }
@@ -79,6 +79,8 @@ function populateAllStaticFilterDropdowns() {
     const filterMarket = document.getElementById("filter-market");
     const filterLevel = document.getElementById("filter-level");
     const filterSubject = document.getElementById("filter-subject");
+
+    if (!filterMarket || !filterLevel || !filterSubject) return;
 
     filterMarket.innerHTML = '<option value="">All Markets</option>';
     filterLevel.innerHTML = '<option value="">All Levels</option>';
@@ -127,7 +129,6 @@ function updateEngineMetrics(data) {
     if (statLevels) statLevels.textContent = typeof LEVEL_MAP !== 'undefined' ? Object.keys(LEVEL_MAP).length : 5;
 }
 
-// Renderowanie dokładnie 3 najnowszych paczek przed wpisaniem zapytania
 function renderFeaturedThree() {
     const featuredContainer = document.getElementById("featured-packages-grid");
     if (!featuredContainer || fullDatabase.length === 0) return;
@@ -182,6 +183,7 @@ function handleInputQuery() {
     filterData();
 }
 
+// Główna funkcja filtrująca wyszukiwarki – WIDZI KOLUMNĘ F (FA / Kategorię / Tytuł linku)
 function filterData() {
     const searchInput = document.getElementById("ai-search-input");
     const clearSearchBtn = document.getElementById("clear-search-btn");
@@ -201,24 +203,38 @@ function filterData() {
 
     const isFilterActive = query.length > 0 || selectedMarket !== "" || selectedLevel !== "" || selectedSubject !== "";
 
-    clearSearchBtn.style.display = query.length > 0 ? "flex" : "none";
+    if (clearSearchBtn) {
+        clearSearchBtn.style.display = query.length > 0 ? "flex" : "none";
+    }
 
     if (!isFilterActive) {
-        initialPlaceholder.style.display = "block";
-        resultsSection.style.display = "none";
+        if (initialPlaceholder) initialPlaceholder.style.display = "block";
+        if (resultsSection) resultsSection.style.display = "none";
         return;
     }
 
-    initialPlaceholder.style.display = "none";
-    resultsSection.style.display = "block";
+    if (initialPlaceholder) initialPlaceholder.style.display = "none";
+    if (resultsSection) resultsSection.style.display = "block";
 
     const filteredRawRows = fullDatabase.filter(item => {
         const topic = String(item.topic || "").toLowerCase();
         const market = String(item.market || "").toUpperCase();
         const level = String(item.level || "").toUpperCase();
         const subject = String(item.subject || "");
+        
+        // Pobranie wartości kolumny F (FA / Link Group / Kategoria / Tytuł)
+        const linkGroup = (typeof extractLinkGroupComment === 'function' 
+            ? extractLinkGroupComment(item) 
+            : String(item.fa || item.linkGroup || item.link_group || item.title || "")).toLowerCase();
 
-        const matchesQuery = !query || topic.includes(query) || subject.toLowerCase().includes(query);
+        // Dopasowanie zapytania: Topic, Subject, Kolumna F (FA / Link Title), Poziom, Rynek
+        const matchesQuery = !query || 
+            topic.includes(query) || 
+            subject.toLowerCase().includes(query) ||
+            linkGroup.includes(query) ||
+            level.toLowerCase().includes(query) ||
+            market.toLowerCase().includes(query);
+
         const matchesMarket = !selectedMarket || market === selectedMarket;
         const matchesSubject = !selectedSubject || subject.toLowerCase() === selectedSubject.toLowerCase();
         const matchesLevel = !selectedLevel || level === selectedLevel;
@@ -263,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
             searchInput.value = "";
             filterSubject.value = "";
             filterLevel.value = "";
+            filterMarket.value = "";
             filterData();
             searchInput.focus();
         });
