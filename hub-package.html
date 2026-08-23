@@ -144,31 +144,33 @@
         .task-item-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 18px 24px;
+            border-radius: 14px; padding: 18px 24px;
             display: flex; justify-content: space-between; align-items: center;
             transition: all 0.2s ease;
+            gap: 16px;
         }
 
         .task-item-card:hover {
-            border-color: rgba(153, 238, 96, 0.4);
+            border-color: rgba(153, 238, 96, 0.5);
             transform: translateX(4px);
         }
 
         .task-item-title {
-            font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+            font-size: 1.05rem; font-weight: 800; color: var(--text-primary);
+            letter-spacing: -0.2px;
         }
 
         .btn-task-link {
             display: inline-flex; align-items: center; gap: 8px;
             background-color: var(--color-brainly-green);
             color: #000000; text-decoration: none;
-            font-weight: 800; font-size: 0.82rem;
-            padding: 8px 16px; border-radius: 8px;
-            transition: opacity 0.2s ease;
+            font-weight: 800; font-size: 0.84rem;
+            padding: 9px 18px; border-radius: 8px;
+            transition: all 0.2s ease;
             flex-shrink: 0;
         }
 
-        .btn-task-link:hover { opacity: 0.9; }
+        .btn-task-link:hover { opacity: 0.9; transform: scale(0.98); }
     </style>
 
     <script src="js/theme.js"></script>
@@ -219,7 +221,7 @@
                     if (script.parentNode) script.parentNode.removeChild(script);
                     reject(new Error("JSONP failed"));
                 };
-                script.src = `${API_URL}?callback=${cbName}`;
+                script.src = `${API_URL}?callback=${cbName}&_t=${Date.now()}`;
                 document.body.appendChild(script);
             });
         }
@@ -230,7 +232,7 @@
 
             const grouped = groupDatabaseIntoPackages(rawDatabase);
             const foundPackage = grouped.find(p => 
-                p.displayTopic.toLowerCase() === topicParam.toLowerCase() &&
+                p.displayTopic.trim().toLowerCase() === topicParam.trim().toLowerCase() &&
                 (!marketParam || p.marketKey.toUpperCase() === marketParam.toUpperCase())
             );
 
@@ -240,12 +242,19 @@
             }
 
             // Renderowanie nagłówka
-            const marketLabel = MARKET_MAP[foundPackage.marketKey] || foundPackage.marketKey;
+            const isExam = Array.from(foundPackage.subjects).some(s => s.toLowerCase() === 'exam') || foundPackage.levels.has('EXAM');
+            const marketLabel = (typeof MARKET_MAP !== 'undefined' && MARKET_MAP[foundPackage.marketKey]) || foundPackage.marketKey;
             let badgesHtml = `<span class="badge badge-market">${escapeHtml(marketLabel)}</span>`;
 
-            foundPackage.levels.forEach(l => {
-                badgesHtml += `<span class="badge badge-level">${escapeHtml(LEVEL_MAP[l] || l)}</span>`;
-            });
+            if (isExam) {
+                badgesHtml += `<span class="badge badge-exam">EXAM RESOURCE</span>`;
+            } else {
+                foundPackage.levels.forEach(l => {
+                    const lLabel = (typeof LEVEL_MAP !== 'undefined' && LEVEL_MAP[l]) || l;
+                    badgesHtml += `<span class="badge badge-level">${escapeHtml(lLabel)}</span>`;
+                });
+            }
+
             foundPackage.subjects.forEach(s => {
                 badgesHtml += `<span class="badge badge-subject">${escapeHtml(s)}</span>`;
             });
@@ -253,17 +262,22 @@
             headerTarget.innerHTML = `
                 <div class="package-badges">${badgesHtml}</div>
                 <h1 class="package-header-title">${escapeHtml(foundPackage.displayTopic)}</h1>
-                <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">Total resources: <strong>${foundPackage.structuredLinks.length}</strong></p>
+                <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">Total resources: <strong style="color: var(--color-brainly-green);">${foundPackage.structuredLinks.length}</strong></p>
             `;
 
-            // Renderowanie listy zadań
+            // Renderowanie listy zadań z tytułami z Kolumny F (np. Zadanie 1., Zadanie 2.)
             tasksTarget.innerHTML = "";
-            foundPackage.structuredLinks.forEach((linkObj) => {
+            foundPackage.structuredLinks.forEach((linkObj, idx) => {
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "task-item-card";
+                
+                const taskTitle = linkObj.title || `Task Link #${idx + 1}`;
+
                 itemDiv.innerHTML = `
-                    <span class="task-item-title">${escapeHtml(linkObj.title)}</span>
-                    <a href="${escapeHtml(linkObj.url)}" target="_blank" class="btn-task-link">
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <span class="task-item-title">${escapeHtml(taskTitle)}</span>
+                    </div>
+                    <a href="${escapeHtml(linkObj.url)}" target="_blank" rel="noopener noreferrer" class="btn-task-link">
                         <span>Solve Task</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     </a>
@@ -286,30 +300,26 @@
                 return;
             }
 
-            let rendered = false;
+            // 1. Natychmiastowe wyświetlenie z Cache (jeśli istnieje)
             const cachedData = localStorage.getItem("brainly_db_cache");
-            
-            // 1. NATYCHMIASTOWE RENDEROWANIE Z CACHE (0 ms opóźnienia)
             if (cachedData) {
                 try {
                     const parsed = JSON.parse(cachedData);
                     if (Array.isArray(parsed) && parsed.length > 0) {
-                        rendered = renderUIFromData(parsed, topicParam, marketParam);
+                        renderUIFromData(parsed, topicParam, marketParam);
                     }
                 } catch(e) {}
             }
 
-            // 2. JEŚLI CACHE BYŁ PUSTY, DOPIERO WTEDY POBIERAMY Z API
-            if (!rendered) {
-                try {
-                    const response = await fetchFreshDbJSONP();
-                    if (response && response.success && Array.isArray(response.data)) {
-                        localStorage.setItem("brainly_db_cache", JSON.stringify(response.data));
-                        renderUIFromData(response.data, topicParam, marketParam);
-                    }
-                } catch(e) {
-                    headerTarget.innerHTML = `<p>Unable to load package data. <a href="brainlyhub.html" style="color: var(--color-brainly-green);">Return to search</a></p>`;
+            // 2. ZAWSZE pobieramy świeże dane w tle i aktualizujemy widok oraz cache
+            try {
+                const response = await fetchFreshDbJSONP();
+                if (response && response.success && Array.isArray(response.data)) {
+                    localStorage.setItem("brainly_db_cache", JSON.stringify(response.data));
+                    renderUIFromData(response.data, topicParam, marketParam);
                 }
+            } catch(e) {
+                console.warn("Live fetch error, cache was used:", e);
             }
         }
 
