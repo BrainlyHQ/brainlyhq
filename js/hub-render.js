@@ -27,7 +27,13 @@ function parseLinks(rawLinkString) {
     return String(rawLinkString)
         .split(/[\n,;]+/)
         .map(l => l.trim())
-        .filter(l => l.length > 0 && (l.startsWith("http://") || l.startsWith("https://")));
+        .filter(l => l.length > 0)
+        .map(l => {
+            if (!l.startsWith("http://") && !l.startsWith("https://")) {
+                return "https://" + l;
+            }
+            return l;
+        });
 }
 
 function escapeHtml(str) {
@@ -36,26 +42,35 @@ function escapeHtml(str) {
     });
 }
 
-// Precyzyjne wykrywanie kolumny F (FA / Link Group / Tytuł linku / Kategoria)
+// Precyzyjne odczytywanie kolumny F (Zadanie 1., Zadanie 2., LINK GROUP, FA)
 function extractLinkGroupComment(item) {
     if (!item || typeof item !== 'object') return '';
     
-    // Lista kluczy potencjalnie zwracanych z backendu dla kolumny F
-    const directKeys = [
-        'fa', 'FA', 'Fa', 
-        'linkGroup', 'linkgroup', 'LINK GROUP', 'link_group', 'Link Group', 'LinkGroup',
-        'linkTitle', 'link_title', 'Link Title', 'title', 'Title',
-        'category', 'Category', 'kategoria', 'Kategoria', 'tytul', 'Tytul', 'tytuł', 'Tytuł',
-        'columnF', 'column_f', 'Column F', 'f', 'F'
-    ];
-    
-    for (const k of directKeys) {
-        if (item[k] !== undefined && item[k] !== null && String(item[k]).trim() !== '') {
-            return String(item[k]).trim();
-        }
+    if (item.linkGroup !== undefined && item.linkGroup !== null && String(item.linkGroup).trim() !== '') {
+        return String(item.linkGroup).trim();
     }
-    
-    // Szukanie dowolnego klucza po wzorcu w nagłówkach
+    if (item.fa !== undefined && item.fa !== null && String(item.fa).trim() !== '') {
+        return String(item.fa).trim();
+    }
+    if (item['LINK GROUP'] !== undefined && item['LINK GROUP'] !== null && String(item['LINK GROUP']).trim() !== '') {
+        return String(item['LINK GROUP']).trim();
+    }
+    if (item['Link Group'] !== undefined && item['Link Group'] !== null && String(item['Link Group']).trim() !== '') {
+        return String(item['Link Group']).trim();
+    }
+    if (item.link_group !== undefined && item.link_group !== null && String(item.link_group).trim() !== '') {
+        return String(item.link_group).trim();
+    }
+    if (item.category !== undefined && item.category !== null && String(item.category).trim() !== '') {
+        return String(item.category).trim();
+    }
+    if (item.title !== undefined && item.title !== null && String(item.title).trim() !== '') {
+        return String(item.title).trim();
+    }
+    if (item.linkTitle !== undefined && item.linkTitle !== null && String(item.linkTitle).trim() !== '') {
+        return String(item.linkTitle).trim();
+    }
+
     const allKeys = Object.keys(item);
     const matchedKey = allKeys.find(k => {
         const cleaned = k.toLowerCase().replace(/[^a-z0-9]/g, '');
