@@ -126,7 +126,7 @@ function groupDatabaseIntoPackages(rawData) {
             if (commentFromColumnF !== "") {
                 taskTitle = extractedLinks.length > 1 ? `${commentFromColumnF} (#${idx + 1})` : commentFromColumnF;
             } else {
-                taskTitle = extractedLinks.length > 1 ? `Task Link #${idx + 1}` : "Open Task";
+                taskTitle = extractedLinks.length > 1 ? `Task Link #${idx + 1}` : `Task #${pkg.structuredLinks.length + 1}`;
             }
 
             pkg.structuredLinks.push({
