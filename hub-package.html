@@ -205,7 +205,7 @@
     </main>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbz8b4O-3LXd4ZVbQb3YDoueoaK-wzJvOBUlDG6BqT1IOloyFrhMLClg-5tqDcWWyHPu/exec";
 
         function fetchFreshDbJSONP() {
             return new Promise((resolve, reject) => {
@@ -265,17 +265,19 @@
                 <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">Total resources: <strong style="color: var(--color-brainly-green);">${foundPackage.structuredLinks.length}</strong></p>
             `;
 
-            // Renderowanie listy zadań z tytułami z Kolumny F (np. Zadanie 1., Zadanie 2.)
+            // Renderowanie listy zadań ze stabilnym odczytem wartości z kolumny F
             tasksTarget.innerHTML = "";
             foundPackage.structuredLinks.forEach((linkObj, idx) => {
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "task-item-card";
                 
-                const taskTitle = linkObj.title || `Task Link #${idx + 1}`;
+                const finalTaskTitle = (linkObj.title && !linkObj.title.startsWith("Task #")) 
+                    ? linkObj.title 
+                    : (linkObj.category || `Zadanie ${idx + 1}.`);
 
                 itemDiv.innerHTML = `
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <span class="task-item-title">${escapeHtml(taskTitle)}</span>
+                        <span class="task-item-title">${escapeHtml(finalTaskTitle)}</span>
                     </div>
                     <a href="${escapeHtml(linkObj.url)}" target="_blank" rel="noopener noreferrer" class="btn-task-link">
                         <span>Solve Task</span>
@@ -300,7 +302,7 @@
                 return;
             }
 
-            // 1. Natychmiastowe wyświetlenie z Cache (jeśli istnieje)
+            // 1. Ładowanie z pamięci podręcznej (Cache)
             const cachedData = localStorage.getItem("brainly_db_cache");
             if (cachedData) {
                 try {
@@ -311,7 +313,7 @@
                 } catch(e) {}
             }
 
-            // 2. ZAWSZE pobieramy świeże dane w tle i aktualizujemy widok oraz cache
+            // 2. Ładowanie świeżych danych z API
             try {
                 const response = await fetchFreshDbJSONP();
                 if (response && response.success && Array.isArray(response.data)) {
