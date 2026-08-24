@@ -18,7 +18,7 @@
         .careers-hero-canvas {
             position: relative;
             width: 100%;
-            height: 360px;
+            height: 290px;
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
             display: flex;
             align-items: center;
@@ -200,15 +200,16 @@
             pointer-events: none;
         }
 
+        /* Zwiezly, odchudzony wskaźnik otwartych rekrutacji */
         .vacancies-stats-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 0.82rem;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.78rem;
             font-weight: 700;
             color: var(--text-secondary);
             white-space: nowrap;
@@ -217,7 +218,7 @@
 
         .vacancies-count-number {
             color: var(--color-brainly-green);
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             font-weight: 900;
         }
 
@@ -260,10 +261,11 @@
             gap: 8px;
         }
 
+        /* Tytuł zawodu zmieniony na kolor #99ee60 */
         .job-title {
             font-size: 1.35rem;
             font-weight: 800;
-            color: var(--text-primary);
+            color: var(--color-brainly-green);
             margin: 0;
         }
 
@@ -362,7 +364,7 @@
             margin: 0;
         }
 
-        /* --- ZWIJANA SEKCJA SZCZEGÓŁÓW (REQUIREMENTS, GOOD TO HAVE, BENEFITS) --- */
+        /* --- ZWIJANA SEKCJA SZCZEGÓŁÓW --- */
         .job-details-expandable {
             display: none;
             flex-direction: column;
@@ -435,7 +437,7 @@
         }
 
         @media (max-width: 768px) {
-            .careers-hero-canvas { height: 280px; }
+            .careers-hero-canvas { height: 230px; }
         }
     </style>
     <script src="js/theme.js"></script>
