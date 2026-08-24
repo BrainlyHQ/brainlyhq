@@ -169,55 +169,61 @@
 
         .search-input-wrapper {
             position: relative;
-            flex: 1;
-            min-width: 260px;
+            flex: 1 1 320px;
         }
 
+        /* Poprawka czcionki w polu wyszukiwania */
         .search-input-wrapper input {
             width: 100%;
-            padding: 12px 16px 12px 42px;
+            padding: 14px 16px 14px 44px;
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text-primary);
-            font-size: 0.9rem;
+            font-family: inherit;
+            font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             box-sizing: border-box;
         }
 
         .search-input-wrapper input:focus {
             border-color: var(--color-brainly-green);
+            box-shadow: 0 0 10px rgba(153, 238, 96, 0.15);
         }
 
         .search-icon {
             position: absolute;
-            left: 14px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             fill: var(--text-secondary);
             pointer-events: none;
         }
 
+        /* Poszerzona statystyka liczbowym badge'em */
         .vacancies-stats-badge {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            gap: 16px;
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
-            padding: 10px 18px;
-            border-radius: 30px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--text-secondary);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-primary);
             white-space: nowrap;
+            min-width: 200px;
+            box-sizing: border-box;
         }
 
         .vacancies-count-number {
             color: var(--color-brainly-green);
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 900;
         }
 
@@ -327,6 +333,7 @@
             background: transparent;
             border: 1px solid var(--border-color);
             color: var(--text-primary);
+            font-family: inherit;
             font-weight: 700;
             font-size: 0.82rem;
             padding: 9px 16px;
@@ -361,7 +368,7 @@
             margin: 0;
         }
 
-        /* --- ZWIJANA SEKCJA SZCZEGÓŁÓW --- */
+        /* --- ZWIJANA SEKCJA SZCZEGÓŁÓW (4 KOLUMNY Z GENERAL INFORMATIONS) --- */
         .job-details-expandable {
             display: none;
             flex-direction: column;
@@ -378,7 +385,7 @@
 
         .job-details-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 24px;
         }
 
@@ -431,6 +438,7 @@
             .vertical-steps-matrix::before { left: 13px; }
             .job-details-grid { grid-template-columns: 1fr; }
             .search-filter-bar { flex-direction: column; align-items: stretch; }
+            .vacancies-stats-badge { width: 100%; }
         }
 
         @media (max-width: 768px) {
@@ -626,6 +634,10 @@
 
                     <div id="job-details-${job.id}" class="job-details-expandable">
                         <div class="job-details-grid">
+                            <div class="job-details-block" style="grid-column: 1 / -1;">
+                                <h5>General Informations</h5>
+                                ${formatFormattedText(job.generalInfo)}
+                            </div>
                             <div class="job-details-block">
                                 <h5>Requirements</h5>
                                 ${formatFormattedText(job.requirements)}
@@ -634,7 +646,7 @@
                                 <h5>Good to Have</h5>
                                 ${formatFormattedText(job.goodToHave)}
                             </div>
-                            <div class="job-details-block">
+                            <div class="job-details-block" style="grid-column: 1 / -1;">
                                 <h5>Benefits</h5>
                                 ${formatFormattedText(job.benefits)}
                             </div>
