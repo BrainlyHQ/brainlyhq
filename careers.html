@@ -44,80 +44,6 @@
             padding: 0 24px;
         }
 
-        .careers-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        /* POPRAWKA: Precyzyjny selektor gwarantujący płynne podświetlanie ramek */
-        .careers-grid .careers-card {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-            min-height: 200px;
-            background-color: var(--bg-secondary) !important;
-            border: 1px solid var(--border-color) !important;
-            border-radius: 16px !important;
-            padding: 28px 24px;
-            box-sizing: border-box;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .careers-grid .careers-card:hover {
-            border-color: var(--color-brainly-green) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.06);
-        }
-
-        .careers-card::before, .careers-card::after {
-            display: none !important;
-        }
-
-        .careers-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-
-        .careers-icon {
-            width: 24px;
-            height: 24px;
-            color: var(--text-secondary);
-            transition: color 0.2s ease;
-        }
-
-        .careers-card:hover .careers-icon {
-            color: var(--color-brainly-green);
-        }
-
-        .careers-arrow {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            transition: transform 0.2s ease;
-        }
-
-        .careers-card:hover .careers-arrow {
-            transform: translateX(4px);
-            color: var(--color-brainly-green);
-        }
-
-        .card-read-more {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--color-brainly-green);
-            margin-top: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: inline-block;
-        }
-
-        /* --- POPRAWKA: IDEALNIE WYRÓWNANY TERMINAL REKRUTACJI --- */
         .recruit-terminal-container {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -127,7 +53,7 @@
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
             gap: 50px;
-            align-items: center; /* Centrowanie zawartości w pionie */
+            align-items: center;
             box-sizing: border-box;
             position: relative;
         }
@@ -145,7 +71,6 @@
             position: relative;
         }
 
-        /* Ścieżka pionowa z linią pomocniczą łączącą węzły */
         .vertical-steps-matrix {
             display: flex;
             flex-direction: column;
@@ -228,140 +153,128 @@
             fill: currentColor;
         }
 
-        .benefits-section {
-            margin: 80px 0 60px 0;
-        }
-
-        .benefits-split-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 40px;
-            margin-top: 35px;
-            align-items: stretch;
-        }
-
-        .benefits-list-box {
+        /* --- DYNAMICZNA LISTA OFERT PRACY --- */
+        .job-listings-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
+            margin-bottom: 60px;
         }
 
-        .benefit-row-item {
-            background: linear-gradient(90deg, var(--bg-secondary) 0%, transparent 100%);
-            border-left: 3px solid var(--border-color);
-            padding: 20px;
-            border-radius: 0 16px 16px 0;
-            transition: all 0.3s ease;
-        }
-
-        .benefit-row-item:hover {
-            border-left-color: var(--color-brainly-green);
-            padding-left: 26px;
-            background: linear-gradient(90deg, var(--bg-secondary) 0%, rgba(153, 238, 96, 0.02) 100%);
-        }
-
-        .benefit-row-item h4 {
-            font-size: 1.15rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-
-        .tech-terminal-box {
-            background-color: #0b0f19;
+        .job-card {
+            background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
+            border-radius: 16px;
+            padding: 24px 28px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-            min-height: 340px;
+            gap: 16px;
+            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .floating-tech-badge {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.03);
+        .job-card:hover {
+            border-color: var(--color-brainly-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.06);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .job-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .job-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .job-tag {
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            pointer-events: none;
-            user-select: none;
-            animation: floatUpDown 4s ease-in-out infinite;
-        }
-
-        .badge-1 { top: 15%; left: 10%; animation-delay: 0s; color: #99ee60; border-color: rgba(153,238,96,0.2); }
-        .badge-2 { top: 40%; right: 12%; animation-delay: 1s; }
-        .badge-3 { bottom: 20%; left: 15%; animation-delay: 2.5s; }
-        .badge-4 { top: 65%; left: 50%; animation-delay: 0.5s; color: #99ee60; border-color: rgba(153,238,96,0.1); }
-        .badge-5 { top: 20%; right: 20%; animation-delay: 1.8s; }
-
-        @keyframes floatUpDown {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(1deg); }
-        }
-
-        .terminal-header-dots {
-            display: flex;
-            gap: 6px;
-            position: absolute;
-            top: 16px;
-            left: 20px;
-        }
-
-        .t-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.15);
-        }
-
-        .section-header-link {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--color-brainly-green);
-            text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: opacity 0.2s ease;
         }
 
-        .section-header-link:hover {
-            opacity: 0.8;
+        .job-tag-green {
+            color: var(--color-brainly-green);
+            border-color: rgba(153, 238, 96, 0.3);
+        }
+
+        .job-body {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        .job-details-block h5 {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 6px 0;
+        }
+
+        .job-details-block p {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin: 0;
+            white-space: pre-line;
+            line-height: 1.5;
+        }
+
+        .jobs-loading-state, .jobs-empty-state {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
 
         @media (max-width: 900px) {
             .recruit-terminal-container { grid-template-columns: 1fr; gap: 40px; padding: 30px 24px; }
             .vertical-steps-matrix::before { left: 13px; }
-            .benefits-split-grid { grid-template-columns: 1fr; }
-            .tech-terminal-box { min-height: 240px; }
+            .job-body { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            .careers-grid { grid-template-columns: 1fr; }
             .careers-hero-canvas { height: 280px; }
         }
     </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 
- <!-- OneSignal Push Notifications (Typical Site) -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
-      safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
-    });
-  });
-</script>
+    <!-- OneSignal Push Notifications (Typical Site) -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
+          safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
+        });
+      });
+    </script>
 </head>
 <body>
 
@@ -380,9 +293,8 @@
 
     <main class="content-section" style="margin-top: 50px;">
         
-        <!-- ODŚWIEŻONY, PROPORCJONALNY TERMINAL REKRUTACYJNY -->
+        <!-- TERMINAL REKRUTACYJNY -->
         <div class="recruit-terminal-container">
-            <!-- LEWA KOLUMNA -->
             <div class="recruit-action-side">
                 <h3 style="font-size: 1.5rem; font-weight: 900; margin: 0 0 12px 0;">Join the Recruitment Ecosystem</h3>
                 <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0; max-width: 480px;">
@@ -396,7 +308,6 @@
                 </a>
             </div>
 
-            <!-- PRAWA KOLUMNA -->
             <div class="recruit-info-side">
                 <div class="vertical-steps-matrix">
                     <div class="step-row">
@@ -424,127 +335,76 @@
             </div>
         </div>
 
-        <section class="benefits-section">
-            <div class="section-header" style="text-align: left; margin-bottom: 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px;">
-                <div>
-                    <h2 style="font-size: 1.8rem; font-weight: 900;">Why You'll Love Working Here</h2>
-                    <p style="font-size: 0.95rem; margin-top: 4px;">Building an independent, decentralized environment focused on scalability.</p>
-                </div>
-                <a href="benefits.html" class="section-header-link">Read More <span>→</span></a>
-            </div>
-
-            <div class="benefits-split-grid">
-                <div class="benefits-list-box">
-                    <div class="benefit-row-item">
-                        <h4>Asynchronous Autonomy</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Work from any timezone with fully optimized task matrices and clear workflow directives.</p>
-                    </div>
-                    <div class="benefit-row-item">
-                        <h4>Custom Scripting Environment</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Direct exposure to building community layers using custom bot architecture and automated workflows.</p>
-                    </div>
-                    <div class="benefit-row-item">
-                        <h4>Fluid Career Paths</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Transition seamlessly between operations, community management, or infrastructure engineering groups.</p>
-                    </div>
-                </div>
-
-                <div class="tech-terminal-box">
-                    <div class="terminal-header-dots">
-                        <div class="t-dot" style="background-color: #ff5f56;"></div>
-                        <div class="t-dot" style="background-color: #ffbd2e;"></div>
-                        <div class="t-dot" style="background-color: #27c93f;"></div>
-                    </div>
-                    
-                    <span class="floating-tech-badge badge-1">Python API</span>
-                    <span class="floating-tech-badge badge-2">Node.js</span>
-                    <span class="floating-tech-badge badge-3">Git Hooks</span>
-                    <span class="floating-tech-badge badge-4">Automation</span>
-                    <span class="floating-tech-badge badge-5">Regex</span>
-
-                    <div style="text-align: center; position: relative; z-index: 5;">
-                        <h4 style="font-family: monospace; font-size: 1.1rem; color: #ffffff; margin-bottom: 6px;">Our Core Ecosystem</h4>
-                        <p style="font-family: monospace; font-size: 0.82rem; color: var(--color-brainly-green);">[Status: Active & Expanding]</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-header" style="text-align: center; margin-top: 80px; margin-bottom: 30px;">
-            <h2 style="font-size: 1.8rem; font-weight: 900;">Our Operational Tracks</h2>
-            <p style="font-size: 0.95rem;">Select an internal deployment line matching your technical profile.</p>
+        <!-- SEKCJA OTWARTYCH REKRUTACJI (DYNAMICZNA) -->
+        <div class="section-header" style="text-align: center; margin-top: 60px; margin-bottom: 30px;">
+            <h2 style="font-size: 1.8rem; font-weight: 900;">Open Vacancies</h2>
+            <p style="font-size: 0.95rem;">Explore our currently active recruitment slots updated in real-time.</p>
         </div>
 
-        <div class="careers-grid" style="margin-bottom: 60px;">
-            <a href="tracks.html" class="careers-card">
-                <div>
-                    <div class="careers-card-top">
-                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
-                        <span class="careers-arrow">→</span>
-                    </div>
-                    <h3 style="margin-bottom: 6px;">Community & Moderation</h3>
-                    <p>Govern platform regulations, preserve end-user safety, and cultivate healthy environments inside our public networks.</p>
-                </div>
-                <span class="card-read-more">Read More</span>
-            </a>
-
-            <a href="tracks.html" class="careers-card">
-                <div>
-                    <div class="careers-card-top">
-                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <polyline points="16 18 22 12 16 6"></polyline>
-                            <polyline points="8 6 2 12 8 18"></polyline>
-                        </svg>
-                        <span class="careers-arrow">→</span>
-                    </div>
-                    <h3 style="margin-bottom: 6px;">Product & Automation</h3>
-                    <p>Build, engineer, and scale modular bot frameworks, webhook parameters, and customized repository configurations.</p>
-                </div>
-                <span class="card-read-more">Read More</span>
-            </a>
-
-            <a href="tracks.html" class="careers-card">
-                <div>
-                    <div class="careers-card-top">
-                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                        </svg>
-                        <span class="careers-arrow">→</span>
-                    </div>
-                    <h3 style="margin-bottom: 6px;">Operations & Logistics</h3>
-                    <p>Coordinate project goals, orchestrate task pipelines, manage team rotas, and verify structure reporting guidelines.</p>
-                </div>
-                <span class="card-read-more">Read More</span>
-            </a>
-
-            <a href="tracks.html" class="careers-card">
-                <div>
-                    <div class="careers-card-top">
-                        <svg class="careers-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5 21.5 11 21 11H18.5C17.67 11 17 10.33 17 9.5V7C17 5.34 15.66 4 14 4H12C6.47715 4 2 8.47715 2 14C2 18.4228 5.57715 22 12 22Z"></path>
-                            <circle cx="7.5" cy="10.5" r="1" fill="currentColor"></circle>
-                            <circle cx="11.5" cy="7.5" r="1" fill="currentColor"></circle>
-                            <circle cx="16.5" cy="9.5" r="1" fill="currentColor"></circle>
-                            <circle cx="6.5" cy="14.5" r="1" fill="currentColor"></circle>
-                        </svg>
-                        <span class="careers-arrow">→</span>
-                    </div>
-                    <h3 style="margin-bottom: 6px;">Creative & Design</h3>
-                    <p>Design visual branding guidelines, asset deployment formats, and shape customized interface layouts.</p>
-                </div>
-                <span class="card-read-more">Read More</span>
-            </a>
+        <div id="jobs-container" class="job-listings-container">
+            <div class="jobs-loading-state">Loading vacancies from ecosystem spreadsheet...</div>
         </div>
+
     </main>
 
     <footer id="footer-placeholder"></footer>
 
     <script>
+        // PODMIEŃ PONIŻSZY URL NA TWÓJ WYGENEROWANY LINK Z GOOGLE APPS SCRIPT
+        const APPS_SCRIPT_URL = 'TUTAJ_WLEJ_ADRES_URL_SWOJEJ_APLIKACJI_INTERNETOWEJ';
+
         document.addEventListener('DOMContentLoaded', () => {
+            fetchJobVacancies();
+            initConstellationCanvas();
+        });
+
+        async function fetchJobVacancies() {
+            const container = document.getElementById('jobs-container');
+            if (!container) return;
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL);
+                const result = await response.json();
+
+                if (result.status === 'success' && result.data.length > 0) {
+                    container.innerHTML = result.data.map(job => `
+                        <div class="job-card">
+                            <div class="job-header">
+                                <h3 class="job-title">${escapeHtml(job.title)}</h3>
+                                <div class="job-tags">
+                                    ${job.section ? `<span class="job-tag">${escapeHtml(job.section)}</span>` : ''}
+                                    ${job.workType ? `<span class="job-tag">${escapeHtml(job.workType)}</span>` : ''}
+                                    ${job.locationType ? `<span class="job-tag job-tag-green">${escapeHtml(job.locationType)}</span>` : ''}
+                                </div>
+                            </div>
+                            <div class="job-body">
+                                <div class="job-details-block">
+                                    <h5>Requirements</h5>
+                                    <p>${escapeHtml(job.requirements || 'None specified')}</p>
+                                </div>
+                                <div class="job-details-block">
+                                    <h5>Nice to Have</h5>
+                                    <p>${escapeHtml(job.welcome || 'None specified')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<div class="jobs-empty-state">No open vacancies at the moment. Check back later!</div>';
+                }
+            } catch (error) {
+                console.error('Error fetching job vacancies:', error);
+                container.innerHTML = '<div class="jobs-empty-state">Unable to load job vacancies at this moment. Please try again later.</div>';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function initConstellationCanvas() {
             const canvas = document.getElementById('constellation-canvas');
             if (!canvas) return;
 
@@ -617,7 +477,7 @@
             });
 
             animate();
-        });
+        }
     </script>
 </body>
 </html>
