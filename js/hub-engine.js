@@ -1,6 +1,6 @@
 // js/hub-engine.js - Silnik obsługi bazy i zaawansowanej logiki wyszukiwania
 
-const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbxHhEiT7YPjUtG6XYq8n4HGew8INj6osdogMd5YxQb6iwKv3iVuzOYaAWDEHS4uvCFS/exec";
+const DATABASE_API_URL = "https://script.google.com/macros/s/AKfycbz8b4O-3LXd4ZVbQb3YDoueoaK-wzJvOBUlDG6BqT1IOloyFrhMLClg-5tqDcWWyHPu/exec";
 
 const COMPLETE_SUBJECTS_LIST = [
     "Arts", "Biology", "Business", "Chemistry", "Chinese", 
