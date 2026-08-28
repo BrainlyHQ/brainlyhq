@@ -161,7 +161,6 @@ async function loadLanguage(lang) {
     try {
         const response = await fetch(`lang/${lang}.json`);
         if (!response.ok) {
-            // Ciche obsłużenie braku pliku językowego bez wywoływania błędów w konsoli
             return;
         }
 
@@ -217,6 +216,11 @@ function initNavigationHighlight() {
     // Obsługa starego adresu dokumentacji
     if (path === "documentation.html") {
         path = "docs.html";
+    }
+    // Strona exclusive.html nie posiada odpowiednika w menu nawigacji
+    if (path === "exclusive.html") {
+        document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
+        return;
     }
 
     const activeLink = document.querySelector(`nav a[href="${path}"]`);
