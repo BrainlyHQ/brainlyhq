@@ -28,32 +28,6 @@
             overflow-x: hidden;
         }
 
-        /* Tło w siatkę (Grid) z ruchomą animacją */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 200vw; height: 200vh;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-            z-index: 0;
-            animation: moveGrid 25s linear infinite;
-        }
-
-        [data-theme="light"] body::before {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
-        }
-
-        @keyframes moveGrid {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-60px, -60px); }
-        }
-
         .exclusive-container {
             max-width: 1100px;
             margin: 0 auto 80px auto;
@@ -77,6 +51,7 @@
             line-height: 1.15;
             margin: 0 0 16px 0;
             letter-spacing: -1px;
+            color: #99ee60;
         }
 
         .exclusive-subtitle {
@@ -168,16 +143,21 @@
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
             font-size: 0.88rem;
         }
 
-        /* Bardzo delikatne, mało widoczne linie podziału */
+        /* Wyśrodkowanie kolumn z rangami oraz lewa strona dla nagłówków cech */
         .comparison-table th, 
         .comparison-table td {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             vertical-align: middle;
+            text-align: center;
+        }
+
+        .comparison-table th:first-child,
+        .comparison-table td:first-child {
+            text-align: left;
         }
 
         [data-theme="light"] .comparison-table th, 
