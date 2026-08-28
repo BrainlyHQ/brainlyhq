@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Tiers & HQ Premium | BrainlyHQ</title>
+    <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#99EE60">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+    <style>
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-primary, sans-serif);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Tło w siatkę (Grid) z ruchomą animacją */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 200vw; height: 200vh;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: moveGrid 25s linear infinite;
+        }
+
+        [data-theme="light"] body::before {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-60px, -60px); }
+        }
+
+        .exclusive-container {
+            max-width: 1100px;
+            margin: 40px auto 80px auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Hero Header */
+        .exclusive-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(153, 238, 96, 0.12);
+            border: 1px solid rgba(153, 238, 96, 0.3);
+            color: var(--color-brainly-green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+        }
+
+        .exclusive-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1.15;
+            margin: 0 0 16px 0;
+            letter-spacing: -1px;
+        }
+
+        .exclusive-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Discord Prestigous Badges Cards Grid */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 70px;
+        }
+
+        .badge-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            transition: all 0.25s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .badge-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 10px 30px rgba(153, 238, 96, 0.1);
+        }
+
+        .badge-card img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+        }
+
+        .badge-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin: 0 0 8px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-status {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-secret { background: rgba(255, 74, 74, 0.15); color: #ff4a4a; }
+        .status-premium { background: rgba(153, 238, 96, 0.15); color: var(--color-brainly-green); }
+
+        .badge-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* HQ Premium Section Banner */
+        .premium-banner {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 36px;
+            margin-bottom: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .premium-info { max-width: 580px; }
+
+        .premium-info h3 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+        }
+
+        .premium-benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 0 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 10px;
+        }
+
+        .premium-benefits-list li {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .premium-benefits-list li::before {
+            content: "✓";
+            color: var(--color-brainly-green);
+            font-weight: 900;
+        }
+
+        .btn-buy-coins {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--color-brainly-green);
+            color: #000;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.9rem;
+            padding: 14px 28px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-buy-coins:hover {
+            transform: scale(0.98);
+            opacity: 0.95;
+        }
+
+        /* Comparison Table Section */
+        .table-section-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .comparison-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.88rem;
+        }
+
+        /* Bardzo delikatne, mało widoczne linie podziału */
+        .comparison-table th, 
+        .comparison-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        [data-theme="light"] .comparison-table th, 
+        [data-theme="light"] .comparison-table td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .comparison-table th {
+            font-size: 0.92rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: var(--color-brainly-green);
+            font-weight: 900;
+        }
+
+        .dash-icon {
+            color: var(--text-secondary);
+            opacity: 0.4;
+        }
+
+        @media (max-width: 768px) {
+            .exclusive-title { font-size: 2.1rem; }
+            .premium-banner { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+    <script src="js/theme.js"></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+
+    <div id="google_translate_element"></div>
+    <header id="header-placeholder"></header>
+
+    <main class="exclusive-container">
+        
+        <!-- Hero Section -->
+        <section class="exclusive-hero">
+            <div class="hero-badge-tag">
+                <span>Unique Discord Tiers</span>
+            </div>
+            <h1 class="exclusive-title">Prestige Badges & Subscriptions</h1>
+            <p class="exclusive-subtitle">
+                Discover the rarest statuses in Brainly. These coveted ranks feature secret qualification criteria that reward exceptional community presence with distinctive perks and unique recognition.
+            </p>
+        </section>
+
+        <!-- Secret Prestige Badges Grid -->
+        <section class="badges-grid">
+            
+            <!-- ZENITH -->
+            <div class="badge-card">
+                <img src="assets/ZENITH.png" alt="ZENITH Rank Badge">
+                <h3 class="badge-title" style="color: #a855f7;">ZENITH</h3>
+                <span class="badge-status status-secret">Secret Requirements</span>
+                <p class="badge-desc">
+                    The absolute pinnacle of Brainly distinction. Granted exclusively to legends with undiscovered achievements.
+                </p>
+            </div>
+
+            <!-- APEX -->
+            <div class="badge-card">
+                <img src="assets/APEX.png" alt="APEX Rank Badge">
+                <h3 class="badge-title" style="color: #3b82f6;">APEX</h3>
+                <span class="badge-status status-secret">Secret Requirements</span>
+                <p class="badge-desc">
+                    A mark of remarkable operational supremacy. Issued through confidential evaluation metrics.
+                </p>
+            </div>
+
+            <!-- ELITE -->
+            <div class="badge-card">
+                <img src="assets/ELITE.png" alt="ELITE Rank Badge">
+                <h3 class="badge-title" style="color: #eab308;">ELITE</h3>
+                <span class="badge-status status-secret">Secret Requirements</span>
+                <p class="badge-desc">
+                    An exceptional honor held by key figures in the network. Requirements remain classified.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- HQ Premium Section -->
+        <section class="premium-banner">
+            <div class="premium-info">
+                <h3>BrainlyHQ Premium Subscription</h3>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
+                    Enhance your ecosystem experience! Available directly in the store using your BrainlyCoins.
+                </p>
+                <ul class="premium-benefits-list">
+                    <li>Special badge & Premium Zone access</li>
+                    <li>Access to Color Palette</li>
+                    <li>Access to Economy Logs</li>
+                    <li>-10% Discount on all Shop items</li>
+                    <li>1.5x XP Boost multiplier</li>
+                    <li>5 coins / 24 hours passive reward</li>
+                    <li>Access to pre-release features</li>
+                </ul>
+            </div>
+            <div>
+                <a href="https://dsc.gg/brainlyhq" target="_blank" class="btn-buy-coins">
+                    <span>Acquire for BrainlyCoins</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Tabela Porównawcza (Comparison Table) -->
+        <h2 class="table-section-title">Tier Capabilities Matrix</h2>
+        <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature / Benefit</th>
+                        <th style="color: #a855f7;">ZENITH</th>
+                        <th style="color: #3b82f6;">APEX</th>
+                        <th style="color: #eab308;">ELITE</th>
+                        <th style="color: var(--color-brainly-green);">PREMIUM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Disclosed Requirements</strong></td>
+                        <td><span class="dash-icon">Secret</span></td>
+                        <td><span class="dash-icon">Secret</span></td>
+                        <td><span class="dash-icon">Secret</span></td>
+                        <td><span class="check-icon">BrainlyCoins</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Unique Discord Badge</strong></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exclusive Private Zone</strong></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Color Palette Tool Access</strong></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Economy Logs Access</strong></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shop Discount (-10%)</strong></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>XP Boost Multiplier</strong></td>
+                        <td><span class="check-icon">2.0x</span></td>
+                        <td><span class="check-icon">1.75x</span></td>
+                        <td><span class="check-icon">1.5x</span></td>
+                        <td><span class="check-icon">1.5x</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Daily Passive Coins</strong></td>
+                        <td><span class="check-icon">15 / 24h</span></td>
+                        <td><span class="check-icon">10 / 24h</span></td>
+                        <td><span class="check-icon">8 / 24h</span></td>
+                        <td><span class="check-icon">5 / 24h</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pre-release Beta Testing</strong></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                        <td><span class="dash-icon">—</span></td>
+                        <td><span class="check-icon">✓</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+
+</body>
+</html>
