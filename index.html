@@ -7,13 +7,12 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#99EE60">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="assets/icon-192.png">
-    
+
     <style>
         /* --- STYLIZACJA STRONY TYTUŁOWEJ (INDEX) --- */
 
@@ -153,9 +152,18 @@
             color: var(--text-primary);
         }
 
+        /* Styl i animacja wygaszania dla rotującego hasła */
         .hero-title span {
             color: var(--color-brainly-green);
             text-shadow: 0 0 20px rgba(153, 238, 96, 0.15);
+            display: inline-block;
+            opacity: 1;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+        }
+
+        .hero-title span.fade-out {
+            opacity: 0;
+            transform: translateY(6px);
         }
 
         .hero-lead {
@@ -467,7 +475,6 @@
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 
-<!-- OneSignal Push Notifications (Typical Site) -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -484,7 +491,6 @@
     <header id="header-placeholder"></header>
 
     <main>
-        <!-- SEKCJA HERO -->
         <section class="hero-section">
             <div class="cyber-grid-bg"></div>
             <div class="glow-orb orb-left"></div>
@@ -494,11 +500,11 @@
                 <a href="status.html" class="hero-status-link">
                     <span class="status-accent">[ </span>ALL SERVICES OPERATIONAL<span class="status-accent"> ]</span>
                 </a>
-                
+
                 <h1 class="hero-title">
-                    More than a community.<br><span>A place to belong.</span>
+                    More than a community.<br><span id="rotating-tagline">A place to belong.</span>
                 </h1>
-                
+
                 <p class="hero-lead">
                     Meet people. Share ideas. Learn something new every day. We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand educational communities.
                 </p>
@@ -526,7 +532,6 @@
             </div>
         </section>
 
-        <!-- SEKCJA STATYSTYK -->
         <section class="stats-banner" id="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
@@ -544,7 +549,6 @@
             </div>
         </section>
 
-        <!-- SEKCJA EKOSYSTEMU -->
         <section class="ecosystem-section">
             <div style="text-align: center; margin-bottom: 50px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
@@ -615,7 +619,6 @@
             </div>
         </section>
 
-        <!-- SEKCJA SUKCESÓW (PŁYNĄCA STRUKTURALNA LINIA WAVE) -->
         <section class="milestones-wave-section">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
@@ -623,8 +626,7 @@
             </div>
 
             <div class="wave-grid-layout">
-                
-                <!-- RZĄD 1: Tekst Sukcesu 1 (Lewo) i Sukcesu 3 (Prawo) -->
+
                 <div class="wave-text-block">
                     <span class="wave-tag">Integrations</span>
                     <h3 class="wave-title">Official collaboration agreement with Brainly Creatives</h3>
@@ -637,16 +639,13 @@
                     <p class="wave-text">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
                 </div>
 
-                <!-- RZĄD 2: Animowana Linia 100vw rozciągnięta wektorowo od krawędzi do krawędzi -->
                 <div class="wave-svg-row">
                     <svg class="wave-svg-element" viewBox="0 0 1000 60" preserveAspectRatio="none" style="overflow: visible;">
-                        <!-- Główna ścieżka fali i nakładka z animowanym prądem danych -->
                         <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" stroke="var(--border-color)" stroke-width="2" />
                         <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" class="animated-pulse-path" />
                     </svg>
                 </div>
 
-                <!-- RZĄD 3: Tekst Sukcesu 2 (Środek) -->
                 <div class="wave-spacer"></div>
                 <div class="wave-text-block">
                     <span class="wave-tag">Team Matrix</span>
@@ -668,6 +667,34 @@
                 element.scrollIntoView({ behavior: 'smooth' });
             }
         }
+
+        // Skrypt rotujący hasła z efektem wygaszania
+        const taglines = [
+            "A place to belong.",
+            "Built for innovators.",
+            "Where ideas connect.",
+            "Your educational home."
+        ];
+
+        let currentIndex = 0;
+        const taglineElement = document.getElementById("rotating-tagline");
+
+        function rotateTagline() {
+            // 1. Wygaszanie tekstu
+            taglineElement.classList.add("fade-out");
+
+            setTimeout(() => {
+                // 2. Zmiana treści po zakończeniu animacji wygaszania
+                currentIndex = (currentIndex + 1) % taglines.length;
+                taglineElement.textContent = taglines[currentIndex];
+
+                // 3. Wprowadzanie nowego tekstu (pojawianie się)
+                taglineElement.classList.remove("fade-out");
+            }, 400); // Czas musi odpowiadać wartości transition w CSS (.4s)
+        }
+
+        // Uruchomienie cyklu co 4 sekundy
+        setInterval(rotateTagline, 4000);
     </script>
 </body>
 </html>
