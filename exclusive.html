@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exclusive Tiers & HQ Premium | BrainlyHQ</title>
+    <title>Exclusive Tiers | BrainlyHQ</title>
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
 
@@ -56,34 +56,19 @@
 
         .exclusive-container {
             max-width: 1100px;
-            margin: 40px auto 80px auto;
-            padding: 0 24px;
+            margin: 0 auto 80px auto;
+            padding: 60px 24px 0 24px;
             position: relative;
             z-index: 1;
             width: 100%;
             box-sizing: border-box;
+            flex: 1;
         }
 
         /* Hero Header */
         .exclusive-hero {
             text-align: center;
             margin-bottom: 60px;
-        }
-
-        .hero-badge-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(153, 238, 96, 0.12);
-            border: 1px solid rgba(153, 238, 96, 0.3);
-            color: var(--color-brainly-green);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 16px;
         }
 
         .exclusive-title {
@@ -156,79 +141,12 @@
         }
 
         .status-secret { background: rgba(255, 74, 74, 0.15); color: #ff4a4a; }
-        .status-premium { background: rgba(153, 238, 96, 0.15); color: var(--color-brainly-green); }
 
         .badge-desc {
             font-size: 0.88rem;
             color: var(--text-secondary);
             line-height: 1.5;
             margin: 0;
-        }
-
-        /* HQ Premium Section Banner */
-        .premium-banner {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 36px;
-            margin-bottom: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .premium-info { max-width: 580px; }
-
-        .premium-info h3 {
-            font-size: 1.6rem;
-            font-weight: 900;
-            margin: 0 0 10px 0;
-        }
-
-        .premium-benefits-list {
-            list-style: none;
-            padding: 0;
-            margin: 16px 0 0 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 10px;
-        }
-
-        .premium-benefits-list li {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .premium-benefits-list li::before {
-            content: "✓";
-            color: var(--color-brainly-green);
-            font-weight: 900;
-        }
-
-        .btn-buy-coins {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: var(--color-brainly-green);
-            color: #000;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 0.9rem;
-            padding: 14px 28px;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-buy-coins:hover {
-            transform: scale(0.98);
-            opacity: 0.95;
         }
 
         /* Comparison Table Section */
@@ -259,6 +177,7 @@
         .comparison-table td {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            vertical-align: middle;
         }
 
         [data-theme="light"] .comparison-table th, 
@@ -278,7 +197,20 @@
             border-bottom: none;
         }
 
-        .check-icon {
+        /* Stylizacja ikonek vectorowych (tick) w tabeli */
+        .tick-icon-svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--color-brainly-green);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .check-value {
             color: var(--color-brainly-green);
             font-weight: 900;
         }
@@ -289,8 +221,8 @@
         }
 
         @media (max-width: 768px) {
+            .exclusive-container { padding-top: 40px; }
             .exclusive-title { font-size: 2.1rem; }
-            .premium-banner { flex-direction: column; align-items: flex-start; }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -305,9 +237,6 @@
         
         <!-- Hero Section -->
         <section class="exclusive-hero">
-            <div class="hero-badge-tag">
-                <span>Unique Discord Tiers</span>
-            </div>
             <h1 class="exclusive-title">Prestige Badges & Subscriptions</h1>
             <p class="exclusive-subtitle">
                 Discover the rarest statuses in Brainly. These coveted ranks feature secret qualification criteria that reward exceptional community presence with distinctive perks and unique recognition.
@@ -317,61 +246,36 @@
         <!-- Secret Prestige Badges Grid -->
         <section class="badges-grid">
             
-            <!-- ZENITH -->
+            <!-- ZENITH (Niebieski) -->
             <div class="badge-card">
                 <img src="assets/ZENITH.png" alt="ZENITH Rank Badge">
-                <h3 class="badge-title" style="color: #a855f7;">ZENITH</h3>
+                <h3 class="badge-title" style="color: #3b82f6;">ZENITH</h3>
                 <span class="badge-status status-secret">Secret Requirements</span>
                 <p class="badge-desc">
                     The absolute pinnacle of Brainly distinction. Granted exclusively to legends with undiscovered achievements.
                 </p>
             </div>
 
-            <!-- APEX -->
+            <!-- APEX (Żółty) -->
             <div class="badge-card">
                 <img src="assets/APEX.png" alt="APEX Rank Badge">
-                <h3 class="badge-title" style="color: #3b82f6;">APEX</h3>
+                <h3 class="badge-title" style="color: #eab308;">APEX</h3>
                 <span class="badge-status status-secret">Secret Requirements</span>
                 <p class="badge-desc">
                     A mark of remarkable operational supremacy. Issued through confidential evaluation metrics.
                 </p>
             </div>
 
-            <!-- ELITE -->
+            <!-- ELITE (Czerwony) -->
             <div class="badge-card">
                 <img src="assets/ELITE.png" alt="ELITE Rank Badge">
-                <h3 class="badge-title" style="color: #eab308;">ELITE</h3>
+                <h3 class="badge-title" style="color: #ef4444;">ELITE</h3>
                 <span class="badge-status status-secret">Secret Requirements</span>
                 <p class="badge-desc">
                     An exceptional honor held by key figures in the network. Requirements remain classified.
                 </p>
             </div>
 
-        </section>
-
-        <!-- HQ Premium Section -->
-        <section class="premium-banner">
-            <div class="premium-info">
-                <h3>BrainlyHQ Premium Subscription</h3>
-                <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                    Enhance your ecosystem experience! Available directly in the store using your BrainlyCoins.
-                </p>
-                <ul class="premium-benefits-list">
-                    <li>Special badge & Premium Zone access</li>
-                    <li>Access to Color Palette</li>
-                    <li>Access to Economy Logs</li>
-                    <li>-10% Discount on all Shop items</li>
-                    <li>1.5x XP Boost multiplier</li>
-                    <li>5 coins / 24 hours passive reward</li>
-                    <li>Access to pre-release features</li>
-                </ul>
-            </div>
-            <div>
-                <a href="https://dsc.gg/brainlyhq" target="_blank" class="btn-buy-coins">
-                    <span>Acquire for BrainlyCoins</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-                </a>
-            </div>
         </section>
 
         <!-- Tabela Porównawcza (Comparison Table) -->
@@ -381,9 +285,9 @@
                 <thead>
                     <tr>
                         <th>Feature / Benefit</th>
-                        <th style="color: #a855f7;">ZENITH</th>
-                        <th style="color: #3b82f6;">APEX</th>
-                        <th style="color: #eab308;">ELITE</th>
+                        <th style="color: #3b82f6;">ZENITH</th>
+                        <th style="color: #eab308;">APEX</th>
+                        <th style="color: #ef4444;">ELITE</th>
                         <th style="color: var(--color-brainly-green);">PREMIUM</th>
                     </tr>
                 </thead>
@@ -393,63 +297,63 @@
                         <td><span class="dash-icon">Secret</span></td>
                         <td><span class="dash-icon">Secret</span></td>
                         <td><span class="dash-icon">Secret</span></td>
-                        <td><span class="check-icon">BrainlyCoins</span></td>
+                        <td><span class="check-value">BrainlyCoins</span></td>
                     </tr>
                     <tr>
                         <td><strong>Unique Discord Badge</strong></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                     </tr>
                     <tr>
                         <td><strong>Exclusive Private Zone</strong></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                     </tr>
                     <tr>
                         <td><strong>Color Palette Tool Access</strong></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                     </tr>
                     <tr>
                         <td><strong>Economy Logs Access</strong></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                     </tr>
                     <tr>
                         <td><strong>Shop Discount (-10%)</strong></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                     </tr>
                     <tr>
                         <td><strong>XP Boost Multiplier</strong></td>
-                        <td><span class="check-icon">2.0x</span></td>
-                        <td><span class="check-icon">1.75x</span></td>
-                        <td><span class="check-icon">1.5x</span></td>
-                        <td><span class="check-icon">1.5x</span></td>
+                        <td><span class="check-value">2.0x</span></td>
+                        <td><span class="check-value">1.75x</span></td>
+                        <td><span class="check-value">1.5x</span></td>
+                        <td><span class="check-value">1.5x</span></td>
                     </tr>
                     <tr>
                         <td><strong>Daily Passive Coins</strong></td>
-                        <td><span class="check-icon">15 / 24h</span></td>
-                        <td><span class="check-icon">10 / 24h</span></td>
-                        <td><span class="check-icon">8 / 24h</span></td>
-                        <td><span class="check-icon">5 / 24h</span></td>
+                        <td><span class="check-value">15 / 24h</span></td>
+                        <td><span class="check-value">10 / 24h</span></td>
+                        <td><span class="check-value">8 / 24h</span></td>
+                        <td><span class="check-value">5 / 24h</span></td>
                     </tr>
                     <tr>
                         <td><strong>Pre-release Beta Testing</strong></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="check-icon">✓</span></td>
-                        <td><span class="dash-icon">—</span></td>
-                        <td><span class="check-icon">✓</span></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
+                        <td><svg class="tick-icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></td>
                     </tr>
                 </tbody>
             </table>
