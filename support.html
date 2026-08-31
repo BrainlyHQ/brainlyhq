@@ -7,14 +7,78 @@
     <link rel="icon" type="image/png" href="assets/BRAINLYHQ LOGO.png">
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#99EE60">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="assets/icon-192.png">
-    
+
     <style>
+        /* --- PEŁNOEKRANOWY LOADER --- */
+        #global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-primary, #0f1115);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        #global-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-wrapper {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(255, 255, 255, 0.08);
+            border-top: 3px solid var(--color-brainly-green, #99ee60);
+            border-radius: 50%;
+            animation: spinLoader 1s linear infinite;
+        }
+
+        .loader-logo {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(153, 238, 96, 0.3));
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            font-family: var(--font-primary, sans-serif);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary, #8a99ad);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        @keyframes spinLoader {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* --- MAIN SUPPORT HERO GRID LAYOUT --- */
         .support-hero-layout {
             max-width: 1100px;
@@ -412,7 +476,6 @@
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 
-    <!-- OneSignal Push Notifications (Typical Site) -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -426,15 +489,21 @@
 </head>
 <body>
 
+    <div id="global-loader">
+        <div class="loader-wrapper">
+            <div class="loader-spinner"></div>
+            <img src="assets/Brainly Support.png" alt="Brainly Support Logo" class="loader-logo">
+        </div>
+        <span class="loader-text">Loading Support Database...</span>
+    </div>
+
     <header id="header-placeholder"></header>
 
     <main>
-        <!-- HERO GRID: WYSZUKIWARKA + DYNAMICZNY HOT QUESTION SLIDER -->
         <section class="support-hero-layout">
-            <!-- Lewa strona: Wyszukiwarka + Tekst pomocniczy -->
             <div class="search-column">
                 <div class="main-search-wrapper">
-                    <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets, or economy...">
+                    <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets, or economy..." disabled>
                     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -445,7 +514,6 @@
                 </p>
             </div>
 
-            <!-- Prawa strona: Stały Kafelek Hot Question -->
             <div class="hot-slider-card" id="hot-card-container">
                 <div class="hot-card-header">
                     <div class="fire-badge">
@@ -481,7 +549,6 @@
             </div>
         </section>
 
-        <!-- KAFELEK PROMUJĄCY INSTALACJĘ APLIKACJI -->
         <section class="app-install-promo-card">
             <div class="app-promo-inner">
                 <div class="app-promo-info">
@@ -498,17 +565,14 @@
             </div>
         </section>
 
-        <!-- STREFA ANIMACJI THINK.GIF / OKAY.GIF / SAD.GIF -->
         <section class="thinking-wrapper" id="thinking-container">
             <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" class="thinking-gif">
             <p id="status-icon-text" class="thinking-text">Waiting for your input... Type anything above to search our answers!</p>
         </section>
 
-        <!-- SEKCJA WYNIKÓW WYSZUKIWANIA -->
         <section class="faq-section-wrapper" id="faq-wrapper">
             <div id="faq-results-container">
-                <!-- DYNAMICZNE WYNIKI -->
-            </div>
+                </div>
         </section>
     </main>
 
@@ -522,455 +586,30 @@
             preloadedGifs[name].src = `assets/${name}.gif`;
         });
 
-        const faqDatabase = [
-            {
-                id: "faq-1",
-                question: "What are the exact drop chances for Mythic and Diamond Chests?",
-                answer: "Great question! Here is the exact drop breakdown for our top-tier chests!<br><ul><li><strong>Mythic Chest:</strong> 5 Coins (30%), 20 Coins (28%), 60 Coins (25%), 210 Coins (12%), 890 Coins (3%), and 1000 Coins (2%).</li><li><strong>Diamond Chest:</strong> 20 Coins (22%), 40 Coins (20%), 80 Coins (22%), 350 Coins (20%), 965 Coins (4%), and 1080 Coins (2%).</li></ul>"
-            },
-            {
-                id: "faq-2",
-                question: "How do Loot Categories work and what are the item rarity tiers?",
-                answer: "Awesome! Items inside our loot boxes are neatly split into 5 distinct rarity tiers:<br><ul><li><strong>Super Rare:</strong> 49.00% drop chance</li><li><strong>Epic:</strong> 28.00% drop chance</li><li><strong>Mythic:</strong> 13.00% drop chance</li><li><strong>Legendary:</strong> 7.00% drop chance</li><li><strong>Ultra:</strong> 3.00% drop chance</li></ul>Everyone enjoys the exact same fair percentage chances per category tier!"
-            },
-            {
-                id: "faq-3",
-                question: "What are the rewards and probabilities for Scratchcards?",
-                answer: "We've got you covered! Scratchcards offer quick fun with transparent odds:<br><ul><li><strong>Gold Scratchcard:</strong> Empty Slot (35%), 5 Coins (30%), 10 Coins (28%), 20 Coins (23%), 40 Coins (11%), 80 Coins (3%).</li><li><strong>Gambler Scratchcard:</strong> Empty Slot (29%), 5 Coins (29%), 10 Coins (18%), 15 Coins (15%), 20 Coins (10%), 60 Coins (4%), 80 Coins (3%), 100 XP (2%).</li><li><strong>Dark Horse Scratchcard:</strong> Empty Slot (45%), 15 Coins (28%), 30 Coins (15%), 120 Coins (8%), 300 Coins (2%), 1150 Coins (1%), 500 Coins (1%).</li></ul>"
-            },
-            {
-                id: "faq-4",
-                question: "What are the winning odds for Obsidian and Crazy Gambler minigames?",
-                answer: "Feeling lucky? High-tier minigames carry great rewards for bold adventurers:<br><ul><li><strong>Obsidian Gambler:</strong> 5 Coins (6.00%), 90 Coins (0.06%), 110 Coins (0.03%), 130 Coins (0.02%), 150 Coins (0.50%), 4500 Coins (0.80%), and a massive Jackpot of 5000 Coins (0.01%).</li><li><strong>Crazy Gambler:</strong> Offers a Jackpot up to 5000 Coins plus 3 Gems bonus rolls!</li></ul>"
-            },
-            {
-                id: "faq-5",
-                question: "How do I earn Coins on the BrainlyHQ server?",
-                answer: "Glad you asked! Earning coins is super easy and offers plenty of variety:<br><ul><li><strong>Bot Commands:</strong> Use <code>!work</code> (1h cooldown, max 10 Coins), <code>!hustle</code> (6h cooldown, max 15 Coins), or <code>!crime</code> (8h cooldown, max 25 Coins).</li><li><strong>Daily Chatting:</strong> Send at least 1 message every 24 hours to claim +1 Coin.</li><li><strong>Creative Arts:</strong> Publish your creations on the #arts channel every 2 hours for +2 Coins.</li><li><strong>Discussion:</strong> Messages over 200 characters reward +3 Coins every 30 minutes.</li><li><strong>Role Yields:</strong> Claim daily passive income with the <code>!collect-income</code> command.</li></ul>"
-            },
-            {
-                id: "faq-6",
-                question: "What are the exact XP gains for messaging and Voice Channels?",
-                answer: "You bet! Here is how you can level up much faster through daily activity:<br><ul><li>Standard message: <strong>4 XP</strong></li><li>Message with attachment: <strong>4 XP base + 3.00% bonus</strong></li><li>Long message (>200 letters): <strong>6 XP</strong></li><li>Voice Channels (unmuted mic): <strong>5 XP per minute</strong></li><li>Replying under <code>#edu-posts</code>: <strong>2x Double XP Multiplier!</strong></li></ul>"
-            },
-            {
-                id: "faq-7",
-                question: "How do Level Boosters scale up to Level 50?",
-                answer: "Fantastic choice to level up! Your progression rewards your loyalty as you climb:<br><ul><li><strong>Level 20 (Bronze):</strong> 1.3x XP multiplier & 64 Coins yield.</li><li><strong>Level 30 (Gold):</strong> 2.0x XP multiplier & 256 Coins yield.</li><li><strong>Level 40 (Diamond):</strong> 2.3x XP multiplier & 780 Coins yield.</li><li><strong>Level 50 (Ascendant):</strong> 2.6x XP multiplier & 1500 Coins daily yield!</li></ul>"
-            },
-            {
-                id: "faq-8",
-                question: "How does the Robbing mechanic (!rob / !frob) work?",
-                answer: "Exactly! The <code>!rob</code> (or <code>!frob</code>) command lets you attempt to steal from another user's wallet! Success rates range from 20% default up to 40% against specific accounts. Be careful though — failing incurs fines up to 15 Coins!"
-            },
-            {
-                id: "faq-15",
-                question: "What abilities does OLLIE the Elephant grant?",
-                answer: "Ollie is wonderful! <strong>OLLIE</strong> is a gentle elephant with an amazing memory for treasure! His <em>Coin Collector</em> ability passively boosts all coins earned from economic commands (<code>!work</code>, <code>!crime</code>, <code>!hustle</code>) by a huge <strong>1.4x multiplier</strong>."
-            },
-            {
-                id: "faq-16",
-                question: "What abilities does KAYA the Panda grant?",
-                answer: "Meet your new best friend! <strong>KAYA</strong> is a calm panda who masters resource saving! Her <em>Frugality</em> ability grants you a permanent <strong>5% discount on every single item</strong> in the server shop."
-            },
-            {
-                id: "faq-17",
-                question: "What abilities does SASHA the Turtle grant?",
-                answer: "Slow and steady wins the race! <strong>SASHA</strong> is a patient turtle focused on steady growth! Her <em>Stable Income</em> ability automatically deposits a guaranteed <strong>50 coins per month</strong> into your savings vault."
-            },
-            {
-                id: "faq-18",
-                question: "What abilities does MI FUEGO the Phoenix grant?",
-                answer: "Fire it up! <strong>MI FUEGO</strong> is a fiery phoenix who ignites your profits! Once per day, activating <code>!fuego-power</code> doubles all your command earnings for 1 hour and adds +2 bonus coins to every passive payout!"
-            },
-            {
-                id: "faq-19",
-                question: "What abilities do SALLY the Cat and FIFMA the Fox grant?",
-                answer: "They make an adorable dynamic duo! <br><strong>SALLY (Cat):</strong> Boosts all earned XP by <strong>1.3x</strong>.<br><strong>FIFMA (Fox):</strong> Increases your chances of securing higher loot tiers in crates by <strong>1.3x</strong>!"
-            },
-            {
-                id: "faq-28",
-                question: "What perks come with HQ Premium?",
-                answer: "Treat yourself! HQ Premium gives you a true VIP experience on our server:<br><ul><li>Exclusive badge and access to the Premium Zone</li><li>Unlocks Science Scavengers (<code>!scavenge</code>) & Color Palette</li><li><strong>1.5x XP Boost</strong> across all active channels</li><li><strong>10% discount</strong> on all shop purchases</li><li>+5 Coins per 24 hours passive yield</li><li>+25 XP for accepted suggestion</li><li>Access to real-time bot transaction logs</li></ul>"
-            },
-            {
-                id: "faq-20",
-                question: "Are Alt-Accounts or Currency Farming allowed?",
-                answer: "Thanks for checking! To keep our economy fair and fun for everyone, using alt-accounts, multi-accounting, or automated farming is strictly forbidden. Violations result in an immediate progress reset and ban."
-            },
-            {
-                id: "faq-21",
-                question: "Is Real Money Trading (RMT) allowed?",
-                answer: "Not at all! Server coins and virtual items hold no real-world monetary value and cannot be exchanged for real money or external services. Attempting RMT results in an immediate global ban."
-            },
-            {
-                id: "faq-22",
-                question: "What is the policy on toxicity and hate speech?",
-                answer: "We're all about good vibes here! We strive to maintain a friendly, warm, and welcoming community for all. Harassment, hate speech, toxicity, or targeted attacks carry zero tolerance and lead to immediate suspensions."
-            },
-            {
-                id: "faq-23",
-                question: "What is the official language of BrainlyHQ?",
-                answer: "Welcome aboard! Our primary official language for general chat, moderation, and documentation is English. Other languages are warmly welcomed in designated international channels!"
-            },
-            {
-                id: "faq-24",
-                question: "How do I appeal a moderation mute or ban?",
-                answer: "Don't worry, we're always here to listen! If you feel a mistake was made, please avoid public arguments in chat. You can easily submit a private appeal by opening a ticket or contacting an Administrator directly."
-            },
-            {
-                id: "faq-31",
-                question: "What personal data does the bot store?",
-                answer: "Your privacy is our top priority! Our bot only stores basic Discord identifiers necessary for features: your Discord User ID, Username, Avatar URL, and virtual counters (XP & Coins). We never collect emails, passwords, or personal data."
-            },
-            {
-                id: "faq-32",
-                question: "What legal entity operates the infrastructure for BrainlyHQ?",
-                answer: "Good question! The infrastructure owner is a natural person representing Brainly spółka z o.o., located at Aleja Pokoju 62/8, Kraków (KRS 0000354511)."
-            },
-            {
-                id: "faq-33",
-                question: "Is BrainlyHQ formally affiliated with Brainly spółka z o.o.?",
-                answer: "Clear transparency is key! No, BrainlyHQ is an independent community project and is not formally, structurally, or legally affiliated with the Company."
-            },
-            {
-                id: "faq-34",
-                question: "Does Brainly spółka z o.o. bear responsibility for server moderation?",
-                answer: "Not at all! The Company bears no responsibility for actions, content, or moderation. Full operational responsibility lies with Ecosystem Management and our dedicated Users."
-            },
-            {
-                id: "faq-35",
-                question: "How does BrainlyHQ use Brainly's trademarks and logos?",
-                answer: "With full respect! BrainlyHQ uses the logo and visual trademarks of the Company solely on the basis of explicit consent granted by the trademark owner."
-            },
-            {
-                id: "faq-36",
-                question: "Are there any fees required to access BrainlyHQ services?",
-                answer: "Good news! Absolutely not — using any resources, functions, channels, and Products within the BrainlyHQ Ecosystem is completely free of charge."
-            },
-            {
-                id: "faq-37",
-                question: "Are BrainlyHQ systems guaranteed to run without downtime?",
-                answer: "We always try our absolute best! However, all systems, bots, and features are provided 'as is' without a formal guarantee of error-free or uninterrupted operation."
-            },
-            {
-                id: "faq-38",
-                question: "Are Users allowed to reverse engineer or copy BrainlyHQ code?",
-                answer: "We appreciate creativity, but no! Unauthorized copying, redistribution, modification, reverse engineering, or commercial use of any BrainlyHQ assets is strictly prohibited."
-            },
-            {
-                id: "faq-39",
-                question: "Does staying on the Discord server mean accepting the regulations?",
-                answer: "Exactly! By remaining within the Ecosystem, you kindly agree to comply fully with all provisions of the regulations and their future updates."
-            },
-            {
-                id: "faq-40",
-                question: "Do Moderators or Staff members receive financial compensation?",
-                answer: "They do it out of pure love for the community! All actions taken by Staff are voluntary and do not constitute an employment relationship or paid contract."
-            },
-            {
-                id: "faq-41",
-                question: "Where can staff members find internal procedures and guidelines?",
-                answer: "Our team stays organized! Detailed rules, penalty guidelines, and staff workflows are specified in a separate technical Moderation Guidelines document."
-            },
-            {
-                id: "faq-42",
-                question: "What is the policy regarding spamming and message flooding?",
-                answer: "To keep chat clean and lovely, spamming, abusing mentions, message flooding, sending meaningless content, or mass posting images/GIFs is strictly prohibited."
-            },
-            {
-                id: "faq-43",
-                question: "Is NSFW or shocking content allowed in designated channels?",
-                answer: "We keep things safe for everyone! Sharing NSFW, violent, graphic, shocking, or illegal materials anywhere in the Ecosystem is strictly forbidden."
-            },
-            {
-                id: "faq-44",
-                question: "Is sharing personal information (doxxing) allowed?",
-                answer: "Never! Safety comes first. Users must protect personal info, and sharing private data of oneself or third parties without explicit consent is prohibited."
-            },
-            {
-                id: "faq-45",
-                question: "What happens if a User impersonates a Staff member or another user?",
-                answer: "Honesty is important to us! Impersonating other community members, Staff, Management, or external organizations is strictly prohibited."
-            },
-            {
-                id: "faq-46",
-                question: "How are Direct Message (DM) harassment issues handled?",
-                answer: "We've got your back! DM conflicts and harassment should be reported to Staff with evidence. DM harassment is treated equally to server harassment."
-            },
-            {
-                id: "faq-47",
-                question: "What should I do if I discover a system bug or glitch?",
-                answer: "You'd be a hero to tell us! Exploiting system errors or bugs is prohibited, so please report any detected bug immediately to Management."
-            },
-            {
-                id: "faq-48",
-                question: "Are external links or self-promotion advertising allowed?",
-                answer: "We like keeping focus on our community! Advertising other servers, products, social media, or referral links without explicit Staff consent is prohibited."
-            },
-            {
-                id: "faq-49",
-                question: "How can another community establish an official partnership with BrainlyHQ?",
-                answer: "We love making new allies! Partnerships can be established smoothly through our approved and formal partnership procedures."
-            },
-            {
-                id: "faq-50",
-                question: "Do Brainly Coins or items have real monetary value?",
-                answer: "Just for fun! Virtual currencies and items have no real monetary value and cannot be exchanged for real legal tender."
-            },
-            {
-                id: "faq-51",
-                question: "Where can I find full algorithmic drop rates for economy features?",
-                answer: "Total transparency! All economy mechanics, drop rates, and algorithms are detailed in the official documentation at brainlyhq.vercel.app/documentation.html."
-            },
-            {
-                id: "faq-52",
-                question: "Can I argue with a Moderator about a sanction in public channels?",
-                answer: "Let's keep chat peaceful! Public arguments regarding moderation are prohibited. Appeals are handled warmly and privately via tickets or DMs."
-            },
-            {
-                id: "faq-53",
-                question: "What happens if a User disrespects or mocks the Moderation Staff?",
-                answer: "Respect is mutual! Insulting or showing disrespect towards Moderators, Administrators, or Staff is prohibited and treated with particular severity."
-            },
-            {
-                id: "faq-54",
-                question: "Can Management punish behaviors not explicitly listed in the rules?",
-                answer: "To ensure a healthy environment, yes! Management reserves the right to take disciplinary action against unlisted behaviors if they harm the community or infrastructure."
-            },
-            {
-                id: "faq-55",
-                question: "What types of penalties can be applied for rule violations?",
-                answer: "Depending on severity, penalties range from polite warnings, temporary mutes, and feature restrictions to account suspensions or permanent bans."
-            },
-            {
-                id: "faq-56",
-                question: "Who reviews legal matters or copyright infringement notices?",
-                answer: "All official matters are handled properly! Formal or legal requests are reviewed by a dedicated legal department or external counsel."
-            },
-            {
-                id: "faq-57",
-                question: "What is the primary role of the Brainly Core bot?",
-                answer: "Brainly Core is our helpful assistant! It facilitates real-time community moderation, data automation, server security, and virtual economy mechanics."
-            },
-            {
-                id: "faq-58",
-                question: "What is the definition of Brainly Coins in the Terms of Service?",
-                answer: "Simply put, they are proprietary virtual units of account generated and tracked exclusively by the bot with no financial or legal value."
-            },
-            {
-                id: "faq-59",
-                question: "How is Experience Points (XP) defined in the system?",
-                answer: "It measures your journey! XP is an internal numeric variable bound to your profile, reflecting your engagement level across the Ecosystem."
-            },
-            {
-                id: "faq-60",
-                question: "Can Management perform emergency maintenance on the bot without notice?",
-                answer: "To keep things running smoothly, yes! Management reserves the right to perform necessary maintenance, calibrations, or updates when required."
-            },
-            {
-                id: "faq-61",
-                question: "Is DDoS or API rate-limit abuse allowed against the bot infrastructure?",
-                answer: "Definitely not! Initiating malicious query flooding, API rate-limit abuse, or DoS/DDoS attacks against infrastructure is strictly forbidden."
-            },
-            {
-                id: "faq-62",
-                question: "Who owns accumulated coin balances and statistical counters?",
-                answer: "All virtual assets remain the exclusive digital property of the Ecosystem system architecture."
-            },
-            {
-                id: "faq-63",
-                question: "Can Management reset virtual progress in cases of script errors or exploits?",
-                answer: "To preserve fairness for all, Management retains full authority to reset, deduct, modify, or delete parameters in cases of exploits or system errors."
-            },
-            {
-                id: "faq-64",
-                question: "How does automated moderation operate on BrainlyHQ?",
-                answer: "Smart and swift! Automated filters dynamically restrict permissions, assign punishments, or log behavior based on pre-programmed safety string filters."
-            },
-            {
-                id: "faq-65",
-                question: "What is the legal basis for processing user profile data under data protection rules?",
-                answer: "It's all about keeping you safe! The legal basis is legitimate interest to ensure operational stability, economic continuity, and server safety."
-            },
-            {
-                id: "faq-66",
-                question: "Are user database records shared with third-party advertisers?",
-                answer: "Never ever! Data points are never transmitted, leased, sold, or disclosed to third-party entities or advertising agencies."
-            },
-            {
-                id: "faq-67",
-                question: "What happens to a User's virtual database progress if they leave the server?",
-                answer: "We'd be sad to see you go! Upon permanent departure or deletion requests, associated records may be scrubbed, resulting in irreversible progress loss."
-            },
-            {
-                id: "faq-68",
-                question: "What rights do Users have regarding their stored data?",
-                answer: "You are in control! Users have the right to request data transparency, rectification, restriction of processing, and total erasure."
-            },
-            {
-                id: "faq-69",
-                question: "How often can I run the !work command?",
-                answer: "Get that bread! The <code>!work</code> command has a 1-hour cooldown and yields a maximum of 10 Coins."
-            },
-            {
-                id: "faq-70",
-                question: "What are the limits and cooldown for the !hustle command?",
-                answer: "Keep hustling! The <code>!hustle</code> command has a 6-hour cooldown, yielding between 8 and 15 Coins."
-            },
-            {
-                id: "faq-71",
-                question: "What are the risk and reward parameters for the !crime command?",
-                answer: "Living on the edge! The <code>!crime</code> command has an 8-hour cooldown, yielding up to 25 Coins on success or costing up to 15 Coins on failure."
-            },
-            {
-                id: "faq-72",
-                question: "How frequently can I earn rewards on the #arts channel?",
-                answer: "We love creativity! You can publish your artwork on the #arts channel every 2 hours to earn +2 Coins."
-            },
-            {
-                id: "faq-73",
-                question: "What is the reward for writing a long message in discussions?",
-                answer: "Great minds think alike! Writing a message over 200 characters rewards +3 Coins every 30 minutes and grants 6 XP."
-            },
-            {
-                id: "faq-74",
-                question: "How do I claim income generated by my server roles?",
-                answer: "It's payday! You can claim daily passive income from your roles using the simple <code>!collect-income</code> command."
-            },
-            {
-                id: "faq-75",
-                question: "What bonus XP is granted for posting attachments in chat?",
-                answer: "Pictures make chat better! Messages with attachments grant a 4 XP base reward plus an additional 3.00% XP bonus."
-            },
-            {
-                id: "faq-76",
-                question: "What is the rate of XP gain in Voice Channels?",
-                answer: "Nice hanging out with you! You earn 5 XP per minute spent in Voice Channels with an unmuted microphone."
-            },
-            {
-                id: "faq-77",
-                question: "What is the special XP multiplier for the #edu-posts channel?",
-                answer: "Learning is awesome! Replying under posts in the <code>#edu-posts</code> channel awards a sweet 2x Double XP Multiplier."
-            },
-            {
-                id: "faq-78",
-                question: "What income and multipliers are granted at Level 5 and Level 10?",
-                answer: "You're making progress! Level 5 grants an 8 Coin daily yield (2% drop chance), while Level 10 grants a 16 Coin yield (3% drop chance)."
-            },
-            {
-                id: "faq-79",
-                question: "What income and multipliers are granted at Level 15 and Level 25?",
-                answer: "Look at you climb! Level 15 grants 32 Coins (4% drop chance), and Level 25 grants 128 Coins (7% drop chance)."
-            },
-            {
-                id: "faq-80",
-                question: "What is the daily role income for an Administrator or Moderator?",
-                answer: "A big thank you to our team! Administrators receive 6 Coins every 48 hours (1.5x XP mult), while Moderators receive 5 Coins every 48 hours."
-            },
-            {
-                id: "faq-81",
-                question: "What role income is provided to Nitro Boosters on BrainlyHQ?",
-                answer: "Thanks for boosting us! Nitro Boosters receive 10 Coins every 24 hours as a passive income reward."
-            },
-            {
-                id: "faq-82",
-                question: "What is the daily income reward for Ambassador and BrainlyLab roles?",
-                answer: "Appreciate your involvement! Both Ambassador and BrainlyLab roles grant 2 Coins every 24 hours."
-            },
-            {
-                id: "faq-83",
-                question: "What yields are provided by Scavenger roles?",
-                answer: "Happy hunting! Bronze Scavenger yields 2 Coins, Silver yields 4 Coins, and Gold yields 6 Coins every 12 hours."
-            },
-            {
-                id: "faq-84",
-                question: "What are the Fast Boost XP multipliers available on the server?",
-                answer: "Speed up your gains! Gold Fast Boost gives 3 XP, Platinum Fast Boost gives 6 XP, and Diamond Fast Boost gives 9 XP."
-            },
-            {
-                id: "faq-85",
-                question: "What is the winning chance breakdown for Cock-Fight minigames?",
-                answer: "May luck be on your side! Cock-Fight minigames feature a Default Win chance of 50.00% and a Maximum Win chance capped at 70.00%."
-            },
-            {
-                id: "faq-86",
-                question: "What rewards can be obtained from Mysterious Scratchcards?",
-                answer: "Ooh, mystery! Mysterious Scratchcards offer drops such as 10 Coins (28%), 20 Coins (22%), 40 Coins (20%), 80 Coins (15%), 100 XP (2%), and 150 XP (1%)."
-            },
-            {
-                id: "faq-87",
-                question: "What are the item drops in Sapphire Chests?",
-                answer: "Shiny treasures await! Sapphire Chests contain rewards such as 150 XP (26%), 200 XP (8%), 250 XP (5%), 800 Coins (20%), and 1000 Coins (15%)."
-            },
-            {
-                id: "faq-88",
-                question: "What are the item drops in Experience Chests?",
-                answer: "Level up faster! Experience Chests feature 20 XP (25%), 40 XP (19%), 70 XP (20%), 80 XP (15%), 110 XP (10%), 170 XP (6%), and 280 XP (4%)."
-            },
-            {
-                id: "faq-89",
-                question: "What rewards and odds are offered in Lizzard Gambler?",
-                answer: "Super exciting! Lizzard Gambler rewards range from 10 Coins (25%) up to 1600 Coins (0.75%), plus a 2000 Coin Jackpot at a 0.05% win chance."
-            },
-            {
-                id: "faq-90",
-                question: "What rewards can be won in Grade Gambler?",
-                answer: "Aim for the top! Grade Gambler offers prizes including 15 Coins (5%), 50 Coins (1.50%), 120 Coins (0.75%), up to 1000 Coins (0.25%) and 3 Stars bonuses."
-            },
-            {
-                id: "faq-91",
-                question: "How do discount promotions combine on BrainlyHQ?",
-                answer: "We always give you the best deal! Promotions generally do not combine, so the system automatically selects the single most favorable discount for you."
-            },
-            {
-                id: "faq-92",
-                question: "How often can users execute the !scavenge command?",
-                answer: "Ready for discovery? Users with access to Science Scavengers can execute the <code>!scavenge</code> command every 15 minutes."
-            },
-            {
-                id: "faq-93",
-                question: "What benefit does the Server Tag role provide?",
-                answer: "Wear our tag with pride! Having the Server Tag role awards 4 Coins every 12 hours in passive role income."
-            },
-            {
-                id: "faq-94",
-                question: "How does the Coin Rain mechanic work during Mi Fuego events?",
-                answer: "Let it rain! Coin Rain adds +2 bonus coins for every single role owned during active event payouts."
-            },
-            {
-                id: "faq-95",
-                question: "Does higher level increase loot-drop quality or just drop chance?",
-                answer: "Glad you asked! A higher level increases your overall chance of receiving a loot drop, while the reward content remains standardized."
-            },
-            {
-                id: "faq-96",
-                question: "What are the loot multipliers in economy events?",
-                answer: "Big wins incoming! Economy multipliers include 2x Loot (420 Coins), 4x Loot (590 Coins), and Crystal tier (670 Coins)."
-            },
-            {
-                id: "faq-97",
-                question: "Who holds the final decision-making authority in the Ecosystem?",
-                answer: "Our leader keeps us guided! The Ecosystem Manager holds the final decision-making authority on all structural and operational matters."
-            },
-            {
-                id: "faq-98",
-                question: "How are disputes between Users resolved within BrainlyHQ?",
-                answer: "Fairness is guaranteed! Disputes and moderation appeals are reviewed in the first instance by Ecosystem Management, whose internal decisions are final."
-            },
-            {
-                id: "faq-99",
-                question: "How much XP is awarded when a submitted suggestion is accepted?",
-                answer: "We love your ideas! When a user suggestion is officially accepted, the author receives a lovely bonus of +25 XP."
-            },
-            {
-                id: "faq-100",
-                question: "Where can Users access the official BrainlyHQ website and documentation?",
-                answer: "Welcome home! You can access our official web platform and documentation anytime at brainlyhq.vercel.app."
-            }
-        ];
-
+        let faqDatabase = [];
         let currentStatusState = "think";
+
+        // ŁADOWANIE BAZY PYTAŃ Z PLIKU JSON I SCHOWANIE LOADERA
+        async function loadSupportDatabase() {
+            try {
+                const response = await fetch('support-db.json');
+                if (!response.ok) throw new Error("Failed to load database file.");
+                faqDatabase = await response.json();
+
+                // Odblokowanie wyszukiwarki i ukrycie pełnoekranowego loadera
+                const searchInput = document.getElementById('support-search');
+                searchInput.disabled = false;
+                searchInput.placeholder = "Search rules, loot drop odds, pets, or economy...";
+
+                const loader = document.getElementById('global-loader');
+                loader.classList.add('hidden');
+            } catch (error) {
+                console.error("Error loading support database:", error);
+                document.querySelector('.loader-text').innerText = "Failed to load knowledge base. Please refresh.";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadSupportDatabase);
 
         function setStatusGif(state, text) {
             const statusImg = document.getElementById('status-icon-img');
@@ -988,9 +627,9 @@
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
-            
+
             const trimmedQuery = query.toLowerCase().trim();
-            
+
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
                 setStatusGif("think", "Waiting for your input... Type anything above to search our answers!");
@@ -1022,7 +661,7 @@
 
             if (scoredResults.length > 0) {
                 setStatusGif("okay", "Found the best matching answers for you below!");
-                
+
                 wrapper.classList.add('visible');
                 container.innerHTML = scoredResults.map(res => `
                     <div class="faq-item" id="${res.item.id}">
@@ -1049,7 +688,7 @@
             const target = document.getElementById(id);
             if (!target) return;
             const isActive = target.classList.contains('active');
-            
+
             document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
             if (!isActive) target.classList.add('active');
         }
