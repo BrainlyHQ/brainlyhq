@@ -589,10 +589,15 @@
         let faqDatabase = [];
         let currentStatusState = "think";
 
-        // ŁADOWANIE BAZY PYTAŃ Z PLIKU JSON I SCHOWANIE LOADERA
+        // ŁADOWANIE BAZY PYTAŃ Z PLIKU JSON I SZTUCZNE WYDŁUŻENIE CZASU ŁADOWANIA
         async function loadSupportDatabase() {
             try {
-                const response = await fetch('support-db.json');
+                // Równoległe pobieranie pliku JSON oraz odliczanie minimalnego czasu trwania loadera (np. 1200 ms)
+                const [response] = await Promise.all([
+                    fetch('support-db.json'),
+                    new Promise(resolve => setTimeout(resolve, 1200))
+                ]);
+
                 if (!response.ok) throw new Error("Failed to load database file.");
                 faqDatabase = await response.json();
 
