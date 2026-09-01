@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" href="assets/icon-192.png">
 
     <style>
-        /* --- PEŁNOEKRANOWY LOADER --- */
+        /* --- PEŁNOEKRANOWY LOADER (BEZ NEONU) --- */
         #global-loader {
             position: fixed;
             top: 0;
@@ -38,8 +38,8 @@
 
         .loader-wrapper {
             position: relative;
-            width: 110px;
-            height: 110px;
+            width: 100px;
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -51,23 +51,22 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border: 3px solid rgba(255, 255, 255, 0.08);
+            border: 3px solid rgba(255, 255, 255, 0.06);
             border-top: 3px solid var(--color-brainly-green, #99ee60);
             border-radius: 50%;
-            animation: spinLoader 1s linear infinite;
+            animation: spinLoader 0.9s linear infinite;
         }
 
         .loader-logo {
-            width: 55px;
-            height: 55px;
+            width: 48px;
+            height: 48px;
             object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(153, 238, 96, 0.3));
         }
 
         .loader-text {
-            margin-top: 20px;
+            margin-top: 18px;
             font-family: var(--font-primary, sans-serif);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--text-secondary, #8a99ad);
             letter-spacing: 0.5px;
@@ -115,7 +114,7 @@
             line-height: 1.5;
         }
 
-        /* Formularze i karty w kolumnach bez neonu całego bloku */
+        /* Karty w kolumnach */
         .support-card-box {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -128,6 +127,14 @@
 
         .support-card-box:hover {
             border-color: rgba(153, 238, 96, 0.3);
+        }
+
+        /* STAŁA WYSOKOŚĆ PRAWEGO BLOKU (FAQ), NIGDY NIE ROŚNIE */
+        .faq-card-container {
+            display: flex;
+            flex-direction: column;
+            height: 445px; /* Sztywna wysokość dopasowana do lewego bloku formularza */
+            box-sizing: border-box;
         }
 
         .support-form-group {
@@ -180,11 +187,26 @@
             cursor: pointer;
             width: 100%;
             transition: opacity 0.2s ease, transform 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .support-btn:hover {
             opacity: 0.9;
             transform: translateY(-2px);
+        }
+
+        /* Spinner w przycisku */
+        .btn-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-top: 2px solid #000000;
+            border-radius: 50%;
+            animation: spinLoader 0.8s linear infinite;
+            display: inline-block;
         }
 
         .ticket-result-box {
@@ -205,6 +227,7 @@
             align-items: center;
             width: 100%;
             margin-bottom: 16px;
+            flex-shrink: 0;
         }
 
         .main-search-wrapper svg.search-icon {
@@ -236,17 +259,13 @@
             box-shadow: 0 0 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* Blok wyników FAQ dopasowany, równy wysokością i z paskiem przewijania */
+        /* Kontener wyników FAQ - zajmuje resztę wysokości i ma wbudowany scroll */
         .faq-section-wrapper {
-            display: none;
-            margin-top: 16px;
-            max-height: 340px;
+            flex: 1;
             overflow-y: auto;
             padding-right: 4px;
-        }
-
-        .faq-section-wrapper.visible {
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
 
         .faq-section-wrapper::-webkit-scrollbar {
@@ -257,6 +276,16 @@
             border-radius: 3px;
         }
 
+        /* Komendą startowa na środku bloku FAQ gdy brak wpisu */
+        .faq-placeholder-center {
+            margin: auto;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 20px;
+        }
+
         .faq-item {
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
@@ -264,6 +293,7 @@
             margin-bottom: 10px;
             overflow: hidden;
             transition: border-color 0.2s ease;
+            flex-shrink: 0;
         }
 
         .faq-item:hover {
@@ -357,12 +387,69 @@
             box-shadow: 0 0 8px rgba(153, 238, 96, 0.6);
         }
 
+        /* Ładne karty widoku statusu ticketu */
+        .ticket-view-card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 16px;
+        }
+
+        .ticket-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .ticket-status-badge {
+            background-color: rgba(153, 238, 96, 0.15);
+            color: var(--color-brainly-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .ticket-status-badge.not-found {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .ticket-view-body p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .ticket-view-body strong {
+            color: var(--text-primary);
+        }
+
+        .ticket-admin-reply {
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--color-brainly-green);
+            padding: 10px 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
         @media (max-width: 900px) {
             .support-split-layout {
                 grid-template-columns: 1fr;
             }
             .support-divider {
                 display: none;
+            }
+            .faq-card-container {
+                height: auto;
+                min-height: 380px;
             }
         }
     </style>
@@ -371,6 +458,7 @@
 </head>
 <body>
 
+    <!-- PEŁNOEKRANOWY EKRAN ŁADOWANIA -->
     <div id="global-loader">
         <div class="loader-wrapper">
             <div class="loader-spinner"></div>
@@ -384,9 +472,10 @@
     <main class="support-main-container">
         <section class="support-split-layout">
             
+            <!-- LEWA KOLUMNA: Tworzenie zgłoszenia -->
             <div class="support-left-column">
                 <h2 class="support-column-title">Submit Ticket</h2>
-                <p class="support-column-desc">Need personal assistance? Send your case directly to our Google Sheet database.</p>
+                <p class="support-column-desc">Need personal assistance? Send your case to our fast support team.</p>
 
                 <div class="support-card-box">
                     <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Create New Support Ticket</h3>
@@ -407,11 +496,12 @@
 
             <div class="support-divider"></div>
 
+            <!-- PRAWA KOLUMNA: Baza wiedzy FAQ (Stała wysokość, nigdy nie rośnie) -->
             <div class="support-right-column">
                 <h2 class="support-column-title">Knowledge Base & FAQ</h2>
                 <p class="support-column-desc">Search instantly through our official answers covering rules, economy mechanics, and guides.</p>
 
-                <div class="support-card-box">
+                <div class="support-card-box faq-card-container">
                     <div class="main-search-wrapper">
                         <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets..." disabled>
                         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -420,14 +510,18 @@
                         </svg>
                     </div>
 
-                    <section class="faq-section-wrapper" id="faq-wrapper">
+                    <div class="faq-section-wrapper" id="faq-wrapper">
+                        <div class="faq-placeholder-center" id="faq-placeholder">
+                            Type above to search through the knowledge base...
+                        </div>
                         <div id="faq-results-container"></div>
-                    </section>
+                    </div>
                 </div>
             </div>
 
         </section>
 
+        <!-- SPRAWDZANIE STATUSU TICKETU NA PEŁNĄ SZEROKOŚĆ NA DOLE -->
         <section class="support-full-width-section">
             <div class="support-card-box">
                 <h2 class="support-column-title" style="font-size: 1.2rem; margin-bottom: 6px;">Check Ticket Status</h2>
@@ -436,9 +530,9 @@
                     <div class="support-form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
                         <input type="text" id="check-ticket-id" class="support-input" placeholder="e.g. BHQ-12345">
                     </div>
-                    <button type="button" class="support-btn" style="width: auto; min-width: 160px;" onclick="checkTicketStatus()">Check Status</button>
+                    <button type="button" id="check-status-btn" class="support-btn" style="width: auto; min-width: 160px;" onclick="checkTicketStatus()">Check Status</button>
                 </div>
-                <div id="ticket-status-box" class="ticket-result-box"></div>
+                <div id="ticket-status-box"></div>
             </div>
         </section>
     </main>
@@ -450,7 +544,7 @@
 
         let faqDatabase = [];
 
-        // Błyskawiczne ładowanie bazy danych
+        // Ładowanie bazy danych
         async function loadSupportDatabase() {
             try {
                 const [response] = await Promise.all([
@@ -475,18 +569,19 @@
 
         document.addEventListener('DOMContentLoaded', loadSupportDatabase);
 
-        // Błyskawiczna wyszukiwarka FAQ – bez emotek/statusów, od razu wyniki lub informacja o braku
+        // Wyszukiwarka FAQ z zachowaniem stałego rozmiaru kontenera
         function handleSearch(query) {
-            const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
+            const placeholder = document.getElementById('faq-placeholder');
             const trimmedQuery = query.toLowerCase().trim();
 
             if (trimmedQuery === "") {
-                wrapper.classList.remove('visible');
+                placeholder.style.display = "block";
                 container.innerHTML = "";
                 return;
             }
 
+            placeholder.style.display = "none";
             const searchWords = trimmedQuery.split(/\s+/).filter(w => w.length > 0);
             const scoredResults = faqDatabase.map(item => {
                 const qText = item.question.toLowerCase();
@@ -507,7 +602,6 @@
 
             scoredResults.sort((a, b) => b.score - a.score);
 
-            wrapper.classList.add('visible');
             if (scoredResults.length > 0) {
                 container.innerHTML = scoredResults.map(res => `
                     <div class="faq-item" id="${res.item.id}">
@@ -524,7 +618,7 @@
                 `).join('');
             } else {
                 container.innerHTML = `
-                    <div style="padding: 16px; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                    <div style="padding: 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
                         No matching answers found in knowledge base.
                     </div>
                 `;
@@ -543,7 +637,7 @@
             handleSearch(e.target.value);
         });
 
-        // INTEGRACJA Z GOOGLE SHEETS (ZAPIS TICKETU - UŻYWA UserNickname)
+        // INTEGRACJA Z GOOGLE SHEETS (ZAPIS TICKETU)
         async function submitTicket(event) {
             event.preventDefault();
             const userNickname = document.getElementById('ticket-nickname').value;
@@ -552,7 +646,7 @@
             const successBox = document.getElementById('ticket-success-box');
 
             submitBtn.disabled = true;
-            submitBtn.innerText = "Submitting to Database...";
+            submitBtn.innerHTML = `<span class="btn-spinner"></span> Submitting...`;
 
             try {
                 const response = await fetch(WEB_APP_URL, {
@@ -577,35 +671,66 @@
             }
         }
 
-        // SPRAWDZANIE STATUSU TICKETU Z GOOGLE SHEETS
+        // SPRAWDZANIE STATUSU TICKETU (SPINNER W PRZYCISKU + ŁADNY WIDOK KARTY)
         async function checkTicketStatus() {
             const ticketId = document.getElementById('check-ticket-id').value.trim();
             const statusBox = document.getElementById('ticket-status-box');
+            const checkBtn = document.getElementById('check-status-btn');
 
             if (!ticketId) {
                 alert("Please enter a valid Ticket ID.");
                 return;
             }
 
-            statusBox.style.display = "block";
-            statusBox.innerHTML = "Checking status in database...";
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = `<span class="btn-spinner"></span> Checking...`;
+            statusBox.style.display = "none";
 
             try {
                 const response = await fetch(`${WEB_APP_URL}?action=getTicket&ticketId=${encodeURIComponent(ticketId)}`);
                 const result = await response.json();
 
+                statusBox.style.display = "block";
                 if (result.found) {
-                    statusBox.innerHTML = `<strong>Ticket Found!</strong><br>
-                        - <strong>Status:</strong> ${result.status}<br>
-                        - <strong>User:</strong> ${result.email}<br>
-                        - <strong>Question:</strong> ${result.question}<br>
-                        - <strong>Admin Response:</strong> ${result.response}`;
+                    statusBox.innerHTML = `
+                        <div class="ticket-view-card">
+                            <div class="ticket-view-header">
+                                <strong>Ticket: <code>${ticketId}</code></strong>
+                                <span class="ticket-status-badge">${result.status || 'Active'}</span>
+                            </div>
+                            <div class="ticket-view-body">
+                                <p><strong>User:</strong> ${result.email}</p>
+                                <p><strong>Question:</strong> ${result.question}</p>
+                                <div class="ticket-admin-reply">
+                                    <strong>Admin Response:</strong> ${result.response || 'Awaiting response from support staff...'}
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 } else {
-                    statusBox.innerHTML = `<strong>Not Found:</strong> No ticket matching ID <code>${ticketId}</code> was found.`;
+                    statusBox.innerHTML = `
+                        <div class="ticket-view-card">
+                            <div class="ticket-view-header">
+                                <strong>Ticket: <code>${ticketId}</code></strong>
+                                <span class="ticket-status-badge not-found">Not Found</span>
+                            </div>
+                            <div class="ticket-view-body">
+                                <p style="margin:0; color: var(--text-secondary);">No ticket matching ID <code>${ticketId}</code> was found in the database. Please check your ID and try again.</p>
+                            </div>
+                        </div>
+                    `;
                 }
             } catch (err) {
                 console.error(err);
-                statusBox.innerHTML = "Error connecting to Google Sheets database.";
+                statusBox.style.display = "block";
+                statusBox.innerHTML = `
+                    <div class="ticket-view-card">
+                        <p style="color: #ef4444; margin: 0;">Error connecting to the Google Sheets database.</p>
+                    </div>
+                `;
+            } finally {
+                checkBtn.disabled = false;
+                checkBtn.innerText = "Check Status";
             }
         }
     </script>
