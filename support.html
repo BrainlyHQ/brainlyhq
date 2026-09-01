@@ -78,7 +78,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU --- */
+        /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU (IDEALNIE RÓWNE KOLUMNY) --- */
         .support-main-container {
             max-width: 1200px;
             margin: 40px auto 60px auto;
@@ -91,6 +91,11 @@
             gap: 36px;
             align-items: stretch;
             margin-bottom: 30px;
+        }
+
+        .support-left-column, .support-right-column {
+            display: flex;
+            flex-direction: column;
         }
 
         .support-divider {
@@ -107,34 +112,37 @@
             letter-spacing: -0.5px;
         }
 
+        /* Ujednolicona wysokość opisów na dokładnie 2 linijki */
         .support-column-desc {
             font-size: 0.92rem;
             color: var(--text-secondary);
             margin-bottom: 24px;
             line-height: 1.5;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
         }
 
-        /* Karty w kolumnach */
+        /* Karty w kolumnach - rozciągające się na pełną wysokość rodzica */
         .support-card-box {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 18px;
             padding: 28px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            margin-bottom: 24px;
             transition: border-color 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        .support-left-column .support-card-box,
+        .support-right-column .support-card-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .support-card-box:hover {
             border-color: rgba(153, 238, 96, 0.3);
-        }
-
-        /* STAŁA WYSOKOŚĆ PRAWEGO BLOKU (FAQ), NIGDY NIE ROŚNIE */
-        .faq-card-container {
-            display: flex;
-            flex-direction: column;
-            height: 445px; /* Sztywna wysokość dopasowana do lewego bloku formularza */
-            box-sizing: border-box;
         }
 
         .support-form-group {
@@ -259,13 +267,14 @@
             box-shadow: 0 0 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* Kontener wyników FAQ - zajmuje resztę wysokości i ma wbudowany scroll */
+        /* Kontener wyników FAQ - elastycznie wypełnia całą kartę z zachowaniem paska przewijania */
         .faq-section-wrapper {
             flex: 1;
             overflow-y: auto;
             padding-right: 4px;
             display: flex;
             flex-direction: column;
+            min-height: 200px;
         }
 
         .faq-section-wrapper::-webkit-scrollbar {
@@ -276,7 +285,7 @@
             border-radius: 3px;
         }
 
-        /* Komendą startowa na środku bloku FAQ gdy brak wpisu */
+        /* Komunikat startowy i NOT FOUND wyśrodkowany idealnie w bloku */
         .faq-placeholder-center {
             margin: auto;
             text-align: center;
@@ -284,6 +293,13 @@
             font-size: 0.9rem;
             font-weight: 500;
             padding: 20px;
+            width: 100%;
+        }
+
+        #faq-results-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .faq-item {
@@ -387,7 +403,7 @@
             box-shadow: 0 0 8px rgba(153, 238, 96, 0.6);
         }
 
-        /* Ładne karty widoku statusu ticketu */
+        /* Widok wyników wyszukiwania ticketu (Check Status) */
         .ticket-view-card {
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
@@ -447,9 +463,8 @@
             .support-divider {
                 display: none;
             }
-            .faq-card-container {
-                height: auto;
-                min-height: 380px;
+            .support-column-desc {
+                min-height: auto;
             }
         }
     </style>
@@ -475,7 +490,7 @@
             <!-- LEWA KOLUMNA: Tworzenie zgłoszenia -->
             <div class="support-left-column">
                 <h2 class="support-column-title">Submit Ticket</h2>
-                <p class="support-column-desc">Need personal assistance? Send your case to our fast support team.</p>
+                <p class="support-column-desc">Need personal assistance? Send your case directly to our fast support team.</p>
 
                 <div class="support-card-box">
                     <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Create New Support Ticket</h3>
@@ -496,12 +511,12 @@
 
             <div class="support-divider"></div>
 
-            <!-- PRAWA KOLUMNA: Baza wiedzy FAQ (Stała wysokość, nigdy nie rośnie) -->
+            <!-- PRAWA KOLUMNA: Baza wiedzy FAQ -->
             <div class="support-right-column">
                 <h2 class="support-column-title">Knowledge Base & FAQ</h2>
                 <p class="support-column-desc">Search instantly through our official answers covering rules, economy mechanics, and guides.</p>
 
-                <div class="support-card-box faq-card-container">
+                <div class="support-card-box">
                     <div class="main-search-wrapper">
                         <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets..." disabled>
                         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -525,7 +540,7 @@
         <section class="support-full-width-section">
             <div class="support-card-box">
                 <h2 class="support-column-title" style="font-size: 1.2rem; margin-bottom: 6px;">Check Ticket Status</h2>
-                <p class="support-column-desc" style="margin-bottom: 16px;">Already submitted a ticket? Enter your Ticket ID below to check live updates and staff responses.</p>
+                <p class="support-column-desc" style="margin-bottom: 16px; min-height: auto;">Already submitted a ticket? Enter your Ticket ID below to check live updates and staff responses.</p>
                 <div style="display: flex; gap: 14px; flex-wrap: wrap;">
                     <div class="support-form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
                         <input type="text" id="check-ticket-id" class="support-input" placeholder="e.g. BHQ-12345">
@@ -569,7 +584,7 @@
 
         document.addEventListener('DOMContentLoaded', loadSupportDatabase);
 
-        // Wyszukiwarka FAQ z zachowaniem stałego rozmiaru kontenera
+        // Wyszukiwarka FAQ z idealnym wyśrodkowaniem komunikatów bez zmiany wymiarów bloku
         function handleSearch(query) {
             const container = document.getElementById('faq-results-container');
             const placeholder = document.getElementById('faq-placeholder');
@@ -618,7 +633,7 @@
                 `).join('');
             } else {
                 container.innerHTML = `
-                    <div style="padding: 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                    <div class="faq-placeholder-center">
                         No matching answers found in knowledge base.
                     </div>
                 `;
