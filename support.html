@@ -79,86 +79,221 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* --- MAIN SUPPORT HERO GRID LAYOUT --- */
-        .support-hero-layout {
-            max-width: 1100px;
-            margin: 40px auto 20px auto;
+        /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU --- */
+        .support-split-layout {
+            max-width: 1200px;
+            margin: 40px auto 60px auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 1.35fr 1fr;
-            gap: 24px;
-            align-items: stretch;
+            grid-template-columns: 1fr 1px 1fr;
+            gap: 36px;
+            align-items: start;
         }
 
-        /* Lewa Kolumna: Wyszukiwarka + Czytelny tekst */
-        .search-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 14px;
+        .support-divider {
+            background-color: var(--border-color);
+            width: 1px;
+            height: 100%;
+            min-height: 500px;
         }
 
-        /* Główna, duża wyszukiwarka */
+        .support-column-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .support-column-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        /* Formularze i karty w kolumnach */
+        .support-card-box {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            margin-bottom: 24px;
+        }
+
+        .support-form-group {
+            margin-bottom: 18px;
+        }
+
+        .support-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .support-input, .support-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 0.95rem;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.25s ease;
+        }
+
+        .support-input:focus, .support-textarea:focus {
+            border-color: var(--color-brainly-green);
+        }
+
+        .support-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .support-btn {
+            background-color: var(--color-brainly-green);
+            color: #000000;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .support-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .ticket-result-box {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 10px;
+            background-color: rgba(153, 238, 96, 0.1);
+            border: 1px solid rgba(153, 238, 96, 0.3);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Główna, duża wyszukiwarka po prawej */
         .main-search-wrapper {
             position: relative;
             display: flex;
             align-items: center;
             width: 100%;
+            margin-bottom: 16px;
         }
 
         .main-search-wrapper svg.search-icon {
             position: absolute;
-            left: 20px;
-            width: 24px;
-            height: 24px;
+            left: 18px;
+            width: 22px;
+            height: 22px;
             color: var(--text-secondary);
             pointer-events: none;
-            transition: color 0.25s ease, transform 0.25s ease;
         }
 
         .support-search-input-hero {
             width: 100%;
-            padding: 18px 20px 18px 58px;
-            border-radius: 16px;
+            padding: 16px 18px 16px 54px;
+            border-radius: 14px;
             border: 2px solid var(--border-color);
-            background-color: var(--bg-secondary);
+            background-color: var(--bg-primary);
             color: var(--text-primary);
             font-family: var(--font-primary);
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
             outline: none;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
         .support-search-input-hero:focus {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 30px rgba(153, 238, 96, 0.25);
+            box-shadow: 0 0 25px rgba(153, 238, 96, 0.2);
+        }
+
+        /* Wyniki wyszukiwania FAQ */
+        .faq-section-wrapper {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .faq-section-wrapper.visible {
+            display: block;
+        }
+
+        .faq-item {
             background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
         }
 
-        .support-search-input-hero:focus + svg.search-icon {
-            color: var(--color-brainly-green);
-            transform: scale(1.1);
+        .faq-header {
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
         }
 
-        /* Tekst pod wyszukiwarką */
-        .search-subtext {
-            font-size: 0.95rem;
+        .faq-question-text {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .faq-icon {
+            width: 18px;
+            height: 18px;
             color: var(--text-secondary);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0 2px;
+            transition: transform 0.3s ease;
         }
 
-        .search-subtext strong {
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 18px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item.active .faq-content {
+            max-height: 600px;
+            padding: 14px 18px 18px 18px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
             color: var(--color-brainly-green);
         }
 
-        /* BANER PROMUJĄCY PODSTRONĘ INSTALACJI APLIKACJI */
+        .faq-answer-text {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Banner aplikacji */
         .app-install-promo-card {
-            max-width: 1100px;
-            margin: 20px auto 0 auto;
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
             padding: 0 24px;
         }
 
@@ -171,38 +306,6 @@
             align-items: center;
             justify-content: space-between;
             gap: 20px;
-            transition: border-color 0.25s ease, transform 0.25s ease;
-        }
-
-        .app-promo-inner:hover {
-            border-color: var(--color-brainly-green);
-            transform: translateY(-2px);
-        }
-
-        .app-promo-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .app-promo-icon {
-            width: 32px;
-            height: 32px;
-            color: var(--color-brainly-green);
-            flex-shrink: 0;
-        }
-
-        .app-promo-text h4 {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-        }
-
-        .app-promo-text p {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            margin: 0;
         }
 
         .app-promo-btn {
@@ -214,278 +317,19 @@
             font-size: 0.85rem;
             text-decoration: none;
             white-space: nowrap;
-            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
-        .app-promo-btn:hover {
-            opacity: 0.9;
-            transform: scale(1.03);
-        }
-
-        /* Prawa Kolumna: Kafelek Hot Question o Stałym Rozmiarze */
-        .hot-slider-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            padding: 20px 22px;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transition: border-color 0.25s ease, transform 0.25s ease;
-            height: 155px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .hot-slider-card:hover {
-            border-color: var(--color-brainly-green);
-            transform: translateY(-2px);
-        }
-
-        .hot-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .fire-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 74, 0, 0.12);
-            color: #ff4a00;
-            border: 1px solid rgba(255, 74, 0, 0.25);
-            font-size: 0.72rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .fire-icon-img {
-            width: 16px;
-            height: 16px;
-            object-fit: contain;
-        }
-
-        .slider-content-container {
-            position: relative;
-            height: 75px;
-            overflow: hidden;
-        }
-
-        .hot-slide-item {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            pointer-events: none;
-        }
-
-        .hot-slide-item.active {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .hot-slide-item h4 {
-            font-size: 0.98rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            line-height: 1.3;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .hot-slide-item p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin: 0;
-        }
-
-        .slider-dots {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .dot-indicator {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .dot-indicator.active {
-            width: 16px;
-            border-radius: 8px;
-            background-color: var(--color-brainly-green);
-        }
-
-        /* --- STREFA ANIMACJI THINK.GIF / OKAY.GIF / SAD.GIF --- */
-        .thinking-wrapper {
-            max-width: 1100px;
-            margin: 30px auto 10px auto;
-            padding: 0 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .thinking-gif {
-            width: 72px;
-            height: 72px;
-            object-fit: contain;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 6px 15px rgba(153, 238, 96, 0.2));
-            user-select: none;
-            transition: transform 0.25s ease;
-        }
-
-        .thinking-text {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            letter-spacing: 0.3px;
-        }
-
-        /* --- SEKCJA WYNIKÓW WYSZUKIWANIA --- */
-        .faq-section-wrapper {
-            max-width: 1100px;
-            margin: 20px auto 80px auto;
-            padding: 0 24px;
-            display: none;
-        }
-
-        .faq-section-wrapper.visible {
-            display: block;
-            animation: fadeInPage 0.3s ease-out forwards;
-        }
-
-        .faq-item {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            margin-bottom: 10px;
-            overflow: hidden;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .faq-item:hover {
-            border-color: rgba(153, 238, 96, 0.4);
-        }
-
-        .faq-header {
-            padding: 18px 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .faq-question-text {
-            font-size: 0.98rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .faq-icon {
-            width: 20px;
-            height: 20px;
-            color: var(--text-secondary);
-            transition: transform 0.3s ease;
-            flex-shrink: 0;
-            margin-left: 12px;
-        }
-
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
-            padding: 0 22px;
-            background-color: rgba(0, 0, 0, 0.12);
-        }
-
-        .faq-item.active .faq-content {
-            max-height: 800px;
-            padding: 16px 22px 22px 22px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-            color: var(--color-brainly-green);
-        }
-
-        .faq-answer-text {
-            font-size: 0.92rem;
-            color: var(--text-secondary);
-            line-height: 1.65;
-        }
-
-        .faq-answer-text strong {
-            color: var(--text-primary);
-        }
-
-        .faq-answer-text ul {
-            margin: 10px 0 10px 20px;
-        }
-
-        .faq-answer-text li {
-            margin-bottom: 4px;
-        }
-
-        @media (max-width: 850px) {
-            .support-hero-layout {
+        @media (max-width: 900px) {
+            .support-split-layout {
                 grid-template-columns: 1fr;
-                margin-top: 20px;
             }
-            .hot-slider-card {
-                height: auto;
-                min-height: 140px;
-            }
-            .app-promo-inner {
-                flex-direction: column;
-                text-align: center;
-            }
-            .app-promo-info {
-                flex-direction: column;
+            .support-divider {
+                display: none;
             }
         }
     </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
-
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
-          safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
-        });
-      });
-    </script>
 </head>
 <body>
 
@@ -500,86 +344,87 @@
     <header id="header-placeholder"></header>
 
     <main>
-        <section class="support-hero-layout">
-            <div class="search-column">
-                <div class="main-search-wrapper">
-                    <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets, or economy..." disabled>
-                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </div>
-                <p class="search-subtext">
-                    Type your query above to search our official Knowledge Base. Get immediate answers covering <strong>server regulations</strong>, <strong>loot drop rates</strong>, and <strong>economy mechanics</strong>.
-                </p>
-            </div>
+        <section class="support-split-layout">
+            
+            <div class="support-left-column">
+                <h2 class="support-column-title">Submit & Track Tickets</h2>
+                <p class="support-column-desc">Need personal assistance? Send your case directly to our Google Sheet database or check your active ticket status.</p>
 
-            <div class="hot-slider-card" id="hot-card-container">
-                <div class="hot-card-header">
-                    <div class="fire-badge">
-                        <img src="assets/fire.png" alt="Fire Icon" class="fire-icon-img">
-                        <span>HOT QUESTION</span>
-                    </div>
-                    <div class="slider-dots">
-                        <div class="dot-indicator active"></div>
-                        <div class="dot-indicator"></div>
-                        <div class="dot-indicator"></div>
-                        <div class="dot-indicator"></div>
-                    </div>
+                <div class="support-card-box">
+                    <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Create New Support Ticket</h3>
+                    <form id="ticket-form" onsubmit="submitTicket(event)">
+                        <div class="support-form-group">
+                            <label for="ticket-nickname">Your UserNickname</label>
+                            <input type="text" id="ticket-nickname" class="support-input" placeholder="e.g. KacperChlanda" required>
+                        </div>
+                        <div class="support-form-group">
+                            <label for="ticket-question">Describe your issue</label>
+                            <textarea id="ticket-question" class="support-textarea" placeholder="Detail your problem or inquiry here..." required></textarea>
+                        </div>
+                        <button type="submit" class="support-btn" id="ticket-submit-btn">Submit Ticket</button>
+                    </form>
+                    <div id="ticket-success-box" class="ticket-result-box"></div>
                 </div>
 
-                <div class="slider-content-container">
-                    <div class="hot-slide-item active" onclick="openFaqById('faq-1')">
-                        <h4>Exact chances for Mythic & Diamond Chests?</h4>
-                        <p>Mythic offers up to 890 Coins (3%), Diamond features top yields up to 1080 Coins!</p>
+                <div class="support-card-box">
+                    <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Check Ticket Status</h3>
+                    <div class="support-form-group">
+                        <label for="check-ticket-id">Ticket ID</label>
+                        <input type="text" id="check-ticket-id" class="support-input" placeholder="e.g. BHQ-12345">
                     </div>
-                    <div class="hot-slide-item" onclick="openFaqById('faq-15')">
-                        <h4>How do Pets work and what bonuses do they grant?</h4>
-                        <p>Pets like Ollie (1.4x Coins), Kaya (5% discount), and Sally (1.3x XP) give permanent boosts.</p>
-                    </div>
-                    <div class="hot-slide-item" onclick="openFaqById('faq-20')">
-                        <h4>Is RMT or Alt-Account farming allowed?</h4>
-                        <p>Strictly forbidden. Violations result in a full economy progress reset and ban.</p>
-                    </div>
-                    <div class="hot-slide-item" onclick="openFaqById('faq-28')">
-                        <h4>What perks come with HQ Premium?</h4>
-                        <p>Includes 1.5x XP Boost, 10% shop discounts, +5 Coins/24h, and Science Scavengers access.</p>
-                    </div>
+                    <button type="button" class="support-btn" onclick="checkTicketStatus()">Check Status</button>
+                    <div id="ticket-status-box" class="ticket-result-box"></div>
                 </div>
             </div>
+
+            <div class="support-divider"></div>
+
+            <div class="support-right-column">
+                <h2 class="support-column-title">Knowledge Base & FAQ</h2>
+                <p class="support-column-desc">Search instantly through our official answers covering rules, economy mechanics, drop rates, and server guides.</p>
+
+                <div class="support-card-box">
+                    <div class="main-search-wrapper">
+                        <input type="text" id="support-search" class="support-search-input-hero" placeholder="Search rules, loot drop odds, pets..." disabled>
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+
+                    <div class="thinking-wrapper" id="thinking-container" style="text-align: center; margin: 20px 0;">
+                        <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" style="width: 56px; height: 56px; object-fit: contain; margin-bottom: 8px;">
+                        <p id="status-icon-text" class="thinking-text" style="font-size: 0.88rem; color: var(--text-secondary);">Type anything above to search knowledge base...</p>
+                    </div>
+
+                    <section class="faq-section-wrapper" id="faq-wrapper">
+                        <div id="faq-results-container"></div>
+                    </section>
+                </div>
+            </div>
+
         </section>
 
         <section class="app-install-promo-card">
             <div class="app-promo-inner">
                 <div class="app-promo-info">
-                    <svg class="app-promo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                    </svg>
                     <div class="app-promo-text">
                         <h4>Get BrainlyHQ as an Application!</h4>
-                        <p>Install our Progressive Web App for fast access, native push notifications, and exclusive event rewards.</p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">Install our Progressive Web App for fast access and native push notifications.</p>
                     </div>
                 </div>
                 <a href="instal.html" class="app-promo-btn">Install Guide &rarr;</a>
             </div>
-        </section>
-
-        <section class="thinking-wrapper" id="thinking-container">
-            <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" class="thinking-gif">
-            <p id="status-icon-text" class="thinking-text">Waiting for your input... Type anything above to search our answers!</p>
-        </section>
-
-        <section class="faq-section-wrapper" id="faq-wrapper">
-            <div id="faq-results-container">
-                </div>
         </section>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // PRELOADING ANIMACJI W PAMIĘCI CHRONI PRZED OPÓŹNIENIEM
+        // Przypisany Web App URL z Google Apps Script
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJhn74dcD8MbyZrZgpbIQRECRucBGTAT6vM65beQmbFbUWbX6A7QizXEVIpR-4a3cd/exec";
+
+        // Preloading animacji GIF
         const preloadedGifs = {};
         ["think", "okay", "sad"].forEach(name => {
             preloadedGifs[name] = new Image();
@@ -589,10 +434,9 @@
         let faqDatabase = [];
         let currentStatusState = "think";
 
-        // ŁADOWANIE BAZY PYTAŃ Z PLIKU JSON I SZTUCZNE WYDŁUŻENIE CZASU ŁADOWANIA
+        // ŁADOWANIE BAZY PYTAŃ Z JSON ORAZ OPÓŹNIENIE LOADERA
         async function loadSupportDatabase() {
             try {
-                // Równoległe pobieranie pliku JSON oraz odliczanie minimalnego czasu trwania loadera (np. 1200 ms)
                 const [response] = await Promise.all([
                     fetch('support-db.json'),
                     new Promise(resolve => setTimeout(resolve, 1200))
@@ -601,7 +445,6 @@
                 if (!response.ok) throw new Error("Failed to load database file.");
                 faqDatabase = await response.json();
 
-                // Odblokowanie wyszukiwarki i ukrycie pełnoekranowego loadera
                 const searchInput = document.getElementById('support-search');
                 searchInput.disabled = false;
                 searchInput.placeholder = "Search rules, loot drop odds, pets, or economy...";
@@ -624,26 +467,23 @@
                 currentStatusState = state;
                 statusImg.src = preloadedGifs[state].src;
             }
-
             statusText.innerText = text;
         }
 
-        // SEARCH HANDLING
+        // WYSZUKIWARKA FAQ
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
-
             const trimmedQuery = query.toLowerCase().trim();
 
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
-                setStatusGif("think", "Waiting for your input... Type anything above to search our answers!");
+                setStatusGif("think", "Type anything above to search knowledge base...");
                 container.innerHTML = "";
                 return;
             }
 
             const searchWords = trimmedQuery.split(/\s+/).filter(w => w.length > 0);
-
             const scoredResults = faqDatabase.map(item => {
                 const qText = item.question.toLowerCase();
                 const aText = item.answer.toLowerCase();
@@ -656,7 +496,6 @@
                     if (qText.includes(word)) score += 10;
                     if (aText.includes(word)) score += 2;
                 });
-
                 if (qText.startsWith(trimmedQuery)) score += 20;
 
                 return { item, score };
@@ -665,8 +504,7 @@
             scoredResults.sort((a, b) => b.score - a.score);
 
             if (scoredResults.length > 0) {
-                setStatusGif("okay", "Found the best matching answers for you below!");
-
+                setStatusGif("okay", "Found matching answers below!");
                 wrapper.classList.add('visible');
                 container.innerHTML = scoredResults.map(res => `
                     <div class="faq-item" id="${res.item.id}">
@@ -682,64 +520,89 @@
                     </div>
                 `).join('');
             } else {
-                setStatusGif("sad", "No matching answers found. Try searching with different keywords!");
+                setStatusGif("sad", "No matching answers found in knowledge base.");
                 wrapper.classList.remove('visible');
                 container.innerHTML = "";
             }
         }
 
-        // TOGGLE AKORDEONU
         function toggleFaq(id) {
             const target = document.getElementById(id);
             if (!target) return;
             const isActive = target.classList.contains('active');
-
             document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
             if (!isActive) target.classList.add('active');
         }
 
-        // AKCJA KLIKNIĘCIA W HOT QUESTION
-        function openFaqById(id) {
-            const targetItem = faqDatabase.find(i => i.id === id);
-            if (!targetItem) return;
-
-            document.getElementById('support-search').value = targetItem.question;
-            handleSearch(targetItem.question);
-
-            setTimeout(() => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.classList.add('active');
-                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 100);
-        }
-
-        // DYNAMICZNY SLIDER HOT QUESTIONS (3.2 s)
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.hot-slide-item');
-        const dots = document.querySelectorAll('.dot-indicator');
-
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-
-            currentSlide = (currentSlide + 1) % slides.length;
-
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }
-
-        let slideInterval = setInterval(nextSlide, 3200);
-
-        const hotContainer = document.getElementById('hot-card-container');
-        hotContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
-        hotContainer.addEventListener('mouseleave', () => slideInterval = setInterval(nextSlide, 3200));
-
-        // NASŁUCHIWANIE WYSZUKIWARKI
         document.getElementById('support-search').addEventListener('input', (e) => {
             handleSearch(e.target.value);
         });
+
+        // INTEGRACJA Z GOOGLE SHEETS (ZAPIS TICKETU - UŻYWA UserNickname)
+        async function submitTicket(event) {
+            event.preventDefault();
+            const userNickname = document.getElementById('ticket-nickname').value;
+            const question = document.getElementById('ticket-question').value;
+            const submitBtn = document.getElementById('ticket-submit-btn');
+            const successBox = document.getElementById('ticket-success-box');
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Submitting to Database...";
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "createTicket", email: userNickname, question })
+                });
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    successBox.style.display = "block";
+                    successBox.innerHTML = `<strong>Ticket Created Successfully!</strong><br>Your Ticket ID is: <code>${result.ticketId}</code>. Save it to track status.`;
+                    document.getElementById('ticket-form').reset();
+                } else {
+                    alert("Error saving ticket. Please try again.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection error with Google Sheets database.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Ticket";
+            }
+        }
+
+        // SPRAWDZANIE STATUSU TICKETU Z GOOGLE SHEETS
+        async function checkTicketStatus() {
+            const ticketId = document.getElementById('check-ticket-id').value.trim();
+            const statusBox = document.getElementById('ticket-status-box');
+
+            if (!ticketId) {
+                alert("Please enter a valid Ticket ID.");
+                return;
+            }
+
+            statusBox.style.display = "block";
+            statusBox.innerHTML = "Checking status in database...";
+
+            try {
+                const response = await fetch(`${WEB_APP_URL}?action=getTicket&ticketId=${encodeURIComponent(ticketId)}`);
+                const result = await response.json();
+
+                if (result.found) {
+                    statusBox.innerHTML = `<strong>Ticket Found!</strong><br>
+                        - <strong>Status:</strong> ${result.status}<br>
+                        - <strong>User:</strong> ${result.email}<br>
+                        - <strong>Question:</strong> ${result.question}<br>
+                        - <strong>Admin Response:</strong> ${result.response}`;
+                } else {
+                    statusBox.innerHTML = `<strong>Not Found:</strong> No ticket matching ID <code>${ticketId}</code> was found.`;
+                }
+            } catch (err) {
+                console.error(err);
+                statusBox.innerHTML = "Error connecting to Google Sheets database.";
+            }
+        }
     </script>
 </body>
 </html>
