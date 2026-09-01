@@ -106,7 +106,6 @@
             color: var(--color-brainly-green, #99ee60);
             margin-bottom: 8px;
             letter-spacing: -0.5px;
-            text-shadow: 0 0 15px rgba(153, 238, 96, 0.2);
         }
 
         .support-column-desc {
@@ -116,7 +115,7 @@
             line-height: 1.5;
         }
 
-        /* Formularze i karty w kolumnach z efektem neonu */
+        /* Formularze i karty w kolumnach bez neonu całego bloku */
         .support-card-box {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -124,12 +123,11 @@
             padding: 28px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             margin-bottom: 24px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.25s ease;
         }
 
         .support-card-box:hover {
-            border-color: rgba(153, 238, 96, 0.4);
-            box-shadow: 0 8px 30px rgba(153, 238, 96, 0.12);
+            border-color: rgba(153, 238, 96, 0.3);
         }
 
         .support-form-group {
@@ -146,6 +144,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* Lekki neon wyłącznie za polami tekstowymi po najechaniu / focusie */
         .support-input, .support-textarea {
             width: 100%;
             padding: 14px 16px;
@@ -162,7 +161,7 @@
 
         .support-input:focus, .support-textarea:focus {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 15px rgba(153, 238, 96, 0.2);
+            box-shadow: 0 0 12px rgba(153, 238, 96, 0.25);
         }
 
         .support-textarea {
@@ -180,14 +179,12 @@
             font-size: 0.95rem;
             cursor: pointer;
             width: 100%;
-            transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 15px rgba(153, 238, 96, 0.3);
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
         .support-btn:hover {
             opacity: 0.9;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(153, 238, 96, 0.4);
         }
 
         .ticket-result-box {
@@ -236,14 +233,14 @@
 
         .support-search-input-hero:focus {
             border-color: var(--color-brainly-green);
-            box-shadow: 0 0 25px rgba(153, 238, 96, 0.2);
+            box-shadow: 0 0 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* Limitowane okienko wyników FAQ z paskiem przewijania dopasowane wysokością */
+        /* Blok wyników FAQ dopasowany, równy wysokością i z paskiem przewijania */
         .faq-section-wrapper {
             display: none;
             margin-top: 16px;
-            max-height: 380px;
+            max-height: 340px;
             overflow-y: auto;
             padding-right: 4px;
         }
@@ -252,7 +249,6 @@
             display: block;
         }
 
-        /* Stylowanie pasków przewijania */
         .faq-section-wrapper::-webkit-scrollbar {
             width: 6px;
         }
@@ -424,11 +420,6 @@
                         </svg>
                     </div>
 
-                    <div class="thinking-wrapper" id="thinking-container" style="text-align: center; margin: 15px 0;">
-                        <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 6px;">
-                        <p id="status-icon-text" class="thinking-text" style="font-size: 0.85rem; color: var(--text-secondary);">Type anything above to search knowledge base...</p>
-                    </div>
-
                     <section class="faq-section-wrapper" id="faq-wrapper">
                         <div id="faq-results-container"></div>
                     </section>
@@ -457,21 +448,14 @@
     <script>
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJhn74dcD8MbyZrZgpbIQRECRucBGTAT6vM65beQmbFbUWbX6A7QizXEVIpR-4a3cd/exec";
 
-        const preloadedGifs = {};
-        ["think", "okay", "sad"].forEach(name => {
-            preloadedGifs[name] = new Image();
-            preloadedGifs[name].src = `assets/${name}.gif`;
-        });
-
         let faqDatabase = [];
-        let currentStatusState = "think";
 
-        // Szybsze ładowanie bazy danych i responsywny loader (300ms)
+        // Błyskawiczne ładowanie bazy danych
         async function loadSupportDatabase() {
             try {
                 const [response] = await Promise.all([
                     fetch('support-db.json'),
-                    new Promise(resolve => setTimeout(resolve, 300))
+                    new Promise(resolve => setTimeout(resolve, 200))
                 ]);
 
                 if (!response.ok) throw new Error("Failed to load database file.");
@@ -491,18 +475,7 @@
 
         document.addEventListener('DOMContentLoaded', loadSupportDatabase);
 
-        function setStatusGif(state, text) {
-            const statusImg = document.getElementById('status-icon-img');
-            const statusText = document.getElementById('status-icon-text');
-
-            if (currentStatusState !== state) {
-                currentStatusState = state;
-                statusImg.src = preloadedGifs[state].src;
-            }
-            statusText.innerText = text;
-        }
-
-        // Błyskawiczna wyszukiwarka FAQ
+        // Błyskawiczna wyszukiwarka FAQ – bez emotek/statusów, od razu wyniki lub informacja o braku
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
@@ -510,7 +483,6 @@
 
             if (trimmedQuery === "") {
                 wrapper.classList.remove('visible');
-                setStatusGif("think", "Type anything above to search knowledge base...");
                 container.innerHTML = "";
                 return;
             }
@@ -535,9 +507,8 @@
 
             scoredResults.sort((a, b) => b.score - a.score);
 
+            wrapper.classList.add('visible');
             if (scoredResults.length > 0) {
-                setStatusGif("okay", "Found matching answers below!");
-                wrapper.classList.add('visible');
                 container.innerHTML = scoredResults.map(res => `
                     <div class="faq-item" id="${res.item.id}">
                         <div class="faq-header" onclick="toggleFaq('${res.item.id}')">
@@ -552,9 +523,11 @@
                     </div>
                 `).join('');
             } else {
-                setStatusGif("sad", "No matching answers found in knowledge base.");
-                wrapper.classList.remove('visible');
-                container.innerHTML = "";
+                container.innerHTML = `
+                    <div style="padding: 16px; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                        No matching answers found in knowledge base.
+                    </div>
+                `;
             }
         }
 
