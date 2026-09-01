@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" href="assets/icon-192.png">
 
     <style>
-        /* --- PEŁNOEKRANOWY LOADER (BEZ NEONU) --- */
+        /* --- PEŁNOEKRANOWY LOADER --- */
         #global-loader {
             position: fixed;
             top: 0;
@@ -78,7 +78,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU (RÓWNE BLOKI) --- */
+        /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU --- */
         .support-main-container {
             max-width: 1200px;
             margin: 40px auto 60px auto;
@@ -105,7 +105,6 @@
             height: 100%;
         }
 
-        /* INTENSYWNY ZIELONY NAGŁÓWEK (#99EE60) */
         .support-column-title {
             font-size: 1.4rem;
             font-weight: 900;
@@ -114,7 +113,6 @@
             letter-spacing: -0.5px;
         }
 
-        /* Wyrównana wysokość opisów dokładnie na 2 linijki */
         .support-column-desc {
             font-size: 0.92rem;
             color: var(--text-secondary);
@@ -125,7 +123,6 @@
             align-items: center;
         }
 
-        /* KARTY O DOKŁADNIE STAŁEJ WYSOKOŚCI */
         .support-card-box {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -134,7 +131,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             transition: border-color 0.25s ease;
             box-sizing: border-box;
-            height: 380px; /* Sztywna wysokość dla obu kolumn */
+            height: 380px;
             display: flex;
             flex-direction: column;
         }
@@ -181,7 +178,6 @@
             height: 95px;
         }
 
-        /* PRZYCISK Z SOCZYSTĄ ZIELENIĄ (#99EE60) */
         .support-btn {
             background-color: #99EE60 !important;
             color: #000000;
@@ -215,18 +211,32 @@
             display: inline-block;
         }
 
+        /* DYSKRETNY POWIADOMIENIE Wewnątrz KARTY FORMULARZA */
         .ticket-result-box {
-            margin-top: 14px;
-            padding: 12px;
-            border-radius: 10px;
-            background-color: rgba(153, 238, 96, 0.1);
-            border: 1px solid rgba(153, 238, 96, 0.4);
-            color: var(--text-primary);
-            font-size: 0.88rem;
             display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        /* WYSZUKIWARKA I KONTENER SRODKOWY */
+        .ticket-result-box .ticket-id-display {
+            font-family: monospace;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #99EE60;
+            background: rgba(153, 238, 96, 0.1);
+            border: 1px dashed #99EE60;
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            display: inline-block;
+        }
+
+        /* WYSZUKIWARKA I KONTENER FAQ */
         .main-search-wrapper {
             position: relative;
             display: flex;
@@ -265,7 +275,6 @@
             box-shadow: 0 0 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* OBSZAR PRZEWIJANIA FAQ - SZTYWNA WYSOKOŚĆ (NIE ZWIĘKSZA BLOKU) */
         .faq-section-wrapper {
             height: 250px;
             overflow-y: auto;
@@ -326,6 +335,7 @@
             font-size: 0.92rem;
             font-weight: 700;
             color: var(--text-primary);
+            word-break: break-word;
         }
 
         .faq-icon {
@@ -359,13 +369,13 @@
             font-size: 0.88rem;
             color: var(--text-secondary);
             line-height: 1.6;
+            word-break: break-word;
         }
 
         .faq-answer-text strong {
             color: var(--text-primary);
         }
 
-        /* Timeline / Kropkowana lista w FAQ z zielenią #99EE60 */
         .faq-answer-text ul {
             list-style: none;
             padding-left: 0;
@@ -401,7 +411,7 @@
             box-shadow: 0 0 8px rgba(153, 238, 96, 0.6);
         }
 
-        /* SPRAWDZANIE TICKETU NA DOLE STRONY */
+        /* SPRAWDZANIE STATUSU TICKETU */
         .support-full-width-section .support-card-box {
             height: auto !important;
         }
@@ -412,6 +422,8 @@
             border-radius: 12px;
             padding: 18px;
             margin-top: 16px;
+            word-break: break-word;
+            overflow-wrap: anywhere;
         }
 
         .ticket-view-header {
@@ -442,20 +454,37 @@
             font-size: 0.88rem;
             color: var(--text-secondary);
             margin-bottom: 8px;
+            line-height: 1.5;
+            word-break: break-word;
+            overflow-wrap: anywhere;
         }
 
         .ticket-view-body strong {
             color: var(--text-primary);
         }
 
+        /* ADMIN RESPONSE W STYLU ADRESOWEGO / MAILA (BEZ TŁA DLA BLOKU) */
         .ticket-admin-reply {
-            margin-top: 10px;
-            background-color: rgba(255, 255, 255, 0.03);
-            border-left: 3px solid #99EE60;
-            padding: 10px 12px;
-            border-radius: 0 8px 8px 0;
-            font-size: 0.85rem;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 0.88rem;
             color: var(--text-primary);
+            line-height: 1.6;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .ticket-admin-reply-header {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #99EE60;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         @media (max-width: 900px) {
@@ -500,8 +529,9 @@
                 <h2 class="support-column-title">Submit Ticket</h2>
                 <p class="support-column-desc">Need personal assistance? Send your case directly to our fast support team.</p>
 
-                <div class="support-card-box">
+                <div class="support-card-box" id="ticket-card-container">
                     <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Create New Support Ticket</h3>
+                    
                     <form id="ticket-form" onsubmit="submitTicket(event)" style="display: flex; flex-direction: column; flex: 1;">
                         <div class="support-form-group">
                             <label for="ticket-nickname">Your UserNickname</label>
@@ -513,7 +543,15 @@
                         </div>
                         <button type="submit" class="support-btn" id="ticket-submit-btn">Submit Ticket</button>
                     </form>
-                    <div id="ticket-success-box" class="ticket-result-box"></div>
+
+                    <!-- KOMUNIKAT POTWIERDZENIA (ZASTĘPUJE FORMULARZ W KARTCE BEZ PRZESUWANIA ELEMNTÓW) -->
+                    <div id="ticket-success-box" class="ticket-result-box">
+                        <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);">Ticket Created Successfully!</span>
+                        <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Your Ticket ID is:</span>
+                        <div class="ticket-id-display" id="generated-ticket-id">BHQ-XXXXX</div>
+                        <span style="font-size: 0.82rem; color: var(--text-secondary);">Save this ID to track your live status below.</span>
+                        <button type="button" class="support-btn" style="margin-top: 16px; height: 38px; padding: 0 16px; font-size: 0.85rem;" onclick="resetTicketForm()">Submit Another Ticket</button>
+                    </div>
                 </div>
             </div>
 
@@ -563,12 +601,26 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJhn74dcD8MbyZrZgpbIQRECRucBGTAT6vM65beQmbFbUWbX6A7QizXEVIpR-4a3cd/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzAAF0xMN4TdanigwfdckxSCuHDy9a1JPNxBnXVOgp5a5DO3f0GQQZykxrMz_kivfDM/exec";
 
         let faqDatabase = [];
+        let clientIp = "Unknown";
 
-        // Błyskawiczne ładowanie bazy danych
+        // Pobieranie IP klienta
+        async function fetchUserIp() {
+            try {
+                const res = await fetch("https://api.ipify.org?format=json");
+                if (res.ok) {
+                    const data = await res.json();
+                    clientIp = data.ip || "Unknown";
+                }
+            } catch (e) {
+                console.log("Could not fetch IP:", e);
+            }
+        }
+
         async function loadSupportDatabase() {
+            fetchUserIp();
             try {
                 const [response] = await Promise.all([
                     fetch('support-db.json'),
@@ -592,7 +644,6 @@
 
         document.addEventListener('DOMContentLoaded', loadSupportDatabase);
 
-        // Błyskawiczna wyszukiwarka FAQ – stabilne zachowanie wymiarów bloku
         function handleSearch(query) {
             const container = document.getElementById('faq-results-container');
             const placeholder = document.getElementById('faq-placeholder');
@@ -660,13 +711,15 @@
             handleSearch(e.target.value);
         });
 
-        // INTEGRACJA Z GOOGLE SHEETS (ZAPIS TICKETU)
+        // WYSYŁANIE TICKETU Z ZAPISEM IP
         async function submitTicket(event) {
             event.preventDefault();
             const userNickname = document.getElementById('ticket-nickname').value;
             const question = document.getElementById('ticket-question').value;
             const submitBtn = document.getElementById('ticket-submit-btn');
+            const form = document.getElementById('ticket-form');
             const successBox = document.getElementById('ticket-success-box');
+            const generatedIdBox = document.getElementById('generated-ticket-id');
 
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<span class="btn-spinner"></span> Submitting...`;
@@ -674,14 +727,20 @@
             try {
                 const response = await fetch(WEB_APP_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: "createTicket", email: userNickname, question })
+                    body: JSON.stringify({ 
+                        action: "createTicket", 
+                        email: userNickname, 
+                        question: question,
+                        userIp: clientIp 
+                    })
                 });
                 const result = await response.json();
 
                 if (result.status === "success") {
-                    successBox.style.display = "block";
-                    successBox.innerHTML = `<strong>Ticket Created Successfully!</strong><br>Your Ticket ID is: <code>${result.ticketId}</code>. Save it to track status.`;
-                    document.getElementById('ticket-form').reset();
+                    form.style.display = "none";
+                    successBox.style.display = "flex";
+                    generatedIdBox.innerText = result.ticketId;
+                    form.reset();
                 } else {
                     alert("Error saving ticket. Please try again.");
                 }
@@ -694,7 +753,12 @@
             }
         }
 
-        // SPRAWDZANIE STATUSU TICKETU Z ŁADNYM WIDOKIEM KARTY
+        function resetTicketForm() {
+            document.getElementById('ticket-form').style.display = "flex";
+            document.getElementById('ticket-success-box').style.display = "none";
+        }
+
+        // SPRAWDZANIE STATUSU TICKETU
         async function checkTicketStatus() {
             const ticketId = document.getElementById('check-ticket-id').value.trim();
             const statusBox = document.getElementById('ticket-status-box');
@@ -718,14 +782,18 @@
                     statusBox.innerHTML = `
                         <div class="ticket-view-card">
                             <div class="ticket-view-header">
-                                <strong>Ticket: <code>${ticketId}</code></strong>
+                                <strong>Ticket: <code>${result.ticketId}</code></strong>
                                 <span class="ticket-status-badge">${result.status || 'Active'}</span>
                             </div>
                             <div class="ticket-view-body">
                                 <p><strong>User:</strong> ${result.email}</p>
                                 <p><strong>Question:</strong> ${result.question}</p>
                                 <div class="ticket-admin-reply">
-                                    <strong>Admin Response:</strong> ${result.response || 'Awaiting response from support staff...'}
+                                    <div class="ticket-admin-reply-header">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                        Staff Response
+                                    </div>
+                                    <div>${result.response || 'Awaiting response from support staff...'}</div>
                                 </div>
                             </div>
                         </div>
