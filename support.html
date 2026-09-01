@@ -52,7 +52,7 @@
             width: 100%;
             height: 100%;
             border: 3px solid rgba(255, 255, 255, 0.06);
-            border-top: 3px solid var(--color-brainly-green, #99ee60);
+            border-top: 3px solid #99EE60;
             border-radius: 50%;
             animation: spinLoader 0.9s linear infinite;
         }
@@ -78,18 +78,19 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU (IDEALNIE RÓWNE KOLUMNY) --- */
+        /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU (RÓWNE BLOKI) --- */
         .support-main-container {
             max-width: 1200px;
             margin: 40px auto 60px auto;
             padding: 0 24px;
+            box-sizing: border-box;
         }
 
         .support-split-layout {
             display: grid;
             grid-template-columns: 1fr 1px 1fr;
             gap: 36px;
-            align-items: stretch;
+            align-items: start;
             margin-bottom: 30px;
         }
 
@@ -104,26 +105,27 @@
             height: 100%;
         }
 
+        /* INTENSYWNY ZIELONY NAGŁÓWEK (#99EE60) */
         .support-column-title {
             font-size: 1.4rem;
             font-weight: 900;
-            color: var(--color-brainly-green, #99ee60);
+            color: #99EE60 !important;
             margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
 
-        /* Ujednolicona wysokość opisów na dokładnie 2 linijki */
+        /* Wyrównana wysokość opisów dokładnie na 2 linijki */
         .support-column-desc {
             font-size: 0.92rem;
             color: var(--text-secondary);
             margin-bottom: 24px;
             line-height: 1.5;
-            min-height: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
         }
 
-        /* Karty w kolumnach - rozciągające się na pełną wysokość rodzica */
+        /* KARTY O DOKŁADNIE STAŁEJ WYSOKOŚCI */
         .support-card-box {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -132,21 +134,17 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             transition: border-color 0.25s ease;
             box-sizing: border-box;
-        }
-
-        .support-left-column .support-card-box,
-        .support-right-column .support-card-box {
-            flex: 1;
+            height: 380px; /* Sztywna wysokość dla obu kolumn */
             display: flex;
             flex-direction: column;
         }
 
         .support-card-box:hover {
-            border-color: rgba(153, 238, 96, 0.3);
+            border-color: #99EE60 !important;
         }
 
         .support-form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .support-form-group label {
@@ -159,10 +157,9 @@
             letter-spacing: 0.5px;
         }
 
-        /* Lekki neon wyłącznie za polami tekstowymi po najechaniu / focusie */
         .support-input, .support-textarea {
             width: 100%;
-            padding: 14px 16px;
+            padding: 13px 16px;
             border-radius: 12px;
             border: 2px solid var(--border-color);
             background-color: var(--bg-primary);
@@ -175,17 +172,18 @@
         }
 
         .support-input:focus, .support-textarea:focus {
-            border-color: var(--color-brainly-green);
+            border-color: #99EE60;
             box-shadow: 0 0 12px rgba(153, 238, 96, 0.25);
         }
 
         .support-textarea {
-            resize: vertical;
-            min-height: 100px;
+            resize: none;
+            height: 95px;
         }
 
+        /* PRZYCISK Z SOCZYSTĄ ZIELENIĄ (#99EE60) */
         .support-btn {
-            background-color: var(--color-brainly-green);
+            background-color: #99EE60 !important;
             color: #000000;
             padding: 14px 20px;
             border: none;
@@ -199,14 +197,14 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            margin-top: auto;
         }
 
         .support-btn:hover {
-            opacity: 0.9;
+            opacity: 0.92;
             transform: translateY(-2px);
         }
 
-        /* Spinner w przycisku */
         .btn-spinner {
             width: 18px;
             height: 18px;
@@ -218,17 +216,17 @@
         }
 
         .ticket-result-box {
-            margin-top: 16px;
-            padding: 14px;
+            margin-top: 14px;
+            padding: 12px;
             border-radius: 10px;
             background-color: rgba(153, 238, 96, 0.1);
-            border: 1px solid rgba(153, 238, 96, 0.3);
+            border: 1px solid rgba(153, 238, 96, 0.4);
             color: var(--text-primary);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             display: none;
         }
 
-        /* Główna wyszukiwarka po prawej */
+        /* WYSZUKIWARKA I KONTENER SRODKOWY */
         .main-search-wrapper {
             position: relative;
             display: flex;
@@ -249,32 +247,32 @@
 
         .support-search-input-hero {
             width: 100%;
-            padding: 16px 18px 16px 54px;
+            padding: 15px 18px 15px 54px;
             border-radius: 14px;
             border: 2px solid var(--border-color);
             background-color: var(--bg-primary);
             color: var(--text-primary);
             font-family: var(--font-primary);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             outline: none;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
 
         .support-search-input-hero:focus {
-            border-color: var(--color-brainly-green);
+            border-color: #99EE60;
             box-shadow: 0 0 12px rgba(153, 238, 96, 0.25);
         }
 
-        /* Kontener wyników FAQ - elastycznie wypełnia całą kartę z zachowaniem paska przewijania */
+        /* OBSZAR PRZEWIJANIA FAQ - SZTYWNA WYSOKOŚĆ (NIE ZWIĘKSZA BLOKU) */
         .faq-section-wrapper {
-            flex: 1;
+            height: 250px;
             overflow-y: auto;
             padding-right: 4px;
             display: flex;
             flex-direction: column;
-            min-height: 200px;
+            box-sizing: border-box;
         }
 
         .faq-section-wrapper::-webkit-scrollbar {
@@ -285,7 +283,6 @@
             border-radius: 3px;
         }
 
-        /* Komunikat startowy i NOT FOUND wyśrodkowany idealnie w bloku */
         .faq-placeholder-center {
             margin: auto;
             text-align: center;
@@ -294,12 +291,13 @@
             font-weight: 500;
             padding: 20px;
             width: 100%;
+            box-sizing: border-box;
         }
 
         #faq-results-container {
             display: flex;
             flex-direction: column;
-            flex: 1;
+            width: 100%;
         }
 
         .faq-item {
@@ -313,7 +311,7 @@
         }
 
         .faq-item:hover {
-            border-color: rgba(153, 238, 96, 0.4);
+            border-color: #99EE60;
         }
 
         .faq-header {
@@ -347,14 +345,14 @@
         }
 
         .faq-item.active .faq-content {
-            max-height: 600px;
+            max-height: 1000px;
             padding: 14px 18px 18px 18px;
             border-top: 1px solid var(--border-color);
         }
 
         .faq-item.active .faq-icon {
             transform: rotate(180deg);
-            color: var(--color-brainly-green);
+            color: #99EE60;
         }
 
         .faq-answer-text {
@@ -367,7 +365,7 @@
             color: var(--text-primary);
         }
 
-        /* Lista kropkowana timeline w odpowiedziach FAQ */
+        /* Timeline / Kropkowana lista w FAQ z zielenią #99EE60 */
         .faq-answer-text ul {
             list-style: none;
             padding-left: 0;
@@ -382,7 +380,7 @@
             top: 4px;
             bottom: 4px;
             width: 2px;
-            background-color: rgba(153, 238, 96, 0.25);
+            background-color: rgba(153, 238, 96, 0.3);
         }
 
         .faq-answer-text li {
@@ -399,11 +397,15 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: var(--color-brainly-green, #99ee60);
+            background-color: #99EE60;
             box-shadow: 0 0 8px rgba(153, 238, 96, 0.6);
         }
 
-        /* Widok wyników wyszukiwania ticketu (Check Status) */
+        /* SPRAWDZANIE TICKETU NA DOLE STRONY */
+        .support-full-width-section .support-card-box {
+            height: auto !important;
+        }
+
         .ticket-view-card {
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
@@ -423,7 +425,7 @@
 
         .ticket-status-badge {
             background-color: rgba(153, 238, 96, 0.15);
-            color: var(--color-brainly-green);
+            color: #99EE60;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 0.78rem;
@@ -449,7 +451,7 @@
         .ticket-admin-reply {
             margin-top: 10px;
             background-color: rgba(255, 255, 255, 0.03);
-            border-left: 3px solid var(--color-brainly-green);
+            border-left: 3px solid #99EE60;
             padding: 10px 12px;
             border-radius: 0 8px 8px 0;
             font-size: 0.85rem;
@@ -464,7 +466,13 @@
                 display: none;
             }
             .support-column-desc {
-                min-height: auto;
+                height: auto;
+            }
+            .support-card-box {
+                height: auto;
+            }
+            .faq-section-wrapper {
+                height: 280px;
             }
         }
     </style>
@@ -494,7 +502,7 @@
 
                 <div class="support-card-box">
                     <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Create New Support Ticket</h3>
-                    <form id="ticket-form" onsubmit="submitTicket(event)">
+                    <form id="ticket-form" onsubmit="submitTicket(event)" style="display: flex; flex-direction: column; flex: 1;">
                         <div class="support-form-group">
                             <label for="ticket-nickname">Your UserNickname</label>
                             <input type="text" id="ticket-nickname" class="support-input" placeholder="e.g. JohnDoe" required>
@@ -540,12 +548,12 @@
         <section class="support-full-width-section">
             <div class="support-card-box">
                 <h2 class="support-column-title" style="font-size: 1.2rem; margin-bottom: 6px;">Check Ticket Status</h2>
-                <p class="support-column-desc" style="margin-bottom: 16px; min-height: auto;">Already submitted a ticket? Enter your Ticket ID below to check live updates and staff responses.</p>
+                <p class="support-column-desc" style="margin-bottom: 16px; height: auto;">Already submitted a ticket? Enter your Ticket ID below to check live updates and staff responses.</p>
                 <div style="display: flex; gap: 14px; flex-wrap: wrap;">
                     <div class="support-form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
                         <input type="text" id="check-ticket-id" class="support-input" placeholder="e.g. BHQ-12345">
                     </div>
-                    <button type="button" id="check-status-btn" class="support-btn" style="width: auto; min-width: 160px;" onclick="checkTicketStatus()">Check Status</button>
+                    <button type="button" id="check-status-btn" class="support-btn" style="width: auto; min-width: 160px; margin-top: 0;" onclick="checkTicketStatus()">Check Status</button>
                 </div>
                 <div id="ticket-status-box"></div>
             </div>
@@ -559,7 +567,7 @@
 
         let faqDatabase = [];
 
-        // Ładowanie bazy danych
+        // Błyskawiczne ładowanie bazy danych
         async function loadSupportDatabase() {
             try {
                 const [response] = await Promise.all([
@@ -584,7 +592,7 @@
 
         document.addEventListener('DOMContentLoaded', loadSupportDatabase);
 
-        // Wyszukiwarka FAQ z idealnym wyśrodkowaniem komunikatów bez zmiany wymiarów bloku
+        // Błyskawiczna wyszukiwarka FAQ – stabilne zachowanie wymiarów bloku
         function handleSearch(query) {
             const container = document.getElementById('faq-results-container');
             const placeholder = document.getElementById('faq-placeholder');
@@ -686,7 +694,7 @@
             }
         }
 
-        // SPRAWDZANIE STATUSU TICKETU (SPINNER W PRZYCISKU + ŁADNY WIDOK KARTY)
+        // SPRAWDZANIE STATUSU TICKETU Z ŁADNYM WIDOKIEM KARTY
         async function checkTicketStatus() {
             const ticketId = document.getElementById('check-ticket-id').value.trim();
             const statusBox = document.getElementById('ticket-status-box');
