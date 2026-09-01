@@ -370,6 +370,7 @@
             color: var(--text-secondary);
             line-height: 1.6;
             word-break: break-word;
+            white-space: pre-wrap; /* Zachowuje entery w FAQ */
         }
 
         .faq-answer-text strong {
@@ -433,7 +434,13 @@
             color: var(--text-primary);
         }
 
-        /* --- HISTORIA TICKETU (TIMELINE) --- */
+        /* KLASA DO ZACHOWYWANIA ODSTĘPÓW I ENTERÓW W TREŚCI */
+        .formatted-text-content {
+            white-space: pre-wrap;
+            font-family: inherit;
+        }
+
+        /* --- HISTORIA TICKETU (TIMELINE) - POPRAWIONE WYRÓWNANIE --- */
         .ticket-timeline-wrapper {
             margin: 20px 0;
             padding: 16px 0;
@@ -447,23 +454,23 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--text-secondary);
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         .timeline-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
             position: relative;
-            padding-left: 18px;
+            padding-left: 24px;
         }
 
         .timeline-container::before {
             content: '';
             position: absolute;
-            left: 5px;
-            top: 6px;
-            bottom: 6px;
+            left: 4px;
+            top: 4px;
+            bottom: 4px;
             width: 2px;
             background-color: var(--border-color);
         }
@@ -475,19 +482,23 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
+            justify-content: center;
         }
 
+        /* Idealnie wycentrowane kropki z osią pionową */
         .timeline-step::before {
             content: '';
             position: absolute;
-            left: -18px;
-            top: 4px;
+            left: -24px;
+            top: 50%;
+            transform: translateY(-50%);
             width: 10px;
             height: 10px;
             border-radius: 50%;
             background-color: var(--border-color);
             border: 2px solid var(--bg-primary);
             transition: all 0.25s ease;
+            box-sizing: border-box;
         }
 
         .timeline-step.completed {
@@ -504,7 +515,7 @@
             color: var(--text-secondary);
         }
 
-        /* STAFF RESPONSE BEZ TŁA */
+        /* STAFF RESPONSE BEZ TŁA DLA BLOKU */
         .ticket-admin-reply {
             margin-top: 16px;
             font-size: 0.88rem;
@@ -520,7 +531,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #99EE60;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -818,20 +829,25 @@
 
                 statusBox.style.display = "block";
                 if (result.found) {
-                    const statusLower = (result.status || 'pending').toLowerCase();
-                    const isPending = statusLower === 'pending';
+                    const currentStatus = (result.status || 'Pending').trim();
+                    const statusLower = currentStatus.toLowerCase();
+                    const isPending = statusLower === 'pending' || currentStatus === '';
+                    
                     const hasAdmin = result.admin && result.admin.trim() !== "";
                     const hasResponseTime = result.responseTime && result.responseTime.trim() !== "";
                     
+                    // WARUNEK: Moderator jest ujawniany TYLKO jeśli status NIE jest 'Pending' oraz podano Admina
+                    const showModerator = !isPending && hasAdmin;
+
                     // Klasa statusu
                     const badgeClass = isPending ? 'pending' : '';
 
-                    // Budowanie historii kroków na linii czasu
+                    // Budowanie kroków na linii czasu
                     let step1Class = "completed"; // Zawsze wykonany
                     let step2Class = !isPending ? "completed" : "";
-                    let step3Class = (hasAdmin && hasResponseTime) ? "completed" : "";
+                    let step3Class = (showModerator && hasResponseTime) ? "completed" : "";
 
-                    let step3Text = hasAdmin 
+                    let step3Text = showModerator 
                         ? `Moderator <strong>${result.admin}</strong> reviewed ticket` 
                         : "Awaiting staff review";
 
@@ -839,11 +855,14 @@
                         <div class="ticket-view-card">
                             <div class="ticket-view-header">
                                 <strong>Ticket: <code>${result.ticketId}</code></strong>
-                                <span class="ticket-status-badge ${badgeClass}">${result.status || 'Pending'}</span>
+                                <span class="ticket-status-badge ${badgeClass}">${currentStatus}</span>
                             </div>
                             <div class="ticket-view-body">
                                 <p><strong>User:</strong> ${result.email}</p>
-                                <p><strong>Question:</strong> ${result.question}</p>
+                                <div style="margin-bottom: 12px;">
+                                    <strong>Question:</strong>
+                                    <div class="formatted-text-content" style="color: var(--text-secondary); margin-top: 4px;">${result.question}</div>
+                                </div>
                                 
                                 <!-- TIMELINE HISTORII ZGŁOSZENIA -->
                                 <div class="ticket-timeline-wrapper">
@@ -862,19 +881,19 @@
 
                                         <div class="timeline-step ${step3Class}">
                                             <div>${step3Text}</div>
-                                            <div class="step-time">${hasResponseTime ? result.responseTime : 'Pending resolution'}</div>
+                                            <div class="step-time">${(showModerator && hasResponseTime) ? result.responseTime : 'Pending resolution'}</div>
                                         </div>
 
                                     </div>
                                 </div>
 
-                                <!-- STAFA RESPONSE -->
+                                <!-- STAFF RESPONSE -->
                                 <div class="ticket-admin-reply">
                                     <div class="ticket-admin-reply-header">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                                        Staff Response ${hasAdmin ? `(by ${result.admin})` : ''}
+                                        Staff Response ${showModerator ? `(by ${result.admin})` : ''}
                                     </div>
-                                    <div>${result.response || 'Awaiting response from support staff...'}</div>
+                                    <div class="formatted-text-content">${result.response || 'Awaiting response from support staff...'}</div>
                                 </div>
                             </div>
                         </div>
