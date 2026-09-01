@@ -285,20 +285,21 @@
 
         .eco-card {
             background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-color) !important;
             border-radius: 16px;
             padding: 24px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             min-height: 250px;
-            transition: all 0.25s ease;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
+        /* DOPASOWANA ZMIANA: Identyczne obramowanie i cień jak w tools-card */
         .eco-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(153, 238, 96, 0.4);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            transform: translateY(-2px);
+            border-color: var(--color-brainly-green) !important;
+            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.05);
         }
 
         .eco-icon-box {
