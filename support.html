@@ -80,29 +80,33 @@
         }
 
         /* --- DWUKOLUMNOWY UKŁAD STRONY SUPPORTU --- */
-        .support-split-layout {
+        .support-main-container {
             max-width: 1200px;
             margin: 40px auto 60px auto;
             padding: 0 24px;
+        }
+
+        .support-split-layout {
             display: grid;
             grid-template-columns: 1fr 1px 1fr;
             gap: 36px;
-            align-items: start;
+            align-items: stretch;
+            margin-bottom: 30px;
         }
 
         .support-divider {
             background-color: var(--border-color);
             width: 1px;
             height: 100%;
-            min-height: 500px;
         }
 
         .support-column-title {
             font-size: 1.4rem;
             font-weight: 900;
-            color: var(--text-primary);
+            color: var(--color-brainly-green, #99ee60);
             margin-bottom: 8px;
             letter-spacing: -0.5px;
+            text-shadow: 0 0 15px rgba(153, 238, 96, 0.2);
         }
 
         .support-column-desc {
@@ -112,7 +116,7 @@
             line-height: 1.5;
         }
 
-        /* Formularze i karty w kolumnach */
+        /* Formularze i karty w kolumnach z efektem neonu */
         .support-card-box {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -120,6 +124,12 @@
             padding: 28px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             margin-bottom: 24px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .support-card-box:hover {
+            border-color: rgba(153, 238, 96, 0.4);
+            box-shadow: 0 8px 30px rgba(153, 238, 96, 0.12);
         }
 
         .support-form-group {
@@ -147,11 +157,12 @@
             font-size: 0.95rem;
             outline: none;
             box-sizing: border-box;
-            transition: border-color 0.25s ease;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .support-input:focus, .support-textarea:focus {
             border-color: var(--color-brainly-green);
+            box-shadow: 0 0 15px rgba(153, 238, 96, 0.2);
         }
 
         .support-textarea {
@@ -169,12 +180,14 @@
             font-size: 0.95rem;
             cursor: pointer;
             width: 100%;
-            transition: opacity 0.2s ease, transform 0.2s ease;
+            transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(153, 238, 96, 0.3);
         }
 
         .support-btn:hover {
             opacity: 0.9;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(153, 238, 96, 0.4);
         }
 
         .ticket-result-box {
@@ -188,7 +201,7 @@
             display: none;
         }
 
-        /* Główna, duża wyszukiwarka po prawej */
+        /* Główna wyszukiwarka po prawej */
         .main-search-wrapper {
             position: relative;
             display: flex;
@@ -226,14 +239,26 @@
             box-shadow: 0 0 25px rgba(153, 238, 96, 0.2);
         }
 
-        /* Wyniki wyszukiwania FAQ */
+        /* Limitowane okienko wyników FAQ z paskiem przewijania dopasowane wysokością */
         .faq-section-wrapper {
             display: none;
-            margin-top: 20px;
+            margin-top: 16px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 4px;
         }
 
         .faq-section-wrapper.visible {
             display: block;
+        }
+
+        /* Stylowanie pasków przewijania */
+        .faq-section-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .faq-section-wrapper::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 3px;
         }
 
         .faq-item {
@@ -242,6 +267,11 @@
             border-radius: 12px;
             margin-bottom: 10px;
             overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(153, 238, 96, 0.4);
         }
 
         .faq-header {
@@ -263,6 +293,7 @@
             height: 18px;
             color: var(--text-secondary);
             transition: transform 0.3s ease;
+            flex-shrink: 0;
         }
 
         .faq-content {
@@ -287,36 +318,47 @@
         .faq-answer-text {
             font-size: 0.88rem;
             color: var(--text-secondary);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        /* Banner aplikacji */
-        .app-install-promo-card {
-            max-width: 1200px;
-            margin: 0 auto 60px auto;
-            padding: 0 24px;
+        .faq-answer-text strong {
+            color: var(--text-primary);
         }
 
-        .app-promo-inner {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
+        /* Lista kropkowana timeline w odpowiedziach FAQ */
+        .faq-answer-text ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 12px 0;
+            position: relative;
         }
 
-        .app-promo-btn {
-            background-color: var(--color-brainly-green);
-            color: #000000;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 0.85rem;
-            text-decoration: none;
-            white-space: nowrap;
+        .faq-answer-text ul::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background-color: rgba(153, 238, 96, 0.25);
+        }
+
+        .faq-answer-text li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .faq-answer-text li::before {
+            content: '';
+            position: absolute;
+            left: 1px;
+            top: 7px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-brainly-green, #99ee60);
+            box-shadow: 0 0 8px rgba(153, 238, 96, 0.6);
         }
 
         @media (max-width: 900px) {
@@ -343,19 +385,19 @@
 
     <header id="header-placeholder"></header>
 
-    <main>
+    <main class="support-main-container">
         <section class="support-split-layout">
             
             <div class="support-left-column">
-                <h2 class="support-column-title">Submit & Track Tickets</h2>
-                <p class="support-column-desc">Need personal assistance? Send your case directly to our Google Sheet database or check your active ticket status.</p>
+                <h2 class="support-column-title">Submit Ticket</h2>
+                <p class="support-column-desc">Need personal assistance? Send your case directly to our Google Sheet database.</p>
 
                 <div class="support-card-box">
                     <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Create New Support Ticket</h3>
                     <form id="ticket-form" onsubmit="submitTicket(event)">
                         <div class="support-form-group">
                             <label for="ticket-nickname">Your UserNickname</label>
-                            <input type="text" id="ticket-nickname" class="support-input" placeholder="e.g. KacperChlanda" required>
+                            <input type="text" id="ticket-nickname" class="support-input" placeholder="e.g. JohnDoe" required>
                         </div>
                         <div class="support-form-group">
                             <label for="ticket-question">Describe your issue</label>
@@ -365,23 +407,13 @@
                     </form>
                     <div id="ticket-success-box" class="ticket-result-box"></div>
                 </div>
-
-                <div class="support-card-box">
-                    <h3 style="font-size: 1.1rem; margin-top:0; margin-bottom: 14px; font-weight:800; color:var(--text-primary);">Check Ticket Status</h3>
-                    <div class="support-form-group">
-                        <label for="check-ticket-id">Ticket ID</label>
-                        <input type="text" id="check-ticket-id" class="support-input" placeholder="e.g. BHQ-12345">
-                    </div>
-                    <button type="button" class="support-btn" onclick="checkTicketStatus()">Check Status</button>
-                    <div id="ticket-status-box" class="ticket-result-box"></div>
-                </div>
             </div>
 
             <div class="support-divider"></div>
 
             <div class="support-right-column">
                 <h2 class="support-column-title">Knowledge Base & FAQ</h2>
-                <p class="support-column-desc">Search instantly through our official answers covering rules, economy mechanics, drop rates, and server guides.</p>
+                <p class="support-column-desc">Search instantly through our official answers covering rules, economy mechanics, and guides.</p>
 
                 <div class="support-card-box">
                     <div class="main-search-wrapper">
@@ -392,9 +424,9 @@
                         </svg>
                     </div>
 
-                    <div class="thinking-wrapper" id="thinking-container" style="text-align: center; margin: 20px 0;">
-                        <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" style="width: 56px; height: 56px; object-fit: contain; margin-bottom: 8px;">
-                        <p id="status-icon-text" class="thinking-text" style="font-size: 0.88rem; color: var(--text-secondary);">Type anything above to search knowledge base...</p>
+                    <div class="thinking-wrapper" id="thinking-container" style="text-align: center; margin: 15px 0;">
+                        <img id="status-icon-img" src="assets/think.gif" alt="Status GIF" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 6px;">
+                        <p id="status-icon-text" class="thinking-text" style="font-size: 0.85rem; color: var(--text-secondary);">Type anything above to search knowledge base...</p>
                     </div>
 
                     <section class="faq-section-wrapper" id="faq-wrapper">
@@ -405,15 +437,17 @@
 
         </section>
 
-        <section class="app-install-promo-card">
-            <div class="app-promo-inner">
-                <div class="app-promo-info">
-                    <div class="app-promo-text">
-                        <h4>Get BrainlyHQ as an Application!</h4>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">Install our Progressive Web App for fast access and native push notifications.</p>
+        <section class="support-full-width-section">
+            <div class="support-card-box">
+                <h2 class="support-column-title" style="font-size: 1.2rem; margin-bottom: 6px;">Check Ticket Status</h2>
+                <p class="support-column-desc" style="margin-bottom: 16px;">Already submitted a ticket? Enter your Ticket ID below to check live updates and staff responses.</p>
+                <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+                    <div class="support-form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
+                        <input type="text" id="check-ticket-id" class="support-input" placeholder="e.g. BHQ-12345">
                     </div>
+                    <button type="button" class="support-btn" style="width: auto; min-width: 160px;" onclick="checkTicketStatus()">Check Status</button>
                 </div>
-                <a href="instal.html" class="app-promo-btn">Install Guide &rarr;</a>
+                <div id="ticket-status-box" class="ticket-result-box"></div>
             </div>
         </section>
     </main>
@@ -421,10 +455,8 @@
     <footer id="footer-placeholder"></footer>
 
     <script>
-        // Przypisany Web App URL z Google Apps Script
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJhn74dcD8MbyZrZgpbIQRECRucBGTAT6vM65beQmbFbUWbX6A7QizXEVIpR-4a3cd/exec";
 
-        // Preloading animacji GIF
         const preloadedGifs = {};
         ["think", "okay", "sad"].forEach(name => {
             preloadedGifs[name] = new Image();
@@ -434,12 +466,12 @@
         let faqDatabase = [];
         let currentStatusState = "think";
 
-        // ŁADOWANIE BAZY PYTAŃ Z JSON ORAZ OPÓŹNIENIE LOADERA
+        // Szybsze ładowanie bazy danych i responsywny loader (300ms)
         async function loadSupportDatabase() {
             try {
                 const [response] = await Promise.all([
                     fetch('support-db.json'),
-                    new Promise(resolve => setTimeout(resolve, 1200))
+                    new Promise(resolve => setTimeout(resolve, 300))
                 ]);
 
                 if (!response.ok) throw new Error("Failed to load database file.");
@@ -470,7 +502,7 @@
             statusText.innerText = text;
         }
 
-        // WYSZUKIWARKA FAQ
+        // Błyskawiczna wyszukiwarka FAQ
         function handleSearch(query) {
             const wrapper = document.getElementById('faq-wrapper');
             const container = document.getElementById('faq-results-container');
