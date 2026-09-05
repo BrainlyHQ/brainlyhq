@@ -18,10 +18,6 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        #header-placeholder, #footer-placeholder {
-            display: none !important;
-        }
-
         :root {
             --neon-glow-primary: rgba(153, 238, 96, 0.22);
             --grid-line-color: rgba(255, 255, 255, 0.025);
@@ -88,50 +84,6 @@
             0% { opacity: 0.12; transform: translateX(-50%) scale(0.95); }
             100% { opacity: 0.20; transform: translateX(-50%) scale(1.05); }
         }
-
-        .hub-navbar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 32px;
-            background-color: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky; top: 0; z-index: 100;
-            backdrop-filter: blur(12px);
-        }
-
-        .hub-brand {
-            display: flex; align-items: center; gap: 12px;
-            text-decoration: none;
-        }
-
-        .hub-brand img { height: 32px; width: auto; }
-
-        .hub-brand-title {
-            font-size: 1.1rem; font-weight: 900;
-            color: var(--text-primary);
-            letter-spacing: -0.5px;
-        }
-
-        .hub-user-panel { display: flex; align-items: center; gap: 16px; }
-
-        .user-badge {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            background: var(--bg-primary);
-            padding: 6px 14px; border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .user-badge strong { color: var(--color-brainly-green); }
-
-        .btn-hub-logout {
-            background: transparent;
-            border: 1px solid #ff4a4a; color: #ff4a4a;
-            padding: 6px 14px; border-radius: 8px;
-            font-size: 0.8rem; font-weight: 700;
-            cursor: pointer; transition: all 0.2s ease;
-        }
-
-        .btn-hub-logout:hover { background: #ff4a4a; color: #ffffff; }
 
         .hub-container {
             max-width: 1100px; margin: 0 auto;
@@ -319,20 +271,6 @@
     <div class="ambient-glow-top"></div>
     <div class="ambient-glow-left"></div>
     <div class="ambient-glow-right"></div>
-
-    <header class="hub-navbar">
-        <a href="#" class="hub-brand">
-            <img id="hub-nav-logo" src="assets/Brainly Hub.png" alt="BrainlyHub Logo">
-            <span class="hub-brand-title">BrainlyHub Engine</span>
-        </a>
-
-        <div class="hub-user-panel">
-            <div class="user-badge">
-                User: <strong id="hub-username-display">--</strong>
-            </div>
-            <button id="hub-logout-btn" class="btn-hub-logout">Log Out</button>
-        </div>
-    </header>
 
     <main class="hub-container">
         <section class="hero-search-section">
