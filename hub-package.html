@@ -117,12 +117,47 @@
             border-radius: 20px; padding: 32px;
             margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .package-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
         }
 
         .package-header-title {
             font-size: 1.8rem; font-weight: 900;
             color: var(--text-primary); margin: 16px 0 8px 0;
             line-height: 1.3;
+        }
+
+        .package-actions {
+            display: flex; gap: 10px; align-items: center;
+        }
+
+        .btn-action-icon {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s ease;
+            padding: 0;
+        }
+
+        .btn-action-icon:hover {
+            border-color: var(--color-brainly-green);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-action-icon.active-fav {
+            color: #ff4a4a;
+            border-color: rgba(255, 74, 74, 0.4);
+            background: rgba(255, 74, 74, 0.1);
         }
 
         .package-badges { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -137,6 +172,32 @@
         .badge-subject { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
         .badge-exam { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
 
+        /* Learning Path Progress Bar */
+        .learning-progress-box {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .progress-info {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            width: 100%; height: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px; overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%; width: 0%;
+            background: var(--color-brainly-green);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 12px var(--neon-glow-primary);
+        }
+
         .tasks-list-section {
             display: flex; flex-direction: column; gap: 14px;
         }
@@ -146,8 +207,7 @@
             border: 1px solid var(--border-color);
             border-radius: 14px; padding: 18px 24px;
             display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.2s ease;
-            gap: 16px;
+            transition: all 0.2s ease; gap: 16px;
         }
 
         .task-item-card:hover {
@@ -155,9 +215,28 @@
             transform: translateX(4px);
         }
 
+        .task-item-card.completed-task {
+            opacity: 0.65;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .task-item-left {
+            display: flex; align-items: center; gap: 14px;
+        }
+
+        .task-checkbox {
+            width: 20px; height: 20px;
+            accent-color: var(--color-brainly-green);
+            cursor: pointer;
+        }
+
         .task-item-title {
             font-size: 1.05rem; font-weight: 800; color: var(--text-primary);
             letter-spacing: -0.2px;
+        }
+
+        .task-item-card.completed-task .task-item-title {
+            text-decoration: line-through;
         }
 
         .btn-task-link {
@@ -171,6 +250,21 @@
         }
 
         .btn-task-link:hover { opacity: 0.9; transform: scale(0.98); }
+
+        .toast-notification {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--bg-secondary); color: var(--text-primary);
+            border: 1px solid var(--color-brainly-green);
+            padding: 12px 20px; border-radius: 10px; font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transform: translateY(100px); opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+        }
+
+        .toast-notification.show {
+            transform: translateY(0); opacity: 1;
+        }
     </style>
 
     <script src="js/theme.js"></script>
@@ -198,14 +292,17 @@
         </div>
 
         <h3 style="font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 16px; color: var(--text-secondary);">
-            Tasks in this package
+            Learning Path & Tasks
         </h3>
 
         <div id="tasks-list-target" class="tasks-list-section"></div>
     </main>
 
+    <div id="toast" class="toast-notification">Link copied to clipboard!</div>
+
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz8b4O-3LXd4ZVbQb3YDoueoaK-wzJvOBUlDG6BqT1IOloyFrhMLClg-5tqDcWWyHPu/exec";
+        let currentPackageObj = null;
 
         function fetchFreshDbJSONP() {
             return new Promise((resolve, reject) => {
@@ -226,6 +323,108 @@
             });
         }
 
+        // --- FAVORITES LOGIC ---
+        function getFavorites() {
+            try {
+                return JSON.parse(localStorage.getItem("brainly_favorites")) || [];
+            } catch(e) { return []; }
+        }
+
+        function isFavorite(topic, market) {
+            const favs = getFavorites();
+            return favs.some(f => f.topic.toLowerCase() === topic.toLowerCase() && f.market.toUpperCase() === market.toUpperCase());
+        }
+
+        function toggleFavorite(topic, market) {
+            let favs = getFavorites();
+            if (isFavorite(topic, market)) {
+                favs = favs.filter(f => !(f.topic.toLowerCase() === topic.toLowerCase() && f.market.toUpperCase() === market.toUpperCase()));
+                showToast("Removed from favorites");
+            } else {
+                favs.push({ topic, market, addedAt: Date.now() });
+                showToast("Added to favorites ❤");
+            }
+            localStorage.setItem("brainly_favorites", JSON.stringify(favs));
+            updateFavButtonUI(topic, market);
+        }
+
+        function updateFavButtonUI(topic, market) {
+            const btn = document.getElementById("btn-fav-toggle");
+            if (!btn) return;
+            const active = isFavorite(topic, market);
+            btn.classList.toggle("active-fav", active);
+            btn.innerHTML = active 
+                ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`
+                : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+        }
+
+        // --- LEARNING PATH PROGRESS LOGIC ---
+        function getProgress() {
+            try {
+                return JSON.parse(localStorage.getItem("brainly_learning_progress")) || {};
+            } catch(e) { return {}; }
+        }
+
+        function toggleTaskCompletion(packageKey, taskUrl) {
+            const prog = getProgress();
+            if (!prog[packageKey]) prog[packageKey] = [];
+            
+            const idx = prog[packageKey].indexOf(taskUrl);
+            if (idx > -1) {
+                prog[packageKey].splice(idx, 1);
+            } else {
+                prog[packageKey].push(taskUrl);
+            }
+            
+            localStorage.setItem("brainly_learning_progress", JSON.stringify(prog));
+            renderProgressUI(packageKey);
+        }
+
+        function renderProgressUI(packageKey) {
+            if (!currentPackageObj) return;
+            const prog = getProgress();
+            const completedUrls = prog[packageKey] || [];
+            const totalTasks = currentPackageObj.structuredLinks.length;
+            const completedCount = currentPackageObj.structuredLinks.filter(l => completedUrls.includes(l.url)).length;
+            const percentage = totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
+
+            const countEl = document.getElementById("progress-count-text");
+            const fillEl = document.getElementById("progress-bar-fill");
+            if (countEl) countEl.textContent = `${completedCount} / ${totalTasks} completed (${percentage}%)`;
+            if (fillEl) fillEl.style.width = `${percentage}%`;
+
+            // Update card styling and checkboxes
+            currentPackageObj.structuredLinks.forEach((linkObj, idx) => {
+                const card = document.getElementById(`task-card-${idx}`);
+                const chk = document.getElementById(`task-chk-${idx}`);
+                const isDone = completedUrls.includes(linkObj.url);
+                if (card) card.classList.toggle("completed-task", isDone);
+                if (chk) chk.checked = isDone;
+            });
+        }
+
+        // --- SHARE LOGIC ---
+        function sharePackage() {
+            const shareData = {
+                title: document.title,
+                text: `Check out this learning package on BrainlyHub!`,
+                url: window.location.href
+            };
+            if (navigator.share) {
+                navigator.share(shareData).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                showToast("Link copied to clipboard!");
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.textContent = msg;
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 2500);
+        }
+
         function renderUIFromData(rawDatabase, topicParam, marketParam) {
             const headerTarget = document.getElementById("package-header-target");
             const tasksTarget = document.getElementById("tasks-list-target");
@@ -241,7 +440,10 @@
                 return false;
             }
 
-            // Renderowanie nagłówka
+            currentPackageObj = foundPackage;
+            const packageKey = `${foundPackage.displayTopic.toLowerCase()}____${foundPackage.marketKey.toUpperCase()}`;
+
+            // Render Header
             const isExam = Array.from(foundPackage.subjects).some(s => s.toLowerCase() === 'exam') || foundPackage.levels.has('EXAM');
             const marketLabel = (typeof MARKET_MAP !== 'undefined' && MARKET_MAP[foundPackage.marketKey]) || foundPackage.marketKey;
             let badgesHtml = `<span class="badge badge-market">${escapeHtml(marketLabel)}</span>`;
@@ -260,23 +462,48 @@
             });
 
             headerTarget.innerHTML = `
-                <div class="package-badges">${badgesHtml}</div>
-                <h1 class="package-header-title">${escapeHtml(foundPackage.displayTopic)}</h1>
-                <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">Total resources: <strong style="color: var(--color-brainly-green);">${foundPackage.structuredLinks.length}</strong></p>
+                <div class="package-header-top">
+                    <div>
+                        <div class="package-badges">${badgesHtml}</div>
+                        <h1 class="package-header-title">${escapeHtml(foundPackage.displayTopic)}</h1>
+                        <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">Total resources: <strong style="color: var(--color-brainly-green);">${foundPackage.structuredLinks.length}</strong></p>
+                    </div>
+                    <div class="package-actions">
+                        <button id="btn-fav-toggle" class="btn-action-icon" title="Toggle Favorite" onclick="toggleFavorite('${escapeHtml(foundPackage.displayTopic)}', '${escapeHtml(foundPackage.marketKey)}')">
+                        </button>
+                        <button class="btn-action-icon" title="Share Package" onclick="sharePackage()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="learning-progress-box">
+                    <div class="progress-info">
+                        <span>Learning Path Progress</span>
+                        <span id="progress-count-text">0 / 0 completed (0%)</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
             `;
 
-            // Renderowanie listy zadań ze stabilnym odczytem wartości z kolumny F
+            updateFavButtonUI(foundPackage.displayTopic, foundPackage.marketKey);
+
+            // Render Task Items
             tasksTarget.innerHTML = "";
             foundPackage.structuredLinks.forEach((linkObj, idx) => {
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "task-item-card";
-                
+                itemDiv.id = `task-card-${idx}`;
+
                 const finalTaskTitle = (linkObj.title && !linkObj.title.startsWith("Task #")) 
                     ? linkObj.title 
-                    : (linkObj.category || `Zadanie ${idx + 1}.`);
+                    : (linkObj.category || `Task ${idx + 1}.`);
 
                 itemDiv.innerHTML = `
-                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div class="task-item-left">
+                        <input type="checkbox" id="task-chk-${idx}" class="task-checkbox" onchange="toggleTaskCompletion('${escapeHtml(packageKey)}', '${escapeHtml(linkObj.url)}')">
                         <span class="task-item-title">${escapeHtml(finalTaskTitle)}</span>
                     </div>
                     <a href="${escapeHtml(linkObj.url)}" target="_blank" rel="noopener noreferrer" class="btn-task-link">
@@ -287,6 +514,7 @@
                 tasksTarget.appendChild(itemDiv);
             });
 
+            renderProgressUI(packageKey);
             return true;
         }
 
@@ -302,7 +530,6 @@
                 return;
             }
 
-            // 1. Ładowanie z pamięci podręcznej (Cache)
             const cachedData = localStorage.getItem("brainly_db_cache");
             if (cachedData) {
                 try {
@@ -313,7 +540,6 @@
                 } catch(e) {}
             }
 
-            // 2. Ładowanie świeżych danych z API
             try {
                 const response = await fetchFreshDbJSONP();
                 if (response && response.success && Array.isArray(response.data)) {
