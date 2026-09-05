@@ -129,15 +129,16 @@ function updateEngineMetrics(data) {
     if (statLevels) statLevels.textContent = typeof LEVEL_MAP !== 'undefined' ? Object.keys(LEVEL_MAP).length : 5;
 }
 
+// ZMIENIONO: Pobieranie 6 najnowszych paczek zamiast 3
 function renderFeaturedThree() {
     const featuredContainer = document.getElementById("featured-packages-grid");
     if (!featuredContainer || fullDatabase.length === 0) return;
 
     const grouped = typeof groupDatabaseIntoPackages === 'function' ? groupDatabaseIntoPackages(fullDatabase) : [];
-    const latestThree = grouped.slice(0, 3);
+    const latestSix = grouped.slice(0, 6);
 
     if (typeof renderPackagesGrid === 'function') {
-        renderPackagesGrid(featuredContainer, null, latestThree, false, true);
+        renderPackagesGrid(featuredContainer, null, latestSix, false, true);
     }
 }
 
