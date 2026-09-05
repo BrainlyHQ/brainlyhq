@@ -216,7 +216,7 @@
         }
 
         .task-item-card.completed-task {
-            opacity: 0.65;
+            opacity: 0.6;
             background: rgba(255, 255, 255, 0.015);
         }
 
@@ -224,19 +224,60 @@
             display: flex; align-items: center; gap: 14px;
         }
 
-        .task-checkbox {
-            width: 20px; height: 20px;
-            accent-color: var(--color-brainly-green);
+        /* CUSTOM ROUND CHECKBOX */
+        .custom-chk-container {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
             cursor: pointer;
+            user-select: none;
+        }
+
+        .custom-chk-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0; width: 0;
+        }
+
+        .checkmark-circle {
+            height: 22px; width: 22px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        .custom-chk-container:hover input ~ .checkmark-circle {
+            border-color: var(--color-brainly-green);
+        }
+
+        .custom-chk-container input:checked ~ .checkmark-circle {
+            background-color: var(--color-brainly-green);
+            border-color: var(--color-brainly-green);
+            box-shadow: 0 0 10px var(--neon-glow-primary);
+        }
+
+        .checkmark-icon {
+            display: none;
+            width: 12px; height: 12px;
+            color: #000000;
+        }
+
+        .custom-chk-container input:checked ~ .checkmark-circle .checkmark-icon {
+            display: block;
         }
 
         .task-item-title {
             font-size: 1.05rem; font-weight: 800; color: var(--text-primary);
-            letter-spacing: -0.2px;
+            letter-spacing: -0.2px; transition: color 0.2s ease;
         }
 
         .task-item-card.completed-task .task-item-title {
             text-decoration: line-through;
+            color: var(--text-secondary);
         }
 
         .btn-task-link {
@@ -342,7 +383,7 @@
                 showToast("Removed from favorites");
             } else {
                 favs.push({ topic, market, addedAt: Date.now() });
-                showToast("Added to favorites ❤");
+                showToast("Added to favorites"); // Usunięto serduszko z powiadomienia
             }
             localStorage.setItem("brainly_favorites", JSON.stringify(favs));
             updateFavButtonUI(topic, market);
@@ -393,7 +434,6 @@
             if (countEl) countEl.textContent = `${completedCount} / ${totalTasks} completed (${percentage}%)`;
             if (fillEl) fillEl.style.width = `${percentage}%`;
 
-            // Update card styling and checkboxes
             currentPackageObj.structuredLinks.forEach((linkObj, idx) => {
                 const card = document.getElementById(`task-card-${idx}`);
                 const chk = document.getElementById(`task-chk-${idx}`);
@@ -503,7 +543,14 @@
 
                 itemDiv.innerHTML = `
                     <div class="task-item-left">
-                        <input type="checkbox" id="task-chk-${idx}" class="task-checkbox" onchange="toggleTaskCompletion('${escapeHtml(packageKey)}', '${escapeHtml(linkObj.url)}')">
+                        <label class="custom-chk-container">
+                            <input type="checkbox" id="task-chk-${idx}" onchange="toggleTaskCompletion('${escapeHtml(packageKey)}', '${escapeHtml(linkObj.url)}')">
+                            <span class="checkmark-circle">
+                                <svg class="checkmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                        </label>
                         <span class="task-item-title">${escapeHtml(finalTaskTitle)}</span>
                     </div>
                     <a href="${escapeHtml(linkObj.url)}" target="_blank" rel="noopener noreferrer" class="btn-task-link">
