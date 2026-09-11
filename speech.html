@@ -38,16 +38,18 @@
             color: var(--text-main);
             overflow-x: hidden;
             line-height: 1.5;
+            position: relative;
         }
 
+        /* Fixed Glow Background covering full document */
         .glow-bg {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 1000px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, rgba(11, 12, 16, 0) 70%);
+            width: 1200px;
+            height: 100%;
+            background: radial-gradient(circle at 50% 20%, var(--accent-glow) 0%, rgba(11, 12, 16, 0) 60%);
             z-index: -1;
             pointer-events: none;
         }
@@ -193,6 +195,9 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             max-width: 800px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .slack-message-box {
@@ -251,6 +256,16 @@
             line-height: 1.5;
             color: var(--text-main);
             margin-bottom: 16px;
+        }
+
+        .slack-summary-list {
+            margin-left: 18px;
+            color: var(--text-muted);
+            font-size: 0.925rem;
+        }
+
+        .slack-summary-list li {
+            margin-bottom: 4px;
         }
 
         .slack-buttons {
@@ -427,9 +442,11 @@
             </a>
         </div>
 
-        <!-- Slack Preview Section (Visible on Scroll) -->
+        <!-- Slack Preview Section (3 Examples) -->
         <section id="demo" class="preview-section">
             <div class="preview-container">
+                
+                <!-- Example 1: Standard Translation -->
                 <div class="slack-message-box">
                     <img src="assets/Brainly Speech.png" alt="Bot Icon" class="slack-avatar">
                     <div class="slack-content">
@@ -449,6 +466,43 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Example 2: Thread Summary -->
+                <div class="slack-message-box">
+                    <img src="assets/Brainly Speech.png" alt="Bot Icon" class="slack-avatar">
+                    <div class="slack-content">
+                        <div class="slack-message-header">
+                            <strong>Brainly Speech</strong>
+                            <span class="slack-app-badge">APP</span>
+                            <span class="slack-timestamp">Today at 7:17 PM</span>
+                        </div>
+                        <div class="slack-message-body">
+                            📝 <strong>Thread Summary (3 messages):</strong>
+                            <ul class="slack-summary-list">
+                                <li>The engineering team resolved the deployment latency issue on Render.</li>
+                                <li>Updated API authorization tokens were successfully rotated.</li>
+                                <li>Public marketplace distribution is ready for final review.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 3: Custom Reply via Modal -->
+                <div class="slack-message-box">
+                    <img src="assets/Brainly Speech.png" alt="Bot Icon" class="slack-avatar">
+                    <div class="slack-content">
+                        <div class="slack-message-header">
+                            <strong>Brainly Speech</strong>
+                            <span class="slack-app-badge">APP</span>
+                            <span class="slack-timestamp">Today at 7:20 PM</span>
+                        </div>
+                        <div class="slack-message-body">
+                            💬 <strong>Custom Reply (Sent via Modal to French):</strong><br>
+                            <em>"Bonjour! Les modifications ont été déployées et testées avec succès."</em>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
