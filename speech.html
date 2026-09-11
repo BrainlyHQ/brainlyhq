@@ -46,7 +46,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 1000px;
-            height: 500px;
+            height: 600px;
             background: radial-gradient(circle, var(--accent-glow) 0%, rgba(11, 12, 16, 0) 70%);
             z-index: -1;
             pointer-events: none;
@@ -58,14 +58,24 @@
             padding: 0 20px;
         }
 
-        /* Compact Header & Hero for full above-the-fold visibility */
+        /* First Screen Layout - Exactly 100vh */
+        .hero-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0 30px 0;
+            box-sizing: border-box;
+        }
+
         header {
-            padding: 20px 0 10px 0;
             text-align: center;
+            width: 100%;
         }
 
         .main-logo {
-            max-width: 260px;
+            max-width: 280px;
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
@@ -76,46 +86,46 @@
             transform: translateY(-2px);
         }
 
-        .hero {
+        .hero-content {
             text-align: center;
-            padding: 10px 0 40px 0;
+            max-width: 800px;
+            margin: auto 0;
         }
 
-        .hero h1 {
-            font-size: 3.25rem;
+        .hero-content h1 {
+            font-size: 3.5rem;
             font-weight: 900;
             letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 12px;
+            line-height: 1.15;
+            margin-bottom: 20px;
             background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero p {
-            font-size: 1.1rem;
+        .hero-content p {
+            font-size: 1.2rem;
             color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto 24px auto;
+            max-width: 680px;
+            margin: 0 auto 40px auto;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 14px;
+            gap: 16px;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            margin-bottom: 30px;
         }
 
         .btn-primary {
             background-color: var(--accent-color);
             color: #fff;
-            padding: 14px 30px;
-            border-radius: 10px;
+            padding: 16px 36px;
+            border-radius: 12px;
             font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 8px 25px var(--accent-glow);
+            box-shadow: 0 10px 30px var(--accent-glow);
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -124,15 +134,15 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 30px var(--accent-glow);
+            box-shadow: 0 14px 35px var(--accent-glow);
             background-color: #4f46e5;
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--text-main);
-            padding: 14px 30px;
-            border-radius: 10px;
+            padding: 16px 36px;
+            border-radius: 12px;
             font-weight: 600;
             text-decoration: none;
             border: 1px solid var(--border-color);
@@ -144,13 +154,43 @@
             background: rgba(255, 255, 255, 0.03);
         }
 
-        /* Slack Message Box Preview Styling */
+        /* Scroll Down Indicator */
+        .scroll-indicator {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            color: var(--text-main);
+        }
+
+        .scroll-indicator i {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(6px); }
+            60% { transform: translateY(3px); }
+        }
+
+        /* Preview Section on Scroll */
+        .preview-section {
+            padding: 60px 0 100px 0;
+        }
+
         .preview-container {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 20px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             max-width: 800px;
             margin: 0 auto;
         }
@@ -158,17 +198,17 @@
         .slack-message-box {
             background: #0f1117;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 18px;
             text-align: left;
             display: flex;
-            gap: 12px;
+            gap: 14px;
             align-items: flex-start;
         }
 
         .slack-avatar {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
             object-fit: cover;
             flex-shrink: 0;
@@ -182,7 +222,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .slack-message-header strong {
@@ -207,10 +247,10 @@
         }
 
         .slack-message-body {
-            font-size: 0.95rem;
-            line-height: 1.45;
+            font-size: 0.975rem;
+            line-height: 1.5;
             color: var(--text-main);
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         .slack-buttons {
@@ -352,8 +392,8 @@
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.25rem; }
-            .hero p { font-size: 0.975rem; }
+            .hero-content h1 { font-size: 2.25rem; }
+            .hero-content p { font-size: 1rem; }
             .preview-container { padding: 12px; }
             .main-logo { max-width: 220px; }
         }
@@ -364,24 +404,32 @@
     <div class="glow-bg"></div>
 
     <div class="container">
-        <!-- Header -->
-        <header>
-            <img src="assets/Brainly Speech.png" alt="Brainly Speech Logo" class="main-logo">
-        </header>
+        <!-- First Screen / Above-The-Fold Section -->
+        <div class="hero-wrapper">
+            <header>
+                <img src="assets/Brainly Speech.png" alt="Brainly Speech Logo" class="main-logo">
+            </header>
 
-        <!-- Hero Section (Optimized Layout) -->
-        <section class="hero">
-            <h1>Automated Translation<br>for Slack Workspaces</h1>
-            <p>Eliminate language barriers across distributed teams. Translate messages, generate thread summaries, and send quick responses without leaving Slack.</p>
-            
-            <div class="cta-buttons">
-                <a href="https://slack.com/oauth/v2/authorize?client_id=347885434548.11670746380582&scope=channels:history,chat:write,commands,groups:history,im:history,im:write,users:read&user_scope=" class="btn-primary">
-                    <i class="fa-brands fa-slack"></i> Add to Slack
-                </a>
-                <a href="#features" class="btn-secondary">Explore Features</a>
+            <div class="hero-content">
+                <h1>Automated Translation<br>for Slack Workspaces</h1>
+                <p>Eliminate language barriers across distributed teams. Translate messages, generate thread summaries, and send quick responses without leaving Slack.</p>
+                
+                <div class="cta-buttons">
+                    <a href="https://slack.com/oauth/v2/authorize?client_id=347885434548.11670746380582&scope=channels:history,chat:write,commands,groups:history,im:history,im:write,users:read&user_scope=" class="btn-primary">
+                        <i class="fa-brands fa-slack"></i> Add to Slack
+                    </a>
+                    <a href="#features" class="btn-secondary">Explore Features</a>
+                </div>
             </div>
 
-            <!-- Enhanced Slack Message Box -->
+            <a href="#demo" class="scroll-indicator">
+                <span>See live preview</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </a>
+        </div>
+
+        <!-- Slack Preview Section (Visible on Scroll) -->
+        <section id="demo" class="preview-section">
             <div class="preview-container">
                 <div class="slack-message-box">
                     <img src="assets/Brainly Speech.png" alt="Bot Icon" class="slack-avatar">
