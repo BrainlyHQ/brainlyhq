@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brainly Speech — Native Translation for Slack Workspaces</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/Brainly Speech.png">
+    
     <!-- Google Fonts & FontAwesome Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -61,7 +64,7 @@
         }
 
         .main-logo {
-            max-width: 380px;
+            max-width: 320px;
             width: 100%;
             height: auto;
             filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
@@ -74,27 +77,14 @@
 
         .hero {
             text-align: center;
-            padding: 60px 0 80px 0;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid var(--accent-color);
-            color: #818cf8;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 24px;
+            padding: 40px 0 80px 0;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            font-size: 3.75rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
             margin-bottom: 20px;
             background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
             -webkit-background-clip: text;
@@ -170,6 +160,34 @@
             text-align: left;
         }
 
+        .slack-message-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .slack-app-badge {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .slack-timestamp {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .slack-message-body {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-main);
+            margin-bottom: 18px;
+        }
+
         .features {
             padding: 100px 0;
         }
@@ -181,7 +199,7 @@
 
         .section-title h2 {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 12px;
         }
 
@@ -281,7 +299,7 @@
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.25rem; }
+            .hero h1 { font-size: 2.5rem; }
             .hero p { font-size: 1rem; }
             .preview-container { padding: 16px; }
         }
@@ -292,16 +310,13 @@
     <div class="glow-bg"></div>
 
     <div class="container">
-        <!-- Header with logo path updated -->
+        <!-- Header with logo path updated and slightly smaller width -->
         <header>
             <img src="assets/Brainly Speech.png" alt="Brainly Speech Logo" class="main-logo">
         </header>
 
         <!-- Hero Section -->
         <section class="hero">
-            <div class="badge">
-                <i class="fa-solid fa-bolt"></i> Synapse Engine Multi-Language
-            </div>
             <h1>Automated Translation<br>for Slack Workspaces</h1>
             <p>Eliminate language barriers across distributed teams. Translate messages, generate thread summaries, and send quick responses without leaving Slack.</p>
             
@@ -312,11 +327,17 @@
                 <a href="#features" class="btn-secondary">Explore Features</a>
             </div>
 
-            <!-- Clean Slack Message Preview -->
+            <!-- Clean Slack Message Preview with fixed typography spacing -->
             <div class="preview-container">
                 <div class="slack-message-box">
-                    <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 8px;"><strong>Brainly Speech</strong> <span style="background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">APP</span> Today at 7:15 PM</p>
-                    <p style="font-size: 1.05rem; margin-bottom: 16px;">🇺🇸 <strong>Translated message:</strong><br><em>"Hello everyone! We have updated our communication module. All services are running stably."</em></p>
+                    <div class="slack-message-header">
+                        <strong>Brainly Speech</strong>
+                        <span class="slack-app-badge">APP</span>
+                        <span class="slack-timestamp">Today at 7:15 PM</span>
+                    </div>
+                    <div class="slack-message-body">
+                        🇺🇸 <strong>Translated message:</strong> Hello everyone! We have updated our communication module. All services are running stably.
+                    </div>
                     
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <button style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;"><i class="fa-solid fa-file-lines"></i> Summarize</button>
