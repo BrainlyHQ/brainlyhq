@@ -37,7 +37,7 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .glow-bg {
@@ -46,28 +46,29 @@
             left: 50%;
             transform: translateX(-50%);
             width: 1000px;
-            height: 600px;
+            height: 500px;
             background: radial-gradient(circle, var(--accent-glow) 0%, rgba(11, 12, 16, 0) 70%);
             z-index: -1;
             pointer-events: none;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 20px;
         }
 
+        /* Compact Header & Hero for full above-the-fold visibility */
         header {
-            padding: 40px 0 20px 0;
+            padding: 20px 0 10px 0;
             text-align: center;
         }
 
         .main-logo {
-            max-width: 320px;
+            max-width: 260px;
             width: 100%;
             height: auto;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
             transition: transform 0.3s ease;
         }
 
@@ -77,43 +78,44 @@
 
         .hero {
             text-align: center;
-            padding: 40px 0 80px 0;
+            padding: 10px 0 40px 0;
         }
 
         .hero h1 {
-            font-size: 3.75rem;
+            font-size: 3.25rem;
             font-weight: 900;
             letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 20px;
+            line-height: 1.1;
+            margin-bottom: 12px;
             background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 40px auto;
+            max-width: 650px;
+            margin: 0 auto 24px auto;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            margin-bottom: 30px;
         }
 
         .btn-primary {
             background-color: var(--accent-color);
             color: #fff;
-            padding: 16px 36px;
-            border-radius: 12px;
+            padding: 14px 30px;
+            border-radius: 10px;
             font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 10px 30px var(--accent-glow);
+            box-shadow: 0 8px 25px var(--accent-glow);
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -121,16 +123,16 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px var(--accent-glow);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px var(--accent-glow);
             background-color: #4f46e5;
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--text-main);
-            padding: 16px 36px;
-            border-radius: 12px;
+            padding: 14px 30px;
+            border-radius: 10px;
             font-weight: 600;
             text-decoration: none;
             border: 1px solid var(--border-color);
@@ -142,117 +144,167 @@
             background: rgba(255, 255, 255, 0.03);
         }
 
+        /* Slack Message Box Preview Styling */
         .preview-container {
-            margin-top: 60px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            position: relative;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .slack-message-box {
             background: #0f1117;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 20px;
+            padding: 16px;
             text-align: left;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .slack-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .slack-content {
+            flex-grow: 1;
         }
 
         .slack-message-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .slack-message-header strong {
+            font-size: 0.95rem;
+            color: var(--text-main);
         }
 
         .slack-app-badge {
             background: #1e293b;
             color: #94a3b8;
-            padding: 2px 6px;
+            padding: 1px 5px;
             border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         .slack-timestamp {
             color: #64748b;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            margin-left: 4px;
         }
 
         .slack-message-body {
-            font-size: 1rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.45;
             color: var(--text-main);
-            margin-bottom: 18px;
+            margin-bottom: 14px;
         }
 
+        .slack-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .slack-btn {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.825rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .slack-btn:hover {
+            background: #334155;
+        }
+
+        /* Features Section */
         .features {
-            padding: 100px 0;
+            padding: 80px 0;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
+            font-size: 2.25rem;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .section-title p {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
 
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px;
+            border-radius: 14px;
+            padding: 28px;
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--accent-color);
         }
 
         .card-icon {
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             background: rgba(99, 102, 241, 0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #818cf8;
-            font-size: 1.5rem;
-            margin-bottom: 24px;
+            font-size: 1.35rem;
+            margin-bottom: 20px;
         }
 
         .card h3 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .card p {
             color: var(--text-muted);
-            font-size: 0.975rem;
+            font-size: 0.95rem;
         }
 
+        /* FAQ Section */
         .faq {
-            padding: 60px 0 100px 0;
+            padding: 40px 0 80px 0;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -260,18 +312,18 @@
         .faq-item {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 16px;
+            border-radius: 10px;
+            margin-bottom: 12px;
             overflow: hidden;
         }
 
         .faq-question {
             width: 100%;
-            padding: 20px 24px;
+            padding: 18px 22px;
             background: none;
             border: none;
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             text-align: left;
             display: flex;
@@ -281,17 +333,18 @@
         }
 
         .faq-answer {
-            padding: 0 24px 20px 24px;
+            padding: 0 22px 18px 22px;
             color: var(--text-muted);
             display: none;
         }
 
+        /* Footer */
         footer {
             border-top: 1px solid var(--border-color);
-            padding: 40px 0;
+            padding: 30px 0;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
 
         footer strong {
@@ -299,9 +352,10 @@
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1rem; }
-            .preview-container { padding: 16px; }
+            .hero h1 { font-size: 2.25rem; }
+            .hero p { font-size: 0.975rem; }
+            .preview-container { padding: 12px; }
+            .main-logo { max-width: 220px; }
         }
     </style>
 </head>
@@ -310,39 +364,42 @@
     <div class="glow-bg"></div>
 
     <div class="container">
-        <!-- Header with logo path updated and slightly smaller width -->
+        <!-- Header -->
         <header>
             <img src="assets/Brainly Speech.png" alt="Brainly Speech Logo" class="main-logo">
         </header>
 
-        <!-- Hero Section -->
+        <!-- Hero Section (Optimized Layout) -->
         <section class="hero">
             <h1>Automated Translation<br>for Slack Workspaces</h1>
             <p>Eliminate language barriers across distributed teams. Translate messages, generate thread summaries, and send quick responses without leaving Slack.</p>
             
             <div class="cta-buttons">
-                <a href="https://slack.com/oauth/v2/authorize?client_id=347885434548.7988358485299&scope=channels:history,chat:write,commands,groups:history,im:history,im:write,users:read&user_scope=" class="btn-primary">
+                <a href="https://slack.com/oauth/v2/authorize?client_id=347885434548.11670746380582&scope=channels:history,chat:write,commands,groups:history,im:history,im:write,users:read&user_scope=" class="btn-primary">
                     <i class="fa-brands fa-slack"></i> Add to Slack
                 </a>
                 <a href="#features" class="btn-secondary">Explore Features</a>
             </div>
 
-            <!-- Clean Slack Message Preview with fixed typography spacing -->
+            <!-- Enhanced Slack Message Box -->
             <div class="preview-container">
                 <div class="slack-message-box">
-                    <div class="slack-message-header">
-                        <strong>Brainly Speech</strong>
-                        <span class="slack-app-badge">APP</span>
-                        <span class="slack-timestamp">Today at 7:15 PM</span>
-                    </div>
-                    <div class="slack-message-body">
-                        🇺🇸 <strong>Translated message:</strong> Hello everyone! We have updated our communication module. All services are running stably.
-                    </div>
-                    
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;"><i class="fa-solid fa-file-lines"></i> Summarize</button>
-                        <button style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;"><i class="fa-solid fa-bolt"></i> Quick Reply</button>
-                        <button style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;"><i class="fa-solid fa-globe"></i> Custom Reply</button>
+                    <img src="assets/Brainly Speech.png" alt="Bot Icon" class="slack-avatar">
+                    <div class="slack-content">
+                        <div class="slack-message-header">
+                            <strong>Brainly Speech</strong>
+                            <span class="slack-app-badge">APP</span>
+                            <span class="slack-timestamp">Today at 7:15 PM</span>
+                        </div>
+                        <div class="slack-message-body">
+                            🇺🇸 <strong>Translated message:</strong> Hello everyone! We have updated our communication module. All services are running stably.
+                        </div>
+                        
+                        <div class="slack-buttons">
+                            <button class="slack-btn"><i class="fa-solid fa-file-lines"></i> Summarize</button>
+                            <button class="slack-btn"><i class="fa-solid fa-bolt"></i> Quick Reply</button>
+                            <button class="slack-btn"><i class="fa-solid fa-globe"></i> Custom Reply</button>
+                        </div>
                     </div>
                 </div>
             </div>
