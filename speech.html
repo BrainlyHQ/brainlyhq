@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brainly Speech — Native AI Translation for Slack</title>
+    
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #13151c;
+            --accent-color: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.35);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Ambient Glow Background */
+        .glow-bg {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1000px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, rgba(11, 12, 16, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Container & Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Logo */
+        header {
+            padding: 40px 0 20px 0;
+            text-align: center;
+        }
+
+        .main-logo {
+            max-width: 380px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+
+        .main-logo:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 0 80px 0;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--accent-color);
+            color: #818cf8;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px var(--accent-glow);
+            background-color: #4f46e5;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* App Preview Shell */
+        .preview-container {
+            margin-top: 60px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        .slack-message-box {
+            background: #0f1117;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #818cf8;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.975rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 60px 0 100px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px 24px;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            padding: 0 24px 20px 24px;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer strong {
+            color: var(--text-main);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.25rem; }
+            .hero p { font-size: 1rem; }
+            .preview-container { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-bg"></div>
+
+    <div class="container">
+        <!-- Header z dużym logo -->
+        <header>
+            <img src="Brainly Speech.png" alt="Brainly Speech Logo" class="main-logo">
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="badge">
+                <i class="fa-solid fa-bolt"></i> Synapse Engine Multi-Language
+            </div>
+            <h1>Automatyczne Tłumaczenia<br>dla Zespołów w Slacku</h1>
+            <p>Brak barier językowych w międzynarodowej komunikacji. Tłumacz wiadomości, generuj streszczenia i przygotowuj szybkie odpowiedzi jednym kliknięciem bez opuszczania Slacka.</p>
+            
+            <div class="cta-buttons">
+                <a href="https://slack.com/oauth/v2/authorize?client_id=347885434548.7988358485299&scope=channels:history,chat:write,commands,groups:history,im:history,im:write,users:read&user_scope=" class="btn-primary">
+                    <i class="fa-brands fa-slack"></i> Add to Slack
+                </a>
+                <a href="#features" class="btn-secondary">Poznaj funkcje</a>
+            </div>
+
+            <!-- Interaktywny podgląd aplikacji -->
+            <div class="preview-container">
+                <div class="slack-message-box">
+                    <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 8px;"><strong>Brainly Speech</strong> <span style="background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">APP</span> dzisiaj o 19:15</p>
+                    <p style="font-size: 1.05rem; margin-bottom: 16px;">🇵🇱 <strong>Oto Twój przetłumaczony tekst:</strong><br><em>"Cześć wszystkim! Zaktualizowaliśmy nasz moduł komunikacyjny. Wszystkie usługi działają stabilnie!"</em></p>
+                    
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;"><i class="fa-solid fa-file-lines"></i> Streszczaj</button>
+                        <button style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;"><i class="fa-solid fa-bolt"></i> Szybka odpowiedź</button>
+                        <button style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer;"><i class="fa-solid fa-globe"></i> Własna odpowiedź</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section id="features" class="features">
+            <div class="section-title">
+                <h2>Zaprojektowany dla maksymalnej wydajności</h2>
+                <p>Sprawdź, jak Brainly Speech usprawnia codzienną pracę operacyjną w organizacji.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-language"></i></div>
+                    <h3>Wsparcie Wielojęzyczne</h3>
+                    <p>Błyskawiczny przekład wiadomości na angielski, polski, francuski, rosyjski, tagalski (filipiński) oraz inne języki z zachowaniem pierwotnego formatowania Slacka.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-compress"></i></div>
+                    <h3>Automatyczne Streszczenia</h3>
+                    <p>Oszczędzaj czas na długich wątkach. Bot generuje zwięzłe punkty kluczowe (bullet points) ze skomplikowanych konwersacji w kilkanaście sekund.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-reply"></i></div>
+                    <h3>Szybkie Odpowiedzi i Modale</h3>
+                    <p>Generuj sugestie konwersacyjne lub wpisuj własny tekst w okienku modalnym — bot przetłumaczy go bezpośrednio na język Twojego rozmówcy.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq">
+            <div class="section-title">
+                <h2>Często zadawane pytania</h2>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Czy instalacja wymaga uprawnień administratora?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    Tak, dodanie nowej aplikacji do Slacka wymaga zatwierdzenia przez Administratora lub Właściciela danego Workspace'a.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Jak wywołać tłumaczenie na Slacku?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    Możesz użyć komendy <code>/translate [tekst]</code>, skorzystać ze skrótu wiadomości (shortcuts) w menu wiadomości lub wywołać akcję z poziomu zakładki App Home.
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Ekosystem <strong>BrainlyHQ</strong> &copy; 2026 Brainly Speech. Wszystkie prawa zastrzeżone.</p>
+        </footer>
+    </div>
+
+    <!-- FAQ Accordion JS Script -->
+    <script>
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    answer.style.display = 'block';
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
