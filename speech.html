@@ -19,7 +19,7 @@
             --bg-color: #0b0c10;
             --card-bg: #13151c;
             --accent-color: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.25);
+            --accent-glow: rgba(99, 102, 241, 0.35);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #1e293b;
@@ -41,19 +41,6 @@
             position: relative;
         }
 
-        /* Fixed Glow Background covering full document */
-        .glow-bg {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1200px;
-            height: 100%;
-            background: radial-gradient(circle at 50% 20%, var(--accent-glow) 0%, rgba(11, 12, 16, 0) 60%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -69,11 +56,27 @@
             align-items: center;
             padding: 40px 0 30px 0;
             box-sizing: border-box;
+            position: relative;
         }
 
         header {
             text-align: center;
             width: 100%;
+            position: relative;
+        }
+
+        /* Neon Circle Glow positioned directly behind the Header Logo */
+        .header-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, rgba(11, 12, 16, 0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .main-logo {
@@ -82,6 +85,8 @@
             height: auto;
             filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
             transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .main-logo:hover {
@@ -92,6 +97,8 @@
             text-align: center;
             max-width: 800px;
             margin: auto 0;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-content h1 {
@@ -166,6 +173,8 @@
             gap: 8px;
             text-decoration: none;
             transition: color 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .scroll-indicator:hover {
@@ -184,7 +193,7 @@
 
         /* Preview Section on Scroll */
         .preview-section {
-            padding: 60px 0 100px 0;
+            padding: 60px 0 40px 0;
         }
 
         .preview-container {
@@ -293,14 +302,14 @@
             background: #334155;
         }
 
-        /* Features Section */
+        /* Features Section - Moved slightly up via reduced top padding */
         .features {
-            padding: 80px 0;
+            padding: 40px 0 80px 0;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .section-title h2 {
@@ -359,7 +368,7 @@
 
         /* FAQ Section */
         .faq {
-            padding: 40px 0 80px 0;
+            padding: 20px 0 80px 0;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -416,12 +425,11 @@
 </head>
 <body>
 
-    <div class="glow-bg"></div>
-
     <div class="container">
         <!-- First Screen / Above-The-Fold Section -->
         <div class="hero-wrapper">
             <header>
+                <div class="header-glow"></div>
                 <img src="assets/Brainly Speech.png" alt="Brainly Speech Logo" class="main-logo">
             </header>
 
