@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrainlyHub - Search Engine & Database</title>
 
-    <script>
-        (function() {
-            const sessionUser = sessionStorage.getItem("brainly_hub_user");
-            if (!sessionUser) {
-                window.location.replace("hub.html");
-            }
-        })();
-    </script>
-
     <link rel="icon" type="image/png" href="assets/Brainly Hub.png">
     <link rel="stylesheet" href="css/style.css">
 
@@ -469,7 +460,7 @@
     <div id="fav-modal" class="fav-modal-overlay">
         <div class="fav-modal-card">
             <div class="fav-modal-header">
-                <h3 class="fav-modal-title">Favorite Packages</h3> <!-- Usunięto serduszko z tytułu modala -->
+                <h3 class="fav-modal-title">Favorite Packages</h3>
                 <button class="btn-close-modal" onclick="closeFavModal()">&times;</button>
             </div>
             <div id="fav-modal-list" class="fav-modal-body">
