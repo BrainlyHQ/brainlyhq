@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrainlyHub - Package Details</title>
 
-    <script>
-        (function() {
-            const sessionUser = sessionStorage.getItem("brainly_hub_user");
-            if (!sessionUser) {
-                window.location.replace("hub.html");
-            }
-        })();
-    </script>
-
     <link rel="icon" type="image/png" href="assets/Brainly Hub.png">
     <link rel="stylesheet" href="css/style.css">
 
@@ -383,7 +374,7 @@
                 showToast("Removed from favorites");
             } else {
                 favs.push({ topic, market, addedAt: Date.now() });
-                showToast("Added to favorites"); // Usunięto serduszko z powiadomienia
+                showToast("Added to favorites");
             }
             localStorage.setItem("brainly_favorites", JSON.stringify(favs));
             updateFavButtonUI(topic, market);
