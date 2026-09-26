@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +10,11 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#99EE60">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="apple-touch-icon" href="assets/icon-192.png">
 
     <style>
-        /* --- STYLIZACJA STRONY TYTUŁOWEJ (INDEX) --- */
-
+        /* --- STYLIZACJA STRONY TYTUŁOWEJ (JASNY MOTYW) --- */
         .hero-section {
             position: relative;
             min-height: calc(100vh - 80px);
@@ -24,13 +23,12 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             box-sizing: border-box;
             overflow: hidden;
             background-color: var(--bg-primary);
         }
 
-        /* Animowane Tło - Ruchoma Siatka */
         .cyber-grid-bg {
             position: absolute;
             top: 0;
@@ -38,14 +36,14 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(var(--border-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+                linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
             background-position: center top;
-            opacity: 0.15;
+            opacity: 0.8;
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
             -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-            animation: grid-scroll 25s linear infinite;
+            animation: grid-scroll 30s linear infinite;
             z-index: 1;
         }
 
@@ -54,68 +52,33 @@
             100% { background-position: center 1000px; }
         }
 
-        /* --- POPRAWKI DLA LIGHT THEME --- */
-        [data-theme="light"] .cyber-grid-bg {
-            opacity: 0.35;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
-        }
-
-        [data-theme="light"] .hero-lead,
-        [data-theme="light"] .eco-desc,
-        [data-theme="light"] .stat-label {
-            color: #1a202c !important; 
-        }
-
-        [data-theme="light"] .eco-card {
-            background-color: #f8fafc; 
-            border-color: #b8c2cc;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Kontrast paska statystyk w jasnym motywie */
-        [data-theme="light"] .stats-banner {
-            background-color: #cbd5e1;
-            border-top: 2px solid #94a3b8;
-            border-bottom: 2px solid #94a3b8;
-        }
-        [data-theme="light"] .stat-number {
-            color: #0f172a !important;
-        }
-        [data-theme="light"] .stat-label {
-            color: #334155 !important;
-        }
-
-        /* Pulsujące Neonowe Kule w Tle */
         .glow-orb {
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(153, 238, 96, 0.08) 0%, rgba(153, 238, 96, 0) 70%);
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(153, 238, 96, 0.25) 0%, rgba(153, 238, 96, 0) 70%);
             border-radius: 50%;
             z-index: 2;
             pointer-events: none;
             animation: pulse-glow 8s infinite alternate ease-in-out;
         }
 
-        .orb-left { top: 15%; left: 10%; animation-delay: 0s; }
-        .orb-right { bottom: 20%; right: 10%; animation-delay: 4s; }
+        .orb-left { top: 10%; left: 5%; animation-delay: 0s; }
+        .orb-right { bottom: 15%; right: 5%; animation-delay: 4s; }
 
         @keyframes pulse-glow {
-            0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
-            100% { transform: scale(1.3) translate(20px, -20px); opacity: 1; }
+            0% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+            100% { transform: scale(1.2) translate(20px, -20px); opacity: 0.9; }
         }
 
-        /* Zawartość Hero */
         .hero-content {
             position: relative;
             z-index: 3;
-            max-width: 850px;
+            max-width: 880px;
         }
 
         .hero-title {
-            font-size: 3.4rem;
+            font-size: 3.6rem;
             font-weight: 900;
             line-height: 1.15;
             letter-spacing: -1.5px;
@@ -125,9 +88,7 @@
 
         .hero-title span {
             color: var(--color-brainly-green);
-            text-shadow: 0 0 20px rgba(153, 238, 96, 0.15);
             display: inline-block;
-            opacity: 1;
             transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
         }
 
@@ -140,28 +101,29 @@
             font-size: 1.15rem;
             color: var(--text-secondary);
             line-height: 1.6;
-            max-width: 720px;
+            max-width: 740px;
             margin: 0 auto 36px auto;
+            font-weight: 500;
         }
 
         .hero-actions {
             display: flex;
             justify-content: center;
             gap: 16px;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         .btn-primary {
-            background-color: var(--color-brainly-green);
+            background-color: var(--color-brainly-green-bg);
             color: #0b0c0f !important;
-            border: none;
+            border: 1px solid var(--color-brainly-green);
             border-radius: 14px;
             padding: 16px 32px;
             font-weight: 800;
             font-size: 0.95rem;
             text-decoration: none;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px rgba(153, 238, 96, 0.3); 
+            box-shadow: 0 4px 16px var(--color-brainly-green-glow);
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -169,34 +131,35 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 28px rgba(153, 238, 96, 0.65); 
+            box-shadow: 0 6px 24px var(--color-brainly-green-glow);
             background-color: #aeff70;
         }
 
         .btn-secondary {
-            background-color: var(--bg-secondary);
+            background-color: #ffffff;
             border: 1px solid var(--border-color);
             color: var(--text-primary);
             border-radius: 14px;
             padding: 16px 32px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.95rem;
             text-decoration: none;
             transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: var(--shadow-subtle);
         }
 
         .btn-secondary:hover {
-            border-color: rgba(153, 238, 96, 0.4);
-            background-color: rgba(153, 238, 96, 0.02);
+            border-color: var(--color-brainly-green);
+            background-color: #f8fafc;
             transform: translateY(-2px);
         }
 
         .scroll-arrow-container {
             position: absolute;
-            bottom: 30px;
+            bottom: 24px;
             z-index: 3;
             cursor: pointer;
             display: flex;
@@ -205,7 +168,7 @@
             gap: 8px;
             color: var(--text-secondary);
             font-size: 0.75rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: color 0.2s ease;
@@ -231,9 +194,10 @@
         .stats-banner {
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
+            background-color: #ffffff;
             padding: 40px 0;
             width: 100%;
+            box-shadow: var(--shadow-subtle);
         }
 
         .stats-grid {
@@ -252,7 +216,7 @@
         }
 
         .stat-number {
-            font-size: 2.4rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--color-brainly-green);
             letter-spacing: -1px;
@@ -261,7 +225,7 @@
         .stat-label {
             font-size: 0.82rem;
             color: var(--text-secondary);
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -281,28 +245,29 @@
         }
 
         .eco-card {
-            background-color: var(--bg-secondary);
+            background-color: #ffffff;
             border: 1px solid var(--border-color) !important;
             border-radius: 16px;
-            padding: 24px;
+            padding: 26px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 250px;
+            min-height: 260px;
+            box-shadow: var(--shadow-subtle);
             transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .eco-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
             border-color: var(--color-brainly-green) !important;
-            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.05);
+            box-shadow: 0 12px 32px rgba(61, 168, 10, 0.1);
         }
 
         .eco-icon-box {
             width: 48px;
             height: 48px;
             border-radius: 12px;
-            background-color: var(--bg-primary);
+            background-color: #f8fafc;
             border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
@@ -329,7 +294,7 @@
         .eco-link-btn {
             margin-top: 20px;
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--color-brainly-green);
             text-decoration: none;
             display: inline-flex;
@@ -387,9 +352,7 @@
         }
 
         @keyframes stroke-flow {
-            to {
-                stroke-dashoffset: -24;
-            }
+            to { stroke-dashoffset: -24; }
         }
 
         .wave-text-block {
@@ -405,7 +368,7 @@
 
         .wave-tag {
             font-family: monospace;
-            font-size: 0.68rem;
+            font-size: 0.72rem;
             font-weight: 800;
             color: var(--color-brainly-green);
             text-transform: uppercase;
@@ -423,14 +386,14 @@
         }
 
         .wave-text {
-            font-size: 0.84rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             line-height: 1.5;
             margin: 0;
         }
 
         @media (max-width: 900px) {
-            .hero-title { font-size: 2.3rem; }
+            .hero-title { font-size: 2.4rem; }
             .stats-grid, .eco-grid { grid-template-columns: 1fr; }
             .wave-grid-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 30px; }
             .wave-svg-row, .wave-spacer { display: none; }
@@ -509,10 +472,10 @@
             </div>
         </section>
 
-        <section class="ecosystem-section">
+        <section class="ecosystem-section" id="ecosystem">
             <div style="text-align: center; margin-bottom: 50px;">
-                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">We build a dynamic, educational ecosystem operating within the structures and community initiatives of Brainly.</p>
+                <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; color: var(--text-primary);">Our Core Ecosystem</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-weight: 500;">We build a dynamic, educational ecosystem operating within the structures and community initiatives of Brainly.</p>
             </div>
 
             <div class="eco-grid">
@@ -581,8 +544,8 @@
 
         <section class="milestones-wave-section">
             <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Proud moments and technical privileges that set our hub apart.</p>
+                <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; color: var(--text-primary);">Project Milestones</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-weight: 500;">Proud moments and technical privileges that set our hub apart.</p>
             </div>
 
             <div class="wave-grid-layout">
