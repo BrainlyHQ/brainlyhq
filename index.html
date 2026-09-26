@@ -123,7 +123,6 @@
             color: var(--text-primary);
         }
 
-        /* Styl i animacja wygaszania dla rotującego hasła */
         .hero-title span {
             color: var(--color-brainly-green);
             text-shadow: 0 0 20px rgba(153, 238, 96, 0.15);
@@ -229,7 +228,6 @@
             60% { transform: translateY(-4px); }
         }
 
-        /* --- Sekcja Statystyk --- */
         .stats-banner {
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
@@ -268,7 +266,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* --- Sekcja Ekosystemu --- */
         .ecosystem-section {
             padding: 80px 20px 40px 20px;
             max-width: 1100px;
@@ -295,7 +292,6 @@
             transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        /* DOPASOWANA ZMIANA: Identyczne obramowanie i cień jak w tools-card */
         .eco-card:hover {
             transform: translateY(-2px);
             border-color: var(--color-brainly-green) !important;
@@ -346,7 +342,6 @@
             gap: 10px;
         }
 
-        /* --- OŚ FALISTA OD LEWEJ DO PRAWEJ (FULL EDGE-TO-EDGE) --- */
         .milestones-wave-section {
             padding: 80px 0 120px 0;
             width: 100%;
@@ -365,7 +360,6 @@
             box-sizing: border-box;
         }
 
-        /* Kontener linii wektorowej idący na 100% szerokości okna przeglądarki */
         .wave-svg-row {
             grid-column: span 3;
             width: 100vw;
@@ -385,7 +379,6 @@
             display: block;
         }
 
-        /* Płynący prąd wektorowy */
         .animated-pulse-path {
             stroke: var(--color-brainly-green);
             stroke-width: 3;
@@ -436,7 +429,6 @@
             margin: 0;
         }
 
-        /* --- Responsywność --- */
         @media (max-width: 900px) {
             .hero-title { font-size: 2.3rem; }
             .stats-grid, .eco-grid { grid-template-columns: 1fr; }
@@ -447,16 +439,16 @@
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
 
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
-      safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
-    });
-  });
-</script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
+          safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
+        });
+      });
+    </script>
 </head>
 <body>
 
@@ -636,7 +628,6 @@
             }
         }
 
-        // Skrypt rotujący hasła z efektem wygaszania
         const taglines = [
             "A place to belong.",
             "Built for innovators.",
@@ -648,20 +639,15 @@
         const taglineElement = document.getElementById("rotating-tagline");
 
         function rotateTagline() {
-            // 1. Wygaszanie tekstu
             taglineElement.classList.add("fade-out");
 
             setTimeout(() => {
-                // 2. Zmiana treści po zakończeniu animacji wygaszania
                 currentIndex = (currentIndex + 1) % taglines.length;
                 taglineElement.textContent = taglines[currentIndex];
-
-                // 3. Wprowadzanie nowego tekstu (pojawianie się)
                 taglineElement.classList.remove("fade-out");
-            }, 400); // Czas musi odpowiadać wartości transition w CSS (.4s)
+            }, 400);
         }
 
-        // Uruchomienie cyklu co 4 sekundy
         setInterval(rotateTagline, 4000);
     </script>
 </body>
