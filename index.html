@@ -18,39 +18,97 @@
            GOOGLE-GRADE ULTRA-CLEAN MINIMALIST HERO & HOMEPAGE STYLES
            ========================================================================== */
 
+        /* --- GOOGLE-STYLE PRODUCT STRIP (TUZ POD HEADEREM) --- */
+        .google-products-bar {
+            width: 100%;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 18px 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Subtelne rozmycie krawędzi paska (Efekt fade po bokach) */
+        .google-products-bar::before,
+        .google-products-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 120px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .google-products-bar::before {
+            left: 0;
+            background: linear-gradient(to right, #ffffff 20%, transparent);
+        }
+
+        .google-products-bar::after {
+            right: 0;
+            background: linear-gradient(to left, #ffffff 20%, transparent);
+        }
+
+        /* Kontener toru animacji */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee-scroll 28s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            gap: 56px;
+            padding-right: 56px;
+        }
+
+        .marquee-content img {
+            height: 46px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.04));
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+            cursor: pointer;
+        }
+
+        .marquee-content img:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.12));
+        }
+
+        /* Klatki kluczowe animacji ciągłego paska */
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
         /* --- HERO SECTION --- */
         .hero-section {
             position: relative;
-            min-height: calc(100vh - 70px);
+            min-height: calc(100vh - 130px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 140px 20px 120px 20px;
+            padding: 100px 20px 100px 20px;
             box-sizing: border-box;
             background-color: #ffffff;
             overflow: hidden;
         }
-
-        /* Statyczne ikony bez ramek (Powiększone, unoszące się bezpośrednio na tle) */
-        .floating-hero-icon {
-            position: absolute;
-            z-index: 2;
-            width: 85px;
-            height: 85px;
-            object-fit: contain;
-            user-select: none;
-            pointer-events: none;
-            filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.08));
-            transition: transform 0.3s ease;
-        }
-
-        /* Pozycjonowanie powiększonych ikon bez ramek */
-        .icon-pos-1 { top: 18%; left: 8%; transform: rotate(-8deg); }
-        .icon-pos-2 { top: 20%; right: 9%; transform: rotate(10deg); }
-        .icon-pos-3 { bottom: 18%; left: 10%; transform: rotate(6deg); }
-        .icon-pos-4 { bottom: 20%; right: 8%; transform: rotate(-12deg); }
 
         /* Treść centralna */
         .hero-content {
@@ -289,11 +347,12 @@
 
         /* RESPONSYWNOŚĆ */
         @media (max-width: 1024px) {
-            .floating-hero-icon { display: none; }
             .hero-title { font-size: 3.8rem; letter-spacing: -2px; }
             .articles-grid, .stats-grid { grid-template-columns: 1fr; }
             .expand-title { font-size: 2.4rem; }
             .expanding-card { width: 90vw; height: 70vh; }
+            .marquee-content { gap: 36px; padding-right: 36px; }
+            .marquee-content img { height: 36px; }
         }
 
         @media (max-width: 640px) {
@@ -320,14 +379,34 @@
     <header id="header-placeholder"></header>
 
     <main>
+        <!-- PASEK IKON PRODUKTÓW W STYLU GOOGLE (POD NAWIGACJĄ) -->
+        <section class="google-products-bar">
+            <div class="marquee-track">
+                <!-- Zestaw 1 -->
+                <div class="marquee-content">
+                    <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                    <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                    <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                    <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                    <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                    <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                    <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+                </div>
+                <!-- Zestaw 2 (Duplikacja do nieskończonej pętli) -->
+                <div class="marquee-content" aria-hidden="true">
+                    <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                    <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                    <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                    <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                    <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                    <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                    <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+                </div>
+            </div>
+        </section>
+
         <!-- HERO SECTION -->
         <section class="hero-section">
-            <!-- Statyczne ikony bez ramek (Powiększone do 85px) -->
-            <img src="assets/brainlysynapse.png" alt="Brainly Synapse" class="floating-hero-icon icon-pos-1">
-            <img src="assets/brainlyfriends.png" alt="Brainly Friends" class="floating-hero-icon icon-pos-2">
-            <img src="assets/brainlyhub.png" alt="Brainly Hub" class="floating-hero-icon icon-pos-3">
-            <img src="assets/brainlyspeech.png" alt="Brainly Speech" class="floating-hero-icon icon-pos-4">
-
             <!-- Treść centralna -->
             <div class="hero-content">
                 <h1 class="hero-title">
@@ -422,7 +501,7 @@
 
     <footer id="footer-placeholder"></footer>
 
-    <!-- SKRYPT DO ANIMAJI SCROLL EXPAND -->
+    <!-- SKRYPT DO ANIMACJI SCROLL EXPAND -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const wrapper = document.getElementById("scroll-expand-section");
