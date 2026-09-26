@@ -9,7 +9,7 @@
 :root {
     --font-primary: 'Montserrat', sans-serif;
     
-    /* Brand Colors (Jasny akcent zieleni Brainly) */
+    /* Brand Colors */
     --color-brainly-green: #3da80a;
     --color-brainly-green-hover: #2e8207;
     --color-brainly-green-bg: #99ee60;
@@ -128,7 +128,7 @@ header {
 }
 
 /* ==========================================
-   NAWIGACJA KATEGORII (Czysta / Czyste linki)
+   NAWIGACJA KATEGORII (Czyste linki)
    ========================================== */
 nav.categories-nav {
     display: flex;
@@ -137,7 +137,6 @@ nav.categories-nav {
     margin-left: 20px;
 }
 
-/* Usunięto otoczkę/bloczek w tle */
 nav.categories-nav ul.main-nav-list {
     display: flex;
     align-items: center;
@@ -180,23 +179,22 @@ nav.categories-nav .nav-link .caret-icon {
 
 nav.categories-nav .nav-link:hover {
     color: var(--text-primary);
-    background-color: rgba(15, 23, 42, 0.04);
+    background-color: rgba(15, 23, 42, 0.05);
 }
 
 nav.categories-nav .nav-link:hover .caret-icon {
-    color: var(--color-brainly-green);
+    color: var(--text-primary);
 }
 
-nav.categories-nav .nav-item:hover .nav-link .caret-icon,
-nav.categories-nav .nav-item.active .nav-link .caret-icon {
+nav.categories-nav .nav-item:hover .nav-link .caret-icon {
     transform: rotate(180deg);
-    color: var(--color-brainly-green);
 }
 
+/* CZYSTY STYL AKTYWNEJ STRONY (Bez zielonego tła i bez zielonego glow) */
 nav.categories-nav .nav-link.active {
     color: #000000 !important;
-    background-color: var(--color-brainly-green-bg) !important;
-    box-shadow: 0 2px 10px var(--color-brainly-green-glow);
+    background-color: rgba(15, 23, 42, 0.06) !important;
+    box-shadow: none !important;
     font-weight: 800;
 }
 
@@ -265,8 +263,8 @@ nav.categories-nav .nav-link.active .caret-icon {
 }
 
 .nav-submenu li a:hover {
-    color: var(--color-brainly-green) !important;
-    background-color: rgba(153, 238, 96, 0.12) !important;
+    color: #000000 !important;
+    background-color: rgba(15, 23, 42, 0.05) !important;
     padding-left: 16px !important;
 }
 
@@ -420,7 +418,7 @@ footer {
         margin: 4px 0 8px 0;
         padding: 4px 0 4px 12px !important;
         border: none !important;
-        border-left: 3px solid var(--color-brainly-green-bg) !important;
+        border-left: 3px solid #0f172a !important;
         border-radius: 0 !important;
     }
 }
