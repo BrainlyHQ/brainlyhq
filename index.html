@@ -15,10 +15,10 @@
 
     <style>
         /* ==========================================================================
-           ULTRA-CLEAN MINIMALIST HERO & HOMEPAGE STYLES
+           GOOGLE-GRADE ULTRA-CLEAN MINIMALIST HERO & HOMEPAGE STYLES
            ========================================================================== */
 
-        /* Sekcja Główna Hero */
+        /* --- HERO SECTION --- */
         .hero-section {
             position: relative;
             min-height: calc(100vh - 70px);
@@ -27,76 +27,233 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 120px 20px 100px 20px;
+            padding: 140px 20px 120px 20px;
             box-sizing: border-box;
             background-color: #ffffff;
             overflow: hidden;
         }
 
-        /* Statyczne same ikony produktów rozrzucone w tle */
-        .floating-product-badge {
+        /* Statyczne ikony bez ramek (Powiększone, unoszące się bezpośrednio na tle) */
+        .floating-hero-icon {
             position: absolute;
             z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 64px;
-            height: 64px;
-            background: #ffffff;
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            border-radius: 20px;
-            box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
             user-select: none;
             pointer-events: none;
+            filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.08));
+            transition: transform 0.3s ease;
         }
 
-        .floating-product-badge img {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-        }
-
-        /* Pozycje statycznych ikon w tle */
-        .badge-pos-1 { top: 20%; left: 10%; transform: rotate(-6deg); }
-        .badge-pos-2 { top: 24%; right: 11%; transform: rotate(8deg); }
-        .badge-pos-3 { bottom: 22%; left: 12%; transform: rotate(4deg); }
-        .badge-pos-4 { bottom: 26%; right: 10%; transform: rotate(-8deg); }
+        /* Pozycjonowanie powiększonych ikon bez ramek */
+        .icon-pos-1 { top: 18%; left: 8%; transform: rotate(-8deg); }
+        .icon-pos-2 { top: 20%; right: 9%; transform: rotate(10deg); }
+        .icon-pos-3 { bottom: 18%; left: 10%; transform: rotate(6deg); }
+        .icon-pos-4 { bottom: 20%; right: 8%; transform: rotate(-12deg); }
 
         /* Treść centralna */
         .hero-content {
             position: relative;
             z-index: 3;
-            max-width: 920px;
+            max-width: 960px;
             margin: 0 auto;
         }
 
-        /* Nagłówek główny - czarny, wielki, ultra-gruby */
+        /* Nagłówek główny - czarny, wielki, tłusty */
         .hero-title {
-            font-size: 5.2rem;
+            font-size: 5.5rem;
             font-weight: 900;
             line-height: 1.02;
-            letter-spacing: -3px;
+            letter-spacing: -3.5px;
             margin-bottom: 28px;
             color: #000000;
         }
 
-        /* Opis jednoznaczny, czysty i elegancki */
+        /* Podtytuł */
         .hero-lead {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             color: #475569;
             line-height: 1.6;
-            max-width: 700px;
+            max-width: 720px;
             margin: 0 auto;
             font-weight: 500;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.3px;
         }
 
-        /* Sekcja Statystyk */
+        /* --- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION --- */
+        .google-articles-section {
+            padding: 80px 20px 100px 20px;
+            max-width: 1240px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .article-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+            transform: translateY(-3px);
+            border-color: #cbd5e1;
+        }
+
+        .article-image-box {
+            width: 100%;
+            height: 220px;
+            background-color: #f1f5f9;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .article-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .article-card:hover .article-image-box img {
+            transform: scale(1.04);
+        }
+
+        .article-body {
+            padding: 24px 24px 20px 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .article-category {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.45;
+            margin-bottom: 24px;
+            letter-spacing: -0.3px;
+        }
+
+        .article-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .external-link-icon {
+            width: 18px;
+            height: 18px;
+            color: #3b82f6;
+            stroke-width: 2.2;
+        }
+
+        /* --- SCROLL EXPANSION ANIMATION SECTION --- */
+        .scroll-expand-wrapper {
+            position: relative;
+            height: 250vh; /* Przestrzeń do scrollowania */
+            background-color: #0f172a;
+        }
+
+        .sticky-expand-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .expanding-card {
+            width: 75vw;
+            height: 65vh;
+            border-radius: 36px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            box-sizing: border-box;
+            will-change: transform, width, height, border-radius;
+            transition: transform 0.1s ease-out, border-radius 0.1s ease-out, width 0.1s ease-out, height 0.1s ease-out;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expand-card-bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(153, 238, 96, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .expand-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--color-brainly-green-bg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .expand-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+
+        .expand-desc {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* --- STATS SECTION --- */
         .stats-banner {
             border-top: 1px solid #e2e8f0;
             border-bottom: 1px solid #e2e8f0;
-            background-color: #f8fafc;
-            padding: 48px 20px;
+            background-color: #ffffff;
+            padding: 56px 20px;
             width: 100%;
         }
 
@@ -116,7 +273,7 @@
         }
 
         .stat-number {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 900;
             color: #000000;
             letter-spacing: -1.5px;
@@ -130,154 +287,13 @@
             letter-spacing: 0.8px;
         }
 
-        /* Sekcja Ekosystemu */
-        .ecosystem-section {
-            padding: 100px 20px;
-            max-width: 1180px;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-
-        .section-header-clean {
-            text-align: center;
-            margin-bottom: 56px;
-        }
-
-        .section-header-clean h2 {
-            font-size: 2.6rem;
-            font-weight: 900;
-            letter-spacing: -1.5px;
-            color: #000000;
-            margin-bottom: 12px;
-        }
-
-        .section-header-clean p {
-            color: #64748b;
-            max-width: 620px;
-            margin: 0 auto;
-            font-size: 1.05rem;
-            font-weight: 500;
-        }
-
-        .eco-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .eco-card {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 280px;
-            transition: all 0.25s ease;
-        }
-
-        .eco-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.06);
-            transform: translateY(-2px);
-        }
-
-        .eco-icon-box {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background-color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0f172a;
-            margin-bottom: 24px;
-        }
-
-        .eco-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #000000;
-            margin: 0 0 12px 0;
-            letter-spacing: -0.3px;
-        }
-
-        .eco-desc {
-            font-size: 0.92rem;
-            color: #475569;
-            line-height: 1.6;
-            margin: 0;
-            flex-grow: 1;
-        }
-
-        .eco-link-btn {
-            margin-top: 24px;
-            font-size: 0.88rem;
-            font-weight: 800;
-            color: var(--color-brainly-green-hover);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .eco-link-btn:hover {
-            text-decoration: underline;
-        }
-
-        /* Sekcja Kamieni Milowych */
-        .milestones-section {
-            padding: 100px 20px 120px 20px;
-            background-color: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .milestones-grid {
-            max-width: 1180px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .milestone-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 28px;
-        }
-
-        .milestone-tag {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: var(--color-brainly-green-hover);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .milestone-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #000000;
-            margin: 0 0 10px 0;
-            line-height: 1.4;
-        }
-
-        .milestone-text {
-            font-size: 0.88rem;
-            color: #64748b;
-            line-height: 1.55;
-            margin: 0;
-        }
-
-        /* Responsywność */
+        /* RESPONSYWNOŚĆ */
         @media (max-width: 1024px) {
-            .floating-product-badge { display: none; }
+            .floating-hero-icon { display: none; }
             .hero-title { font-size: 3.8rem; letter-spacing: -2px; }
-            .stats-grid, .eco-grid, .milestones-grid { grid-template-columns: 1fr; }
+            .articles-grid, .stats-grid { grid-template-columns: 1fr; }
+            .expand-title { font-size: 2.4rem; }
+            .expanding-card { width: 90vw; height: 70vh; }
         }
 
         @media (max-width: 640px) {
@@ -306,23 +322,11 @@
     <main>
         <!-- HERO SECTION -->
         <section class="hero-section">
-
-            <!-- Statyczne same ikony produktów w tle -->
-            <div class="floating-product-badge badge-pos-1">
-                <img src="assets/brainlysynapse.png" alt="Brainly Synapse">
-            </div>
-
-            <div class="floating-product-badge badge-pos-2">
-                <img src="assets/brainlyfriends.png" alt="Brainly Friends">
-            </div>
-
-            <div class="floating-product-badge badge-pos-3">
-                <img src="assets/brainlyhub.png" alt="Brainly Hub">
-            </div>
-
-            <div class="floating-product-badge badge-pos-4">
-                <img src="assets/brainlyspeech.png" alt="Brainly Speech">
-            </div>
+            <!-- Statyczne ikony bez ramek (Powiększone do 85px) -->
+            <img src="assets/brainlysynapse.png" alt="Brainly Synapse" class="floating-hero-icon icon-pos-1">
+            <img src="assets/brainlyfriends.png" alt="Brainly Friends" class="floating-hero-icon icon-pos-2">
+            <img src="assets/brainlyhub.png" alt="Brainly Hub" class="floating-hero-icon icon-pos-3">
+            <img src="assets/brainlyspeech.png" alt="Brainly Speech" class="floating-hero-icon icon-pos-4">
 
             <!-- Treść centralna -->
             <div class="hero-content">
@@ -333,6 +337,67 @@
                 <p class="hero-lead">
                     We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand modern learning spaces.
                 </p>
+            </div>
+        </section>
+
+        <!-- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION -->
+        <section class="google-articles-section">
+            <div class="articles-grid">
+                
+                <!-- Karta 1: Services -->
+                <a href="products.html" class="article-card">
+                    <div class="article-image-box">
+                        <img src="assets/brainlyhub.png" alt="Ecosystem Services" style="object-fit: contain; padding: 30px;">
+                    </div>
+                    <div class="article-body">
+                        <span class="article-category">SERVICES</span>
+                        <h3 class="article-title">Explore our core tools and features across Brainly Core, Speech, and custom integrations</h3>
+                        <div class="article-footer">
+                            <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Karta 2: Technology -->
+                <a href="developers.html" class="article-card">
+                    <div class="article-image-box" style="background-color: #0f172a;">
+                        <img src="assets/brainlysynapse.png" alt="Advanced Technology" style="object-fit: contain; padding: 30px;">
+                    </div>
+                    <div class="article-body">
+                        <span class="article-category">TECHNOLOGY</span>
+                        <h3 class="article-title">Learn about our advanced moderation AI models and real-time synchronization arrays</h3>
+                        <div class="article-footer">
+                            <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Karta 3: Research -->
+                <a href="docs.html" class="article-card">
+                    <div class="article-image-box">
+                        <img src="assets/astronaut_2.png" alt="Research & Solutions">
+                    </div>
+                    <div class="article-body">
+                        <span class="article-category">RESEARCH</span>
+                        <h3 class="article-title">See how we solve complex multi-guild engagement and verification challenges at scale</h3>
+                        <div class="article-footer">
+                            <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- SCROLL EXPANSION ANIMATION SECTION -->
+        <section class="scroll-expand-wrapper" id="scroll-expand-section">
+            <div class="sticky-expand-container">
+                <div class="expanding-card" id="expand-card">
+                    <div class="expand-card-bg-glow"></div>
+                    <span class="expand-tag">Next-Gen Ecosystem</span>
+                    <h2 class="expand-title">Engineered to power global communities.</h2>
+                    <p class="expand-desc">Unifying moderation tools, custom integrations, and gamified learning platforms into one continuous infrastructure.</p>
+                </div>
             </div>
         </section>
 
@@ -353,99 +418,43 @@
                 </div>
             </div>
         </section>
-
-        <!-- ECOSYSTEM SECTION -->
-        <section class="ecosystem-section" id="ecosystem">
-            <div class="section-header-clean">
-                <h2>Our Core Ecosystem</h2>
-                <p>We build a dynamic, educational ecosystem operating within the structures and community initiatives of Brainly.</p>
-            </div>
-
-            <div class="eco-grid">
-                <div class="eco-card">
-                    <div>
-                        <div class="eco-icon-box">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="9" y1="3" x2="9" y2="21"></line>
-                            </svg>
-                        </div>
-                        <h3 class="eco-title">Brainly Core Bot</h3>
-                        <p class="eco-desc">Our foundation and main infrastructure. Beyond automated verification gates and cross-server security logs, it anchors community events and engagement tracking.</p>
-                    </div>
-                    <a href="https://discord.gg/brainlyhq" target="_blank" class="eco-link-btn">
-                        <span>Connect via Discord</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </a>
-                </div>
-
-                <div class="eco-card">
-                    <div>
-                        <div class="eco-icon-box">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                        </div>
-                        <h3 class="eco-title">Partnership Program</h3>
-                        <p class="eco-desc">The central network directory connecting verified server owners and managers under a shared educational framework to deploy cross-server initiatives.</p>
-                    </div>
-                    <a href="https://partnershiphq.vercel.app/" target="_blank" class="eco-link-btn">
-                        <span>Launch External Portal</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </a>
-                </div>
-
-                <div class="eco-card">
-                    <div>
-                        <div class="eco-icon-box">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="eco-title">Webmaster Utilities</h3>
-                        <p class="eco-desc">Discover our range of production tools, from Discord Markdown formatting generators to the official Brainly color Hex palettes.</p>
-                    </div>
-                    <a href="tools.html" class="eco-link-btn">
-                        <span>Access Tools Dashboard</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- MILESTONES SECTION -->
-        <section class="milestones-section">
-            <div class="section-header-clean">
-                <h2>Project Milestones</h2>
-                <p>Key achievements and privileges that define our platform.</p>
-            </div>
-
-            <div class="milestones-grid">
-                <div class="milestone-card">
-                    <span class="milestone-tag">Integrations</span>
-                    <h3 class="milestone-title">Collaboration with Brainly Creatives</h3>
-                    <p class="milestone-text">Deployed custom web management utilities built straight into the official browser extension environment.</p>
-                </div>
-
-                <div class="milestone-card">
-                    <span class="milestone-tag">Infrastructure</span>
-                    <h3 class="milestone-title">Subdomain Authorization</h3>
-                    <p class="milestone-text">Granted advanced verification paths and direct subdomain access layout via <code>discord.brainly.com</code>.</p>
-                </div>
-
-                <div class="milestone-card">
-                    <span class="milestone-tag">Team Matrix</span>
-                    <h3 class="milestone-title">Global Contributor Network</h3>
-                    <p class="milestone-text">Operating alongside a management network of over 20 global creators, bot developers, and administrators.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
+    <!-- SKRYPT DO ANIMAJI SCROLL EXPAND -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const wrapper = document.getElementById("scroll-expand-section");
+            const card = document.getElementById("expand-card");
+
+            if (!wrapper || !card) return;
+
+            window.addEventListener("scroll", () => {
+                const rect = wrapper.getBoundingClientRect();
+                const totalScrollable = wrapper.offsetHeight - window.innerHeight;
+                
+                // Obliczanie postępu scrolla (0.0 do 1.0)
+                let progress = -rect.top / totalScrollable;
+                progress = Math.max(0, Math.min(1, progress));
+
+                // Wymiary początkowe i końcowe
+                const initialWidth = 75; // 75vw
+                const targetWidth = 100; // 100vw
+                const initialHeight = 65; // 65vh
+                const targetHeight = 100; // 100vh
+                const initialRadius = 36; // 36px
+                const targetRadius = 0; // 0px
+
+                const currentWidth = initialWidth + (targetWidth - initialWidth) * progress;
+                const currentHeight = initialHeight + (targetHeight - initialHeight) * progress;
+                const currentRadius = initialRadius + (targetRadius - initialRadius) * progress;
+
+                card.style.width = `${currentWidth}vw`;
+                card.style.height = `${currentHeight}vh`;
+                card.style.borderRadius = `${currentRadius}px`;
+            });
+        });
+    </script>
 </body>
 </html>
