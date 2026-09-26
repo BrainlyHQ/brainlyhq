@@ -62,12 +62,12 @@
             letter-spacing: -0.3px;
         }
 
-        /* --- GOOGLE-STYLE PRODUCT STRIP (UMIESZCZONE BEZPOŚREDNIO POD NAGŁÓWKIEM) --- */
+        /* --- GOOGLE-STYLE PRODUCT STRIP (PRZESUNIĘTE NIŻEJ) --- */
         .google-products-bar {
             width: 100%;
             max-width: 100vw;
             background-color: #ffffff;
-            margin-top: 60px;
+            margin-top: 110px; /* Zwiększono odstęp od nagłówka, aby przesunąć w dół */
             padding: 20px 0;
             overflow: hidden;
             display: flex;
@@ -102,7 +102,7 @@
         .marquee-track {
             display: flex;
             width: max-content;
-            animation: marquee-scroll 50s linear infinite;
+            animation: marquee-scroll 55s linear infinite;
             will-change: transform;
         }
 
@@ -239,7 +239,7 @@
         /* --- SCROLL EXPANSION ANIMATION SECTION --- */
         .scroll-expand-wrapper {
             position: relative;
-            height: 250vh; /* Przestrzeń do scrollowania */
+            height: 250vh;
             background-color: #0f172a;
         }
 
@@ -360,7 +360,7 @@
         @media (max-width: 640px) {
             .hero-title { font-size: 2.6rem; letter-spacing: -1.5px; }
             .hero-lead { font-size: 1.1rem; }
-            .google-products-bar { margin-top: 40px; }
+            .google-products-bar { margin-top: 60px; }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -395,10 +395,10 @@
                 </p>
             </div>
 
-            <!-- PASEK IKON PRODUKTÓW W STYLU GOOGLE (UMIESZCZONE BEZPOŚREDNIO POD NAGŁÓWKIEM) -->
+            <!-- PASEK IKON PRODUKTÓW W STYLU GOOGLE -->
             <div class="google-products-bar">
                 <div class="marquee-track">
-                    <!-- Grupa 1 (A1 + A2 + A3 dla pełnego wypełnienia ekranu bez luk) -->
+                    <!-- Grupa 1 -->
                     <div class="marquee-group">
                         <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
@@ -425,7 +425,7 @@
                         <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
                     </div>
 
-                    <!-- Grupa 2 (Duplikacja identyczna dla idealnie płynnej i bezszwowej pętli) -->
+                    <!-- Grupa 2 (Duplikacja identyczna dla płynnej pętli) -->
                     <div class="marquee-group" aria-hidden="true">
                         <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
@@ -549,17 +549,15 @@
                 const rect = wrapper.getBoundingClientRect();
                 const totalScrollable = wrapper.offsetHeight - window.innerHeight;
                 
-                // Obliczanie postępu scrolla (0.0 do 1.0)
                 let progress = -rect.top / totalScrollable;
                 progress = Math.max(0, Math.min(1, progress));
 
-                // Wymiary początkowe i końcowe
-                const initialWidth = 75; // 75vw
-                const targetWidth = 100; // 100vw
-                const initialHeight = 65; // 65vh
-                const targetHeight = 100; // 100vh
-                const initialRadius = 36; // 36px
-                const targetRadius = 0; // 0px
+                const initialWidth = 75;
+                const targetWidth = 100;
+                const initialHeight = 65;
+                const targetHeight = 100;
+                const initialRadius = 36;
+                const targetRadius = 0;
 
                 const currentWidth = initialWidth + (targetWidth - initialWidth) * progress;
                 const currentHeight = initialHeight + (targetHeight - initialHeight) * progress;
