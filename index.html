@@ -15,7 +15,7 @@
 
     <style>
         /* ==========================================================================
-           GOOGLE-GRADE CLEAN HERO & HOMEPAGE STYLES (NO NEONS, NO ANIMATIONS)
+           ULTRA-CLEAN MINIMALIST HERO & HOMEPAGE STYLES
            ========================================================================== */
 
         /* Sekcja Główna Hero */
@@ -27,162 +27,68 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 100px 20px 80px 20px;
+            padding: 120px 20px 100px 20px;
             box-sizing: border-box;
             background-color: #ffffff;
             overflow: hidden;
         }
 
-        /* Tło - subtelna siatka kropkowa jak w portalach Google Developer */
-        .dots-bg-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(#e2e8f0 1.5px, transparent 1.5px);
-            background-size: 28px 28px;
-            opacity: 0.6;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Statyczne ikony produktów rozrzucone w tle wokół treści (Styl Google) */
+        /* Statyczne same ikony produktów rozrzucone w tle */
         .floating-product-badge {
             position: absolute;
             z-index: 2;
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 18px;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
             background: #ffffff;
-            border: 1px solid rgba(15, 23, 42, 0.1);
-            border-radius: 999px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
             user-select: none;
             pointer-events: none;
         }
 
         .floating-product-badge img {
-            width: 24px;
-            height: 24px;
+            width: 36px;
+            height: 36px;
             object-fit: contain;
         }
 
-        .floating-product-badge span {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: #0f172a;
-            white-space: nowrap;
-        }
-
         /* Pozycje statycznych ikon w tle */
-        .badge-pos-1 { top: 18%; left: 8%; transform: rotate(-3deg); }
-        .badge-pos-2 { top: 22%; right: 9%; transform: rotate(4deg); }
-        .badge-pos-3 { bottom: 22%; left: 10%; transform: rotate(2deg); }
-        .badge-pos-4 { bottom: 25%; right: 8%; transform: rotate(-4deg); }
+        .badge-pos-1 { top: 20%; left: 10%; transform: rotate(-6deg); }
+        .badge-pos-2 { top: 24%; right: 11%; transform: rotate(8deg); }
+        .badge-pos-3 { bottom: 22%; left: 12%; transform: rotate(4deg); }
+        .badge-pos-4 { bottom: 26%; right: 10%; transform: rotate(-8deg); }
 
         /* Treść centralna */
         .hero-content {
             position: relative;
             z-index: 3;
-            max-width: 860px;
+            max-width: 920px;
             margin: 0 auto;
         }
 
-        .hero-pill-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: rgba(61, 168, 10, 0.08);
-            border: 1px solid rgba(61, 168, 10, 0.25);
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: var(--color-brainly-green-hover);
-            margin-bottom: 28px;
-        }
-
-        .hero-pill-tag .dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--color-brainly-green);
-            border-radius: 50%;
-        }
-
-        /* Nagłówek główny - Google Bold Centered */
+        /* Nagłówek główny - czarny, wielki, ultra-gruby */
         .hero-title {
-            font-size: 4.2rem;
+            font-size: 5.2rem;
             font-weight: 900;
-            line-height: 1.08;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
-            color: #0f172a;
+            line-height: 1.02;
+            letter-spacing: -3px;
+            margin-bottom: 28px;
+            color: #000000;
         }
 
-        .hero-title .highlight {
-            color: var(--color-brainly-green);
-        }
-
-        /* Opis jednoznaczny i czysty */
+        /* Opis jednoznaczny, czysty i elegancki */
         .hero-lead {
-            font-size: 1.22rem;
+            font-size: 1.3rem;
             color: #475569;
             line-height: 1.6;
-            max-width: 680px;
-            margin: 0 auto 40px auto;
+            max-width: 700px;
+            margin: 0 auto;
             font-weight: 500;
-        }
-
-        /* Przyciski Akcji */
-        .hero-actions {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .btn-google-primary {
-            background-color: #0f172a;
-            color: #ffffff !important;
-            border: 1px solid #0f172a;
-            border-radius: 999px;
-            padding: 14px 32px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-google-primary:hover {
-            background-color: var(--color-brainly-green);
-            border-color: var(--color-brainly-green);
-            color: #ffffff !important;
-            transform: translateY(-1px);
-        }
-
-        .btn-google-secondary {
-            background-color: #ffffff;
-            border: 1px solid #cbd5e1;
-            color: #0f172a;
-            border-radius: 999px;
-            padding: 14px 32px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-google-secondary:hover {
-            border-color: #0f172a;
-            background-color: #f8fafc;
+            letter-spacing: -0.2px;
         }
 
         /* Sekcja Statystyk */
@@ -212,7 +118,7 @@
         .stat-number {
             font-size: 2.8rem;
             font-weight: 900;
-            color: #0f172a;
+            color: #000000;
             letter-spacing: -1.5px;
         }
 
@@ -226,7 +132,7 @@
 
         /* Sekcja Ekosystemu */
         .ecosystem-section {
-            padding: 90px 20px;
+            padding: 100px 20px;
             max-width: 1180px;
             margin: 0 auto;
             box-sizing: border-box;
@@ -238,10 +144,10 @@
         }
 
         .section-header-clean h2 {
-            font-size: 2.4rem;
+            font-size: 2.6rem;
             font-weight: 900;
-            letter-spacing: -1px;
-            color: #0f172a;
+            letter-spacing: -1.5px;
+            color: #000000;
             margin-bottom: 12px;
         }
 
@@ -292,7 +198,7 @@
         .eco-title {
             font-size: 1.25rem;
             font-weight: 800;
-            color: #0f172a;
+            color: #000000;
             margin: 0 0 12px 0;
             letter-spacing: -0.3px;
         }
@@ -320,9 +226,9 @@
             text-decoration: underline;
         }
 
-        /* Sekcja Kamieni Milowych (Minimal Timeline Grid) */
+        /* Sekcja Kamieni Milowych */
         .milestones-section {
-            padding: 90px 20px 120px 20px;
+            padding: 100px 20px 120px 20px;
             background-color: #f8fafc;
             border-top: 1px solid #e2e8f0;
         }
@@ -355,7 +261,7 @@
         .milestone-title {
             font-size: 1.1rem;
             font-weight: 800;
-            color: #0f172a;
+            color: #000000;
             margin: 0 0 10px 0;
             line-height: 1.4;
         }
@@ -370,14 +276,13 @@
         /* Responsywność */
         @media (max-width: 1024px) {
             .floating-product-badge { display: none; }
-            .hero-title { font-size: 3.2rem; }
+            .hero-title { font-size: 3.8rem; letter-spacing: -2px; }
             .stats-grid, .eco-grid, .milestones-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 640px) {
-            .hero-title { font-size: 2.4rem; letter-spacing: -1px; }
-            .hero-actions { flex-direction: column; width: 100%; }
-            .btn-google-primary, .btn-google-secondary { width: 100%; justify-content: center; }
+            .hero-title { font-size: 2.6rem; letter-spacing: -1.5px; }
+            .hero-lead { font-size: 1.1rem; }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -399,58 +304,35 @@
     <header id="header-placeholder"></header>
 
     <main>
-        <!-- HERO SECTION (GOOGLE STYLE) -->
+        <!-- HERO SECTION -->
         <section class="hero-section">
-            <div class="dots-bg-pattern"></div>
 
-            <!-- Statyczne ikony produktów rozrzucone w tle -->
+            <!-- Statyczne same ikony produktów w tle -->
             <div class="floating-product-badge badge-pos-1">
-                <img src="assets/BRAINLYHQ LOGO.png" alt="BrainlyHQ Logo">
-                <span>Brainly Core Bot</span>
+                <img src="assets/brainlysynapse.png" alt="Brainly Synapse">
             </div>
 
             <div class="floating-product-badge badge-pos-2">
-                <img src="assets/hqid.png" alt="HQ ID">
-                <span>Brainly Speech</span>
+                <img src="assets/brainlyfriends.png" alt="Brainly Friends">
             </div>
 
             <div class="floating-product-badge badge-pos-3">
-                <img src="assets/astronaut_2.png" alt="Science Scavengers">
-                <span>Science Scavengers</span>
+                <img src="assets/brainlyhub.png" alt="Brainly Hub">
             </div>
 
             <div class="floating-product-badge badge-pos-4">
-                <img src="assets/discord_PNG3.png" alt="Discord Network">
-                <span>Brainly Creatives</span>
+                <img src="assets/brainlyspeech.png" alt="Brainly Speech">
             </div>
 
             <!-- Treść centralna -->
             <div class="hero-content">
-                <div class="hero-pill-tag">
-                    <span class="dot"></span>
-                    <span>BrainlyHQ Ecosystem 2026</span>
-                </div>
-
                 <h1 class="hero-title">
-                    The central hub for <span class="highlight">educational communities.</span>
+                    The central hub for educational communities.
                 </h1>
 
                 <p class="hero-lead">
                     We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand modern learning spaces.
                 </p>
-
-                <div class="hero-actions">
-                    <a href="products.html" class="btn-google-primary">
-                        <span>Explore Products</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                    <a href="https://discord.gg/brainlyhq" target="_blank" class="btn-google-secondary">
-                        <span>Join Discord Server</span>
-                    </a>
-                </div>
             </div>
         </section>
 
