@@ -17,17 +17,27 @@ document.addEventListener("DOMContentLoaded", () => {
 function injectSynapseHelpStyles() {
     const style = document.createElement("style");
     style.textContent = `
+        /* Lock przewijania tła przy otwartym panelu */
+        html.synapse-open,
+        body.synapse-open {
+            overflow: hidden !important;
+            height: 100% !important;
+        }
+
         /* Overlay / Backdrop */
         .synapse-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(15, 23, 42, 0.3);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            z-index: 9998;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            background-color: rgba(15, 23, 42, 0.4) !important;
+            backdrop-filter: blur(6px) !important;
+            -webkit-backdrop-filter: blur(6px) !important;
+            z-index: 999998 !important;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -40,26 +50,27 @@ function injectSynapseHelpStyles() {
 
         /* Boczny panel okna pomocy Meta AI Style */
         .synapse-drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 440px;
-            max-width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            background: #ffffff;
-            z-index: 9999;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.12);
-            display: flex;
-            flex-direction: column;
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            box-sizing: border-box;
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 440px !important;
+            max-width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            background: #ffffff !important;
+            z-index: 999999 !important;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            transform: translateX(100%) !important;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            box-sizing: border-box !important;
             font-family: inherit;
         }
 
         .synapse-drawer.active {
-            transform: translateX(0);
+            transform: translateX(0) !important;
         }
 
         /* Górny pasek nawigacji okna */
@@ -69,6 +80,7 @@ function injectSynapseHelpStyles() {
             justify-content: space-between;
             padding: 16px 20px;
             border-bottom: 1px solid #f1f5f9;
+            flex-shrink: 0;
         }
 
         .synapse-header-actions {
@@ -310,7 +322,7 @@ function injectSynapseHelpStyles() {
 
         @media (max-width: 480px) {
             .synapse-drawer {
-                width: 100vw;
+                width: 100vw !important;
             }
         }
     `;
@@ -318,7 +330,7 @@ function injectSynapseHelpStyles() {
 }
 
 /**
- * Generuje kod HTML panelu i dodaje go na koniec <body>
+ * Generuje kod HTML panelu i wstrzykuje go bezpośrednio do documentElement (ochrona przed transformacjami rodziców)
  */
 function buildSynapseHelpDOM() {
     const backdrop = document.createElement("div");
@@ -376,8 +388,8 @@ function buildSynapseHelpDOM() {
         </div>
     `;
 
-    document.body.appendChild(backdrop);
-    document.body.appendChild(drawer);
+    document.documentElement.appendChild(backdrop);
+    document.documentElement.appendChild(drawer);
 
     // Rejestracja zdarzeń zamknięcia i wpisywania
     backdrop.addEventListener("click", closeSynapseHelp);
@@ -445,7 +457,8 @@ function openSynapseHelp(topicKey) {
     if (backdrop && drawer) {
         backdrop.classList.add("active");
         drawer.classList.add("active");
-        document.body.style.overflow = "hidden"; // Zablokowanie scrolla tła
+        document.documentElement.classList.add("synapse-open");
+        document.body.classList.add("synapse-open");
 
         if (synapseHelpData && synapseHelpData[topicKey]) {
             renderTopicContent(synapseHelpData[topicKey]);
@@ -465,7 +478,8 @@ function closeSynapseHelp() {
     if (backdrop && drawer) {
         backdrop.classList.remove("active");
         drawer.classList.remove("active");
-        document.body.style.overflow = "";
+        document.documentElement.classList.remove("synapse-open");
+        document.body.classList.remove("synapse-open");
     }
 }
 
@@ -478,12 +492,10 @@ function renderTopicContent(topicData) {
     const responseText = document.getElementById("synapse-response-text");
     const suggestionsList = document.getElementById("synapse-suggestions-list");
 
-    // Wyświetlenie głównej odpowiedzi dla wybranego tematu
     responseTitle.textContent = topicData.question;
     responseText.textContent = topicData.answer;
     responseBox.style.display = "block";
 
-    // Wyświetlenie powiązanych pytań/sugestii
     suggestionsList.innerHTML = topicData.suggestions.map(sugg => `
         <button class="synapse-suggestion-item" type="button" data-suggestion="${sugg}">
             <svg class="synapse-suggestion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
