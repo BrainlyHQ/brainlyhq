@@ -1,0 +1,32 @@
+{
+  "services": {
+    "title": "Ecosystem Services & Core Features",
+    "question": "Czym są usługi Brainly Core, Speech oraz integracje?",
+    "answer": "Usługi BrainlyHQ obejmują zaawansowany ekosystem botów oraz narzędzi synchronizacji. Brainly Core odpowiada za automatyczną moderację i weryfikację, Brainly Speech tłumaczy komunikację na Slacku w czasie rzeczywistym, a dedykowane integracje pozwalają na łączenie wielu serwerów i platform edukacyjnych.",
+    "suggestions": [
+      "Jak skonfigurować Brainly Core na Discordzie?",
+      "Czym różni się Brainly Speech od zwykłego tłumacza?",
+      "Jak uzyskać dostęp do dedykowanych integracji?"
+    ]
+  },
+  "technology": {
+    "title": "Advanced AI & Real-Time Synapse",
+    "question": "Jak działają modele moderacji AI oraz tablice synchronizacji?",
+    "answer": "Nasze algorytmy AI analizują kontekst konwersacji w czasie rzeczywistym ze średnim opóźnieniem bota na poziomie 26 ms. Tablice synchronizacji (sync arrays) przesyłają dane o profilach i uprawnieniach użytkowników natychmiastowo pomiędzy różnymi gildiami i platformami.",
+    "suggestions": [
+      "Jaki jest średni czas reakcji bota?",
+      "Czy dane są szyfrowane w czasie rzeczywistym?",
+      "Jak działa automatyczna detekcja spamu?"
+    ]
+  },
+  "research": {
+    "title": "Multi-Guild Solutions & Scaling",
+    "question": "Jak rozwiązujemy wyzwania skalowania i weryfikacji społeczności?",
+    "answer": "Przetwarzamy ponad 400 000 wiadomości, eliminując barierę zarządzania wieloma serwerami jednocześnie. Dedykowany system weryfikacji i architektura wielogildiowa pozwalają bezpiecznie prowadzić społeczności liczące dziesiątki tysięcy uczniów i twórców.",
+    "suggestions": [
+      "Ile wiadomości przetwarza architektura BrainlyHQ?",
+      "Jak dołączyć do programu partnerskiego?",
+      "Jak działa weryfikacja tożsamości użytkowników?"
+    ]
+  }
+}
