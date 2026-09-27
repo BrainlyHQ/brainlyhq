@@ -17,11 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 function injectSynapseHelpStyles() {
     const style = document.createElement("style");
     style.textContent = `
-        /* Lock przewijania tła przy otwartym panelu */
-        html.synapse-open,
+        /* Lock przewijania tła bez resetowania pozycji strony */
         body.synapse-open {
             overflow: hidden !important;
-            height: 100% !important;
         }
 
         /* Overlay / Backdrop */
@@ -48,7 +46,7 @@ function injectSynapseHelpStyles() {
             pointer-events: auto;
         }
 
-        /* Boczny panel okna pomocy Meta AI Style */
+        /* Boczny panel okna pomocy ze stackiem czcionki systemowej (System UI) */
         .synapse-drawer {
             position: fixed !important;
             top: 0 !important;
@@ -66,7 +64,7 @@ function injectSynapseHelpStyles() {
             transform: translateX(100%) !important;
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
             box-sizing: border-box !important;
-            font-family: inherit;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         }
 
         .synapse-drawer.active {
@@ -162,10 +160,10 @@ function injectSynapseHelpStyles() {
         }
 
         .synapse-brand-title {
-            font-size: 1.45rem;
-            font-weight: 800;
+            font-size: 1.4rem;
+            font-weight: 700;
             color: #0f172a;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
             margin: 0;
             display: flex;
             align-items: center;
@@ -176,7 +174,7 @@ function injectSynapseHelpStyles() {
             width: 100%;
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 16px;
             box-sizing: border-box;
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
@@ -269,7 +267,7 @@ function injectSynapseHelpStyles() {
 
         .synapse-response-title {
             font-size: 0.9rem;
-            font-weight: 800;
+            font-weight: 700;
             color: #0f172a;
             margin-bottom: 8px;
         }
@@ -301,7 +299,7 @@ function injectSynapseHelpStyles() {
             cursor: pointer;
             font-family: inherit;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 500;
             color: #1e293b;
             transition: background-color 0.15s ease, color 0.15s ease;
             border-radius: 10px;
@@ -330,7 +328,7 @@ function injectSynapseHelpStyles() {
 }
 
 /**
- * Generuje kod HTML panelu i wstrzykuje go bezpośrednio do documentElement (ochrona przed transformacjami rodziców)
+ * Generuje kod HTML panelu i wstrzykuje go do DOM
  */
 function buildSynapseHelpDOM() {
     const backdrop = document.createElement("div");
@@ -344,11 +342,11 @@ function buildSynapseHelpDOM() {
 
     drawer.innerHTML = `
         <div class="synapse-drawer-header">
-            <button class="synapse-icon-btn" id="synapse-reset-btn" title="Zresetuj konwersację">
+            <button class="synapse-icon-btn" id="synapse-reset-btn" title="Reset conversation">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
             </button>
             <div class="synapse-header-actions">
-                <button class="synapse-icon-btn" id="synapse-close-btn" title="Zamknij">
+                <button class="synapse-icon-btn" id="synapse-close-btn" title="Close">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
@@ -360,30 +358,30 @@ function buildSynapseHelpDOM() {
                     <img src="assets/brainlysynapse.png" alt="Synapse AI" class="synapse-logo-img">
                 </div>
                 <h2 class="synapse-brand-title">
-                    Asystent Synapse AI <span class="synapse-beta-badge">Beta</span>
+                    Synapse AI Assistant <span class="synapse-beta-badge">Beta</span>
                 </h2>
             </div>
 
             <div class="synapse-input-card">
-                <textarea class="synapse-textarea" id="synapse-input" placeholder="Zadaj pytanie..."></textarea>
+                <textarea class="synapse-textarea" id="synapse-input" placeholder="Ask a question..."></textarea>
                 <div class="synapse-input-footer">
                     <button class="synapse-attach-btn" type="button">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
-                        Dodaj plik
+                        Attach file
                     </button>
-                    <button class="synapse-send-btn" id="synapse-send-btn" type="button" aria-label="Wyślij">
+                    <button class="synapse-send-btn" id="synapse-send-btn" type="button" aria-label="Send">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
                     </button>
                 </div>
             </div>
 
             <div class="synapse-response-box" id="synapse-response-box">
-                <div class="synapse-response-title" id="synapse-response-title">Odpowiedź</div>
+                <div class="synapse-response-title" id="synapse-response-title">Response</div>
                 <p class="synapse-response-text" id="synapse-response-text"></p>
             </div>
 
             <div class="synapse-suggestions-list" id="synapse-suggestions-list">
-                <!-- Sugestie będą wstrzykiwane dynamicznie -->
+                <!-- Dynamic suggestions -->
             </div>
         </div>
     `;
@@ -391,7 +389,6 @@ function buildSynapseHelpDOM() {
     document.documentElement.appendChild(backdrop);
     document.documentElement.appendChild(drawer);
 
-    // Rejestracja zdarzeń zamknięcia i wpisywania
     backdrop.addEventListener("click", closeSynapseHelp);
     document.getElementById("synapse-close-btn").addEventListener("click", closeSynapseHelp);
 
@@ -408,7 +405,10 @@ function buildSynapseHelpDOM() {
 
     sendBtn.addEventListener("click", () => {
         if (input.value.trim().length > 0) {
-            displaySynapseAnswer("Odpowiedź na Twoje pytanie", `Przeanalizowałem zapytanie: "${input.value.trim()}". Baza danych Synapse wskazuje, że rozwiązanie możesz znaleźć w dokumentacji technicznej lub kontaktując się z naszym zespołem wsparcia.`);
+            displaySynapseAnswer(
+                "Response to your query",
+                `Analyzed prompt: "${input.value.trim()}". Detailed guides and step-by-step documentation are available in our developer portal and Synapse dashboard.`
+            );
             input.value = "";
             sendBtn.classList.remove("active");
         }
@@ -457,7 +457,6 @@ function openSynapseHelp(topicKey) {
     if (backdrop && drawer) {
         backdrop.classList.add("active");
         drawer.classList.add("active");
-        document.documentElement.classList.add("synapse-open");
         document.body.classList.add("synapse-open");
 
         if (synapseHelpData && synapseHelpData[topicKey]) {
@@ -478,7 +477,6 @@ function closeSynapseHelp() {
     if (backdrop && drawer) {
         backdrop.classList.remove("active");
         drawer.classList.remove("active");
-        document.documentElement.classList.remove("synapse-open");
         document.body.classList.remove("synapse-open");
     }
 }
@@ -515,13 +513,13 @@ function renderDefaultContent() {
 
     responseBox.style.display = "none";
     suggestionsList.innerHTML = `
-        <button class="synapse-suggestion-item" type="button" data-suggestion="Jak działa ekosystem BrainlyHQ?">
+        <button class="synapse-suggestion-item" type="button" data-suggestion="How does the BrainlyHQ ecosystem work?">
             <svg class="synapse-suggestion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            <span>Jak działa ekosystem BrainlyHQ?</span>
+            <span>How does the BrainlyHQ ecosystem work?</span>
         </button>
-        <button class="synapse-suggestion-item" type="button" data-suggestion="Jakie boty i moduły są dostępne?">
+        <button class="synapse-suggestion-item" type="button" data-suggestion="What core modules and integrations are available?">
             <svg class="synapse-suggestion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            <span>Jakie boty i moduły są dostępne?</span>
+            <span>What core modules and integrations are available?</span>
         </button>
     `;
 
@@ -532,7 +530,10 @@ function bindSuggestionClickEvents() {
     document.querySelectorAll(".synapse-suggestion-item").forEach(btn => {
         btn.addEventListener("click", () => {
             const questionText = btn.getAttribute("data-suggestion");
-            displaySynapseAnswer(questionText, `Odpowiedź na pytanie "${questionText}": Wszystkie szczegółowe konfiguracje oraz przewodniki krok po kroku są dostępne w naszej oficjalnej dokumentacji i panelu zarządzania Synapse.`);
+            displaySynapseAnswer(
+                questionText,
+                `Information regarding "${questionText}": Comprehensive setup guides and step-by-step instructions can be accessed via our official Synapse documentation and control panel.`
+            );
         });
     });
 }
