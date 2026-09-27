@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
-        return res.status(500).json({ error: 'GROQ_API_KEY is not defined in Vercel environment variables.' });
+        return res.status(500).json({ error: 'GROQ_API_KEY is not configured in Vercel.' });
     }
 
     try {
@@ -19,23 +19,24 @@ export default async function handler(req, res) {
                 'Authorization': `Bearer ${apiKey.trim()}`
             },
             body: JSON.stringify({
-                model: 'openai/gpt-oss-120b',
+                model: 'llama-3.3-70b-versatile', // Ultraszybki i stabilny model
                 messages: messages,
                 temperature: 0.6,
                 max_tokens: 800
             })
         });
 
+        const data = await groqResponse.json();
+
         if (!groqResponse.ok) {
-            const errorText = await groqResponse.text();
-            return res.status(groqResponse.status).json({ error: errorText });
+            return res.status(groqResponse.status).json({ 
+                error: data.error?.message || 'Groq API returned an error' 
+            });
         }
 
-        const data = await groqResponse.json();
         return res.status(200).json(data);
 
     } catch (error) {
-        console.error('Groq Proxy Error:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: 'Internal Server Error: ' + error.message });
     }
 }
