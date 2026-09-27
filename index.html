@@ -67,7 +67,7 @@
             width: 100%;
             max-width: 100vw;
             background-color: #ffffff;
-            margin-top: 110px; /* Zwiększono odstęp od nagłówka, aby przesunąć w dół */
+            margin-top: 110px;
             padding: 20px 0;
             overflow: hidden;
             display: flex;
@@ -76,7 +76,7 @@
             z-index: 10;
         }
 
-        /* Subtelne rozmycie krawędzi paska (Efekt fade po bokach) */
+        /* Subtelne rozmycie krawędzi paska */
         .google-products-bar::before,
         .google-products-bar::after {
             content: "";
@@ -102,7 +102,7 @@
         .marquee-track {
             display: flex;
             width: max-content;
-            animation: marquee-scroll 55s linear infinite;
+            animation: marquee-scroll 50s linear infinite;
             will-change: transform;
         }
 
@@ -131,7 +131,7 @@
             filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.12));
         }
 
-        /* Klatki kluczowe płynnej, bezszwowej animacji pętli */
+        /* Klatki kluczowe płynnej animacji */
         @keyframes marquee-scroll {
             0% {
                 transform: translateX(0%);
@@ -166,6 +166,7 @@
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: inherit;
+            cursor: pointer;
         }
 
         .article-card:hover {
@@ -365,6 +366,7 @@
     </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
+    <script src="js/synapse-help.js" defer></script>
 
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
@@ -384,7 +386,6 @@
     <main>
         <!-- HERO SECTION -->
         <section class="hero-section">
-            <!-- Treść centralna -->
             <div class="hero-content">
                 <h1 class="hero-title">
                     One ecosystem. Many ways to build.
@@ -400,52 +401,52 @@
                 <div class="marquee-track">
                     <!-- Grupa 1 -->
                     <div class="marquee-group">
-                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
-                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
                         <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
                         <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
                         <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
                         <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
 
-                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
-                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
                         <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
                         <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
                         <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
                         <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
 
-                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
-                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
                         <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
                         <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
                         <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
                         <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
                     </div>
 
-                    <!-- Grupa 2 (Duplikacja identyczna dla płynnej pętli) -->
+                    <!-- Grupa 2 -->
                     <div class="marquee-group" aria-hidden="true">
-                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
-                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
                         <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
                         <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
                         <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
                         <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
 
-                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
-                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
                         <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
                         <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
                         <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
                         <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
 
-                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
                         <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
-                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
                         <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
                         <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
                         <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
@@ -455,12 +456,12 @@
             </div>
         </section>
 
-        <!-- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION -->
+        <!-- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION (TESTUJEMY QUICK HELP NA TYCH 3 KARTACH) -->
         <section class="google-articles-section">
             <div class="articles-grid">
                 
-                <!-- Karta 1: Services -->
-                <a href="products.html" class="article-card">
+                <!-- Karta 1: Services (Z podpiętym Quick Help) -->
+                <div class="article-card" data-help-topic="services">
                     <div class="article-image-box">
                         <img src="assets/brainlyhub.png" alt="Ecosystem Services" style="object-fit: contain; padding: 30px;">
                     </div>
@@ -471,10 +472,10 @@
                             <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <!-- Karta 2: Technology -->
-                <a href="developers.html" class="article-card">
+                <!-- Karta 2: Technology (Z podpiętym Quick Help) -->
+                <div class="article-card" data-help-topic="technology">
                     <div class="article-image-box" style="background-color: #0f172a;">
                         <img src="assets/brainlysynapse.png" alt="Advanced Technology" style="object-fit: contain; padding: 30px;">
                     </div>
@@ -485,10 +486,10 @@
                             <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <!-- Karta 3: Research -->
-                <a href="docs.html" class="article-card">
+                <!-- Karta 3: Research (Z podpiętym Quick Help) -->
+                <div class="article-card" data-help-topic="research">
                     <div class="article-image-box">
                         <img src="assets/astronaut_2.png" alt="Research & Solutions">
                     </div>
@@ -499,7 +500,7 @@
                             <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </div>
                     </div>
-                </a>
+                </div>
 
             </div>
         </section>
