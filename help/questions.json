@@ -1,32 +1,32 @@
 {
   "services": {
     "title": "Ecosystem Services & Core Features",
-    "question": "Czym są usługi Brainly Core, Speech oraz integracje?",
-    "answer": "Usługi BrainlyHQ obejmują zaawansowany ekosystem botów oraz narzędzi synchronizacji. Brainly Core odpowiada za automatyczną moderację i weryfikację, Brainly Speech tłumaczy komunikację na Slacku w czasie rzeczywistym, a dedykowane integracje pozwalają na łączenie wielu serwerów i platform edukacyjnych.",
+    "question": "What are Brainly Core, Speech, and custom integrations?",
+    "answer": "BrainlyHQ services feature an advanced ecosystem of automated bots and real-time synchronization tools. Brainly Core handles automated moderation and identity verification, Brainly Speech translates Slack workspace communications in real time, and dedicated integrations connect multi-server networks and educational platforms.",
     "suggestions": [
-      "Jak skonfigurować Brainly Core na Discordzie?",
-      "Czym różni się Brainly Speech od zwykłego tłumacza?",
-      "Jak uzyskać dostęp do dedykowanych integracji?"
+      "How do I set up Brainly Core on Discord?",
+      "How does Brainly Speech differ from standard translation tools?",
+      "How can I gain access to custom integrations?"
     ]
   },
   "technology": {
     "title": "Advanced AI & Real-Time Synapse",
-    "question": "Jak działają modele moderacji AI oraz tablice synchronizacji?",
-    "answer": "Nasze algorytmy AI analizują kontekst konwersacji w czasie rzeczywistym ze średnim opóźnieniem bota na poziomie 26 ms. Tablice synchronizacji (sync arrays) przesyłają dane o profilach i uprawnieniach użytkowników natychmiastowo pomiędzy różnymi gildiami i platformami.",
+    "question": "How do AI moderation models and sync arrays operate?",
+    "answer": "Our AI algorithms analyze conversation context in real time with an average bot response latency of 26ms. Sync arrays instantly route user profiles, roles, and permissions across connected guilds and platforms.",
     "suggestions": [
-      "Jaki jest średni czas reakcji bota?",
-      "Czy dane są szyfrowane w czasie rzeczywistym?",
-      "Jak działa automatyczna detekcja spamu?"
+      "What is the average response latency of the bot?",
+      "Is data encrypted in real time during transport?",
+      "How does automated spam and raid detection work?"
     ]
   },
   "research": {
     "title": "Multi-Guild Solutions & Scaling",
-    "question": "Jak rozwiązujemy wyzwania skalowania i weryfikacji społeczności?",
-    "answer": "Przetwarzamy ponad 400 000 wiadomości, eliminując barierę zarządzania wieloma serwerami jednocześnie. Dedykowany system weryfikacji i architektura wielogildiowa pozwalają bezpiecznie prowadzić społeczności liczące dziesiątki tysięcy uczniów i twórców.",
+    "question": "How do we solve community scaling and verification challenges?",
+    "answer": "Processing over 400,000 messages seamlessly eliminates the overhead of managing multiple servers simultaneously. Our dedicated verification framework and multi-guild architecture allow you to securely scale communities with tens of thousands of members.",
     "suggestions": [
-      "Ile wiadomości przetwarza architektura BrainlyHQ?",
-      "Jak dołączyć do programu partnerskiego?",
-      "Jak działa weryfikacja tożsamości użytkowników?"
+      "How many messages does the BrainlyHQ architecture process?",
+      "How can our community join the Partnership Programme?",
+      "How does user identity verification work?"
     ]
   }
 }
