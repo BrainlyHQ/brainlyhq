@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,233 +8,313 @@
     <link rel="stylesheet" href="css/style.css">
 
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#99EE60">
+    <meta name="theme-color" content="#3da80a">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="apple-touch-icon" href="assets/icon-192.png">
 
     <style>
-        /* --- STYLIZACJA STRONY TYTUŁOWEJ (INDEX) --- */
+        /* ==========================================================================
+           GOOGLE-GRADE ULTRA-CLEAN MINIMALIST HERO & HOMEPAGE STYLES
+           ========================================================================== */
 
+        /* --- HERO SECTION --- */
         .hero-section {
             position: relative;
-            min-height: calc(100vh - 80px);
+            min-height: calc(100vh - 70px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 40px 20px;
+            padding: 100px 20px 80px 20px;
             box-sizing: border-box;
+            background-color: #ffffff;
             overflow: hidden;
-            background-color: var(--bg-primary);
         }
 
-        /* Animowane Tło - Ruchoma Siatka */
-        .cyber-grid-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(var(--border-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-position: center top;
-            opacity: 0.15;
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-            animation: grid-scroll 25s linear infinite;
-            z-index: 1;
-        }
-
-        @keyframes grid-scroll {
-            0% { background-position: center 0px; }
-            100% { background-position: center 1000px; }
-        }
-
-        /* --- POPRAWKI DLA LIGHT THEME --- */
-        [data-theme="light"] .cyber-grid-bg {
-            opacity: 0.35;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
-        }
-
-        [data-theme="light"] .hero-lead,
-        [data-theme="light"] .eco-desc,
-        [data-theme="light"] .stat-label {
-            color: #1a202c !important; 
-        }
-
-        [data-theme="light"] .eco-card {
-            background-color: #f8fafc; 
-            border-color: #b8c2cc;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Kontrast paska statystyk w jasnym motywie */
-        [data-theme="light"] .stats-banner {
-            background-color: #cbd5e1;
-            border-top: 2px solid #94a3b8;
-            border-bottom: 2px solid #94a3b8;
-        }
-        [data-theme="light"] .stat-number {
-            color: #0f172a !important;
-        }
-        [data-theme="light"] .stat-label {
-            color: #334155 !important;
-        }
-
-        /* Pulsujące Neonowe Kule w Tle */
-        .glow-orb {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(153, 238, 96, 0.08) 0%, rgba(153, 238, 96, 0) 70%);
-            border-radius: 50%;
-            z-index: 2;
-            pointer-events: none;
-            animation: pulse-glow 8s infinite alternate ease-in-out;
-        }
-
-        .orb-left { top: 15%; left: 10%; animation-delay: 0s; }
-        .orb-right { bottom: 20%; right: 10%; animation-delay: 4s; }
-
-        @keyframes pulse-glow {
-            0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
-            100% { transform: scale(1.3) translate(20px, -20px); opacity: 1; }
-        }
-
-        /* Zawartość Hero */
+        /* Treść centralna (Nagłówek + Opis) */
         .hero-content {
             position: relative;
             z-index: 3;
-            max-width: 850px;
+            max-width: 960px;
+            margin: 0 auto;
         }
 
+        /* Nagłówek główny - czarny, wielki, tłusty */
         .hero-title {
-            font-size: 3.4rem;
+            font-size: 5.5rem;
             font-weight: 900;
-            line-height: 1.15;
-            letter-spacing: -1.5px;
+            line-height: 1.02;
+            letter-spacing: -3.5px;
             margin-bottom: 24px;
-            color: var(--text-primary);
+            color: #000000;
         }
 
-        /* Styl i animacja wygaszania dla rotującego hasła */
-        .hero-title span {
-            color: var(--color-brainly-green);
-            text-shadow: 0 0 20px rgba(153, 238, 96, 0.15);
-            display: inline-block;
-            opacity: 1;
-            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-        }
-
-        .hero-title span.fade-out {
-            opacity: 0;
-            transform: translateY(6px);
-        }
-
+        /* Podtytuł */
         .hero-lead {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
+            font-size: 1.35rem;
+            color: #475569;
             line-height: 1.6;
             max-width: 720px;
-            margin: 0 auto 36px auto;
+            margin: 0 auto;
+            font-weight: 500;
+            letter-spacing: -0.3px;
         }
 
-        .hero-actions {
+        /* --- GOOGLE-STYLE PRODUCT STRIP (PRZESUNIĘTE NIŻEJ) --- */
+        .google-products-bar {
+            width: 100%;
+            max-width: 100vw;
+            background-color: #ffffff;
+            margin-top: 110px;
+            padding: 20px 0;
+            overflow: hidden;
             display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 60px;
-        }
-
-        .btn-primary {
-            background-color: var(--color-brainly-green);
-            color: #0b0c0f !important;
-            border: none;
-            border-radius: 14px;
-            padding: 16px 32px;
-            font-weight: 800;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px rgba(153, 238, 96, 0.3); 
-            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            position: relative;
+            z-index: 10;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 28px rgba(153, 238, 96, 0.65); 
-            background-color: #aeff70;
-        }
-
-        .btn-secondary {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            border-radius: 14px;
-            padding: 16px 32px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-secondary:hover {
-            border-color: rgba(153, 238, 96, 0.4);
-            background-color: rgba(153, 238, 96, 0.02);
-            transform: translateY(-2px);
-        }
-
-        .scroll-arrow-container {
+        /* Subtelne rozmycie krawędzi paska */
+        .google-products-bar::before,
+        .google-products-bar::after {
+            content: "";
             position: absolute;
-            bottom: 30px;
-            z-index: 3;
+            top: 0;
+            width: 140px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .google-products-bar::before {
+            left: 0;
+            background: linear-gradient(to right, #ffffff 20%, transparent);
+        }
+
+        .google-products-bar::after {
+            right: 0;
+            background: linear-gradient(to left, #ffffff 20%, transparent);
+        }
+
+        /* Kontener toru animacji */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee-scroll 50s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-group {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding-right: 60px;
+        }
+
+        .marquee-group img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.04));
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
             cursor: pointer;
+        }
+
+        .marquee-group img:hover {
+            transform: scale(1.22);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.12));
+        }
+
+        /* Klatki kluczowe płynnej animacji */
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION --- */
+        .google-articles-section {
+            padding: 80px 20px 100px 20px;
+            max-width: 1240px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .article-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+            transform: translateY(-3px);
+            border-color: #cbd5e1;
+        }
+
+        .article-image-box {
+            width: 100%;
+            height: 220px;
+            background-color: #f1f5f9;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .article-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .article-card:hover .article-image-box img {
+            transform: scale(1.04);
+        }
+
+        .article-body {
+            padding: 24px 24px 20px 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .article-category {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.45;
+            margin-bottom: 24px;
+            letter-spacing: -0.3px;
+        }
+
+        .article-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .external-link-icon {
+            width: 18px;
+            height: 18px;
+            color: #3b82f6;
+            stroke-width: 2.2;
+        }
+
+        /* --- SCROLL EXPANSION ANIMATION SECTION --- */
+        .scroll-expand-wrapper {
+            position: relative;
+            height: 250vh;
+            background-color: #0f172a;
+        }
+
+        .sticky-expand-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .expanding-card {
+            width: 75vw;
+            height: 65vh;
+            border-radius: 36px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            font-weight: 700;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            box-sizing: border-box;
+            will-change: transform, width, height, border-radius;
+            transition: transform 0.1s ease-out, border-radius 0.1s ease-out, width 0.1s ease-out, height 0.1s ease-out;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expand-card-bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(153, 238, 96, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .expand-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--color-brainly-green-bg);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.2s ease;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
         }
 
-        .scroll-arrow-container:hover {
-            color: var(--color-brainly-green);
+        .expand-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            max-width: 800px;
         }
 
-        .arrow-down-animated {
-            width: 24px;
-            height: 24px;
-            animation: bounce-arrow 2s infinite;
-            stroke: currentColor;
+        .expand-desc {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            line-height: 1.6;
         }
 
-        @keyframes bounce-arrow {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
-        }
-
-        /* --- Sekcja Statystyk --- */
+        /* --- STATS SECTION --- */
         .stats-banner {
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
-            padding: 40px 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            padding: 56px 20px;
             width: 100%;
         }
 
@@ -243,263 +323,201 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 32px;
             text-align: center;
         }
 
         .stat-item {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
         }
 
         .stat-number {
-            font-size: 2.4rem;
+            font-size: 3rem;
             font-weight: 900;
-            color: var(--color-brainly-green);
-            letter-spacing: -1px;
+            color: #000000;
+            letter-spacing: -1.5px;
         }
 
         .stat-label {
             font-size: 0.82rem;
-            color: var(--text-secondary);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* --- Sekcja Ekosystemu --- */
-        .ecosystem-section {
-            padding: 80px 20px 40px 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-
-        .eco-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .eco-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color) !important;
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 250px;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        /* DOPASOWANA ZMIANA: Identyczne obramowanie i cień jak w tools-card */
-        .eco-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--color-brainly-green) !important;
-            box-shadow: 0 8px 24px rgba(153, 238, 96, 0.05);
-        }
-
-        .eco-icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-brainly-green);
-            margin-bottom: 20px;
-        }
-
-        .eco-title {
-            font-size: 1.2rem;
+            color: #64748b;
             font-weight: 800;
-            color: var(--text-primary);
-            margin: 0 0 10px 0;
-        }
-
-        .eco-desc {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin: 0;
-            flex-grow: 1;
-        }
-
-        .eco-link-btn {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--color-brainly-green);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: gap 0.2s ease;
-        }
-
-        .eco-link-btn:hover {
-            gap: 10px;
-        }
-
-        /* --- OŚ FALISTA OD LEWEJ DO PRAWEJ (FULL EDGE-TO-EDGE) --- */
-        .milestones-wave-section {
-            padding: 80px 0 120px 0;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .wave-grid-layout {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            row-gap: 10px;
-            width: 100%;
-            max-width: 1100px;
-            margin: 40px auto 0 auto;
-            align-items: center;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        /* Kontener linii wektorowej idący na 100% szerokości okna przeglądarki */
-        .wave-svg-row {
-            grid-column: span 3;
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            height: 60px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .wave-svg-element {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        /* Płynący prąd wektorowy */
-        .animated-pulse-path {
-            stroke: var(--color-brainly-green);
-            stroke-width: 3;
-            stroke-dasharray: 12, 12;
-            animation: stroke-flow 1.5s linear infinite;
-        }
-
-        @keyframes stroke-flow {
-            to {
-                stroke-dashoffset: -24;
-            }
-        }
-
-        .wave-text-block {
-            text-align: center;
-            padding: 0 15px;
-            box-sizing: border-box;
-        }
-
-        .wave-spacer {
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .wave-tag {
-            font-family: monospace;
-            font-size: 0.68rem;
-            font-weight: 800;
-            color: var(--color-brainly-green);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
-            display: block;
+            letter-spacing: 0.8px;
         }
 
-        .wave-title {
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            margin: 0 0 8px 0;
-            line-height: 1.4;
+        /* RESPONSYWNOŚĆ */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 3.8rem; letter-spacing: -2px; }
+            .articles-grid, .stats-grid { grid-template-columns: 1fr; }
+            .expand-title { font-size: 2.4rem; }
+            .expanding-card { width: 90vw; height: 70vh; }
+            .marquee-group { gap: 40px; padding-right: 40px; }
+            .marquee-group img { height: 38px; }
         }
 
-        .wave-text {
-            font-size: 0.84rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        /* --- Responsywność --- */
-        @media (max-width: 900px) {
-            .hero-title { font-size: 2.3rem; }
-            .stats-grid, .eco-grid { grid-template-columns: 1fr; }
-            .wave-grid-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 30px; }
-            .wave-svg-row, .wave-spacer { display: none; }
+        @media (max-width: 640px) {
+            .hero-title { font-size: 2.6rem; letter-spacing: -1.5px; }
+            .hero-lead { font-size: 1.1rem; }
+            .google-products-bar { margin-top: 60px; }
         }
     </style>
     <script src="js/theme.js"></script>
     <script src="js/main.js" defer></script>
+    <script src="js/synapse-help.js" defer></script>
 
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
-      safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
-    });
-  });
-</script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8bb2f22e-fcd8-49d4-a13e-63daf90aac1e",
+          safari_web_id: "web.onesignal.auto.57017041-c410-4b69-86f6-455278402f0c",
+        });
+      });
+    </script>
 </head>
 <body>
 
     <header id="header-placeholder"></header>
 
     <main>
+        <!-- HERO SECTION -->
         <section class="hero-section">
-            <div class="cyber-grid-bg"></div>
-            <div class="glow-orb orb-left"></div>
-            <div class="glow-orb orb-right"></div>
-
             <div class="hero-content">
                 <h1 class="hero-title">
-                    More than a community.<br><span id="rotating-tagline">A place to belong.</span>
+                    One ecosystem. Many ways to build.
                 </h1>
 
                 <p class="hero-lead">
-                    Meet people. Share ideas. Learn something new every day. We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand educational communities.
+                    We engineer advanced bots, cross-platform modules, and data synchronization arrays to secure, gamify, and expand modern learning spaces.
                 </p>
-
-                <div class="hero-actions">
-                    <a href="products.html" class="btn-primary">
-                        <span>Explore Products</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                    <a href="https://discord.gg/brainlyhq" target="_blank" class="btn-secondary">
-                        <span>Join Discord Server</span>
-                    </a>
-                </div>
             </div>
 
-            <div class="scroll-arrow-container" onclick="scrollToSection()">
-                <span>Scroll to Explore</span>
-                <svg class="arrow-down-animated" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <polyline points="19 12 12 19 5 12"></polyline>
-                </svg>
+            <!-- PASEK IKON PRODUKTÓW W STYLU GOOGLE -->
+            <div class="google-products-bar">
+                <div class="marquee-track">
+                    <!-- Grupa 1 -->
+                    <div class="marquee-group">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
+                        <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
+                        <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                        <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                        <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                        <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
+                        <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
+                        <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                        <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                        <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                        <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
+                        <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
+                        <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                        <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                        <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                        <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+                    </div>
+
+                    <!-- Grupa 2 -->
+                    <div class="marquee-group" aria-hidden="true">
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
+                        <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
+                        <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                        <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                        <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                        <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
+                        <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
+                        <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                        <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                        <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                        <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+
+                        <img src="assets/brainlysynapse.png" alt="Brainly Synapse" title="Brainly Synapse" data-help-topic="technology">
+                        <img src="assets/brainlyfriends.png" alt="Brainly Friends" title="Brainly Friends">
+                        <img src="assets/brainlyhub.png" alt="Brainly Hub" title="Brainly Hub" data-help-topic="services">
+                        <img src="assets/brainlyspeech.png" alt="Brainly Speech" title="Brainly Speech">
+                        <img src="assets/brainlyscavengers.png" alt="Brainly Scavengers" title="Brainly Scavengers">
+                        <img src="assets/brainlysupport.png" alt="Brainly Support" title="Brainly Support">
+                        <img src="assets/brainlylab.png" alt="Brainly Lab" title="Brainly Lab">
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION (TESTUJEMY QUICK HELP NA TYCH 3 KARTACH) -->
+        <section class="google-articles-section">
+            <div class="articles-grid">
+                
+                <!-- Karta 1: Services (Z podpiętym Quick Help) -->
+                <div class="article-card" data-help-topic="services">
+                    <div class="article-image-box">
+                        <img src="assets/brainlyhub.png" alt="Ecosystem Services" style="object-fit: contain; padding: 30px;">
+                    </div>
+                    <div class="article-body">
+                        <span class="article-category">SERVICES</span>
+                        <h3 class="article-title">Explore our core tools and features across Brainly Core, Speech, and custom integrations</h3>
+                        <div class="article-footer">
+                            <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Karta 2: Technology (Z podpiętym Quick Help) -->
+                <div class="article-card" data-help-topic="technology">
+                    <div class="article-image-box" style="background-color: #0f172a;">
+                        <img src="assets/brainlysynapse.png" alt="Advanced Technology" style="object-fit: contain; padding: 30px;">
+                    </div>
+                    <div class="article-body">
+                        <span class="article-category">TECHNOLOGY</span>
+                        <h3 class="article-title">Learn about our advanced moderation AI models and real-time synchronization arrays</h3>
+                        <div class="article-footer">
+                            <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Karta 3: Research (Z podpiętym Quick Help) -->
+                <div class="article-card" data-help-topic="research">
+                    <div class="article-image-box">
+                        <img src="assets/astronaut_2.png" alt="Research & Solutions">
+                    </div>
+                    <div class="article-body">
+                        <span class="article-category">RESEARCH</span>
+                        <h3 class="article-title">See how we solve complex multi-guild engagement and verification challenges at scale</h3>
+                        <div class="article-footer">
+                            <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SCROLL EXPANSION ANIMATION SECTION -->
+        <section class="scroll-expand-wrapper" id="scroll-expand-section">
+            <div class="sticky-expand-container">
+                <div class="expanding-card" id="expand-card">
+                    <div class="expand-card-bg-glow"></div>
+                    <span class="expand-tag">Next-Gen Ecosystem</span>
+                    <h2 class="expand-title">Engineered to power global communities.</h2>
+                    <p class="expand-desc">Unifying moderation tools, custom integrations, and gamified learning platforms into one continuous infrastructure.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS SECTION -->
         <section class="stats-banner" id="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
@@ -512,157 +530,45 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">400K+</div>
-                    <div class="stat-label">Messages</div>
+                    <div class="stat-label">Total Messages Processed</div>
                 </div>
-            </div>
-        </section>
-
-        <section class="ecosystem-section">
-            <div style="text-align: center; margin-bottom: 50px;">
-                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Our Core Ecosystem</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">We build a dynamic, educational ecosystem operating within the structures and community initiatives of Brainly.</p>
-            </div>
-
-            <div class="eco-grid">
-                <div class="eco-card">
-                    <div>
-                        <div class="eco-icon-box">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="9" y1="3" x2="9" y2="21"></line>
-                            </svg>
-                        </div>
-                        <h3 class="eco-title">Brainly Core Bot</h3>
-                        <p class="eco-desc">Our foundation and our little helper. Beyond automated verification gates and cross-server security logs, it anchors our community events, engagement tracking, and multi-guild interactive frameworks.</p>
-                    </div>
-                    <a href="https://discord.gg/brainlyhq" target="_blank" class="eco-link-btn">
-                        <span>Connect via Discord</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="eco-card">
-                    <div>
-                        <div class="eco-icon-box">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                        </div>
-                        <h3 class="eco-title">Partnership Program</h3>
-                        <p class="eco-desc">The central network directory connecting verified server owners and managers under a shared educational framework to deploy cross-server initiatives.</p>
-                    </div>
-                    <a href="https://partnershiphq.vercel.app/" target="_blank" class="eco-link-btn">
-                        <span>Launch External Portal</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="eco-card">
-                    <div>
-                        <div class="eco-icon-box">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="eco-title">Webmaster Utilities</h3>
-                        <p class="eco-desc">Discover our range of production tools, from Discord Markdown formatting generators to the official Brainly color Hex palettes.</p>
-                    </div>
-                    <a href="tools.html" class="eco-link-btn">
-                        <span>Access Tools Dashboard</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="milestones-wave-section">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 10px;">Project Milestones</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Proud moments and technical privileges that set our hub apart.</p>
-            </div>
-
-            <div class="wave-grid-layout">
-
-                <div class="wave-text-block">
-                    <span class="wave-tag">Integrations</span>
-                    <h3 class="wave-title">Official collaboration agreement with Brainly Creatives</h3>
-                    <p class="wave-text">Successfully deployed specialized custom utilities and web management assets built straight into the browser extension.</p>
-                </div>
-                <div class="wave-spacer"></div>
-                <div class="wave-text-block">
-                    <span class="wave-tag">Infrastructure</span>
-                    <h3 class="wave-title">Exclusive domain authorization: discord.brainly.com</h3>
-                    <p class="wave-text">Standing proud as the only recognized independent project ecosystem granted advanced verification paths and direct subdomain access layouts.</p>
-                </div>
-
-                <div class="wave-svg-row">
-                    <svg class="wave-svg-element" viewBox="0 0 1000 60" preserveAspectRatio="none" style="overflow: visible;">
-                        <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" stroke="var(--border-color)" stroke-width="2" />
-                        <path d="M 0 30 Q 166.66 0, 333.33 30 T 666.66 30 T 1000 30" fill="none" class="animated-pulse-path" />
-                    </svg>
-                </div>
-
-                <div class="wave-spacer"></div>
-                <div class="wave-text-block">
-                    <span class="wave-tag">Team Matrix</span>
-                    <h3 class="wave-title"><span style="text-decoration: line-through; opacity: 0.5; font-weight: 500; margin-right: 6px;">Employment</span>Collaboration with a global team</h3>
-                    <p class="wave-text">Operating alongside an extraordinary infrastructure management matrix of over 20 global creators, mod developers, and server administrators.</p>
-                </div>
-                <div class="wave-spacer"></div>
-
             </div>
         </section>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
+    <!-- SKRYPT DO ANIMACJI SCROLL EXPAND -->
     <script>
-        function scrollToSection() {
-            const element = document.getElementById("stats-section");
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+            const wrapper = document.getElementById("scroll-expand-section");
+            const card = document.getElementById("expand-card");
 
-        // Skrypt rotujący hasła z efektem wygaszania
-        const taglines = [
-            "A place to belong.",
-            "Built for innovators.",
-            "Where ideas connect.",
-            "Your educational home."
-        ];
+            if (!wrapper || !card) return;
 
-        let currentIndex = 0;
-        const taglineElement = document.getElementById("rotating-tagline");
+            window.addEventListener("scroll", () => {
+                const rect = wrapper.getBoundingClientRect();
+                const totalScrollable = wrapper.offsetHeight - window.innerHeight;
+                
+                let progress = -rect.top / totalScrollable;
+                progress = Math.max(0, Math.min(1, progress));
 
-        function rotateTagline() {
-            // 1. Wygaszanie tekstu
-            taglineElement.classList.add("fade-out");
+                const initialWidth = 75;
+                const targetWidth = 100;
+                const initialHeight = 65;
+                const targetHeight = 100;
+                const initialRadius = 36;
+                const targetRadius = 0;
 
-            setTimeout(() => {
-                // 2. Zmiana treści po zakończeniu animacji wygaszania
-                currentIndex = (currentIndex + 1) % taglines.length;
-                taglineElement.textContent = taglines[currentIndex];
+                const currentWidth = initialWidth + (targetWidth - initialWidth) * progress;
+                const currentHeight = initialHeight + (targetHeight - initialHeight) * progress;
+                const currentRadius = initialRadius + (targetRadius - initialRadius) * progress;
 
-                // 3. Wprowadzanie nowego tekstu (pojawianie się)
-                taglineElement.classList.remove("fade-out");
-            }, 400); // Czas musi odpowiadać wartości transition w CSS (.4s)
-        }
-
-        // Uruchomienie cyklu co 4 sekundy
-        setInterval(rotateTagline, 4000);
+                card.style.width = `${currentWidth}vw`;
+                card.style.height = `${currentHeight}vh`;
+                card.style.borderRadius = `${currentRadius}px`;
+            });
+        });
     </script>
 </body>
 </html>
