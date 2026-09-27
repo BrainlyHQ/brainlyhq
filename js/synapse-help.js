@@ -1,16 +1,14 @@
 /**
  * BrainlyHQ - Synapse AI Quick Help Drawer Component
- * Secure Vercel Endpoint Integration
+ * Powered by Groq API (openai/gpt-oss-120b) via Vercel Endpoint
  */
 
-let synapseHelpData = null;
 let isChatActive = false;
 let messageHistory = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     injectSynapseHelpStyles();
     buildSynapseHelpDOM();
-    loadSynapseHelpData();
     initSynapseHelpTriggers();
 });
 
@@ -474,7 +472,7 @@ function injectSynapseHelpStyles() {
 }
 
 /**
- * Generuje czystą strukturę DOM dla asystenta
+ * Generuje strukturę DOM dla asystenta
  */
 function buildSynapseHelpDOM() {
     const backdrop = document.createElement("div");
@@ -503,7 +501,7 @@ function buildSynapseHelpDOM() {
         </div>
 
         <div class="synapse-drawer-content">
-            <!-- EKRAN INITIAL (Gdy brak konwersacji) -->
+            <!-- EKRAN INITIAL (Widok startowy) -->
             <div class="synapse-initial-view" id="synapse-initial-view">
                 <div class="synapse-hero-section">
                     <div class="synapse-logo-wrapper">
@@ -518,7 +516,18 @@ function buildSynapseHelpDOM() {
                 <div class="synapse-suggestions-wrapper">
                     <div class="synapse-suggestions-header">Suggested Topics</div>
                     <div id="synapse-initial-suggestions" style="display: flex; flex-direction: column; gap: 8px;">
-                        <!-- Sugestie z jsona -->
+                        <button class="synapse-suggestion-btn" type="button" data-question="How does the BrainlyHQ ecosystem work?">
+                            <span>How does the BrainlyHQ ecosystem work?</span>
+                            <svg class="synapse-suggestion-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                        <button class="synapse-suggestion-btn" type="button" data-question="What are Brainly Core, Speech, and custom integrations?">
+                            <span>What are Brainly Core, Speech, and custom integrations?</span>
+                            <svg class="synapse-suggestion-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                        <button class="synapse-suggestion-btn" type="button" data-question="How do I integrate custom Discord and Slack bots?">
+                            <span>How do I integrate custom Discord and Slack bots?</span>
+                            <svg class="synapse-suggestion-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
                     </div>
                 </div>
 
@@ -539,10 +548,10 @@ function buildSynapseHelpDOM() {
                 </div>
             </div>
 
-            <!-- EKRAN CZATU (Pole na dole po 1. wiadomości) -->
+            <!-- EKRAN CZATU (Aktywowany po pierwszym pytaniu) -->
             <div class="synapse-chat-view" id="synapse-chat-view">
                 <div class="synapse-messages-container" id="synapse-messages-container">
-                    <!-- Wiadomości wpadają tutaj -->
+                    <!-- Wiadomości -->
                 </div>
 
                 <div class="synapse-input-wrapper">
@@ -572,6 +581,7 @@ function buildSynapseHelpDOM() {
 
     bindInputEvents("synapse-input-initial", "synapse-send-btn-initial");
     bindInputEvents("synapse-input-chat", "synapse-send-btn-chat");
+    bindSuggestionClicks();
 }
 
 function bindInputEvents(inputId, btnId) {
@@ -605,6 +615,15 @@ function bindInputEvents(inputId, btnId) {
             input.value = "";
             btn.classList.remove("active");
         }
+    });
+}
+
+function bindSuggestionClicks() {
+    document.querySelectorAll(".synapse-suggestion-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const question = btn.getAttribute("data-question");
+            handleUserSend(question);
+        });
     });
 }
 
@@ -671,7 +690,7 @@ function removeTypingIndicator() {
 }
 
 /**
- * Zapytanie wysyłane do wewnętrznego punktu Serverless Vercela /api/chat
+ * Wysyłanie do punktu /api/chat
  */
 async function fetchGroqResponse(userPrompt) {
     showTypingIndicator();
@@ -711,110 +730,29 @@ Use clear paragraphs or bullet points if necessary. Avoid referencing raw intern
     } catch (err) {
         console.error("Vercel Proxy Call Failed:", err);
         removeTypingIndicator();
-        const fallbackText = getStaticFallbackAnswer(userPrompt);
+        const fallbackText = `Thank you for your question regarding "${userPrompt}". Our AI service is currently initializing. Please try again in a few moments.`;
         appendAiMessage(`<p>${fallbackText}</p>`);
         messageHistory.push({ role: "assistant", content: fallbackText });
     }
 }
 
-function getStaticFallbackAnswer(prompt) {
-    const lowerPrompt = prompt.toLowerCase();
-    
-    if (synapseHelpData) {
-        for (const key in synapseHelpData) {
-            const item = synapseHelpData[key];
-            if (item.question && lowerPrompt.includes(key)) {
-                return item.answer;
-            }
-        }
-    }
-
-    return `Thank you for your inquiry about "${prompt}". Our Synapse AI system has received your request. For in-depth configurations and technical support, please refer to our official developer portal or contact our team directly.`;
-}
-
-function loadSynapseHelpData() {
-    fetch("help/questions.json")
-        .then(res => res.json())
-        .then(data => {
-            synapseHelpData = data;
-            renderInitialSuggestions(data);
-        })
-        .catch(err => {
-            console.error("Error loading help questions JSON:", err);
-            renderDefaultInitialSuggestions();
-        });
-}
-
-function renderInitialSuggestions(data) {
-    const container = document.getElementById("synapse-initial-suggestions");
-    if (!container) return;
-
-    let html = "";
-    for (const key in data) {
-        const item = data[key];
-        html += `
-            <button class="synapse-suggestion-btn" type="button" data-question="${escapeHtml(item.question)}" data-answer="${escapeHtml(item.answer)}">
-                <span>${escapeHtml(item.question)}</span>
-                <svg class="synapse-suggestion-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-        `;
-    }
-    container.innerHTML = html;
-    bindSuggestionClicks();
-}
-
-function renderDefaultInitialSuggestions() {
-    const container = document.getElementById("synapse-initial-suggestions");
-    if (!container) return;
-
-    container.innerHTML = `
-        <button class="synapse-suggestion-btn" type="button" data-question="How does the BrainlyHQ ecosystem work?">
-            <span>How does the BrainlyHQ ecosystem work?</span>
-            <svg class="synapse-suggestion-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-        <button class="synapse-suggestion-btn" type="button" data-question="What are Brainly Core, Speech, and custom integrations?">
-            <span>What are Brainly Core, Speech, and custom integrations?</span>
-            <svg class="synapse-suggestion-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-    `;
-    bindSuggestionClicks();
-}
-
-function bindSuggestionClicks() {
-    document.querySelectorAll(".synapse-suggestion-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const question = btn.getAttribute("data-question");
-            const predefinedAnswer = btn.getAttribute("data-answer");
-
-            switchToChatMode();
-            appendUserMessage(question);
-
-            if (predefinedAnswer) {
-                showTypingIndicator();
-                setTimeout(() => {
-                    removeTypingIndicator();
-                    appendAiMessage(`<p>${predefinedAnswer}</p>`);
-                    messageHistory.push({ role: "assistant", content: predefinedAnswer });
-                }, 400);
-            } else {
-                fetchGroqResponse(question);
-            }
-        });
-    });
-}
-
+/**
+ * Podpięcie zdarzeń kliknięcia do klocków / elementów w index.html
+ */
 function initSynapseHelpTriggers() {
     document.addEventListener("click", (e) => {
-        const trigger = e.target.closest("[data-help-topic]");
+        const trigger = e.target.closest("[data-help-topic], .help-trigger, .synapse-trigger");
         if (trigger) {
             e.preventDefault();
-            const topicKey = trigger.getAttribute("data-help-topic");
-            openSynapseHelp(topicKey);
+            openSynapseHelp();
         }
     });
 }
 
-function openSynapseHelp(topicKey) {
+/**
+ * Otwiera panel w staniem początkowym (bez zadawania pytania)
+ */
+function openSynapseHelp() {
     const backdrop = document.getElementById("synapse-backdrop");
     const drawer = document.getElementById("synapse-drawer");
 
@@ -822,14 +760,6 @@ function openSynapseHelp(topicKey) {
         backdrop.classList.add("active");
         drawer.classList.add("active");
         document.body.classList.add("synapse-open");
-
-        if (topicKey && synapseHelpData && synapseHelpData[topicKey]) {
-            const item = synapseHelpData[topicKey];
-            switchToChatMode();
-            appendUserMessage(item.question);
-            appendAiMessage(`<p>${item.answer}</p>`);
-            messageHistory.push({ role: "assistant", content: item.answer });
-        }
     }
 }
 
