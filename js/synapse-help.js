@@ -26,6 +26,7 @@ function injectSynapseHelpStyles() {
             height: 100vh;
             background-color: rgba(15, 23, 42, 0.3);
             backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 9998;
             opacity: 0;
             pointer-events: none;
@@ -41,22 +42,24 @@ function injectSynapseHelpStyles() {
         .synapse-drawer {
             position: fixed;
             top: 0;
-            right: -460px;
+            right: 0;
             width: 440px;
             max-width: 100vw;
             height: 100vh;
+            height: 100dvh;
             background: #ffffff;
             z-index: 9999;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.12);
             display: flex;
             flex-direction: column;
+            transform: translateX(100%);
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             box-sizing: border-box;
             font-family: inherit;
         }
 
         .synapse-drawer.active {
-            transform: translateX(-460px);
+            transform: translateX(0);
         }
 
         /* Górny pasek nawigacji okna */
@@ -266,7 +269,7 @@ function injectSynapseHelpStyles() {
             margin: 0;
         }
 
-        /* Lista Sugestii Pytan */
+        /* Lista Sugestii Pytań */
         .synapse-suggestions-list {
             width: 100%;
             display: flex;
@@ -308,10 +311,6 @@ function injectSynapseHelpStyles() {
         @media (max-width: 480px) {
             .synapse-drawer {
                 width: 100vw;
-                right: -100vw;
-            }
-            .synapse-drawer.active {
-                transform: translateX(-100vw);
             }
         }
     `;
