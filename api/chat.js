@@ -3,7 +3,6 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    // Bezpieczny odczyt klucza po stronie serwera Vercel
     const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
@@ -20,7 +19,7 @@ export default async function handler(req, res) {
                 'Authorization': `Bearer ${apiKey.trim()}`
             },
             body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile',
+                model: 'openai/gpt-oss-120b',
                 messages: messages,
                 temperature: 0.6,
                 max_tokens: 800
