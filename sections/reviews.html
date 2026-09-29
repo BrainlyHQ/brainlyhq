@@ -7,13 +7,11 @@
             <p class="reviews-subtitle">What our team and Community Ambassadors say about building inside BrainlyHQ.</p>
         </div>
 
-        <div class="reviews-grid">
+        <div class="reviews-track">
             
-            <!-- Karta 1 -->
+            <!-- Card 1 -->
             <div class="review-card">
-                <div class="stars-row">
-                    ★★★★★
-                </div>
+                <div class="stars-row">★★★★★</div>
                 <p class="review-text">
                     "Brainly Speech completely shifted how our international moderation teams communicate in Slack. Sub-second translations keep our workflow seamless."
                 </p>
@@ -26,11 +24,9 @@
                 </div>
             </div>
 
-            <!-- Karta 2 -->
+            <!-- Card 2 -->
             <div class="review-card">
-                <div class="stars-row">
-                    ★★★★★
-                </div>
+                <div class="stars-row">★★★★★</div>
                 <p class="review-text">
                     "Brainly Core provides rock-solid server automation. The uptime and low execution latency make managing thousands of users effortless."
                 </p>
@@ -43,11 +39,9 @@
                 </div>
             </div>
 
-            <!-- Karta 3 -->
+            <!-- Card 3 -->
             <div class="review-card">
-                <div class="stars-row">
-                    ★★★★★
-                </div>
+                <div class="stars-row">★★★★★</div>
                 <p class="review-text">
                     "Science Scavengers brought unprecedented engagement rates to our Discord. The custom element drop rates and role rewards are incredible."
                 </p>
@@ -56,6 +50,81 @@
                     <div class="author-info">
                         <span class="author-name">Elena R.</span>
                         <span class="author-role">Ecosystem Manager</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="review-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="review-text">
+                    "The indexing speed in Brainly Hub allows our moderators to find verified answer resources instantly. It saved us hundreds of operational hours."
+                </p>
+                <div class="review-author">
+                    <div class="author-avatar">DM</div>
+                    <div class="author-info">
+                        <span class="author-name">Marcus T.</span>
+                        <span class="author-role">Discord Moderator</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="review-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="review-text">
+                    "Brainly Lab is the perfect sandbox. Testing prototype minigames and community features before public rollout has never been this smooth."
+                </p>
+                <div class="review-author">
+                    <div class="author-avatar">PD</div>
+                    <div class="author-info">
+                        <span class="author-name">Sarah L.</span>
+                        <span class="author-role">Product Designer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="review-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="review-text">
+                    "The Partnership Program connected our regional community to a global network. Badge utility and shared growth tools made a huge difference."
+                </p>
+                <div class="review-author">
+                    <div class="author-avatar">RL</div>
+                    <div class="author-info">
+                        <span class="author-name">Jan B.</span>
+                        <span class="author-role">Regional Community Lead</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="review-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="review-text">
+                    "Brainly Synapse handles contextual nuances with unmatched accuracy. Integrating its translation API across platforms was remarkably straightforward."
+                </p>
+                <div class="review-author">
+                    <div class="author-avatar">AL</div>
+                    <div class="author-info">
+                        <span class="author-name">Priya P.</span>
+                        <span class="author-role">AI Systems Lead</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8 -->
+            <div class="review-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="review-text">
+                    "Brainly Support's Discord ticket routing system automated our escalation flows. Issues get dispatched to the right team in seconds."
+                </p>
+                <div class="review-author">
+                    <div class="author-avatar">OL</div>
+                    <div class="author-info">
+                        <span class="author-name">Liam S.</span>
+                        <span class="author-role">Operations Lead</span>
                     </div>
                 </div>
             </div>
@@ -73,6 +142,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
     }
 
     .reviews-container {
@@ -105,13 +175,40 @@
         line-height: 1.5;
     }
 
-    .reviews-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
+    /* PRZEWIJALNY TOR KART (SCROLL TRACK) */
+    .reviews-track {
+        display: flex;
         gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 8px 4px 20px 4px;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Subtelny pasek przewijania */
+    .reviews-track::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .reviews-track::-webkit-scrollbar-track {
+        background: #e2e8f0;
+        border-radius: 99px;
+    }
+
+    .reviews-track::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 99px;
+    }
+
+    .reviews-track::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
     }
 
     .review-card {
+        flex: 0 0 calc(33.333% - 14px);
+        min-width: 300px;
+        scroll-snap-align: start;
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 16px;
@@ -121,6 +218,7 @@
         justify-content: space-between;
         box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
         transition: transform 0.2s ease, border-color 0.2s ease;
+        box-sizing: border-box;
     }
 
     .review-card:hover {
@@ -184,10 +282,15 @@
         font-weight: 500;
     }
 
-    @media (max-width: 960px) {
-        .reviews-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
+    @media (max-width: 1024px) {
+        .review-card {
+            flex: 0 0 calc(50% - 10px);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .review-card {
+            flex: 0 0 85%;
         }
 
         .reviews-section {
