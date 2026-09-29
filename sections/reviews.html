@@ -7,7 +7,7 @@
             <p class="reviews-subtitle">What our team and Community Ambassadors say about building inside BrainlyHQ.</p>
         </div>
 
-        <div class="reviews-track">
+        <div class="reviews-track" id="reviews-track">
             
             <!-- Card 1 -->
             <div class="review-card">
@@ -133,6 +133,50 @@
     </div>
 </section>
 
+<!-- MIKRO-SKRYPT INICJUJĄCY AUTOMATYCZNE PRZEWIJANIE PO WSTRZYKNIĘCIU DO DOM -->
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
+     onload="(function(){
+        const track = document.getElementById('reviews-track');
+        if (!track || track.dataset.autoScrollInit) return;
+        track.dataset.autoScrollInit = 'true';
+
+        let autoScrollInterval = null;
+
+        function scrollNextCard() {
+            const firstCard = track.querySelector('.review-card');
+            if (!firstCard) return;
+            
+            const cardWidth = firstCard.offsetWidth + 20; // Szerokość karty + gap
+            const maxScrollLeft = track.scrollWidth - track.clientWidth;
+
+            if (track.scrollLeft >= maxScrollLeft - 10) {
+                track.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            }
+        }
+
+        function startAutoScroll() {
+            if (!autoScrollInterval) {
+                autoScrollInterval = setInterval(scrollNextCard, 3500);
+            }
+        }
+
+        function stopAutoScroll() {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+
+        startAutoScroll();
+
+        track.addEventListener('mouseenter', stopAutoScroll);
+        track.addEventListener('mouseleave', startAutoScroll);
+        track.addEventListener('touchstart', stopAutoScroll, { passive: true });
+        track.addEventListener('touchend', startAutoScroll, { passive: true });
+    })()" 
+     style="display:none;" 
+     alt="">
+
 <style>
     .reviews-section {
         background-color: #f8fafc;
@@ -175,34 +219,26 @@
         line-height: 1.5;
     }
 
-    /* PRZEWIJALNY TOR KART (SCROLL TRACK) */
+    /* PRZEWIJALNY TOR KART (SCROLL TRACK) BEZ PASEK PRZEWIJANIA */
     .reviews-track {
         display: flex;
         gap: 20px;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        padding: 8px 4px 20px 4px;
+        padding: 8px 4px 12px 4px;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
+        
+        /* CAŁKOWITE UKRYCIE PASEKA PRZEWIJANIA */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE i Edge */
     }
 
-    /* Subtelny pasek przewijania */
+    /* Ukrycie paska przewijania dla Chrome, Safari, Opera */
     .reviews-track::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    .reviews-track::-webkit-scrollbar-track {
-        background: #e2e8f0;
-        border-radius: 99px;
-    }
-
-    .reviews-track::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 99px;
-    }
-
-    .reviews-track::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
     }
 
     .review-card {
