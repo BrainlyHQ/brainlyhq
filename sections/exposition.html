@@ -1,18 +1,19 @@
 <!-- EXPOSITION SECTION: BRAINLY SPEECH REVOLUTION -->
 <section class="exposition-section">
     <div class="exposition-container">
+        <!-- TELEFON PO LEWEJ STRONIE WRAZ Z IDEALNYM WYRÓWNANIEM -->
+        <div class="exposition-media">
+            <img src="assets/speechphone.png" alt="Brainly Speech App Interface" class="speech-phone-img">
+        </div>
+
+        <!-- TEKST PO PRAWEJ STRONIE -->
         <div class="exposition-content">
-            <span class="exposition-tag">Brainly Speech</span>
             <h2 class="exposition-headline">
                 We change good products into great products.
             </h2>
             <p class="exposition-description">
                 Brainly Speech revolutionizes cross-border community collaboration. Driven by the Brainly Synapse AI model, it converts complex multi-language conversations into real-time, context-aware translation streams directly inside Slack workspaces.
             </p>
-        </div>
-
-        <div class="exposition-media">
-            <img src="assets/speechphone.png" alt="Brainly Speech App Interface" class="speech-phone-img">
         </div>
     </div>
 
@@ -36,28 +37,18 @@
         width: 100%;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
+        grid-template-columns: 1fr 1.1fr;
         gap: 60px;
         align-items: center;
         position: relative;
         z-index: 2;
     }
 
-    .exposition-tag {
-        display: inline-block;
-        font-size: 0.85rem;
-        font-weight: 800;
-        color: #2563eb;
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        margin-bottom: 16px;
-    }
-
     .exposition-headline {
-        font-size: 4.5rem;
+        font-size: 4.8rem;
         font-weight: 900;
-        line-height: 1.04;
-        letter-spacing: -3px;
+        line-height: 1.02;
+        letter-spacing: -3.2px;
         color: #000000;
         margin-bottom: 24px;
     }
@@ -73,17 +64,20 @@
 
     .exposition-media {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
+        width: 100%;
     }
 
     .speech-phone-img {
-        max-width: 100%;
+        width: 100%;
+        max-width: 520px;
         height: auto;
-        max-height: 540px;
+        max-height: 680px;
         object-fit: contain;
-        filter: drop-shadow(0 20px 40px rgba(37, 99, 235, 0.18));
+        filter: drop-shadow(0 25px 50px rgba(37, 99, 235, 0.2));
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        display: block;
     }
 
     .speech-phone-img:hover {
@@ -96,7 +90,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 320px;
+        height: 340px;
         background: linear-gradient(to top, rgba(37, 99, 235, 0.22) 0%, rgba(59, 130, 246, 0.08) 45%, transparent 100%);
         pointer-events: none;
         z-index: 1;
@@ -109,6 +103,10 @@
             gap: 40px;
         }
 
+        .exposition-media {
+            justify-content: center;
+        }
+
         .exposition-headline {
             font-size: 3rem;
             letter-spacing: -1.8px;
@@ -116,6 +114,10 @@
 
         .exposition-description {
             margin: 0 auto;
+        }
+
+        .speech-phone-img {
+            max-height: 480px;
         }
     }
 </style>
