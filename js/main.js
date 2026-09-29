@@ -10,8 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.setAttribute("data-theme", "light");
     localStorage.setItem("theme", "light");
 
-    // 1. Inicjalizacja komponentów
+    // 1. Inicjalizacja komponentów i sekcji
     initHeaderAndFooter();
+    initExpositionSection();
 
     // 2. Service Worker & PWA
     initPwaServiceWorker();
@@ -51,6 +52,25 @@ function initHeaderAndFooter() {
                 footerPlaceholder.innerHTML = data;
             })
             .catch(err => console.error("Error loading footer:", err));
+    }
+}
+
+/**
+ * Ładuje sekcję Exposition z pliku HTML
+ */
+function initExpositionSection() {
+    const expositionPlaceholder = document.getElementById("exposition-placeholder");
+
+    if (expositionPlaceholder) {
+        fetch("sections/exposition.html")
+            .then(res => {
+                if (!res.ok) throw new Error("Błąd podczas ładowania pliku sections/exposition.html");
+                return res.text();
+            })
+            .then(data => {
+                expositionPlaceholder.innerHTML = data;
+            })
+            .catch(err => console.error("Error loading exposition section:", err));
     }
 }
 
