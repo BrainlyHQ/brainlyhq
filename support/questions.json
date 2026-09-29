@@ -1,32 +1,46 @@
 {
+  "synapse": [
+    { "topicId": "speech", "text": "How is Synapse used in Brainly Speech?" },
+    { "topicId": "technology", "text": "What is the infrastructure latency?" }
+  ],
+  "speech": [
+    { "topicId": "synapse", "text": "Tell me more about the Synapse AI model." },
+    { "topicId": "support", "text": "How can I request access for my Slack?" }
+  ],
+  "partnership": [
+    { "topicId": "support", "text": "How to join the Partnership Program?" },
+    { "topicId": "services", "text": "What features are offered to partners?" }
+  ],
+  "scavengers": [
+    { "topicId": "core", "text": "How does it integrate with Discord economy?" },
+    { "topicId": "lab", "text": "Are there other minigames available?" }
+  ],
+  "hub": [
+    { "topicId": "services", "text": "What other ecosystem services exist?" },
+    { "topicId": "technology", "text": "How fast is answer indexing?" }
+  ],
+  "lab": [
+    { "topicId": "scavengers", "text": "Tell me about Science Scavengers." },
+    { "topicId": "research", "text": "What experimental features are tested?" }
+  ],
+  "core": [
+    { "topicId": "support", "text": "How do I set up Brainly Core on Discord?" },
+    { "topicId": "technology", "text": "What security rules does Core enforce?" }
+  ],
+  "support": [
+    { "topicId": "core", "text": "How to open a ticket for Brainly Core?" },
+    { "topicId": "partnership", "text": "Where can partners request priority help?" }
+  ],
   "services": [
-    {
-      "topicId": "technology",
-      "text": "How does low-latency synchronization work?"
-    },
-    {
-      "topicId": "research",
-      "text": "What are multi-guild engagement solutions?"
-    }
+    { "topicId": "core", "text": "What does Brainly Core do?" },
+    { "topicId": "speech", "text": "How does Brainly Speech translate text?" }
   ],
   "technology": [
-    {
-      "topicId": "services",
-      "text": "What ecosystem tools are integrated?"
-    },
-    {
-      "topicId": "research",
-      "text": "How is user identity verified across guilds?"
-    }
+    { "topicId": "synapse", "text": "Learn more about Synapse AI engine." },
+    { "topicId": "services", "text": "View integrated ecosystem tools." }
   ],
   "research": [
-    {
-      "topicId": "services",
-      "text": "Tell me more about Brainly Core and Speech."
-    },
-    {
-      "topicId": "technology",
-      "text": "What is the average bot execution latency?"
-    }
+    { "topicId": "scavengers", "text": "How does gamification improve retention?" },
+    { "topicId": "technology", "text": "What latency guarantees are provided?" }
   ]
 }
