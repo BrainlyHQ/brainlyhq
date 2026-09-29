@@ -1,0 +1,35 @@
+{
+  "services": {
+    "title": "Ecosystem Services & Integrations",
+    "category": "SERVICES",
+    "summary": "Explore our core tools and features across Brainly Core, Speech, and custom integrations.",
+    "content": "Our ecosystem offers a suite of tailored tools engineered to automate community operations, streamline user management, and elevate real-time engagement across platforms.",
+    "highlights": [
+      "Brainly Core: Automated server management, security rules, and user economy.",
+      "Brainly Speech: Multi-language AI translation tool with instant response pipeline.",
+      "Custom Integrations: Dedicated Discord and Slack bot solutions built for high concurrency."
+    ]
+  },
+  "technology": {
+    "title": "Advanced Moderation & Sync Infrastructure",
+    "category": "TECHNOLOGY",
+    "summary": "Learn about our low-latency bot architecture and real-time data synchronization arrays.",
+    "content": "Built with scalability and resilience in mind, our infrastructure processes data with minimal latency, ensuring continuous availability across multi-server network nodes.",
+    "highlights": [
+      "Ultra-low latency (sub-30ms execution speed).",
+      "Real-time data synchronization arrays connecting multi-guild platforms.",
+      "Automated edge filtering and secure payload processing."
+    ]
+  },
+  "research": {
+    "title": "Multi-Guild Engagement & Scalability",
+    "category": "RESEARCH",
+    "summary": "See how we solve complex multi-guild engagement and verification challenges at scale.",
+    "content": "Through data-driven research and iterative platform architecture, we create custom mechanisms that sustain long-term community retention and high user trust.",
+    "highlights": [
+      "Cross-platform user identity verification and cross-guild sync.",
+      "Gamified progression and interaction rewards.",
+      "Analytics engine handling hundreds of thousands of events every month."
+    ]
+  }
+}
