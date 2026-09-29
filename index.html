@@ -62,7 +62,7 @@
             letter-spacing: -0.3px;
         }
 
-        /* --- GOOGLE-STYLE PRODUCT STRIP (PRZESUNIĘTE NIŻEJ) --- */
+        /* --- GOOGLE-STYLE PRODUCT STRIP --- */
         .google-products-bar {
             width: 100%;
             max-width: 100vw;
@@ -98,12 +98,16 @@
             background: linear-gradient(to left, #ffffff 20%, transparent);
         }
 
-        /* Kontener toru animacji */
+        /* Kontener toru animacji z wymuszeniem akceleracji sprzętowej GPU */
         .marquee-track {
             display: flex;
             width: max-content;
             animation: marquee-scroll 50s linear infinite;
             will-change: transform;
+            transform: translate3d(0, 0, 0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            perspective: 1000px;
         }
 
         .marquee-track:hover {
@@ -131,13 +135,13 @@
             filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.12));
         }
 
-        /* Klatki kluczowe płynnej animacji */
+        /* Klatki kluczowe płynnej animacji (GPU accelerated translate3d) */
         @keyframes marquee-scroll {
             0% {
-                transform: translateX(0%);
+                transform: translate3d(0, 0, 0);
             }
             100% {
-                transform: translateX(-50%);
+                transform: translate3d(-50%, 0, 0);
             }
         }
 
@@ -456,11 +460,11 @@
             </div>
         </section>
 
-        <!-- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION (TESTUJEMY QUICK HELP NA TYCH 3 KARTACH) -->
+        <!-- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION -->
         <section class="google-articles-section">
             <div class="articles-grid">
                 
-                <!-- Karta 1: Services (Z podpiętym Quick Help) -->
+                <!-- Karta 1: Services (data-help-topic="services") -->
                 <div class="article-card" data-help-topic="services">
                     <div class="article-image-box">
                         <img src="assets/brainlyhub.png" alt="Ecosystem Services" style="object-fit: contain; padding: 30px;">
@@ -474,7 +478,7 @@
                     </div>
                 </div>
 
-                <!-- Karta 2: Technology (Z podpiętym Quick Help) -->
+                <!-- Karta 2: Technology (data-help-topic="technology") -->
                 <div class="article-card" data-help-topic="technology">
                     <div class="article-image-box" style="background-color: #0f172a;">
                         <img src="assets/brainlysynapse.png" alt="Advanced Technology" style="object-fit: contain; padding: 30px;">
@@ -488,7 +492,7 @@
                     </div>
                 </div>
 
-                <!-- Karta 3: Research (Z podpiętym Quick Help) -->
+                <!-- Karta 3: Research (data-help-topic="research") -->
                 <div class="article-card" data-help-topic="research">
                     <div class="article-image-box">
                         <img src="assets/astronaut_2.png" alt="Research & Solutions">
