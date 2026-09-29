@@ -63,7 +63,7 @@ html, body, [data-theme="light"], [data-theme="dark"] {
 }
 
 html, body {
-    overflow-x: hidden;
+    overflow-x: clip; /* clip zapobiega horyzontalnemu scrollowi bez blokowania position: sticky */
 }
 
 body {
@@ -88,16 +88,21 @@ main {
 }
 
 /* ==========================================
-   NAGŁÓWEK LIQUID HEADER
+   NAGŁÓWEK LIQUID HEADER & PLACEHOLDER
    ========================================== */
+#header-placeholder {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
 header {
     background-color: var(--header-bg);
     backdrop-filter: var(--liquid-blur);
     -webkit-backdrop-filter: var(--liquid-blur);
     border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    width: 100%;
     box-shadow: var(--shadow-subtle);
 }
 
