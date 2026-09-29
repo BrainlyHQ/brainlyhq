@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Inicjalizacja komponentów i sekcji
     initHeaderAndFooter();
     initExpositionSection();
+    initReviewsSection();
 
     // 2. Service Worker & PWA
     initPwaServiceWorker();
@@ -71,6 +72,25 @@ function initExpositionSection() {
                 expositionPlaceholder.innerHTML = data;
             })
             .catch(err => console.error("Error loading exposition section:", err));
+    }
+}
+
+/**
+ * Ładuje sekcję Reviews z pliku HTML
+ */
+function initReviewsSection() {
+    const reviewsPlaceholder = document.getElementById("reviews-placeholder");
+
+    if (reviewsPlaceholder) {
+        fetch("sections/reviews.html")
+            .then(res => {
+                if (!res.ok) throw new Error("Błąd podczas ładowania pliku sections/reviews.html");
+                return res.text();
+            })
+            .then(data => {
+                reviewsPlaceholder.innerHTML = data;
+            })
+            .catch(err => console.error("Error loading reviews section:", err));
     }
 }
 
