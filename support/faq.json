@@ -1,7 +1,86 @@
 {
+  "synapse": {
+    "title": "Brainly Synapse",
+    "summary": "Our proprietary artificial intelligence engine.",
+    "content": "Specialized in natural language processing, contextual text translation, and automated data processing to power intelligent tools across the BrainlyHQ ecosystem.",
+    "highlights": [
+      "Contextual AI translation and generation pipeline.",
+      "Ultra-low latency prompt execution.",
+      "Native integration across Slack, Discord, and Web."
+    ]
+  },
+  "speech": {
+    "title": "Brainly Speech",
+    "summary": "An internal AI translation application for Slack.",
+    "content": "Powered by the Brainly Synapse 1.0 AI model. Designed for instant multilingual text conversion to streamline communication across international moderation teams.",
+    "highlights": [
+      "Real-time multi-language translation pipeline.",
+      "Seamless Slack workspace integration.",
+      "Automated contextual tone adaptation."
+    ]
+  },
+  "partnership": {
+    "title": "Partnership Program",
+    "summary": "Official community-driven network portal.",
+    "content": "Connecting verified structures and managers under a shared ecosystem to execute joint campaigns, cross-promote events, and exchange operational resources.",
+    "highlights": [
+      "Cross-community campaign synchronization.",
+      "Verified server status & badge utility.",
+      "Shared growth and resource portal."
+    ]
+  },
+  "scavengers": {
+    "title": "Science Scavengers",
+    "summary": "Interactive, gamified community economy.",
+    "content": "Hunt for rare scientific elements, trade collectibles, smelt items, and unlock specialized profile roles through custom algorithm drop-rates.",
+    "highlights": [
+      "Gamified element collecting & alchemy.",
+      "Custom drop-rate algorithm.",
+      "Discord economy & profile role unlocks."
+    ]
+  },
+  "hub": {
+    "title": "Brainly Hub",
+    "summary": "Advanced academic discovery framework.",
+    "content": "Allows users to query educational databases directly by keyword, filter results by difficulty curves, and locate verified answers instantly.",
+    "highlights": [
+      "Instant academic database querying.",
+      "Difficulty curve filtering.",
+      "Verified answer indexing."
+    ]
+  },
+  "lab": {
+    "title": "Brainly Lab",
+    "summary": "Official entertainment and experimental research sandbox.",
+    "content": "A dedicated platform featuring interactive community minigames, prototype features, and game-design showcases.",
+    "highlights": [
+      "Prototype feature testing ground.",
+      "Interactive community minigames.",
+      "Experimental bot mechanics."
+    ]
+  },
+  "core": {
+    "title": "Brainly Core",
+    "summary": "Flagship community administration utility.",
+    "content": "Engineered to secure operations, manage automated moderation logs, and maintain user safety parameters across public community networks.",
+    "highlights": [
+      "Automated server security & raid protection.",
+      "Centralized moderation logs.",
+      "Real-time user safety monitoring."
+    ]
+  },
+  "support": {
+    "title": "Brainly Support",
+    "summary": "24/7 online helpdesk & Discord ticket ecosystem.",
+    "content": "A dedicated assistance portal offering direct Discord ticket dispatches, automated issue routing, and real-time support for community members and administrators.",
+    "highlights": [
+      "Instant Discord support ticket routing.",
+      "Direct technical assistance for server managers.",
+      "24/7 automated issue resolution and FAQs."
+    ]
+  },
   "services": {
     "title": "Ecosystem Services & Integrations",
-    "category": "SERVICES",
     "summary": "Explore our core tools and features across Brainly Core, Speech, and custom integrations.",
     "content": "Our ecosystem offers a suite of tailored tools engineered to automate community operations, streamline user management, and elevate real-time engagement across platforms.",
     "highlights": [
@@ -12,18 +91,16 @@
   },
   "technology": {
     "title": "Advanced Moderation & Sync Infrastructure",
-    "category": "TECHNOLOGY",
     "summary": "Learn about our low-latency bot architecture and real-time data synchronization arrays.",
     "content": "Built with scalability and resilience in mind, our infrastructure processes data with minimal latency, ensuring continuous availability across multi-server network nodes.",
     "highlights": [
-      "Ultra-low latency (sub-30ms execution speed).",
+      "Ultra-low latency execution speed.",
       "Real-time data synchronization arrays connecting multi-guild platforms.",
       "Automated edge filtering and secure payload processing."
     ]
   },
   "research": {
     "title": "Multi-Guild Engagement & Scalability",
-    "category": "RESEARCH",
     "summary": "See how we solve complex multi-guild engagement and verification challenges at scale.",
     "content": "Through data-driven research and iterative platform architecture, we create custom mechanisms that sustain long-term community retention and high user trust.",
     "highlights": [
