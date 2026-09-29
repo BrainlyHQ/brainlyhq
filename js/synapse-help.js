@@ -209,7 +209,7 @@ function injectSynapseHelpStyles() {
             color: #0f172a;
         }
 
-        /* STYL ŁADOWANIA AI (CHATGPT / GEMINI LIKE) */
+        /* STYL ŁADOWANIA AI */
         .synapse-ai-loading {
             display: flex;
             align-items: center;
@@ -380,7 +380,7 @@ function injectSynapseHelpStyles() {
 }
 
 /**
- * Generuje strukturę DOM dla bazy wiedzy z opcją zgłaszania błędów oraz resetowania
+ * Generuje strukturę DOM dla bazy wiedzy
  */
 function buildSynapseHelpDOM() {
     const backdrop = document.createElement("div");
@@ -406,7 +406,6 @@ function buildSynapseHelpDOM() {
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
                 </button>
                 <button class="synapse-icon-btn" id="synapse-report-btn" title="Report an issue">
-                    <!-- Profesjonalna ikona zgłaszania błędów (Bug icon) -->
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m8 2 1.88 1.88"></path>
                         <path d="M14.12 3.88 16 2"></path>
@@ -450,7 +449,7 @@ function initSynapseHelpTriggers() {
         if (trigger) {
             e.preventDefault();
             const topicId = trigger.getAttribute("data-help-topic");
-            const customQueryText = trigger.getAttribute("data-query-text") || trigger.innerText.trim();
+            const customQueryText = trigger.getAttribute("data-query-text") || trigger.getAttribute("title") || trigger.innerText.trim();
             openSynapseHelp(topicId, customQueryText);
         }
     });
@@ -470,19 +469,18 @@ async function appendTopicToChat(topicId, userPromptText = null) {
     const data = faqData ? faqData[topicId] : null;
     const promptLabel = userPromptText || (data ? data.title : "Query Information");
 
-    // Jeśli to pierwsze użycie lub powrót z pustego stanu, wyczyść pusty ekran
     if (isFirstLoad) {
         container.innerHTML = "";
         isFirstLoad = false;
     }
 
-    // 1. Dopisanie wiadomości użytkownika
+    // 1. Wiadomość użytkownika
     const userMsg = document.createElement("div");
     userMsg.className = "synapse-msg-user";
     userMsg.innerText = promptLabel;
     container.appendChild(userMsg);
 
-    // 2. Utworzenie wiersza odpowiedzi AI ze stanem ładowania (Gemini style)
+    // 2. Wiersz odpowiedzi AI z ładowaniem
     const aiMsg = document.createElement("div");
     aiMsg.className = "synapse-msg-ai";
     aiMsg.innerHTML = `
@@ -501,7 +499,7 @@ async function appendTopicToChat(topicId, userPromptText = null) {
     container.appendChild(aiMsg);
     scrollToBottom();
 
-    // 3. Symulowane krótkie opóźnienie analityczne AI
+    // 3. Opóźnienie generatora AI
     await new Promise(resolve => setTimeout(resolve, 450));
 
     const bubble = aiMsg.querySelector(".synapse-ai-bubble");
