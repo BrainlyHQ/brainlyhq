@@ -1,0 +1,121 @@
+<!-- EXPOSITION SECTION: BRAINLY SPEECH REVOLUTION -->
+<section class="exposition-section">
+    <div class="exposition-container">
+        <div class="exposition-content">
+            <span class="exposition-tag">Brainly Speech</span>
+            <h2 class="exposition-headline">
+                We change good products into great products.
+            </h2>
+            <p class="exposition-description">
+                Brainly Speech revolutionizes cross-border community collaboration. Driven by the Brainly Synapse AI model, it converts complex multi-language conversations into real-time, context-aware translation streams directly inside Slack workspaces.
+            </p>
+        </div>
+
+        <div class="exposition-media">
+            <img src="assets/speechphone.png" alt="Brainly Speech App Interface" class="speech-phone-img">
+        </div>
+    </div>
+
+    <!-- SUBTELNA NIEBIESKA NEONOWA POŚWIATA OD DOŁU -->
+    <div class="bottom-blue-glow"></div>
+</section>
+
+<style>
+    .exposition-section {
+        position: relative;
+        background-color: #ffffff;
+        padding: 100px 20px 140px 20px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .exposition-container {
+        max-width: 1240px;
+        width: 100%;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .exposition-tag {
+        display: inline-block;
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: #2563eb;
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        margin-bottom: 16px;
+    }
+
+    .exposition-headline {
+        font-size: 4.5rem;
+        font-weight: 900;
+        line-height: 1.04;
+        letter-spacing: -3px;
+        color: #000000;
+        margin-bottom: 24px;
+    }
+
+    .exposition-description {
+        font-size: 1.25rem;
+        color: #475569;
+        line-height: 1.6;
+        font-weight: 500;
+        max-width: 580px;
+        letter-spacing: -0.2px;
+    }
+
+    .exposition-media {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .speech-phone-img {
+        max-width: 100%;
+        height: auto;
+        max-height: 540px;
+        object-fit: contain;
+        filter: drop-shadow(0 20px 40px rgba(37, 99, 235, 0.18));
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .speech-phone-img:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    /* Niebieski neon od dołu strony */
+    .bottom-blue-glow {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 320px;
+        background: linear-gradient(to top, rgba(37, 99, 235, 0.22) 0%, rgba(59, 130, 246, 0.08) 45%, transparent 100%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    @media (max-width: 960px) {
+        .exposition-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 40px;
+        }
+
+        .exposition-headline {
+            font-size: 3rem;
+            letter-spacing: -1.8px;
+        }
+
+        .exposition-description {
+            margin: 0 auto;
+        }
+    }
+</style>
