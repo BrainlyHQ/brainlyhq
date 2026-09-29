@@ -1,0 +1,32 @@
+{
+  "services": [
+    {
+      "topicId": "technology",
+      "text": "How does low-latency synchronization work?"
+    },
+    {
+      "topicId": "research",
+      "text": "What are multi-guild engagement solutions?"
+    }
+  ],
+  "technology": [
+    {
+      "topicId": "services",
+      "text": "What ecosystem tools are integrated?"
+    },
+    {
+      "topicId": "research",
+      "text": "How is user identity verified across guilds?"
+    }
+  ],
+  "research": [
+    {
+      "topicId": "services",
+      "text": "Tell me more about Brainly Core and Speech."
+    },
+    {
+      "topicId": "technology",
+      "text": "What is the average bot execution latency?"
+    }
+  ]
+}
