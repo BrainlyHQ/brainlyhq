@@ -208,16 +208,6 @@
             flex-grow: 1;
         }
 
-        .article-category {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 12px;
-            display: block;
-        }
-
         .article-title {
             font-size: 1.15rem;
             font-weight: 800;
@@ -241,123 +231,10 @@
             stroke-width: 2.2;
         }
 
-        /* --- SCROLL EXPANSION ANIMATION SECTION --- */
-        .scroll-expand-wrapper {
-            position: relative;
-            height: 250vh;
-            background-color: #0f172a;
-        }
-
-        .sticky-expand-container {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .expanding-card {
-            width: 75vw;
-            height: 65vh;
-            border-radius: 36px;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px;
-            box-sizing: border-box;
-            will-change: transform, width, height, border-radius;
-            transition: transform 0.1s ease-out, border-radius 0.1s ease-out, width 0.1s ease-out, height 0.1s ease-out;
-            color: #ffffff;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .expand-card-bg-glow {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(153, 238, 96, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .expand-tag {
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: var(--color-brainly-green-bg);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-        }
-
-        .expand-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: -2px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            max-width: 800px;
-        }
-
-        .expand-desc {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-
-        /* --- STATS SECTION --- */
-        .stats-banner {
-            border-top: 1px solid #e2e8f0;
-            border-bottom: 1px solid #e2e8f0;
-            background-color: #ffffff;
-            padding: 56px 20px;
-            width: 100%;
-        }
-
-        .stats-grid {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            text-align: center;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 900;
-            color: #000000;
-            letter-spacing: -1.5px;
-        }
-
-        .stat-label {
-            font-size: 0.82rem;
-            color: #64748b;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
         /* RESPONSYWNOŚĆ */
         @media (max-width: 1024px) {
             .hero-title { font-size: 3.8rem; letter-spacing: -2px; }
-            .articles-grid, .stats-grid { grid-template-columns: 1fr; }
-            .expand-title { font-size: 2.4rem; }
-            .expanding-card { width: 90vw; height: 70vh; }
+            .articles-grid { grid-template-columns: 1fr; }
             .marquee-group { gap: 40px; padding-right: 40px; }
             .marquee-group img { height: 38px; }
         }
@@ -490,70 +367,11 @@
             </div>
         </section>
 
-        <!-- SCROLL EXPANSION ANIMATION SECTION -->
-        <section class="scroll-expand-wrapper" id="scroll-expand-section">
-            <div class="sticky-expand-container">
-                <div class="expanding-card" id="expand-card">
-                    <div class="expand-card-bg-glow"></div>
-                    <span class="expand-tag">Next-Gen Ecosystem</span>
-                    <h2 class="expand-title">Engineered to power global communities.</h2>
-                    <p class="expand-desc">Unifying moderation tools, custom integrations, and gamified learning platforms into one continuous infrastructure.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- STATS SECTION -->
-        <section class="stats-banner" id="stats-section">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">26 ms</div>
-                    <div class="stat-label">Core Bot Latency</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">1,400+</div>
-                    <div class="stat-label">Active Platform Users</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">400K+</div>
-                    <div class="stat-label">Total Messages Processed</div>
-                </div>
-            </div>
-        </section>
+        <!-- EXPOSITION SECTION PLACEHOLDER -->
+        <div id="exposition-placeholder"></div>
     </main>
 
     <footer id="footer-placeholder"></footer>
 
-    <!-- SKRYPT DO ANIMACJI SCROLL EXPAND -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const wrapper = document.getElementById("scroll-expand-section");
-            const card = document.getElementById("expand-card");
-
-            if (!wrapper || !card) return;
-
-            window.addEventListener("scroll", () => {
-                const rect = wrapper.getBoundingClientRect();
-                const totalScrollable = wrapper.offsetHeight - window.innerHeight;
-                
-                let progress = -rect.top / totalScrollable;
-                progress = Math.max(0, Math.min(1, progress));
-
-                const initialWidth = 75;
-                const targetWidth = 100;
-                const initialHeight = 65;
-                const targetHeight = 100;
-                const initialRadius = 36;
-                const targetRadius = 0;
-
-                const currentWidth = initialWidth + (targetWidth - initialWidth) * progress;
-                const currentHeight = initialHeight + (targetHeight - initialHeight) * progress;
-                const currentRadius = initialRadius + (targetRadius - initialRadius) * progress;
-
-                card.style.width = `${currentWidth}vw`;
-                card.style.height = `${currentHeight}vh`;
-                card.style.borderRadius = `${currentRadius}px`;
-            });
-        });
-    </script>
 </body>
 </html>
