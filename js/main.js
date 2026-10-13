@@ -89,9 +89,52 @@ function initReviewsSection() {
             })
             .then(data => {
                 reviewsPlaceholder.innerHTML = data;
+                setupReviewsCarousel();
             })
             .catch(err => console.error("Error loading reviews section:", err));
     }
+}
+
+/**
+ * Automatyczne i płynne przewijanie karuzeli opinii
+ */
+function setupReviewsCarousel() {
+    const track = document.getElementById('reviews-track');
+    if (!track) return;
+
+    let autoScrollInterval = null;
+
+    function scrollNextCard() {
+        const firstCard = track.querySelector('.review-card');
+        if (!firstCard) return;
+        
+        const cardWidth = firstCard.offsetWidth + 20;
+        const maxScrollLeft = track.scrollWidth - track.clientWidth;
+
+        if (track.scrollLeft >= maxScrollLeft - 10) {
+            track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+    }
+
+    function startAutoScroll() {
+        if (!autoScrollInterval) {
+            autoScrollInterval = setInterval(scrollNextCard, 3500);
+        }
+    }
+
+    function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+        autoScrollInterval = null;
+    }
+
+    startAutoScroll();
+
+    track.addEventListener('mouseenter', stopAutoScroll);
+    track.addEventListener('mouseleave', startAutoScroll);
+    track.addEventListener('touchstart', stopAutoScroll, { passive: true });
+    track.addEventListener('touchend', startAutoScroll, { passive: true });
 }
 
 /**

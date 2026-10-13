@@ -217,18 +217,175 @@
             letter-spacing: -0.3px;
         }
 
-        .article-footer {
-            margin-top: auto;
+        .article-footer-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #3b82f6;
+            letter-spacing: -0.2px;
+            margin-right: 6px;
+        }
+
+        /* --- STATS SECTION --- */
+        .stats-section {
+            padding: 80px 20px;
+            background: #fafbfd;
+            border-top: 1px solid #eef2f6;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .stats-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .stat-item {
             display: flex;
-            justify-content: flex-end;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            color: #0f172a;
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-accent {
+            color: #3da80a;
+        }
+
+        .stat-label {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .stat-desc {
+            font-size: 0.88rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* --- COMMUNITY CTA SECTION --- */
+        .cta-section {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .cta-container {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
             align-items: center;
         }
 
-        .external-link-icon {
-            width: 18px;
-            height: 18px;
-            color: #3b82f6;
-            stroke-width: 2.2;
+        .cta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background-color: #ecfdf5;
+            color: #059669;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin-bottom: 24px;
+            border: 1px solid #d1fae5;
+        }
+
+        .cta-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .cta-title {
+            font-size: 3.6rem;
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -2.5px;
+            color: #000000;
+            margin-bottom: 18px;
+        }
+
+        .cta-lead {
+            font-size: 1.2rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            max-width: 640px;
+            font-weight: 500;
+        }
+
+        .cta-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background-color: #000000;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .cta-btn-primary:hover {
+            background-color: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+            color: #ffffff;
+        }
+
+        .cta-btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background-color: #ffffff;
+            color: #0f172a;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 999px;
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cta-btn-secondary:hover {
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            color: #0f172a;
         }
 
         /* RESPONSYWNOŚĆ */
@@ -237,12 +394,17 @@
             .articles-grid { grid-template-columns: 1fr; }
             .marquee-group { gap: 40px; padding-right: 40px; }
             .marquee-group img { height: 38px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
         }
 
         @media (max-width: 640px) {
             .hero-title { font-size: 2.6rem; letter-spacing: -1.5px; }
             .hero-lead { font-size: 1.1rem; }
             .google-products-bar { margin-top: 60px; }
+            .stats-grid { grid-template-columns: 1fr; gap: 32px; }
+            .stat-value { font-size: 2.8rem; }
+            .cta-title { font-size: 2.4rem; letter-spacing: -1.5px; }
+            .cta-lead { font-size: 1.05rem; }
         }
     </style>
     <script src="js/theme.js"></script>
@@ -322,7 +484,7 @@
         </section>
 
         <!-- GOOGLE ABOUT STYLE: 3 ARTICLES SECTION -->
-        <section class="google-articles-section">
+        <section class="google-articles-section" id="ecosystem">
             <div class="articles-grid">
                 
                 <!-- Karta 1: Services -->
@@ -333,6 +495,7 @@
                     <div class="article-body">
                         <h3 class="article-title">Explore our core tools and features across Brainly Core, Speech, and custom integrations</h3>
                         <div class="article-footer">
+                            <span class="article-footer-label">Explore in Synapse</span>
                             <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </div>
                     </div>
@@ -346,6 +509,7 @@
                     <div class="article-body">
                         <h3 class="article-title">Learn about our advanced moderation AI models and real-time synchronization arrays</h3>
                         <div class="article-footer">
+                            <span class="article-footer-label">Explore in Synapse</span>
                             <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </div>
                     </div>
@@ -359,6 +523,7 @@
                     <div class="article-body">
                         <h3 class="article-title">See how we solve complex multi-guild engagement and verification challenges at scale</h3>
                         <div class="article-footer">
+                            <span class="article-footer-label">Explore in Synapse</span>
                             <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </div>
                     </div>
@@ -367,11 +532,62 @@
             </div>
         </section>
 
+        <!-- CORE STATS SECTION -->
+        <section class="stats-section" id="stats-section">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">50K<span class="stat-accent">+</span></div>
+                        <div class="stat-label">Community Members</div>
+                        <div class="stat-desc">Collaborating across global Discord and Slack learning spaces.</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">99.98<span class="stat-accent">%</span></div>
+                        <div class="stat-label">Service Reliability</div>
+                        <div class="stat-desc">High-availability architecture backed by distributed failover nodes.</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1.2M<span class="stat-accent">+</span></div>
+                        <div class="stat-label">Messages Processed</div>
+                        <div class="stat-desc">Low-latency moderation pipelines and real-time AI translations.</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">8<span class="stat-accent">+</span></div>
+                        <div class="stat-label">Integrated Modules</div>
+                        <div class="stat-desc">Custom bots and automation toolkits powering our ecosystem.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- EXPOSITION SECTION PLACEHOLDER -->
         <div id="exposition-placeholder"></div>
         
         <!-- REVIEWS SECTION PLACEHOLDER -->
         <div id="reviews-placeholder"></div>
+
+        <!-- COMMUNITY CTA SECTION -->
+        <section class="cta-section" id="cta-section">
+            <div class="cta-container">
+                <div class="cta-badge">
+                    <span class="cta-badge-dot"></span>
+                    <span>Ready for 2027</span>
+                </div>
+                <h2 class="cta-title">Join the future of collaborative learning.</h2>
+                <p class="cta-lead">
+                    Experience lightning-fast AI tools, real-time translations, and automated community protection built for next-generation learning communities.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://dsc.gg/brainlyhq" target="_blank" class="cta-btn-primary">
+                        <span>Join Discord Community</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                    <a href="products.html" class="cta-btn-secondary">
+                        <span>Explore All Products</span>
+                    </a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer id="footer-placeholder"></footer>
