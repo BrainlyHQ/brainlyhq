@@ -217,12 +217,43 @@
             letter-spacing: -0.3px;
         }
 
-        .article-footer-label {
-            font-size: 0.82rem;
+        .article-footer {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background-color: #f1f5f9;
+            color: #2563eb;
+            font-size: 0.78rem;
             font-weight: 700;
-            color: #3b82f6;
             letter-spacing: -0.2px;
-            margin-right: 6px;
+            width: fit-content;
+            transition: all 0.2s ease;
+        }
+
+        .article-card:hover .article-footer {
+            background-color: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .article-footer-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: inherit;
+            letter-spacing: -0.2px;
+        }
+
+        .external-link-icon {
+            width: 13px !important;
+            height: 13px !important;
+            max-width: 13px !important;
+            max-height: 13px !important;
+            stroke-width: 2.5;
+            color: inherit;
+            flex-shrink: 0;
+            display: inline-block;
         }
 
         /* --- STATS SECTION --- */
@@ -293,29 +324,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .cta-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 999px;
-            background-color: #ecfdf5;
-            color: #059669;
-            font-size: 0.82rem;
-            font-weight: 700;
-            letter-spacing: -0.2px;
-            margin-bottom: 24px;
-            border: 1px solid #d1fae5;
-        }
-
-        .cta-badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #10b981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
         }
 
         .cta-title {
@@ -569,10 +577,6 @@
         <!-- COMMUNITY CTA SECTION -->
         <section class="cta-section" id="cta-section">
             <div class="cta-container">
-                <div class="cta-badge">
-                    <span class="cta-badge-dot"></span>
-                    <span>Ready for 2027</span>
-                </div>
                 <h2 class="cta-title">Join the future of collaborative learning.</h2>
                 <p class="cta-lead">
                     Experience lightning-fast AI tools, real-time translations, and automated community protection built for next-generation learning communities.

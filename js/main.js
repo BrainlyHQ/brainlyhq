@@ -185,7 +185,6 @@ function initNavigationHighlight() {
 
     if (path === "benefits.html" || path === "tracks.html") path = "careers.html";
     if (path === "status.html" || path === "instal.html" || path === "maintenance.html") path = "support.html";
-    if (path === "post.html") path = "blog.html";
     if (path === "documentation.html") path = "docs.html";
 
     const activeLink = document.querySelector(`nav.categories-nav a[href="${path}"]`);
