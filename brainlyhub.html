@@ -181,7 +181,6 @@
             gap: 8px;
         }
 
-        /* UKRYCIE STOPKI W ZWINIĘTYM SIDEBARZE */
         .sidebar.collapsed .sidebar-footer {
             display: none;
         }
@@ -218,7 +217,6 @@
             position: relative;
         }
 
-        /* CONTENT SCROLL AREA */
         .content-scroll-area {
             flex-grow: 1;
             overflow-y: auto;
@@ -270,7 +268,6 @@
             transform: translateY(-2px);
         }
 
-        /* UJEDNOLICENIE PIERWSZYCH PACZEK Z POZOSTAŁYMI */
         .package-card-featured {
             border-color: var(--border-subtle);
             background: var(--bg-card);
@@ -305,11 +302,13 @@
             color: var(--text-main);
         }
 
-        /* CZARNY KOLOR NAPISU LICZBY ZADAŃ */
+        /* CZARNY KOLOR DLA OZNACZEŃ LICZBY ZADAŃ */
         .package-card .contains-count,
         .package-card .contains-tasks,
+        .package-card .task-count,
         .package-tasks-count,
-        .contains-info {
+        .contains-info,
+        .contains-text {
             color: var(--text-main) !important;
             font-weight: 600;
         }
@@ -493,45 +492,50 @@
             color: #ffffff;
         }
 
-        /* --- FAVORITES MODAL --- */
-        .fav-modal-overlay {
+        /* --- FAVORITES SIDE DRAWER (PANEL BOCZNY) --- */
+        .fav-drawer-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.35);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.25);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             z-index: 1000;
             display: none;
-            align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
         }
 
-        .fav-modal-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            max-width: 480px;
-            width: 90%;
-            max-height: 80vh;
+        .fav-drawer-card {
+            background: var(--bg-sidebar);
+            border-left: 1px solid var(--border-subtle);
+            width: 380px;
+            max-width: 85vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             box-shadow: var(--shadow-lg);
+            animation: slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
 
         .fav-modal-header {
-            padding: 16px 20px;
+            padding: 18px 20px;
             border-bottom: 1px solid var(--border-subtle);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--bg-sidebar);
         }
 
         .fav-modal-title {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--text-main);
             margin: 0;
@@ -545,6 +549,12 @@
             cursor: pointer;
             line-height: 1;
             padding: 4px;
+            border-radius: var(--radius-sm);
+        }
+
+        .btn-close-modal:hover {
+            background: var(--bg-hover);
+            color: var(--text-main);
         }
 
         .fav-modal-body {
@@ -553,29 +563,33 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            flex-grow: 1;
         }
 
         .fav-item-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 14px;
-            background: var(--bg-app);
+            padding: 12px 14px;
+            background: var(--bg-card);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-md);
             gap: 12px;
+            box-shadow: var(--shadow-sm);
         }
 
         .fav-item-topic {
             font-weight: 600;
             font-size: 0.875rem;
             color: var(--text-main);
+            line-height: 1.3;
         }
 
         .fav-item-actions {
             display: flex;
             gap: 8px;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .btn-fav-remove {
@@ -968,9 +982,9 @@
         </div>
     </div>
 
-    <!-- ULUBIONE MODAL -->
-    <div id="fav-modal" class="fav-modal-overlay">
-        <div class="fav-modal-card">
+    <!-- ULUBIONE (DRAWER / PANEL BOCZNY z prawej) -->
+    <div id="fav-modal" class="fav-drawer-overlay" onclick="if(event.target === this) closeFavModal();">
+        <div class="fav-drawer-card">
             <div class="fav-modal-header">
                 <h3 class="fav-modal-title">Saved Packages</h3>
                 <button class="btn-close-modal" onclick="closeFavModal()">&times;</button>
@@ -1196,7 +1210,8 @@
             try { parsed = JSON.parse(cachedData); } catch(e) { return; }
 
             const grouped = groupDatabaseIntoPackages(parsed);
-            const foundPackage = grouped.find(p => 
+            // FILTROWANIE "General Package"
+            const foundPackage = grouped.filter(p => p.displayTopic.trim().toLowerCase() !== 'general package').find(p => 
                 p.displayTopic.trim().toLowerCase() === topic.trim().toLowerCase() &&
                 (!market || p.marketKey.toUpperCase() === market.toUpperCase())
             );
