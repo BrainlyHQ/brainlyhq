@@ -181,6 +181,11 @@
             gap: 8px;
         }
 
+        /* UKRYCIE STOPKI W ZWINIĘTYM SIDEBARZE */
+        .sidebar.collapsed .sidebar-footer {
+            display: none;
+        }
+
         .sidebar-stats-card {
             background: var(--bg-hover);
             border-radius: var(--radius-md);
@@ -190,10 +195,6 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-        }
-
-        .sidebar.collapsed .sidebar-stats-card {
-            display: none;
         }
 
         .stats-row {
@@ -215,17 +216,6 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
-        }
-
-        .top-header {
-            height: 48px;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            border-bottom: 1px solid var(--border-subtle);
-            background: var(--bg-sidebar);
-            flex-shrink: 0;
         }
 
         /* CONTENT SCROLL AREA */
@@ -280,9 +270,10 @@
             transform: translateY(-2px);
         }
 
+        /* UJEDNOLICENIE PIERWSZYCH PACZEK Z POZOSTAŁYMI */
         .package-card-featured {
-            border-color: var(--accent-green-border);
-            background: linear-gradient(180deg, #ffffff 0%, var(--accent-green-subtle) 100%);
+            border-color: var(--border-subtle);
+            background: var(--bg-card);
         }
 
         .package-badges {
@@ -312,6 +303,15 @@
             margin-bottom: 16px;
             line-height: 1.4;
             color: var(--text-main);
+        }
+
+        /* CZARNY KOLOR NAPISU LICZBY ZADAŃ */
+        .package-card .contains-count,
+        .package-card .contains-tasks,
+        .package-tasks-count,
+        .contains-info {
+            color: var(--text-main) !important;
+            font-weight: 600;
         }
 
         .btn-open-package {
@@ -886,12 +886,6 @@
                         <span class="nav-label">New Search</span>
                     </button>
 
-                    <!-- Search Packages -->
-                    <button class="nav-item" onclick="focusSearchInput()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        <span class="nav-label">Search Packages</span>
-                    </button>
-
                     <!-- Favorites -->
                     <button id="btn-open-favs" class="nav-item" onclick="openFavModal()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -914,10 +908,6 @@
 
         <!-- MAIN WRAPPER -->
         <div class="main-wrapper">
-            
-            <header class="top-header">
-                <!-- Czysty nagłówek bez napisu -->
-            </header>
 
             <!-- OBSZAR WYNIKÓW -->
             <main class="content-scroll-area">
@@ -1242,7 +1232,7 @@
                     <div>
                         <div class="package-badges">${badgesHtml}</div>
                         <h1 class="package-header-title">${escapeHtml(foundPackage.displayTopic)}</h1>
-                        <p style="margin: 0; font-size: 0.825rem; color: var(--text-muted);">Total task resources: <strong>${foundPackage.structuredLinks.length}</strong></p>
+                        <p style="margin: 0; font-size: 0.825rem; color: var(--text-muted);">Total task resources: <strong style="color: var(--text-main);">${foundPackage.structuredLinks.length}</strong></p>
                     </div>
                     <div class="package-actions">
                         <button id="btn-fav-toggle" class="btn-action-icon" title="Toggle Favorite" onclick="toggleFavorite('${escapeHtml(foundPackage.displayTopic)}', '${escapeHtml(foundPackage.marketKey)}')"></button>
