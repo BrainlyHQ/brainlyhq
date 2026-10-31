@@ -29,7 +29,6 @@
             --accent-green-border: #bbf7d0;
 
             --sidebar-width: 240px;
-            --sidebar-collapsed-width: 64px;
 
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
@@ -63,7 +62,7 @@
             overflow: hidden;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR (NA STAŁE ROZWINIĘTY) --- */
         .sidebar {
             width: var(--sidebar-width);
             background-color: var(--bg-sidebar);
@@ -71,41 +70,16 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 100;
             flex-shrink: 0;
             user-select: none;
-        }
-
-        .sidebar.collapsed {
-            width: var(--sidebar-collapsed-width);
         }
 
         .sidebar-header {
             padding: 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-        }
-
-        .toggle-sidebar-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-sm);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            transition: background 0.15s ease, color 0.15s ease;
-        }
-
-        .toggle-sidebar-btn:hover {
-            background: var(--bg-hover);
-            color: var(--text-main);
+            justify-content: flex-start;
         }
 
         .sidebar-nav {
@@ -152,15 +126,6 @@
             flex-shrink: 0;
         }
 
-        .nav-label {
-            transition: opacity 0.2s ease;
-        }
-
-        .sidebar.collapsed .nav-label {
-            opacity: 0;
-            pointer-events: none;
-        }
-
         .badge-pill {
             margin-left: auto;
             background: var(--bg-active);
@@ -171,20 +136,12 @@
             border-radius: var(--radius-pill);
         }
 
-        .sidebar.collapsed .badge-pill {
-            display: none;
-        }
-
         .sidebar-footer {
             padding: 12px;
             border-top: 1px solid var(--border-subtle);
             display: flex;
             flex-direction: column;
             gap: 8px;
-        }
-
-        .sidebar.collapsed .sidebar-footer {
-            display: none;
         }
 
         .sidebar-stats-card {
@@ -304,7 +261,6 @@
             color: var(--text-main);
         }
 
-        /* CZARNY KOLOR DLA OZNACZEŃ LICZBY ZADAŃ */
         .package-card .contains-count,
         .package-card .contains-tasks,
         .package-card .task-count,
@@ -543,7 +499,6 @@
             margin: 0;
         }
 
-        /* IDEALNIE KWADRATOWY PRZYCISK ZAMKNIĘCIA MODALA */
         .btn-close-modal {
             background: transparent;
             border: none;
@@ -595,6 +550,7 @@
             line-height: 1.3;
         }
 
+        /* JEDNOLITA WYSOKOŚĆ PRZYCISKÓW W ULUBIONYCH */
         .fav-item-actions {
             display: flex;
             gap: 8px;
@@ -602,12 +558,23 @@
             flex-shrink: 0;
         }
 
+        .fav-item-actions .btn-open-package {
+            height: 32px;
+            padding: 0 14px;
+            font-size: 0.78rem;
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
         .btn-fav-remove {
             background: #fef2f2;
             border: 1px solid #fecaca;
             color: #ef4444;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: var(--radius-sm);
             display: inline-flex;
             align-items: center;
@@ -615,6 +582,7 @@
             cursor: pointer;
             padding: 0;
             flex-shrink: 0;
+            box-sizing: border-box;
         }
 
         .btn-fav-remove:hover {
@@ -895,16 +863,10 @@
 
     <div class="app-layout">
         
-        <!-- SIDEBAR (DOMYŚLNIE ZWINIĘTY) -->
-        <aside class="sidebar collapsed" id="sidebar">
+        <!-- SIDEBAR (ROZWINIĘTY NA STAŁE) -->
+        <aside class="sidebar" id="sidebar">
             <div>
-                <div class="sidebar-header">
-                    <button class="toggle-sidebar-btn" onclick="toggleSidebar()" title="Toggle Panel">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-                    </button>
-                </div>
-
-                <nav class="sidebar-nav">
+                <nav class="sidebar-nav" style="margin-top: 12px;">
                     <!-- New Search -->
                     <button class="nav-item active" onclick="resetSearchUI()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -1038,8 +1000,7 @@
         let currentPackageObj = null;
 
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('collapsed');
+            // Funkcja celowo pusta - sidebar na stałe rozwinięty
         }
 
         function focusSearchInput() {
@@ -1064,7 +1025,15 @@
             return String(str)
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
+                .replace(/ stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+        `;
+
+        containerElement.appendChild(card);
+    });
+}
+```>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
@@ -1095,7 +1064,7 @@
                     row.innerHTML = `
                         <span class="fav-item-topic">${escapeHtml(f.topic)} (${escapeHtml(f.market)})</span>
                         <div class="fav-item-actions">
-                            <button class="btn-open-package" style="padding: 5px 12px; font-size: 0.78rem; width: auto;" onclick="openPackageDetails('${escapeHtml(f.topic)}', '${escapeHtml(f.market)}')">Open</button>
+                            <button class="btn-open-package" onclick="openPackageDetails('${escapeHtml(f.topic)}', '${escapeHtml(f.market)}')">Open</button>
                             <button class="btn-fav-remove" title="Remove from favorites" onclick="removeFavFromModal('${escapeHtml(f.topic)}', '${escapeHtml(f.market)}')">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="3 6 5 6 21 6"></polyline>
