@@ -206,9 +206,9 @@ function renderPackagesGrid(containerElement, countDisplayElement, groupedPackag
                 <div class="package-topic">${escapeHtml(pkg.displayTopic)}</div>
             </div>
             <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.82rem; color: var(--text-secondary); font-weight: 700;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.82rem; color: var(--text-muted); font-weight: 700;">
                     <span>Contains:</span>
-                    <span style="color: var(--color-brainly-green); font-weight: 800;">${taskCountText}</span>
+                    <span style="color: var(--text-main); font-weight: 800;">${taskCountText}</span>
                 </div>
                 <a href="${packageUrl}" class="btn-open-package">
                     <span>Open Package</span>
