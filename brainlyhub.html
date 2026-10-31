@@ -828,7 +828,7 @@
             <div>
                 <nav class="sidebar-nav" style="margin-top: 12px;">
                     <!-- New Search -->
-                    <button class="nav-item active" onclick="resetSearchUI()">
+                    <button id="nav-new-search" class="nav-item active" onclick="resetSearchUI()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                         <span class="nav-label">New Search</span>
                     </button>
@@ -955,6 +955,25 @@
             // Funkcja celowo pusta - sidebar na stałe rozwinięty
         }
 
+        // FUNKCJA ZARZĄDZAJĄCA ZAZNACZENIEM W MENU BOCZNYM
+        function updateSidebarNav() {
+            const btnNewSearch = document.getElementById("nav-new-search");
+            const btnFavs = document.getElementById("btn-open-favs");
+            
+            if (btnNewSearch) btnNewSearch.classList.remove("active");
+            if (btnFavs) btnFavs.classList.remove("active");
+
+            const isFavOpen = document.getElementById("fav-modal").style.display === "flex";
+            const isPackageOpen = document.getElementById("inline-package-view").style.display === "block";
+
+            if (isFavOpen) {
+                if (btnFavs) btnFavs.classList.add("active");
+            } else if (!isPackageOpen) {
+                // Jeśli ulubione są zamknięte i nie jesteśmy w paczce (czyli widzimy stronę wyszukiwania)
+                if (btnNewSearch) btnNewSearch.classList.add("active");
+            }
+        }
+
         function focusSearchInput() {
             const input = document.getElementById('ai-search-input');
             if (input) input.focus();
@@ -987,6 +1006,7 @@
             }
             
             focusSearchInput();
+            updateSidebarNav();
         }
 
         // Naprawiona i zabezpieczona funkcja
@@ -1039,10 +1059,12 @@
                 });
             }
             modal.style.display = "flex";
+            updateSidebarNav();
         }
 
         function closeFavModal() {
             document.getElementById("fav-modal").style.display = "none";
+            updateSidebarNav();
         }
 
         function removeFavFromModal(topic, market) {
@@ -1050,7 +1072,7 @@
             favs = favs.filter(f => !(f.topic.toLowerCase() === topic.toLowerCase() && f.market.toUpperCase() === market.toUpperCase()));
             localStorage.setItem("brainly_favorites", JSON.stringify(favs));
             updateFavBadge();
-            openFavModal();
+            openFavModal(); // odświeża listę modalną i wywołuje updateSidebarNav
         }
 
         /* --- PACKAGE DETAILS LOGIC --- */
@@ -1222,6 +1244,7 @@
             });
 
             renderProgressUI(packageKey);
+            updateSidebarNav();
         }
 
         // PRZECHWYTYWANIE KLIKNIĘĆ PRZYCISKU OPEN I NADPISYWANIE LINKU HUB-PACKAGE.HTML NA WIDOK IN-LINE
