@@ -62,7 +62,7 @@
             overflow: hidden;
         }
 
-        /* --- SIDEBAR (NA STAŁE ROZWINIĘTY) --- */
+        /* --- SIDEBAR --- */
         .sidebar {
             width: var(--sidebar-width);
             background-color: var(--bg-sidebar);
@@ -450,7 +450,7 @@
             color: #ffffff;
         }
 
-        /* --- FAVORITES SIDE DRAWER (PANEL BOCZNY) --- */
+        /* --- FAVORITES SIDE DRAWER --- */
         .fav-drawer-overlay {
             position: fixed;
             top: 0;
@@ -550,7 +550,6 @@
             line-height: 1.3;
         }
 
-        /* JEDNOLITA WYSOKOŚĆ PRZYCISKÓW W ULUBIONYCH */
         .fav-item-actions {
             display: flex;
             gap: 8px;
@@ -590,53 +589,14 @@
             color: #ffffff;
         }
 
-        /* --- INTEGRATED PACKAGE DETAILS OVERLAY MODAL --- */
-        .package-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .package-modal-container {
+        /* --- INLINE PACKAGE VIEW (Replaces Modal) --- */
+        .inline-package-view {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-lg);
-            max-width: 800px;
-            width: 100%;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            animation: fadeIn 0.2s ease-out forwards;
-        }
-
-        .package-modal-header {
-            padding: 18px 24px;
-            border-bottom: 1px solid var(--border-subtle);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-sidebar);
-        }
-
-        .package-modal-body {
-            padding: 24px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            margin-top: 10px;
         }
 
         .package-header-top {
@@ -863,7 +823,7 @@
 
     <div class="app-layout">
         
-        <!-- SIDEBAR (ROZWINIĘTY NA STAŁE) -->
+        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div>
                 <nav class="sidebar-nav" style="margin-top: 12px;">
@@ -896,7 +856,7 @@
         <!-- MAIN WRAPPER -->
         <div class="main-wrapper">
 
-            <!-- OBSZAR WYNIKÓW -->
+            <!-- OBSZAR GŁÓWNEJ TREŚCI -->
             <main class="content-scroll-area">
                 <div class="content-max-width">
                     
@@ -915,6 +875,23 @@
                             <span id="results-count-text" class="results-count">0 packages found</span>
                         </div>
                         <div id="packages-container" class="packages-grid"></div>
+                    </section>
+
+                    <!-- WIDOK PACZKI IN-LINE (Zastępuje dawny modal) -->
+                    <section id="inline-package-view" class="inline-package-view" style="display: none; animation: fadeIn 0.2s ease-out forwards;">
+                        <div id="package-inline-header-content"></div>
+
+                        <div class="learning-progress-box" style="margin-top: 20px; margin-bottom: 20px;">
+                            <div class="progress-info">
+                                <span>Progress</span>
+                                <span id="progress-count-text">0 / 0 completed (0%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                            </div>
+                        </div>
+
+                        <div id="tasks-list-target" class="tasks-list-section"></div>
                     </section>
 
                 </div>
@@ -955,7 +932,7 @@
         </div>
     </div>
 
-    <!-- ULUBIONE (DRAWER / PANEL BOCZNY z prawej) -->
+    <!-- ULUBIONE (DRAWER) -->
     <div id="fav-modal" class="fav-drawer-overlay" onclick="if(event.target === this) closeFavModal();">
         <div class="fav-drawer-card">
             <div class="fav-modal-header">
@@ -964,31 +941,6 @@
             </div>
             <div id="fav-modal-list" class="fav-modal-body">
                 <p style="color: var(--text-muted); text-align: center; font-size: 0.875rem;">No favorite packages saved yet.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ZINTEGROWANE OKNO SZCZEGÓŁÓW PACZKI (PACKAGE DETAILS MODAL) -->
-    <div id="package-modal" class="package-modal-overlay">
-        <div class="package-modal-container">
-            <div class="package-modal-header">
-                <span style="font-size: 0.8125rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Package Details</span>
-                <button class="btn-close-modal" onclick="closePackageModal()">&times;</button>
-            </div>
-            <div class="package-modal-body">
-                <div id="package-modal-header-content"></div>
-
-                <div class="learning-progress-box">
-                    <div class="progress-info">
-                        <span>Progress</span>
-                        <span id="progress-count-text">0 / 0 completed (0%)</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
-                    </div>
-                </div>
-
-                <div id="tasks-list-target" class="tasks-list-section"></div>
             </div>
         </div>
     </div>
@@ -1009,31 +961,41 @@
         }
 
         function resetSearchUI() {
+            // Ukrywamy widok paczki i przywracamy wyszukiwarkę
+            document.getElementById('inline-package-view').style.display = 'none';
+            document.querySelector('.bottom-search-wrapper').style.display = 'flex';
+
             const input = document.getElementById('ai-search-input');
-            if (input) {
-                input.value = '';
-                input.dispatchEvent(new Event('input', { bubbles: true }));
+            if (input) input.value = '';
+            
+            const fMarket = document.getElementById('filter-market');
+            if (fMarket) fMarket.value = '';
+            
+            const fLevel = document.getElementById('filter-level');
+            if (fLevel) fLevel.value = '';
+            
+            const fSubject = document.getElementById('filter-subject');
+            if (fSubject) fSubject.value = '';
+            
+            // Renderujemy domyślny widok za pomocą silnika jeśli istnieje, 
+            // a jeśli nie, manualnie pokazujemy powrót do ekranu startowego
+            if (typeof filterData === 'function') {
+                filterData(); 
+            } else {
+                document.getElementById('initial-placeholder').style.display = 'block';
+                document.getElementById('results-section').style.display = 'none';
             }
-            document.getElementById('filter-market').value = '';
-            document.getElementById('filter-level').value = '';
-            document.getElementById('filter-subject').value = '';
+            
             focusSearchInput();
         }
 
+        // Naprawiona i zabezpieczona funkcja
         function escapeHtml(str) {
             if (!str) return "";
             return String(str)
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
-                .replace(/ stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-                </a>
-            </div>
-        `;
-
-        containerElement.appendChild(card);
-    });
-}
-```>/g, "&gt;")
+                .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
@@ -1091,7 +1053,7 @@
             openFavModal();
         }
 
-        /* --- PACKAGE DETAILS MODAL LOGIC --- */
+        /* --- PACKAGE DETAILS LOGIC --- */
         function isFavorite(topic, market) {
             const favs = getFavs();
             return favs.some(f => f.topic.toLowerCase() === topic.toLowerCase() && f.market.toUpperCase() === market.toUpperCase());
@@ -1176,8 +1138,7 @@
             try { parsed = JSON.parse(cachedData); } catch(e) { return; }
 
             const grouped = groupDatabaseIntoPackages(parsed);
-            // FILTROWANIE "General Package"
-            const foundPackage = grouped.filter(p => p.displayTopic.trim().toLowerCase() !== 'general package').find(p => 
+            const foundPackage = grouped.find(p => 
                 p.displayTopic.trim().toLowerCase() === topic.trim().toLowerCase() &&
                 (!market || p.marketKey.toUpperCase() === market.toUpperCase())
             );
@@ -1187,8 +1148,14 @@
             currentPackageObj = foundPackage;
             const packageKey = `${foundPackage.displayTopic.toLowerCase()}____${foundPackage.marketKey.toUpperCase()}`;
 
+            // Płynne przełączenie ekranów w głównym kontenerze
+            document.getElementById("initial-placeholder").style.display = "none";
+            document.getElementById("results-section").style.display = "none";
+            document.querySelector(".bottom-search-wrapper").style.display = "none";
+            document.getElementById("inline-package-view").style.display = "block";
+
             // Render Header Content
-            const headerTarget = document.getElementById("package-modal-header-content");
+            const headerTarget = document.getElementById("package-inline-header-content");
             const tasksTarget = document.getElementById("tasks-list-target");
 
             const isExam = Array.from(foundPackage.subjects).some(s => s.toLowerCase() === 'exam') || foundPackage.levels.has('EXAM');
@@ -1255,14 +1222,9 @@
             });
 
             renderProgressUI(packageKey);
-            document.getElementById("package-modal").style.display = "flex";
         }
 
-        function closePackageModal() {
-            document.getElementById("package-modal").style.display = "none";
-        }
-
-        // PRZECHWYTYWANIE KLIKNIĘĆ PRZYCISKU OPEN Z RENDERERA
+        // PRZECHWYTYWANIE KLIKNIĘĆ PRZYCISKU OPEN I NADPISYWANIE LINKU HUB-PACKAGE.HTML NA WIDOK IN-LINE
         document.addEventListener('click', function(e) {
             const btn = e.target.closest('.btn-open-package');
             if (btn && btn.getAttribute('href') && btn.getAttribute('href').includes('hub-package.html')) {
