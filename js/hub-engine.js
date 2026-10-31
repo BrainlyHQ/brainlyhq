@@ -41,7 +41,11 @@ function initCachedData() {
         if (cachedRaw) {
             const parsed = JSON.parse(cachedRaw);
             if (Array.isArray(parsed) && parsed.length > 0) {
-                fullDatabase = parsed;
+                // GLOBALNY FILTR: Bezwarunkowo pozbywamy się pustych lub zepsutych paczek
+                fullDatabase = parsed.filter(item => {
+                    const t = (item.topic || "").trim().toLowerCase();
+                    return t !== "" && t !== "general package" && t !== "untitled package";
+                });
                 updateEngineMetrics(fullDatabase);
                 renderFeaturedThree();
             }
@@ -55,7 +59,11 @@ async function loadDatabase() {
     try {
         const response = await fetchDatabaseJSONP();
         if (response && response.success && Array.isArray(response.data)) {
-            fullDatabase = response.data;
+            // GLOBALNY FILTR PRZY POBIERANIU API
+            fullDatabase = response.data.filter(item => {
+                const t = (item.topic || "").trim().toLowerCase();
+                return t !== "" && t !== "general package" && t !== "untitled package";
+            });
             try { localStorage.setItem("brainly_db_cache", JSON.stringify(fullDatabase)); } catch(e){}
             
             updateEngineMetrics(fullDatabase);
@@ -183,7 +191,6 @@ function handleInputQuery() {
     filterData();
 }
 
-// Zaktualizowana funkcja wyszukiwarki z obsługą zapytań wielowyrazowych (tokenized search)
 function filterData() {
     const searchInput = document.getElementById("ai-search-input");
     const clearSearchBtn = document.getElementById("clear-search-btn");
@@ -216,7 +223,6 @@ function filterData() {
     if (initialPlaceholder) initialPlaceholder.style.display = "none";
     if (resultsSection) resultsSection.style.display = "block";
 
-    // Rozbicie zapytania tekstowego na słowa (tokeny)
     const queryTokens = rawQuery.split(/\s+/).filter(Boolean);
 
     const filteredRawRows = fullDatabase.filter(item => {
@@ -231,10 +237,8 @@ function filterData() {
             ? extractLinkGroupComment(item) 
             : String(item.fa || item.linkGroup || item.link_group || item.title || "")).toLowerCase();
 
-        // Połączenie danych danej pozycji w jeden przeszukiwalny ciąg znaków
         const combinedText = `${topic} ${subject} ${linkGroup} ${levelKey} ${levelName} ${marketKey.toLowerCase()} ${marketName}`;
 
-        // Wyszukiwanie elastyczne: Każde ze wpisanych słów musi się znajdować w opisie pozycji
         const matchesQuery = queryTokens.length === 0 || queryTokens.every(token => combinedText.includes(token));
 
         const matchesMarket = !selectedMarket || marketKey === selectedMarket;
